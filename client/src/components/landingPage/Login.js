@@ -151,6 +151,24 @@ export default function Login(props) {
         break;
     }
   };
+  
+  const [showAccount, setShowAccount] = useState('');
+  const getAccount = async () => {
+    try {
+      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+      const account = accounts[0];
+      setShowAccount(account);
+    } catch (err) {
+      if (err.code === 4001) {
+        // EIP-1193 userRejectedRequest error
+        // If this happens, the user rejected the connection request.
+        console.log('Please connect to MetaMask.');
+      } else {
+        console.error(err);
+      }
+    }
+  };
+
   return (
     <div className="bg-white flex flex-col justify-items-center items-center py-1 px-4 rounded shadow-md lg:w-3/4 w-full my-7 ml-auto ">
       <h1 className="text-3xl font-bold font-poppins text-primary py-5">
@@ -272,6 +290,10 @@ export default function Login(props) {
       <h1 className="font-poppins text-base pt-5">
         New User, <Link to="/Register">Register here</Link>
       </h1>
+
+      <button type="submit" onClick={getAccount}
+            className="text-lg mt-10  bg-primary py-1 px-3 rounded font-semibold font-poppins shadow-sm hover:bg-bgsecondary"
+        >Connect</button>
     </div>
   );
 }
