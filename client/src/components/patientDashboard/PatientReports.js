@@ -99,45 +99,41 @@ const PatientReports = (props) => {
             </Link>
             <div className="flex justify-between m-8">
               <div className="font-bold text-xl ml-4">
-                <h1>Patient Reports</h1>
+                <h1>Add Report</h1>
               </div>
             </div>
-            <div className="bg-white m-4 rounded-lg ">
-              <div className="grid grid-rows-2 p-6 gap-2 shadow">
-                <div className="grid grid-cols-4 font-bold ">
-                  <div>
-                    <h1>Date</h1>
-                  </div>
-                  <div>
-                    <h1>Doctor Name</h1>
-                  </div>
-                  <div>
-                    <h1>Diagnosis</h1>
-                  </div>
-                  <div>
-                    <h1>Prescription</h1>
-                  </div>
-                  <hr></hr>
-                  <hr></hr>
-                  <hr></hr>
-                  <hr></hr>
-                </div>
-                {prescriptions.length > 0 ? (
-                  prescriptions.map((prescription) => {
-                    return (
-                      <PatientReportCompo
-                        prescription={prescription}
-                        setPrescriptionID={props.setPrescriptionID}
-                      />
-                    );
-                  })
-                ) : (
-                  <div className="font-bold mt-3 mx-auto">
-                    No Record Found...
-                  </div>
-                )}
+
+            <div className="lg:grid grid-cols-5 gap-2 mt-4 mr-4">
+                <label className="font-bold lg:text-xl px-12 ">
+                  Record Type:
+                </label>
+
+                <input
+                  type="recordtype"
+                  placeholder="Record Type"
+                  required
+                  className="pl-4 bg-blue-100 lg:h-11  rounded h-8"
+                  // value={patient.mobile}
+                  // onChange={(e) => {
+                  //   let temppatient = { ...patient };
+                  //   temppatient.mobile = e.target.value;
+                  //   setPatient(temppatient);
+                  // }}
+                ></input>
               </div>
-            </div>
+
+              <div className="lg:grid grid-cols-5 gap-2 mt-4 mr-4">
+                <label className="font-bold lg:text-xl px-12 ">
+                  Doctor:
+                </label>
+
+                <input
+                  type="recordtype"
+                  placeholder="Reference Doctor"
+                  required
+                  className="pl-4 bg-blue-100 lg:h-8  rounded h-8"
+                ></input>
+              </div>
           </div>
         </div>
       </div>
