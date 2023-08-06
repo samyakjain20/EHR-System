@@ -82,7 +82,7 @@ const PatientDashboard = (props) => {
   }, [dob]);
 
   return (
-    <div className="full-body col-span-10 h-screen">
+    <div className="full-body col-span-10 h-screen" style={{overflow:'auto'}}>
       <div className="body-without-footer max-h-min bg-bgprimary ">
         <div className=" main ">
           <div className="">
@@ -283,9 +283,6 @@ const PatientDashboard = (props) => {
             </div>
           </div>
         </div>
-      </div>
-      <div className="mt-16 mb-0">
-        <Footer></Footer>
       </div>
     </div>
   );
