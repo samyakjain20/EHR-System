@@ -128,7 +128,7 @@ export default function Register(props) {
           </div>
 
           <form
-            className="font-poppins lg:ml-60  lg:px-8 lg:py-4 bg-white shadow-lg rounded max-w-screen-lg mt-8 mb-4 "
+            className="font-poppins lg:ml-80  lg:px-8 lg:py-4 bg-white shadow-lg rounded max-w-screen-lg mt-8 mb-4 "
             onSubmit={handleRegisterPatient}
           >
             <div className="flex   mt-2 bg-bgsecondary w-fit  justify-between rounded mx-auto">
@@ -431,75 +431,6 @@ export default function Register(props) {
                   {passwordError}
                 </span>
               </div>
-
-              <div className="lg:grid lg:grid-cols-10 gap-2 mt-8 mr-4">
-                <div className="col-span-5">
-                  <label className=" lg:text-xl font-bold px-4 grid col-start-1 col-span-3">
-                    Name of any permanant disease (if any)
-                  </label>
-                </div>
-                <div className="col-span-4">
-                  {diseaseList.map((disease, index) => {
-                    return (
-                      <div
-                        key={index}
-                        className="grid grid-cols-7 col-span-1 mb-3"
-                      >
-                        <input
-                          className="bg-blue-100 lg:h-10 col-span-3 rounded lg:pl-4 h-8 pl-2"
-                          type="text"
-                          name="disease"
-                          value={disease.disease}
-                          placeholder="eg.dibetes"
-                          onChange={(e) => {
-                            let diseaseList1 = [...diseaseList];
-                            diseaseList1[index].disease = e.target.value;
-                            setDiseaseList(diseaseList1);
-                            let temppatient = { ...patient };
-                            temppatient.diseases = diseaseList;
-                            setPatient(temppatient);
-                          }}
-                        />
-                        <input
-                          className="bg-blue-100 lg:h-10 col-span-3  rounded lg:pl-4 h-8 pl-2 ml-4"
-                          type="text"
-                          name="yrs"
-                          placeholder="years e.g 3"
-                          value={disease.yrs}
-                          onChange={(e) => {
-                            let diseaseList1 = [...diseaseList];
-                            diseaseList1[index].yrs = e.target.value;
-                            setDiseaseList(diseaseList1);
-                            let temppatient = { ...patient };
-                            temppatient.diseases = diseaseList;
-                            setPatient(temppatient);
-                          }}
-                        />
-
-                        <div
-                          className="col-span-1 pl-3"
-                          onClick={() => {
-                            if (diseaseList.length > 1) {
-                              let diseaseList1 = [...diseaseList];
-                              diseaseList1.splice(index, 1);
-                              let temppatient = { ...patient };
-                              temppatient.diseases = diseaseList1;
-                              setPatient(temppatient);
-                              setDiseaseList(diseaseList1);
-                            }
-                          }}
-                        >
-                          <img src={minus_logo} alt="" className="h-8 w-8" />
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-
-                <div onClick={addDisease} className="col-span-1">
-                  <img src={plus_logo} alt="" className="h-8 w-8" />
-                </div>
-              </div>
             </div>
 
             <div className={Toggle === "Patient" ? "" : "hidden"}>
@@ -556,6 +487,7 @@ export default function Register(props) {
                 <input
                   type="email"
                   id="email"
+                  placeholder="email"
                   className="bg-blue-100 lg:h-10 rounded pl-4 h-8"
                   value={patient.contactPerson.email}
                   onChange={(e) => {

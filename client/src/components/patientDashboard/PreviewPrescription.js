@@ -60,17 +60,41 @@ const PreviewPrescription = (props) => {
   });
   const [patient, setPatient] = useState({
     name: {
-      firstName: "",
-      middleName: "",
-      surName: "",
+      firstName: "Hugo",
+      middleName: "Chavier",
+      surName: "Boss",
     },
+    dob: "01/01/2006",
+    mobile: "2876110298",
+    email: "hugo@gmail.com",
+    adharCard: "123561752781",
+    bloodGroup: "O+",
     address: {
-      building: "",
-      city: "",
-      taluka: "",
-      district: "",
-      state: "",
-      pincode: "",
+      building: "704, Tower A",
+      city: "Mumbai",
+      taluka: "West",
+      district: "Andheri",
+      state: "Maharashtra",
+      pincode: "176520",
+    },
+    password: "hugo@boss",
+    diseases: [{ disease: "Sugar", yrs: "5" }],
+    contactPerson: {
+      name: {
+        firstName: "Chanel",
+        surName: "Dior",
+      },
+      mobile: "7182092871",
+      email: "chanel@gmail.com",
+      relation: "Sister",
+      address: {
+        building: "705, Tower A",
+        city: "Mumbai",
+        taluka: "West",
+        district: "Andheri",
+        state: "Maharashtra",
+        pincode: "176520",
+      },
     },
   });
   useEffect(() => {
@@ -258,7 +282,6 @@ const PreviewPrescription = (props) => {
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };
