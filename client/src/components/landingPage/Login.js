@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios"
 import profile from "../../assets/img/landingPage/profile.png";
+import doctor from "../../assets/img/landingPage/doctor.jpg";
+import doctor1 from "../../assets/img/landingPage/doctor1.png";
+import patient from "../../assets/img/landingPage/patient1.png";
 import ReactLoading from "react-loading";
 export default function Login(props) {
   const navigate = useNavigate();
@@ -203,11 +206,17 @@ export default function Login(props) {
           Admin
         </button>
       </div>
-      <img
-        src={profile}
-        alt="profile pic"
-        className="h-20 my-6 border-2 rounded-full"
-      />
+
+      <div>
+        {Toggle === "Patient" ? (
+          <img className="h-20 my-6 border-2 rounded-full" src={patient} alt="Patient Image" />
+        ) : Toggle === "Doctor" ? (
+          <img className="h-20 my-6 border-2 rounded-full" src={doctor} alt="Doctor Image" />
+        ) : (
+          <img className="h-20 my-6 border-2 rounded-full" src={profile} alt="Default Image" />
+        )}
+      </div>
+
       <form className="flex flex-col w-full px-8" onSubmit={handleLogin}>
         <label
           htmlFor="email"

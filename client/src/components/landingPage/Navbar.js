@@ -1,5 +1,5 @@
 import React from "react";
-import logo from "../../assets/img/landingPage/logo.png";
+import logo from "../../assets/img/landingPage/logo1.jpeg";
 
 import { Link, useLocation } from "react-router-dom";
 

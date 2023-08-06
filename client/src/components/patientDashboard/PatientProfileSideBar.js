@@ -1,4 +1,4 @@
-import logo from "../../assets/img/landingPage/logo.png";
+import logo from "../../assets/img/landingPage/logo1.jpeg";
 import dashboard from "../../assets/img/dashboard/dashboard.jpeg";
 import reports from "../../assets/img/dashboard/report2_pbl.png";
 import patient_history from "../../assets/img/dashboard/patient_history.jpeg";
@@ -27,7 +27,7 @@ const PatientProfileSideBar = (props) => {
           <div className="logo m-2  ">
             <img src={logo} className="w-16" alt="logo"></img>
           </div>
-          <div className="heading font-poppins font-bold text-xl  ">
+          <div className="heading font-poppins font-bold text-m  ">
             <Link to="/">
               <h1>Public health Record System</h1>
             </Link>

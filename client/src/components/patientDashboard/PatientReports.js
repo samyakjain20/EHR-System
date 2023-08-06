@@ -8,40 +8,40 @@ const PatientReports = (props) => {
   const [dob, setDob] = useState("01/01/2006");
   const [patient, setPatient] = useState({
     name: {
-      firstName: "",
-      middleName: "",
-      surName: "",
+      firstName: "Hugo",
+      middleName: "Chavier",
+      surName: "Boss",
     },
-    dob: "",
-    mobile: "",
-    email: "",
-    adharCard: "",
-    bloodGroup: "",
+    dob: "01/01/2006",
+    mobile: "2876110298",
+    email: "hugo@gmail.com",
+    adharCard: "123561752781",
+    bloodGroup: "O+",
     address: {
-      building: "",
-      city: "",
-      taluka: "",
-      district: "",
-      state: "",
-      pincode: "",
+      building: "704, Tower A",
+      city: "Mumbai",
+      taluka: "West",
+      district: "Andheri",
+      state: "Maharashtra",
+      pincode: "176520",
     },
-    password: "",
-    diseases: [{ disease: "", yrs: "" }],
+    password: "hugo@boss",
+    diseases: [{ disease: "Sugar", yrs: "5" }],
     contactPerson: {
       name: {
-        firstName: "",
-        surName: "",
+        firstName: "Chanel",
+        surName: "Dior",
       },
-      mobile: "",
-      email: "",
-      relation: "",
+      mobile: "7182092871",
+      email: "chanel@gmail.com",
+      relation: "Sister",
       address: {
-        building: "",
-        city: "",
-        taluka: "",
-        district: "",
-        state: "",
-        pincode: "",
+        building: "705, Tower A",
+        city: "Mumbai",
+        taluka: "West",
+        district: "Andheri",
+        state: "Maharashtra",
+        pincode: "176520",
       },
     },
   });
@@ -140,10 +140,6 @@ const PatientReports = (props) => {
             </div>
           </div>
         </div>
-      </div>
-
-      <div className="-mt-20 mb-0">
-        <Footer></Footer>
       </div>
     </div>
   );
