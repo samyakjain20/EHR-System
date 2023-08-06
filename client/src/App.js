@@ -22,6 +22,7 @@ import PreviewPrescription from "./components/patientDashboard/PreviewPrescripti
 import PatientReportsDoctorView from "./components/doctorDashboard/PatientReportsDoctorView";
 import PatientHistoryDoctorView from "./components/doctorDashboard/PatientHistoryDoctorView";
 import PreviewPrescriptionDoctorView from "./components/doctorDashboard/PreviewPrescriptionDoctorView";
+import ConsentManager from "./components/patientDashboard/consentManager";
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -30,6 +31,7 @@ import Page404 from "./pages/Page_404";
 function App() {
   const [healthID, setHealthID] = useState("");
   const [prescriptionID, setPrescriptionID] = useState("");
+  const [consentReqID, setConsentReqID] = useState("");
   const [toastShow, setToastShow] = useState(false);
   const [toastCondition, settoastCondition] = useState({
     status: "",
@@ -118,6 +120,16 @@ function App() {
             element={
               <PatientHistory
                 setPrescriptionID={setPrescriptionID}
+                settoastCondition={settoastCondition}
+                setToastShow={setToastShow}
+              />
+            }
+          />
+          <Route
+            path="consentManagment"
+            element={
+              <ConsentManager
+                consentReqID={consentReqID}
                 settoastCondition={settoastCondition}
                 setToastShow={setToastShow}
               />

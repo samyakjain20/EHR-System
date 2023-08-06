@@ -2,6 +2,7 @@ import logo from "../../assets/img/landingPage/logo1.jpeg";
 import dashboard from "../../assets/img/dashboard/dashboard.jpeg";
 import reports from "../../assets/img/dashboard/report2_pbl.png";
 import patient_history from "../../assets/img/dashboard/patient_history.jpeg";
+import consent_manager from "../../assets/img/dashboard/i-icon.jpg";
 import patient_profile from "../../assets/img/dashboard/patient2_pbl.png";
 import logoutimg from "../../assets/img/dashboard/logout.png";
 import { Link, Outlet, useNavigate } from "react-router-dom";
@@ -87,6 +88,25 @@ const PatientProfileSideBar = (props) => {
                   <h1 className="ml-4">Patient History</h1>
                 </div>
               </Link>
+              <Link
+                to="/patient/consentManagment"
+                onClick={() => setToggle("consent_manager")}
+                className={
+                  Toggle === "consent_manager"
+                    ? "text-gray-900 "
+                    : "text-gray-400"
+                }
+              >
+                <div className="flex p-2">
+                  <img
+                    src={consent_manager}
+                    className="w-6"
+                    alt="Consent Manager"
+                  ></img>
+                  <h1 className="ml-4">Consent Manager</h1>
+                </div>
+              </Link>
+
               <Link
                 to="/patient/profile"
                 onClick={() => setToggle("Patient_profile")}
