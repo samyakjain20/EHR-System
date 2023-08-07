@@ -5,6 +5,8 @@ import plus_logo from "../../assets/img/dashboard/add2_pbl.png";
 import minus_logo from "../../assets/img/dashboard/minus2_pbl.png";
 import { useNavigate } from "react-router-dom";
 import ReactLoading from "react-loading";
+import RegisterDoctor from "./RegisterDoctor";
+import RegisterHospital from "./RegisterHospital";
 
 export default function Register(props) {
   const navigate = useNavigate();
@@ -127,10 +129,9 @@ export default function Register(props) {
             <h1 className="  p-2 px-8 rounded font-bold text-5xl">Register</h1>
           </div>
 
-          <form
+          <div
             className="font-poppins lg:ml-80  lg:px-8 lg:py-4 bg-white shadow-lg rounded max-w-screen-lg mt-8 mb-4 "
-            onSubmit={handleRegisterPatient}
-          >
+          >        
             <div className="flex   mt-2 bg-bgsecondary w-fit  justify-between rounded mx-auto">
               <button
                 onClick={() => setToggle("Patient")}
@@ -152,33 +153,48 @@ export default function Register(props) {
               >
                 Doctor
               </button>
+              
+              <button
+                onClick={() => setToggle("Hospital")}
+                className={
+                  Toggle === "Hospital"
+                    ? "py-2 px-8 text-lg font-poppins font-semibold cursor-pointer rounded bg-primary"
+                    : "py-2 px-8 text-lg font-poppins font-semibold cursor-pointer rounded bg-bgsecondary"
+                }
+              >
+                Hospital
+              </button>
             </div>
-            <div
-              className={
-                Toggle === "Doctor"
-                  ? "h-96 p-2 flex flex-col justify-center "
-                  : "hidden"
-              }
-            >
-              <h1 className="font-bold flex justify-center mt-6">
-                For register as doctor contact to admin with you all information
-              </h1>
-              <div className="border-4 p-4 mx-auto w-1/2 rounded-xl mt-8  ">
-                <h1>send your all information</h1>
-                <div>
-                  <div className=" rounded-xl p-4 mt-4 ">
-                    <h1 className="font-bold">Email :</h1>
-                    <p>admin@gmail.com</p>
-                  </div>
-                </div>
-              </div>
+            <div className={Toggle === "Doctor" ? "" : "hidden" }>
+              <RegisterDoctor/>
             </div>
 
+            <div className={ Toggle === "Hospital" ? "" : "hidden" }>
+              <RegisterHospital/>
+            </div>
+            {/* <div
+              className={ Toggle === "Hospital" ? "h-96 p-2 flex flex-col justify-center " : "hidden" }
+            >
+                <h1 className="font-bold flex justify-center mt-6">
+                  For register as doctor contact to admin with you all information
+                </h1>
+                <div className="border-4 p-4 mx-auto w-1/2 rounded-xl mt-8  ">
+                  <h1>send your all information</h1>
+                  <div>
+                    <div className=" rounded-xl p-4 mt-4 ">
+                      <h1 className="font-bold">Email :</h1>
+                      <p>admin@gmail.com</p>
+                    </div>
+                  </div>
+                </div>
+            </div> */}
+
+            <form
+              onSubmit={handleRegisterPatient}
+            >
             <div className={Toggle === "Patient" ? "" : "hidden"}>
               <div className="lg:grid lg:grid-cols-4 lg:gap-2 mt-4 mr-4 grid grid-cols-4 gap-2">
-                <label className="font-bold lg:text-xl font-poppins px-4 my-4 ">
-                  Name
-                </label>
+                <label className="font-bold lg:text-xl font-poppins px-4 my-4 "> Name </label>
                 <div>
                   <input
                     className="bg-blue-100 rounded lg:h-10 lg:pl-4 mt-4 lg:text-md text-sm h-8 px-2"
@@ -610,7 +626,8 @@ export default function Register(props) {
                 )}
               </div>
             </div>
-          </form>
+            </form>
+          </div>
 
           <div className="mt-auto relative bottom-0">
             <Footer></Footer>
