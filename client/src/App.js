@@ -16,6 +16,9 @@ import PatientList from "./components/adminDashboard/PatientList";
 import DoctorList from "./components/adminDashboard/DoctorList";
 import PatientProfileSideBar from "./components/patientDashboard/PatientProfileSideBar";
 import PrescriptionReports from "./components/patientDashboard/PrescriptionReports";
+import DiagnosticsReports from "./components/patientDashboard/DiagnosticsReports";
+import DischargeReports from "./components/patientDashboard/DischargeReports";
+import LabReports from "./components/patientDashboard/LabReports";
 import DoctorDashboardSidebar from "./components/doctorDashboard/DashboardSidebar";
 import AdminSidebar from "./components/adminDashboard/AdminSidebar";
 import PreviewPrescription from "./components/patientDashboard/PreviewPrescription";
@@ -119,6 +122,36 @@ function App() {
             path="prescriptions"
             element={
               <PrescriptionReports
+                setPrescriptionID={setPrescriptionID}
+                settoastCondition={settoastCondition}
+                setToastShow={setToastShow}
+              />
+            }
+          />
+          <Route
+            path="diagnostics"
+            element={
+              <DiagnosticsReports
+                setPrescriptionID={setPrescriptionID}
+                settoastCondition={settoastCondition}
+                setToastShow={setToastShow}
+              />
+            }
+          />
+          <Route
+            path="discharge"
+            element={
+              <DischargeReports
+                setPrescriptionID={setPrescriptionID}
+                settoastCondition={settoastCondition}
+                setToastShow={setToastShow}
+              />
+            }
+          />
+          <Route
+            path="labreports"
+            element={
+              <LabReports
                 setPrescriptionID={setPrescriptionID}
                 settoastCondition={settoastCondition}
                 setToastShow={setToastShow}

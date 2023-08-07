@@ -88,6 +88,64 @@ const PatientProfileSideBar = (props) => {
                   <h1 className="ml-4">Prescription Reports</h1>
                 </div>
               </Link>
+
+              <Link
+                to="/patient/diagnostics"
+                onClick={() => setToggle("Patient_Diagnostics")}
+                className={
+                  Toggle === "Patient_Diagnostics"
+                    ? "text-gray-900 "
+                    : "text-gray-400"
+                }
+              >
+                <div className="flex p-2">
+                  <img
+                    src={patient_history}
+                    className="w-6"
+                    alt="history"
+                  ></img>
+                  <h1 className="ml-4">Diagnostics Reports</h1>
+                </div>
+              </Link>
+
+              <Link
+                to="/patient/discharge"
+                onClick={() => setToggle("Patient_Discharge")}
+                className={
+                  Toggle === "Patient_Discharge"
+                    ? "text-gray-900 "
+                    : "text-gray-400"
+                }
+              >
+                <div className="flex p-2">
+                  <img
+                    src={patient_history}
+                    className="w-6"
+                    alt="history"
+                  ></img>
+                  <h1 className="ml-4">Discharge Reports</h1>
+                </div>
+              </Link>
+
+              <Link
+                to="/patient/labreports"
+                onClick={() => setToggle("Patient_lab")}
+                className={
+                  Toggle === "Patient_Lab"
+                    ? "text-gray-900 "
+                    : "text-gray-400"
+                }
+              >
+                <div className="flex p-2">
+                  <img
+                    src={patient_history}
+                    className="w-6"
+                    alt="history"
+                  ></img>
+                  <h1 className="ml-4">Lab Reports</h1>
+                </div>
+              </Link>
+
               <Link
                 to="/patient/consentManagment"
                 onClick={() => setToggle("consent_manager")}
@@ -106,30 +164,11 @@ const PatientProfileSideBar = (props) => {
                   <h1 className="ml-4">Consent Manager</h1>
                 </div>
               </Link>
-
-              <Link
-                to="/patient/profile"
-                onClick={() => setToggle("Patient_profile")}
-                className={
-                  Toggle === "Patient_profile"
-                    ? "text-gray-900"
-                    : "text-gray-400"
-                }
-              >
-                <div className="flex p-2">
-                  <img
-                    src={patient_profile}
-                    className="w-6"
-                    alt="profile"
-                  ></img>
-                  <h1 className="ml-4">Patient Profile</h1>
-                </div>
-              </Link>
             </div>
           </div>
         </nav>
 
-        <div className=" mx-auto mt-44 py-1    bg-primary  rounded font-semibold font-poppins shadow-sm hover:bg-bgsecondary w-2/5  ">
+        <div className=" mx-auto py-1  mt-24  bg-primary  rounded font-semibold font-poppins shadow-sm hover:bg-bgsecondary w-2/5  ">
           <button className="font-bold  flex items-center" onClick={logout}>
             <img src={logoutimg} className="h-4 px-2 " alt="logout"></img>logout
           </button>

@@ -134,7 +134,7 @@ const PatientHistory = (props) => {
             </Link>
             <div className="flex justify-between m-8">
               <div className="font-bold text-xl ml-4">
-                <h1>Patient Prescription Reports</h1>
+                <h1>Patient Lab Reports</h1>
               </div>
             </div>
 
