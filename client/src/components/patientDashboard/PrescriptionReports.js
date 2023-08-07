@@ -1,51 +1,13 @@
 import Footer from "../landingPage/Footer";
 import patient_profile from "../../assets/img/dashboard/patient2_pbl.png";
 import PatientHistoryCompo from "./PatientHistoryCompo";
+import { Table } from 'antd';
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const PatientHistory = (props) => {
   const navigate = useNavigate();
   const [dob, setDob] = useState("01/01/2006");
-  // const [patient, setPatient] = useState({
-  //   name: {
-  //     firstName: "",
-  //     middleName: "",
-  //     surName: "",
-  //   },
-  //   dob: "",
-  //   mobile: "",
-  //   email: "",
-  //   adharCard: "",
-  //   bloodGroup: "",
-  //   address: {
-  //     building: "",
-  //     city: "",
-  //     taluka: "",
-  //     district: "",
-  //     state: "",
-  //     pincode: "",
-  //   },
-  //   password: "",
-  //   diseases: [{ disease: "", yrs: "" }],
-  //   contactPerson: {
-  //     name: {
-  //       firstName: "",
-  //       surName: "",
-  //     },
-  //     mobile: "",
-  //     email: "",
-  //     relation: "",
-  //     address: {
-  //       building: "",
-  //       city: "",
-  //       taluka: "",
-  //       district: "",
-  //       state: "",
-  //       pincode: "",
-  //     },
-  //   },
-  // });
   const [patient, setPatient] = useState({
     name: {
       firstName: "Hugo",
@@ -87,6 +49,39 @@ const PatientHistory = (props) => {
   });
   const [prescriptions, setPrescriptions] = useState([{}]);
 
+  const columns = [
+    {
+      title: 'Record Type',
+      dataIndex: 'recordtype',
+      key: 'recordtype',
+    },
+    {
+      title: 'Associated Doctor',
+      dataIndex: 'associateddoctor',
+      key: 'associateddoctor',
+    },
+    {
+      title: 'Associated Hospital/Lab',
+      dataIndex: 'associatedhospital',
+      key: 'associatedhospital',
+    },
+    {
+      title: 'Diagnosis',
+      dataIndex: 'diagnosis',
+      key: 'diagnosis',
+    },
+    {
+      title: 'Date',
+      dataIndex: 'date',
+      key: 'date',
+    },
+    {
+      title: 'File',
+      dataIndex: 'file',
+      key: 'file',
+    },
+  ];
+
   const convertDatetoString = (dateString) => {
     let date = new Date(dateString);
     let day = date.getDate();
@@ -117,7 +112,7 @@ const PatientHistory = (props) => {
     getpatient();
   }, [dob]);
   return (
-    <div className="col-span-10">
+    <div className="col-span-10" style={{overflow:'auto'}}>
       <div className=" px-12">
         <div className="h-screen">
           <div className="font-poppins   mainf">
@@ -142,48 +137,15 @@ const PatientHistory = (props) => {
                 <h1>Patient Reports</h1>
               </div>
             </div>
-            <div className="bg-white m-4 rounded-lg ">
-              <div className="grid grid-rows-2 p-6 gap-2 shadow">
-                <div className="grid grid-cols-4 font-bold ">
-                  <div>
-                    <h1>Date</h1>
-                  </div>
-                  <div>
-                    <h1>Doctor Name</h1>
-                  </div>
-                  <div>
-                    <h1>Diagnosis</h1>
-                  </div>
-                  <div>
-                    <h1>Prescription</h1>
-                  </div>
-                  <hr></hr>
-                  <hr></hr>
-                  <hr></hr>
-                  <hr></hr>
-                </div>
-                {prescriptions.length > 0 ? (
-                  prescriptions.map((prescription) => {
-                    return (
-                      <PatientHistoryCompo
-                        prescription={prescription}
-                        setPrescriptionID={props.setPrescriptionID}
-                      />
-                    );
-                  })
-                ) : (
-                  <div className="font-bold mt-3 mx-auto">
-                    No Record Found...
-                  </div>
-                )}
-              </div>
-            </div>
+
+            <Table
+              // dataSource={healthReports}
+              columns={columns}
+              rowKey="id"
+              pagination={true} // Optional: If you want to disable pagination
+            />
           </div>
         </div>
-      </div>
-
-      <div className="-mt-20 mb-0">
-        <Footer></Footer>
       </div>
     </div>
   );

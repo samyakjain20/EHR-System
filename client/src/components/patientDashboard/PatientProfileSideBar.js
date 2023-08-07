@@ -62,7 +62,7 @@ const PatientProfileSideBar = (props) => {
                 <img src={reports} alt="reports"></img>
               </div>
               <div className="font-poppins font-bold ml-4">
-                <h1>Reports</h1>
+                <h1>Add Report</h1>
               </div>
             </div>
           </Link>
@@ -71,10 +71,10 @@ const PatientProfileSideBar = (props) => {
             <h1 className="font-poppins font-bold text-xl mt-4">Main menu</h1>
             <div className="grid grid-rows-2 gap-4 font-bold font-poppins mt-4">
               <Link
-                to="/patient/history"
-                onClick={() => setToggle("Patient_history")}
+                to="/patient/prescriptions"
+                onClick={() => setToggle("Patient_Prescriptions")}
                 className={
-                  Toggle === "Patient_history"
+                  Toggle === "Patient_Prescriptions"
                     ? "text-gray-900 "
                     : "text-gray-400"
                 }
@@ -85,7 +85,7 @@ const PatientProfileSideBar = (props) => {
                     className="w-6"
                     alt="history"
                   ></img>
-                  <h1 className="ml-4">Patient History</h1>
+                  <h1 className="ml-4">Prescription Reports</h1>
                 </div>
               </Link>
               <Link
@@ -129,7 +129,7 @@ const PatientProfileSideBar = (props) => {
           </div>
         </nav>
 
-        <div className=" mx-auto mt-56 py-1    bg-primary  rounded font-semibold font-poppins shadow-sm hover:bg-bgsecondary w-2/5  ">
+        <div className=" mx-auto mt-44 py-1    bg-primary  rounded font-semibold font-poppins shadow-sm hover:bg-bgsecondary w-2/5  ">
           <button className="font-bold  flex items-center" onClick={logout}>
             <img src={logoutimg} className="h-4 px-2 " alt="logout"></img>logout
           </button>

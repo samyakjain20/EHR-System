@@ -3,6 +3,9 @@ import patient_profile from "../../assets/img/dashboard/patient2_pbl.png";
 import PatientReportCompo from "./PatientReportCompo";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { UploadOutlined } from '@ant-design/icons';
+import { Button, message, Upload } from 'antd';
+
 const PatientReports = (props) => {
   const navigate = useNavigate();
   const [dob, setDob] = useState("01/01/2006");
@@ -46,6 +49,50 @@ const PatientReports = (props) => {
     },
   });
   const [prescriptions, setPrescriptions] = useState([{}]);
+
+
+
+  const [fileList, setFileList] = useState([]);
+  const [uploading, setUploading] = useState(false);
+  const handleUpload = () => {
+    const formData = new FormData();
+    fileList.forEach((file) => {
+      formData.append('files[]', file);
+    });
+    setUploading(true);
+    // You can use any AJAX library you like
+    fetch('https://www.mocky.io/v2/5cc8019d300000980a055e76', {
+      method: 'POST',
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then(() => {
+        setFileList([]);
+        message.success('upload successfully.');
+      })
+      .catch(() => {
+        message.error('upload failed.');
+      })
+      .finally(() => {
+        setUploading(false);
+      });
+    };
+
+    const propsFile = {
+      onRemove: (file) => {
+        const index = fileList.indexOf(file);
+        const newFileList = fileList.slice();
+        newFileList.splice(index, 1);
+        setFileList(newFileList);
+      },
+      beforeUpload: (file) => {
+        setFileList([...fileList, file]);
+        return false;
+      },
+      fileList,
+    };
+
+
 
   const convertDatetoString = (dateString) => {
     let date = new Date(dateString);
@@ -128,11 +175,71 @@ const PatientReports = (props) => {
                 </label>
 
                 <input
-                  type="recordtype"
+                  type="doctor"
                   placeholder="Reference Doctor"
                   required
                   className="pl-4 bg-blue-100 lg:h-8  rounded h-8"
                 ></input>
+              </div>
+
+              <div className="lg:grid grid-cols-5 gap-2 mt-4 mr-4">
+                <label className="font-bold lg:text-xl px-12 ">
+                  Hospital:
+                </label>
+
+                <input
+                  type="hospital"
+                  placeholder="Reference Hospital"
+                  required
+                  className="pl-4 bg-blue-100 lg:h-8  rounded h-8"
+                ></input>
+              </div>
+
+              <div className="lg:grid grid-cols-5 gap-2 mt-4 mr-4">
+                <label className="font-bold lg:text-xl px-12 ">
+                  Diagnosis:
+                </label>
+
+                <input
+                  type="diagnosis"
+                  placeholder="Diagnosis"
+                  required
+                  className="pl-4 bg-blue-100 lg:h-8  rounded h-8"
+                ></input>
+              </div>
+
+              <div className="lg:grid grid-cols-5 gap-2 mt-4 mr-4">
+                <label className="font-bold lg:text-xl px-12 ">Date:</label>
+                <input
+                  type="date"
+                  className=" bg-blue-100 lg:h-8 rounded pl-4 h-8"
+                  required
+                  value={patient.dob}
+                  // onChange={(e) => {
+                  //   let temppatient = { ...patient };
+                  //   temppatient.dob = e.target.value;
+                  //   setPatient(temppatient);
+                  // }}
+                ></input>
+              </div>
+
+              <div className="lg:grid grid-cols-5 gap-2 mt-4 mr-4">
+                <div className="px-12 pt-3">
+                  <Upload {...propsFile}>
+                    <Button icon={<UploadOutlined />}>Select File</Button>
+                  </Upload>
+                </div>
+                <Button
+                className="bg-primary hover:bg-bgsecondary"
+                onClick={handleUpload}
+                disabled={fileList.length === 0}
+                loading={uploading}
+                style={{
+                  marginTop: 16,
+                }}
+                >
+                  {uploading ? 'Uploading' : 'Start Upload'}
+                </Button>
               </div>
           </div>
         </div>

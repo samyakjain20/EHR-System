@@ -303,7 +303,7 @@ export default function Login(props) {
         ) : (
           <button
             type="submit"
-            className="text-lg mt-10  bg-primary py-1 px-3 rounded font-semibold font-poppins shadow-sm hover:bg-bgsecondary"
+            className="text-lg mt-1  bg-primary py-1 px-3 rounded font-semibold font-poppins shadow-sm hover:bg-bgsecondary"
           >
             Login
           </button>

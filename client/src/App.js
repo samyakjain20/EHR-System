@@ -15,7 +15,7 @@ import { Routes, Route } from "react-router-dom";
 import PatientList from "./components/adminDashboard/PatientList";
 import DoctorList from "./components/adminDashboard/DoctorList";
 import PatientProfileSideBar from "./components/patientDashboard/PatientProfileSideBar";
-import PatientHistory from "./components/patientDashboard/PatientHistory";
+import PrescriptionReports from "./components/patientDashboard/PrescriptionReports";
 import DoctorDashboardSidebar from "./components/doctorDashboard/DashboardSidebar";
 import AdminSidebar from "./components/adminDashboard/AdminSidebar";
 import PreviewPrescription from "./components/patientDashboard/PreviewPrescription";
@@ -116,9 +116,9 @@ function App() {
             }
           />
           <Route
-            path="history"
+            path="prescriptions"
             element={
-              <PatientHistory
+              <PrescriptionReports
                 setPrescriptionID={setPrescriptionID}
                 settoastCondition={settoastCondition}
                 setToastShow={setToastShow}

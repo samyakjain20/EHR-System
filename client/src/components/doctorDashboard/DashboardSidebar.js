@@ -83,7 +83,7 @@ const DashboardSidebar = (props) => {
                     className="w-6"
                     alt="pat-history"
                   ></img>
-                  <h1 className="ml-4">Patient History</h1>
+                  <h1 className="ml-4">Prescription Reports</h1>
                 </div>
               </Link>
               <Link
