@@ -129,7 +129,7 @@ const PatientProfileSideBar = (props) => {
 
               <Link
                 to="/patient/labreports"
-                onClick={() => setToggle("Patient_lab")}
+                onClick={() => setToggle("Patient_Lab")}
                 className={
                   Toggle === "Patient_Lab"
                     ? "text-gray-900 "
