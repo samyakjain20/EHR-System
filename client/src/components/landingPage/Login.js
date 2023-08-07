@@ -11,7 +11,7 @@ export default function Login(props) {
   const [Loading, setLoading] = useState(false);
   const [Toggle, setToggle] = useState("Patient");
   const [error, setError] = useState("");
-  const [data, setData] = useState({ userID: "", password: ""});
+  const [data, setData] = useState({ userID: "", password: "", metaAccount: ""});
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [usernameError, setUsernameError] = useState("");
@@ -35,7 +35,7 @@ export default function Login(props) {
     auth();
   });
 
-  const handlePatientLogin = async (healthID, password, metaAccount) => {
+  const handlePatientLogin = async (abhaID, password, metaAccount) => {
     setLoading(true);
     console.log("Pressed Login")
     try {
@@ -43,8 +43,9 @@ export default function Login(props) {
       console.log(data);
 			// data.role = selectedtype;
 			// alert("Before Login " + data.role);
-      data.userID = healthID;
+      data.userID = abhaID;
       data.password = password;
+      data.metaAccount = metaAccount;
 			const { data: res } = await axios.post(url, data);
       console.log("Here", data);
 			console.log("Yo", res);
@@ -69,7 +70,7 @@ export default function Login(props) {
     //     "Content-Type": "application/json",
     //   },
     //   body: JSON.stringify({
-    //     healthID,
+    //     abhaID,
     //     password,
     //   }),
     // });
@@ -77,7 +78,7 @@ export default function Login(props) {
     // const data = await res.json();
 
     // if (data.errors) {
-    //   setUsernameError(data.errors.healthID);
+    //   setUsernameError(data.errors.abhaID);
     //   setPasswordError(data.errors.password);
     //   setLoading(false);
     // } else {
@@ -101,6 +102,7 @@ export default function Login(props) {
       body: JSON.stringify({
         email,
         password,
+        metaAccount
       }),
     });
 
@@ -113,7 +115,7 @@ export default function Login(props) {
       });
       props.setToastShow(true);
     } else if (data.errors) {
-      setUsernameError(data.errors.healthID);
+      setUsernameError(data.errors.abhaID);
       setPasswordError(data.errors.password);
       setLoading(false);
       props.settoastCondition({
@@ -157,13 +159,13 @@ export default function Login(props) {
     try {
       if(metaAccount != ''){
         setMetaAccount('');
-        console.log("meta account removed");
+        console.log("meta account removed", metaAccount);
       }
       else{
         const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
         const account = accounts[0];
         setMetaAccount(account);
-        console.log("meta account added");  
+        console.log("meta account added", metaAccount);  
       }
     } catch (err) {
       if (err.code === 4001) {
