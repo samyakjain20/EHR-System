@@ -1,6 +1,6 @@
 import React from "react";
 import Navbar from "../components/landingPage/Navbar";
-import Vector from "../assets/img/landingPage/vector.svg";
+import Vector from "../assets/img/landingPage/vector1.jpg";
 import Login from "../components/landingPage/Login";
 import Footer from "../components/landingPage/Footer";
 
@@ -13,7 +13,7 @@ export default function LandingPage(props) {
         <img
           src={Vector}
           alt="Graphics"
-          className="lg:w-1/2 lg:my-auto lg:mx-auto mt-24"
+          className="lg:w-1/2 h-full lg:my-auto lg:mx-auto mt-24"
         />
         <div className="lg:ml-auto lg:w-1/2 w-screen">
           <Login
@@ -22,7 +22,7 @@ export default function LandingPage(props) {
           ></Login>
         </div>
       </div>
-      <div className="mt-auto relative bottom-0">
+      <div className="mt-auto relative -bottom-0">
         <Footer></Footer>
       </div>
     </div>
