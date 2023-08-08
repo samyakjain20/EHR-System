@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import ReactLoading from "react-loading";
 import RegisterDoctor from "./RegisterDoctor";
 import RegisterHospital from "./RegisterHospital";
+import RegisterLab from "./RegisterLab";
 
 const ethers = require("ethers")
 
@@ -229,6 +230,16 @@ export default function Register(props) {
               >
                 Doctor
               </button>
+              <button
+                onClick={() => setToggle("Lab")}
+                className={
+                  Toggle === "Lab"
+                    ? "py-2 px-8 text-lg font-poppins font-semibold cursor-pointer rounded bg-primary"
+                    : "py-2 px-8 text-lg font-poppins font-semibold cursor-pointer rounded bg-bgsecondary"
+                }
+              >
+                Laboratory
+              </button>
               
               <button
                 onClick={() => setToggle("Hospital")}
@@ -244,26 +255,14 @@ export default function Register(props) {
             <div className={Toggle === "Doctor" ? "" : "hidden" }>
               <RegisterDoctor/>
             </div>
+            
+            <div className={Toggle === "Lab" ? "" : "hidden" }>
+              <RegisterLab/>
+            </div>
 
             <div className={ Toggle === "Hospital" ? "" : "hidden" }>
               <RegisterHospital/>
             </div>
-            {/* <div
-              className={ Toggle === "Hospital" ? "h-96 p-2 flex flex-col justify-center " : "hidden" }
-            >
-                <h1 className="font-bold flex justify-center mt-6">
-                  For register as doctor contact to admin with you all information
-                </h1>
-                <div className="border-4 p-4 mx-auto w-1/2 rounded-xl mt-8  ">
-                  <h1>send your all information</h1>
-                  <div>
-                    <div className=" rounded-xl p-4 mt-4 ">
-                      <h1 className="font-bold">Email :</h1>
-                      <p>admin@gmail.com</p>
-                    </div>
-                  </div>
-                </div>
-            </div> */}
 
             <form
               onSubmit={handleRegisterPatient}
