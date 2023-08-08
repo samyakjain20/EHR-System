@@ -76,7 +76,7 @@ export default function RegisterHospital(props) {
         setLoading(false);
         props.settoastCondition({
           status: "success",
-          message: "Your Registration done Successfully!",
+          message: "Hospital Registration done Successfully!",
         });
         props.setToastShow(true);
         navigate("/hospital/dashboard");

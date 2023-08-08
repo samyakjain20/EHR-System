@@ -11,8 +11,6 @@ import { UserContractObj, FileContractObj } from "../../GlobalData/GlobalContext
 import RegisterLab from "./RegisterLab";
 
 const ethers = require("ethers")
-const fileAbi = require("./contracts/FileManagement.json");
-const userAbi = require("./contracts/UserManagement.json");
 
 export default function Register(props) {
   const [metaAccount, setMetaAccount] = useState(''); // meta mask account
@@ -31,8 +29,6 @@ export default function Register(props) {
   const [Loading, setLoading] = useState(false);
   const [Toggle, setToggle] = useState("Patient");
   const [confirmPassword, setConfirmPassword] = useState("");
-  // const [userMgmtContract, setUserMgmtContractAddress] = useState(UserContract);
-  // const [fileMgmtContractAddress, setFileMgmtContractAddress] = useState(FileContract);
 
   const [errors, setErrors] = useState({
     name: {},
@@ -92,7 +88,7 @@ export default function Register(props) {
         navigate("/doctor/dashboard");
       }
       if (data.msg === "Admin Login Found") {
-        navigate("/admin/dashboard");
+        navigate("/hospital/dashboard");
       }
       if (data.msg === "Patient Login Found") {
         navigate("/patient/dashboard");
@@ -266,15 +262,24 @@ export default function Register(props) {
               </button>
             </div>
             <div className={Toggle === "Doctor" ? "" : "hidden" }>
-              <RegisterDoctor/>
+              <RegisterDoctor
+                setToastShow={props.setToastShow}
+                settoastCondition={props.settoastCondition}
+              />
             </div>
             
             <div className={Toggle === "Lab" ? "" : "hidden" }>
-              <RegisterLab/>
+              <RegisterLab                
+                setToastShow={props.setToastShow}
+                settoastCondition={props.settoastCondition}
+              />
             </div>
 
             <div className={ Toggle === "Hospital" ? "" : "hidden" }>
-              <RegisterHospital/>
+              <RegisterHospital
+                setToastShow={props.setToastShow}
+                settoastCondition={props.settoastCondition}
+              />
             </div>
 
             <form
