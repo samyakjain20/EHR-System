@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import delete_btn from "../../assets/img/dashboard/delete.png";
 
-const DoctorListCompo = (props) => {
+const LabListCompo = (props) => {
   const navigate = useNavigate();
-  const deleteDoctor = async () => {
-    const res = await fetch(`/deletedoctor/${props.id}`, {
+  const removeLab = async () => {
+    const res = await fetch(`/removeLab/${props.id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -22,7 +22,7 @@ const DoctorListCompo = (props) => {
     }
     props.settoastCondition({
       status: "success",
-      message: "Doctor Deleted Successfuly!!!",
+      message: "Lab Deleted Successfuly!!!",
     });
     props.setToastShow(true);
   };
@@ -32,25 +32,22 @@ const DoctorListCompo = (props) => {
       <h1 className="col-start-1">{props.index + 1}</h1>
       <div className="col-span-2 flex">
         <h1>Dr.</h1>
-        <h1 className="ml-1">{`${props.doctor.name.firstName} ${props.doctor.name.middleName} ${props.doctor.name.surName}`}</h1>
+        <h1 className="ml-1">{`${props.lab.name.firstName} ${props.lab.name.middleName} ${props.lab.name.surName}`}</h1>
       </div>
-      <h1 className="col-span-2">{props.doctor.org}</h1>
-      <h1 className="col-span-1">{props.doctor.specialization[0].special}</h1>
-      <div className="col-span-2 pr-2">
-        <h1 className="text-lg ">{props.doctor.mobile}</h1>
-        <h1 className="text-sm"> {props.doctor.email} </h1>
-      </div>
+      <h1 className="col-span-1">{props.lab.specialization[0].special}</h1>
+      <h1 className="col-span-2"> {props.lab.email} </h1>
+      <h1 className="col-span-1">{props.lab.mobile}</h1>
 
       <button
         data-bs-toggle="modal"
-        data-bs-target="#deleteDoctor"
+        data-bs-target="#removeLab"
         className="flex items-center bg-primary w-24 h-8 rounded font-bold shadow hover:bg-bgsecondary"
-        onClick={deleteDoctor}
+        onClick={removeLab}
       >
-        <img src={delete_btn} className="h-4 mx-2"></img>Delete
+        <img src={delete_btn} className="h-4 mx-2"></img>Remove
       </button>
     </div>
   );
 };
 
-export default DoctorListCompo;
+export default LabListCompo;

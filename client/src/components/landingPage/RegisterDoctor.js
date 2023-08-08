@@ -32,7 +32,6 @@ export default function RegisterDoctor(props) {
       surName: "",
     },
     emergencyno: "",
-    orgNumber: "",
     dob: "",
     mobile: "",
     email: "",

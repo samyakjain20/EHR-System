@@ -1,26 +1,26 @@
 import "./App.css";
 import Contact from "./components/landingPage/Contact";
 import RegisterPatient from "./components/landingPage/RegisterPatient";
-import RegisterDoctor from "./components/adminDashboard/Manage";
+import RegisterDoctor from "./components/hospitalDashboard/Manage";
 import LandingPage from "./pages/LandingPage";
 import About from "./components/landingPage/About";
 import PatientDashboard from "./pages/PatientDashboard";
 import DoctorDashboard from "./pages/DoctorDashboard";
-import AdminDashboard from "./pages/AdminDashboard";
+import HospitalDashboard from "./pages/HospitalDashboard";
+import HospitalSideBar from "./components/hospitalDashboard/HospitalSidebar";
 import PatientProfile from "./components/patientDashboard/PatientProfile";
 import DoctorProfile from "./components/doctorDashboard/DoctorProfile";
 import PatientReports from "./components/patientDashboard/PatientReports";
 import AddNewDiagnosis from "./components/doctorDashboard/AddNewDiagnosis";
 import { Routes, Route, Navigate } from "react-router-dom";
-import PatientList from "./components/adminDashboard/PatientList";
-import DoctorList from "./components/adminDashboard/DoctorList";
+import PatientList from "./components/hospitalDashboard/PatientList";
+import DoctorList from "./components/hospitalDashboard/DoctorList";
 import PatientProfileSideBar from "./components/patientDashboard/PatientProfileSideBar";
 import PrescriptionReports from "./components/patientDashboard/PrescriptionReports";
 import DiagnosticsReports from "./components/patientDashboard/DiagnosticsReports";
 import DischargeReports from "./components/patientDashboard/DischargeReports";
 import LabReports from "./components/patientDashboard/LabReports";
 import DoctorDashboardSidebar from "./components/doctorDashboard/DashboardSidebar";
-import AdminSidebar from "./components/adminDashboard/AdminSidebar";
 import PreviewPrescription from "./components/patientDashboard/PreviewPrescription";
 import PatientReportsDoctorView from "./components/doctorDashboard/PatientReportsDoctorView";
 import PatientHistoryDoctorView from "./components/doctorDashboard/PatientHistoryDoctorView";
@@ -30,7 +30,8 @@ import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Page404 from "./pages/Page_404";
-import Manage from "./components/adminDashboard/Manage";
+import Manage from "./components/hospitalDashboard/Manage";
+import LabList from "./components/hospitalDashboard/LabList";
 
 function App() {
   const [healthID, setHealthID] = useState("");
@@ -278,9 +279,9 @@ function App() {
         </Route>
 
         <Route
-          path="admin"
+          path="hospital"
           element={
-            <AdminSidebar
+            <HospitalSideBar
               settoastCondition={settoastCondition}
               setToastShow={setToastShow}
             />
@@ -289,7 +290,16 @@ function App() {
           <Route
             path="dashboard"
             element={
-              <AdminDashboard
+              <hospitalDashboard
+                settoastCondition={settoastCondition}
+                setToastShow={setToastShow}
+              />
+            }
+          />
+          <Route
+            path="lablist"
+            element={
+              <LabList
                 settoastCondition={settoastCondition}
                 setToastShow={setToastShow}
               />
