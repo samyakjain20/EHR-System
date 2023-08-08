@@ -2,11 +2,11 @@ import admin_profile from "../assets/img/dashboard/admin_profile.png";
 
 import search from "../assets/img/dashboard/search2.png";
 import Footer from "../components/landingPage/Footer";
-import PatientList from "../components/adminDashboard/PatientList";
+import PatientList from "../components/hospitalDashboard/PatientList";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-const AdminDashboard = (props) => {
+const HospitalDashboard = (props) => {
   const [adminEmail, setAdminEmail] = useState("");
   const navigate = useNavigate();
   useEffect(() => {
@@ -78,4 +78,4 @@ const AdminDashboard = (props) => {
   );
 };
 
-export default AdminDashboard;
+export default HospitalDashboard;

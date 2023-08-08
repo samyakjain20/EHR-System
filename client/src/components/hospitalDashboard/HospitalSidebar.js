@@ -7,7 +7,7 @@ import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import dashboard from "../../assets/img/dashboard/dashboard.jpeg";
 
-const AdminSidebar = (props) => {
+const HospitalSideBar = (props) => {
   const navigate = useNavigate();
   const logout = async () => {
     const res = await fetch("/logout");
@@ -36,7 +36,7 @@ const AdminSidebar = (props) => {
         </div>
         <nav>
           <Link
-            to="/admin/dashboard"
+            to="/hospital/dashboard"
             onClick={() => setToggle("Dashboard")}
             className={
               Toggle === "Dashboard" ? "text-gray-900" : "text-gray-400"
@@ -53,7 +53,7 @@ const AdminSidebar = (props) => {
           </Link>
 
           <Link
-            to="/admin/registerdoctor"
+            to="/hospital/manage"
             onClick={() => setToggle("Reports")}
             className={Toggle === "Reports" ? "text-gray-900" : "text-gray-400"}
           >
@@ -71,7 +71,7 @@ const AdminSidebar = (props) => {
             <h1 className="font-poppins font-bold text-xl mt-4">Main menu</h1>
             <div className="grid grid-rows-2  font-bold font-poppins mt-4">
               <Link
-                to="/admin/patientslist"
+                to="/hospital/patientslist"
                 onClick={() => setToggle("Patient_history")}
                 className={
                   Toggle === "Patient_history"
@@ -89,7 +89,7 @@ const AdminSidebar = (props) => {
                 </div>
               </Link>
               <Link
-                to="/admin/doctorslist"
+                to="/hospital/doctorslist"
                 onClick={() => setToggle("Patient_profile")}
                 className={
                   Toggle === "Patient_profile"
@@ -103,6 +103,25 @@ const AdminSidebar = (props) => {
                   </div>
                   <div className="font-poppins font-bold ml-4">
                     <h1>Doctor List</h1>
+                  </div>
+                </div>
+              </Link>
+              
+              <Link
+                to="/hospital/lablist"
+                onClick={() => setToggle("Patient_profile")}
+                className={
+                  Toggle === "Patient_profile"
+                    ? "text-gray-900"
+                    : "text-gray-400"
+                }
+              >
+                <div className="flex m-2 mt-2 ">
+                  <div className="w-6 ml-4  ">
+                    <img src={doctor_list} alt="doctor-list"></img>
+                  </div>
+                  <div className="font-poppins font-bold ml-4">
+                    <h1>Lab List</h1>
                   </div>
                 </div>
               </Link>
@@ -122,4 +141,4 @@ const AdminSidebar = (props) => {
   );
 };
 
-export default AdminSidebar;
+export default HospitalSideBar;
