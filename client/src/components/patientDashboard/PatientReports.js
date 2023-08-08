@@ -51,7 +51,6 @@ const PatientReports = (props) => {
   const [prescriptions, setPrescriptions] = useState([{}]);
 
 
-
   const [fileList, setFileList] = useState([]);
   const [uploading, setUploading] = useState(false);
   const handleUpload = () => {
@@ -76,21 +75,20 @@ const PatientReports = (props) => {
       .finally(() => {
         setUploading(false);
       });
-    };
-
-    const propsFile = {
-      onRemove: (file) => {
-        const index = fileList.indexOf(file);
-        const newFileList = fileList.slice();
-        newFileList.splice(index, 1);
-        setFileList(newFileList);
-      },
-      beforeUpload: (file) => {
-        setFileList([...fileList, file]);
-        return false;
-      },
-      fileList,
-    };
+  };
+  const propsFile = {
+    onRemove: (file) => {
+      const index = fileList.indexOf(file);
+      const newFileList = fileList.slice();
+      newFileList.splice(index, 1);
+      setFileList(newFileList);
+    },
+    beforeUpload: (file) => {
+      setFileList([...fileList, file]);
+      return false;
+    },
+    fileList,
+  };
 
 
 

@@ -7,6 +7,7 @@ import eye from "../assets/img/dashboard/eye.png";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import ReactLoading from "react-loading";
+
 const DoctorDashboard = (props) => {
   const [Loading, setLoading] = useState(false);
   const navigate = useNavigate();

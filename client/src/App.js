@@ -1,7 +1,7 @@
 import "./App.css";
 import Contact from "./components/landingPage/Contact";
 import RegisterPatient from "./components/landingPage/RegisterPatient";
-import RegisterDoctor from "./components/adminDashboard/RegisterDoctor";
+import RegisterDoctor from "./components/adminDashboard/Manage";
 import LandingPage from "./pages/LandingPage";
 import About from "./components/landingPage/About";
 import PatientDashboard from "./pages/PatientDashboard";
@@ -30,6 +30,7 @@ import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Page404 from "./pages/Page_404";
+import Manage from "./components/adminDashboard/Manage";
 
 function App() {
   const [healthID, setHealthID] = useState("");
@@ -313,9 +314,9 @@ function App() {
             }
           />
           <Route
-            path="registerdoctor"
+            path="manage"
             element={
-              <RegisterDoctor
+              <Manage
                 settoastCondition={settoastCondition}
                 setToastShow={setToastShow}
               />

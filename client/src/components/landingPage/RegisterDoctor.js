@@ -1,11 +1,10 @@
-import React, { useState } from "react";
-import Footer from "../landingPage/Footer";
+import React, { useEffect, useState } from "react";
 import plus_logo from "../../assets/img/dashboard/add2_pbl.png";
 import minus_logo from "../../assets/img/dashboard/minus2_pbl.png";
 import { useNavigate } from "react-router-dom";
 import ReactLoading from "react-loading";
 
-export default function Register(props) {
+export default function RegisterDoctor(props) {
   const navigate = useNavigate();
   const [Loading, setLoading] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -32,15 +31,6 @@ export default function Register(props) {
       middleName: "",
       surName: "",
     },
-    org: "",
-    orgAddress: {
-      building: "",
-      city: "",
-      taluka: "",
-      district: "",
-      state: "",
-      pincode: "",
-    },
     emergencyno: "",
     orgNumber: "",
     dob: "",
@@ -61,11 +51,32 @@ export default function Register(props) {
     password: "",
   });
 
+  useEffect(() => {
+    const auth = async () => {
+      const res = await fetch("/auth");
+      const data = await res.json();
+      if (data.msg === "Doctor Login Found") {
+        navigate("/doctor/dashboard");
+      }
+      if (data.msg === "Hospital Login Found") {
+        navigate("/hospital/dashboard");
+      }
+      if (data.msg === "Admin Login Found") {
+        navigate("/admin/dashboard");
+      }
+      if (data.msg === "Patient Login Found") {
+        navigate("/patient/dashboard");
+      }
+    };
+    auth();
+  });
+
   const handleRegisterDoctor = async (e) => {
     e.preventDefault();
     setPasswordError("");
     if (doctor.password === confirmPassword) {
       setLoading(true);
+      e.preventDefault();
       const res = await fetch("/register/doctor", {
         method: "POST",
         headers: {
@@ -75,57 +86,35 @@ export default function Register(props) {
       });
 
       const data = await res.json();
-      if (data.AuthError) {
-        props.settoastCondition({
-          status: "info",
-          message: "Please Login to proceed!!!",
-        });
-        props.setToastShow(true);
-        navigate("/");
-      } else if (data.err) {
+
+      if (data.errors) {
+        setLoading(false);
+        setErrors(data.errors);
         props.settoastCondition({
           status: "error",
-          message: "Please enter all field properly!!!",
+          message: "Please Enter all fields correctly!",
         });
         props.setToastShow(true);
       } else {
         setLoading(false);
         props.settoastCondition({
           status: "success",
-          message: "Doctor Registration done Successfully!!!",
+          message: "Your Registration done Successfully!",
         });
         props.setToastShow(true);
-        navigate("/admin/dashboard");
+        navigate("/doctor/dashboard");
       }
     } else {
       setPasswordError("Password Doesn't Matches");
     }
   };
-
   return (
-    <div class="body col-span-10 h-screen overflow-y-scroll">
-      <div class="bg-secoundry">
-        <div class="">
-          <div class=" flex justify-center mt-4">
-            <h1 class="  p-2 px-8 rounded font-bold text-5xl">Register</h1>
-          </div>
-
-          <form
-            onSubmit={handleRegisterDoctor}
-            class="font-poppins ml-20 mt-8 px-8 py-4 bg-white shadow-lg rounded max-w-screen-lg  mb-4 "
-          >
-            <div class="flex   mt-2 bg-bgsecondary w-fit  justify-between rounded mx-auto">
-              <h1
-                className={
-                  "py-2 px-8 text-lg font-poppins font-semibold cursor-text rounded bg-primary"
-                }
-              >
-                Doctor
-              </h1>
-            </div>
+    // <div className="lg:grid lg:grid-cols-4 lg:gap-2 mt-4 mr-4 grid grid-cols-4 gap-2">
+    <div className="">
+      <form onSubmit={handleRegisterDoctor} >
 
             <div class="grid grid-cols-4 gap-2 mt-4 mr-4">
-              <label class="font-bold text-base font-poppins px-4 my-4 ">
+              <label class="font-bold lg:text-xl  font-poppins px-4 my-4 ">
                 Doctor Name
               </label>
               <input
@@ -163,7 +152,7 @@ export default function Register(props) {
               ></input>
             </div>
             <div class="grid grid-cols-4 gap-2 mt-4 mr-4">
-              <label class="font-bold text-base px-4 ">Birthdate</label>
+              <label class="font-bold lg:text-xl  px-4 ">Birthdate</label>
               <input
                 type="date"
                 class=" bg-blue-100 h-10 rounded pl-4"
@@ -177,7 +166,7 @@ export default function Register(props) {
               ></input>
             </div>
             <div class="grid grid-cols-4 gap-2 mt-4 mr-4">
-              <label class="font-bold text-base px-4 ">Mobile No. </label>
+              <label class="font-bold lg:text-xl  px-4 ">Mobile No. </label>
 
               <input
                 type="tel"
@@ -194,7 +183,7 @@ export default function Register(props) {
             </div>
 
             <div class=" aadhar grid grid-cols-4 gap-2 mt-4 mr-4">
-              <label class="font-bold text-base px-4 ">Aadhar Card No. </label>
+              <label class="font-bold lg:text-xl  px-4 ">Aadhar Card No. </label>
 
               <input
                 type="tel"
@@ -209,26 +198,8 @@ export default function Register(props) {
                 }}
               ></input>
             </div>
-
-            <div class="grid grid-cols-4 mt-4 mr-4">
-              <label class="font-bold text-base px-4">
-                Emergency Contact No.
-              </label>
-              <input
-                type="tel"
-                placeholder="emergency contact no."
-                required
-                class="pl-4 bg-blue-100 h-10  rounded"
-                value={doctor.emergencyno}
-                onChange={(e) => {
-                  let tempdoctor = { ...doctor };
-                  tempdoctor.emergencyno = e.target.value;
-                  setDoctor(tempdoctor);
-                }}
-              ></input>
-            </div>
             <div class="grid grid-cols-4 gap-2 mt-4 mr-4">
-              <label class="  text-base font-bold px-4">Email</label>
+              <label class="  lg:text-xl  font-bold px-4">Email</label>
               <input
                 type="email"
                 id="email"
@@ -245,7 +216,7 @@ export default function Register(props) {
             </div>
 
             <div class="grid grid-cols-4 gap-2 mt-4 mr-4">
-              <label class="  text-base font-bold px-4">Blood Group</label>
+              <label class="  lg:text-xl  font-bold px-4">Blood Group</label>
               <div className="">
                 <select
                   className="pl-4 w-1/2 bg-blue-100 h-10  rounded "
@@ -271,7 +242,7 @@ export default function Register(props) {
             </div>
 
             <div class="grid grid-cols-4 gap-2 mt-4 mr-4 grid-flow-dense ">
-              <label class=" text-base font-bold px-4 mb-8 col-span-1">
+              <label class=" lg:text-xl  font-bold px-4 mb-8 col-span-1">
                 Address
               </label>
               <div className="grid grid-cols-2 gap-4 col-span-3 ">
@@ -349,8 +320,26 @@ export default function Register(props) {
               </div>
             </div>
 
+            <div class="grid grid-cols-4 mt-4 mr-4">
+              <label class="font-bold lg:text-xl  px-4">
+                Emergency Contact No.
+              </label>
+              <input
+                type="tel"
+                placeholder="emergency contact no."
+                required
+                class="pl-4 bg-blue-100 h-10  rounded"
+                value={doctor.emergencyno}
+                onChange={(e) => {
+                  let tempdoctor = { ...doctor };
+                  tempdoctor.emergencyno = e.target.value;
+                  setDoctor(tempdoctor);
+                }}
+              ></input>
+            </div>
+
             <div class="grid grid-cols-4 gap-2 mt-8 mr-4">
-              <label class=" text-base font-bold px-4 grid col-start-1 col-span-1">
+              <label class=" lg:text-xl  font-bold px-4 grid col-start-1 col-span-1">
                 Education
               </label>
               <div className=" ">
@@ -413,7 +402,7 @@ export default function Register(props) {
               </div>
             </div>
             <div class="grid grid-cols-4 gap-2  mr-4">
-              <label class=" text-base font-bold px-4 grid col-start-1 col-span-1">
+              <label class=" lg:text-xl  font-bold px-4 grid col-start-1 col-span-1">
                 Specility
               </label>
               <div className=" ">
@@ -452,7 +441,7 @@ export default function Register(props) {
                       )}
 
                       <div
-                        className=" m-2 h-10 w-20 mt-0   font-poppins font-semibold cursor-pointer "
+                        className=" m-2 h-10 w-20 mt-0 font-poppins font-semibold cursor-pointer "
                         onClick={() => {
                           if (SpecialityList.length > 1) {
                             let SpecialityList1 = [...SpecialityList];
@@ -477,120 +466,7 @@ export default function Register(props) {
             </div>
 
             <div class="grid grid-cols-4 gap-2 mt-4 mr-4">
-              <label class="  text-base font-bold px-4">Hospital Name</label>
-              <input
-                type="text"
-                id="hospital-name"
-                placeholder="e.g: saikrupa hospital"
-                required
-                class="bg-blue-100 h-10 rounded pl-4 col-span-2 "
-                value={doctor.org}
-                onChange={(e) => {
-                  let tempdoctor = { ...doctor };
-                  tempdoctor.org = e.target.value;
-                  setDoctor(tempdoctor);
-                }}
-              ></input>
-            </div>
-            <div class="grid grid-cols-4 gap-2 mt-4 mr-4 grid-flow-dense ">
-              <label class=" text-base font-bold px-4 mb-8 col-span-1">
-                Hospital Address
-              </label>
-              <div className="grid grid-cols-2 gap-4 col-span-3 ">
-                <input
-                  type="text"
-                  class="bg-blue-100 h-10  rounded pl-4 "
-                  required
-                  placeholder="building/area"
-                  value={doctor.orgAddress.building}
-                  onChange={(e) => {
-                    let tempdoctor = { ...doctor };
-                    tempdoctor.orgAddress.building = e.target.value;
-                    setDoctor(tempdoctor);
-                  }}
-                ></input>
-                <input
-                  type="text"
-                  class="bg-blue-100 h-10  rounded pl-4 "
-                  required
-                  placeholder="village/city"
-                  value={doctor.orgAddress.city}
-                  onChange={(e) => {
-                    let tempdoctor = { ...doctor };
-                    tempdoctor.orgAddress.city = e.target.value;
-                    setDoctor(tempdoctor);
-                  }}
-                ></input>
-                <input
-                  type="text"
-                  class="bg-blue-100 h-10  rounded pl-4"
-                  required
-                  placeholder="Taluka"
-                  value={doctor.orgAddress.taluka}
-                  onChange={(e) => {
-                    let tempdoctor = { ...doctor };
-                    tempdoctor.orgAddress.taluka = e.target.value;
-                    setDoctor(tempdoctor);
-                  }}
-                ></input>
-                <input
-                  type="text"
-                  class="bg-blue-100 h-10  rounded  pl-4"
-                  required
-                  placeholder="District"
-                  value={doctor.orgAddress.district}
-                  onChange={(e) => {
-                    let tempdoctor = { ...doctor };
-                    tempdoctor.orgAddress.district = e.target.value;
-                    setDoctor(tempdoctor);
-                  }}
-                ></input>
-                <input
-                  type="number"
-                  className="bg-blue-100 h-10  rounded  pl-4"
-                  required
-                  placeholder="Pin-code"
-                  value={doctor.orgAddress.pincode}
-                  onChange={(e) => {
-                    let tempdoctor = { ...doctor };
-                    tempdoctor.orgAddress.pincode = e.target.value;
-                    setDoctor(tempdoctor);
-                  }}
-                ></input>
-                <input
-                  type="text"
-                  className="bg-blue-100 h-10  rounded  pl-4"
-                  placeholder="State"
-                  value={doctor.orgAddress.state}
-                  onChange={(e) => {
-                    let tempdoctor = { ...doctor };
-                    tempdoctor.orgAddress.state = e.target.value;
-                    setDoctor(tempdoctor);
-                  }}
-                ></input>
-              </div>
-            </div>
-            <div class="grid grid-cols-4 gap-2 mt-4 mr-4">
-              <label class="  text-base font-bold px-4">
-                Hospital Contact No.
-              </label>
-              <input
-                type="tel"
-                id="hospital-contact-no"
-                placeholder="1234567890"
-                required
-                class="bg-blue-100 h-10 rounded pl-4 col-span-2 "
-                value={doctor.orgNumber}
-                onChange={(e) => {
-                  let tempdoctor = { ...doctor };
-                  tempdoctor.orgNumber = e.target.value;
-                  setDoctor(tempdoctor);
-                }}
-              ></input>
-            </div>
-
-            <div class="grid grid-cols-4 gap-2 mt-4 mr-4">
-              <label type="password" class="  text-base font-bold px-4">
+              <label type="password" class="  lg:text-xl  font-bold px-4">
                 Password
               </label>
               <input
@@ -609,7 +485,7 @@ export default function Register(props) {
             </div>
 
             <div class="grid grid-cols-4 gap-2 mt-4 mr-4">
-              <label type="password" class=" text-base font-bold px-4">
+              <label type="password" class=" lg:text-xl  font-bold px-4">
                 Confirm Password
               </label>
               <input
@@ -639,12 +515,6 @@ export default function Register(props) {
               )}
             </div>
           </form>
-
-          <div className="mt-auto relative bottom-0">
-            <Footer></Footer>
-          </div>
-        </div>
-      </div>
     </div>
   );
 }
