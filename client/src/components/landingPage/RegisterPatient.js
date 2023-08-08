@@ -8,7 +8,20 @@ import ReactLoading from "react-loading";
 import RegisterDoctor from "./RegisterDoctor";
 import RegisterHospital from "./RegisterHospital";
 
+const ethers = require("ethers")
+
 export default function Register(props) {
+  const [metaAccount, setMetaAccount] = useState(''); // meta mask account
+  const [userMgmtContract, setUserMgmtContract] = useState(null);
+  const [fileMgmtContract, setFileMgmtContract] = useState(null);
+  const [provider, setProvider] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [error, setError] = useState("");
+  const [data, setData] = useState({ userID: "", password: "", metaAccount: ""});
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [usernameError, setUsernameError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
   const navigate = useNavigate();
   const [Loading, setLoading] = useState(false);
   const [Toggle, setToggle] = useState("Patient");
@@ -18,54 +31,51 @@ export default function Register(props) {
     address: {},
     contactPerson: { address: {} },
   });
-  const [diseaseList, setDiseaseList] = useState([{ disease: "", yrs: "" }]);
-  const [passwordError, setPasswordError] = useState("");
-  const addDisease = () => {
-    const diseaseList1 = [...diseaseList];
-    diseaseList1.push({ disease: "", yrs: "" });
-    setDiseaseList(diseaseList1);
-  };
 
   const [patient, setPatient] = useState({
+    username: "samyak23",
+    passwordHash: "",
+    isRegistered: false,
     name: {
-      firstName: "",
-      middleName: "",
-      surName: "",
+      firstName: "xbc ",
+      middleName: "b xc",
+      lastName: "xd",
     },
     dob: "",
-    mobile: "",
-    email: "",
-    adharCard: "",
-    bloodGroup: "",
-    address: {
-      building: "",
-      city: "",
-      taluka: "",
-      district: "",
-      state: "",
-      pincode: "",
+    mobile: "34567",
+    email: "yash@gmail.com",
+    adharCard: "234",
+    abhaId: "234",
+    bloodGroup: "A+",
+    patAddress: {
+      building: "szx",
+      city: "v ",
+      taluka: "c",
+      district: "xc ",
+      state: "xv ",
+      pincode: "567",
     },
-    password: "",
-    diseases: diseaseList,
     contactPerson: {
       name: {
-        firstName: "",
-        surName: "",
+        firstName: "cxb",
+        middleName: "cbx",
+        lastName: "bcx",
       },
-      mobile: "",
-      email: "",
-      relation: "",
-      address: {
-        building: "",
-        city: "",
-        taluka: "",
-        district: "",
-        state: "",
-        pincode: "",
+      mobile: "3456",
+      email: "yash@gmail.com",
+      relation: "sdf",
+      conAddress: {
+        building: "vzd",
+        city: "vdz",
+        taluka: "vdz",
+        district: "vzd",
+        state: "vz",
+        pincode: "34",
       },
     },
   });
 
+  
   useEffect(() => {
     const auth = async () => {
       const res = await fetch("/auth");
@@ -80,24 +90,86 @@ export default function Register(props) {
         navigate("/patient/dashboard");
       }
     };
-    auth();
-  });
 
-  const handleRegisterPatient = async (e) => {
+    const getAccount = async () => {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      if(provider){
+        try {
+          if(metaAccount != ''){
+            setMetaAccount('');
+            console.log("Meta Mask Account Removed", metaAccount);
+          }
+          else{
+            
+            window.ethereum.on("chainChanged", () => {
+              window.location.reload();
+            });
+    
+            window.ethereum.on("accountsChanged", () => {
+              window.location.reload();
+            });
+  
+            await provider.send("eth_requestAccounts", []);
+            const signer = provider.getSigner();
+            const address = await signer.getAddress();
+            setMetaAccount(address);
+  
+            const fileAbi = require("./contracts/FileManagement.json");
+            const userAbi = require("./contracts/UserManagement.json");
+            let userMgmtContractAddress = "0x1dD89592B8329A00A30f3399381daF499F86b6D4";
+            let fileMgmtContractAddress = "0x8ADC9Dd442f9d12517aaE192503B267652ac1B5a";
+  
+            const userMgmtContract = new ethers.Contract(
+              userMgmtContractAddress,
+              userAbi,
+              signer
+            );
+  
+            const fileMgmtContract = new ethers.Contract(
+              fileMgmtContractAddress,
+              fileAbi,
+              signer
+            );
+  
+            setFileMgmtContract(fileMgmtContract);
+            setUserMgmtContract(userMgmtContract);
+            setProvider(provider);
+            console.log(address);
+            console.log(userMgmtContract);
+            console.log(fileMgmtContract);
+  
+          }
+        } catch (err) {
+          if (err.code === 4001) {
+            // EIP-1193 userRejectedRequest error
+            // If this happens, the user rejected the connection request.
+            console.log('Please connect to MetaMask.');
+          } else {
+            console.error(err);
+          }
+        }
+      }
+      else{
+        console.error("Metamask is not installed");
+      }
+    };
+
+    getAccount();
+    auth();
+  }, []);
+
+  const handleRegisterPatient = async (e) => {    
     e.preventDefault();
     setPasswordError("");
-    if (patient.password === confirmPassword) {
+
+    if (patient.passwordHash === confirmPassword) {
       setLoading(true);
       e.preventDefault();
-      const res = await fetch("/register/patient", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(patient),
-      });
 
-      const data = await res.json();
+      patient.passwordHash = ethers.utils.formatBytes32String(patient.passwordHash);
+      let userStr = JSON.stringify(patient);
+      const data = await userMgmtContract.registerPatient(patient.username, patient.passwordHash, patient.abhaId, userStr);
+      console.log(data);
 
       if (data.errors) {
         setLoading(false);
@@ -107,7 +179,8 @@ export default function Register(props) {
           message: "Please Enter all fields correctly!",
         });
         props.setToastShow(true);
-      } else {
+      } 
+      else {
         setLoading(false);
         props.settoastCondition({
           status: "success",
@@ -116,10 +189,13 @@ export default function Register(props) {
         props.setToastShow(true);
         navigate("/patient/dashboard");
       }
-    } else {
+    } 
+    
+    else {
       setPasswordError("Password Doesn't Matches");
     }
   };
+
   return (
     <div className="body overflow-hidden">
       <Navbar></Navbar>
@@ -223,10 +299,10 @@ export default function Register(props) {
                   className="bg-blue-100 rounded lg:h-10 lg:pl-4 mt-4 lg:text-md text-sm h-8 px-2"
                   required
                   placeholder="last name"
-                  value={patient.name.surName}
+                  value={patient.name.lastName}
                   onChange={(e) => {
                     let temppatient = { ...patient };
-                    temppatient.name.surName = e.target.value;
+                    temppatient.name.lastName = e.target.value;
                     setPatient(temppatient);
                   }}
                 ></input>
@@ -287,6 +363,31 @@ export default function Register(props) {
                 </div>
               </div>
 
+
+              <div className=" aadhar lg:grid grid-cols-4 gap-2 mt-4 mr-4">
+                <label className="font-bold lg:text-xl px-4 ">
+                  ABHA ID.{" "}
+                </label>
+                <div>
+                  <input
+                    type="text"
+                    placeholder="ABHA ID"
+                    required
+                    className="pl-4 bg-blue-100 lg:h-10  rounded h-8"
+                    value={patient.abhaId}
+                    onChange={(e) => {
+                      let temppatient = { ...patient };
+                      temppatient.abhaId = e.target.value;
+                      setPatient(temppatient);
+                    }}
+                  ></input>
+                  <span className="text-xs text-red-500 py-1">
+                    {errors.abhaId}
+                  </span>
+                </div>
+              </div>
+
+
               <div className="grid grid-cols-4 gap-2 mt-4 mr-4">
                 <label className="  lg:text-xl font-bold px-4 ">Email</label>
                 <input
@@ -303,6 +404,7 @@ export default function Register(props) {
                   }}
                 ></input>
               </div>
+
 
               <div className="grid grid-cols-4 gap-2 mt-4 mr-4">
                 <label className="  lg:text-xl font-bold px-4">
@@ -342,10 +444,10 @@ export default function Register(props) {
                     className="bg-blue-100 lg:h-10  rounded pl-4 h-8 "
                     required
                     placeholder="building/area"
-                    value={patient.address.building}
+                    value={patient.patAddress.building}
                     onChange={(e) => {
                       let temppatient = { ...patient };
-                      temppatient.address.building = e.target.value;
+                      temppatient.patAddress.building = e.target.value;
                       setPatient(temppatient);
                     }}
                   ></input>
@@ -354,10 +456,10 @@ export default function Register(props) {
                     className="bg-blue-100 lg:h-10  rounded pl-4 h-8 "
                     required
                     placeholder="village/city"
-                    value={patient.address.city}
+                    value={patient.patAddress.city}
                     onChange={(e) => {
                       let temppatient = { ...patient };
-                      temppatient.address.city = e.target.value;
+                      temppatient.patAddress.city = e.target.value;
                       setPatient(temppatient);
                     }}
                   ></input>
@@ -366,10 +468,10 @@ export default function Register(props) {
                     className="bg-blue-100 lg:h-10  rounded  pl-4 h-8"
                     required
                     placeholder="Taluka"
-                    value={patient.address.taluka}
+                    value={patient.patAddress.taluka}
                     onChange={(e) => {
                       let temppatient = { ...patient };
-                      temppatient.address.taluka = e.target.value;
+                      temppatient.patAddress.taluka = e.target.value;
                       setPatient(temppatient);
                     }}
                   ></input>
@@ -378,10 +480,10 @@ export default function Register(props) {
                     className="bg-blue-100 lg:h-10  rounded  pl-4 h-8"
                     required
                     placeholder="District"
-                    value={patient.address.district}
+                    value={patient.patAddress.district}
                     onChange={(e) => {
                       let temppatient = { ...patient };
-                      temppatient.address.district = e.target.value;
+                      temppatient.patAddress.district = e.target.value;
                       setPatient(temppatient);
                     }}
                   ></input>
@@ -390,10 +492,10 @@ export default function Register(props) {
                     className="bg-blue-100 lg:h-10  rounded  pl-4 h-8"
                     required
                     placeholder="Pin-code"
-                    value={patient.address.pincode}
+                    value={patient.patAddress.pincode}
                     onChange={(e) => {
                       let temppatient = { ...patient };
-                      temppatient.address.pincode = e.target.value;
+                      temppatient.patAddress.pincode = e.target.value;
                       setPatient(temppatient);
                     }}
                   ></input>
@@ -401,10 +503,10 @@ export default function Register(props) {
                     type="text"
                     className="bg-blue-100 lg:h-10  rounded  pl-4 h-8"
                     placeholder="State"
-                    value={patient.address.state}
+                    value={patient.patAddress.state}
                     onChange={(e) => {
                       let temppatient = { ...patient };
-                      temppatient.address.state = e.target.value;
+                      temppatient.patAddress.state = e.target.value;
                       setPatient(temppatient);
                     }}
                   ></input>
@@ -421,10 +523,12 @@ export default function Register(props) {
                   className="bg-blue-100 lg:h-10  rounded pl-4 h-8"
                   required
                   placeholder="password"
-                  value={patient.password}
+                  
+                  // value={patient.password}
+                  value={patient.passwordHash}
                   onChange={(e) => {
                     let temppatient = { ...patient };
-                    temppatient.password = e.target.value;
+                    temppatient.passwordHash = e.target.value;
                     setPatient(temppatient);
                   }}
                 ></input>
@@ -470,11 +574,21 @@ export default function Register(props) {
                 ></input>
                 <input
                   className="bg-blue-100 rounded h-10 pl-4"
-                  placeholder="last name"
-                  value={patient.contactPerson.name.surName}
+                  placeholder="middle name"
+                  value={patient.contactPerson.name.middleName}
                   onChange={(e) => {
                     let temppatient = { ...patient };
-                    temppatient.contactPerson.name.surName = e.target.value;
+                    temppatient.contactPerson.name.middleName = e.target.value;
+                    setPatient(temppatient);
+                  }}
+                ></input>
+                <input
+                  className="bg-blue-100 rounded h-10 pl-4"
+                  placeholder="last name"
+                  value={patient.contactPerson.name.lastName}
+                  onChange={(e) => {
+                    let temppatient = { ...patient };
+                    temppatient.contactPerson.name.lastName = e.target.value;
                     setPatient(temppatient);
                   }}
                 ></input>
@@ -502,7 +616,7 @@ export default function Register(props) {
                 <label className="  lg:text-xl font-bold px-4">Email</label>
                 <input
                   type="email"
-                  id="email"
+                  id="contact-email"
                   placeholder="email"
                   className="bg-blue-100 lg:h-10 rounded pl-4 h-8"
                   value={patient.contactPerson.email}
@@ -540,10 +654,10 @@ export default function Register(props) {
                     className="bg-blue-100 h-10  rounded pl-4 "
                     required
                     placeholder="building/area"
-                    value={patient.contactPerson.address.building}
+                    value={patient.contactPerson.conAddress.building}
                     onChange={(e) => {
                       let temppatient = { ...patient };
-                      temppatient.contactPerson.address.building =
+                      temppatient.contactPerson.conAddress.building =
                         e.target.value;
                       setPatient(temppatient);
                     }}
@@ -553,10 +667,10 @@ export default function Register(props) {
                     className="bg-blue-100 h-10  rounded pl-4 "
                     required
                     placeholder="village/city"
-                    value={patient.contactPerson.address.city}
+                    value={patient.contactPerson.conAddress.city}
                     onChange={(e) => {
                       let temppatient = { ...patient };
-                      temppatient.contactPerson.address.city = e.target.value;
+                      temppatient.contactPerson.conAddress.city = e.target.value;
                       setPatient(temppatient);
                     }}
                   ></input>
@@ -565,10 +679,10 @@ export default function Register(props) {
                     className="bg-blue-100 h-10  rounded  pl-4"
                     required
                     placeholder="Taluka"
-                    value={patient.contactPerson.address.taluka}
+                    value={patient.contactPerson.conAddress.taluka}
                     onChange={(e) => {
                       let temppatient = { ...patient };
-                      temppatient.contactPerson.address.taluka = e.target.value;
+                      temppatient.contactPerson.conAddress.taluka = e.target.value;
                       setPatient(temppatient);
                     }}
                   ></input>
@@ -577,10 +691,10 @@ export default function Register(props) {
                     className="bg-blue-100 h-10  rounded  pl-4"
                     required
                     placeholder="District"
-                    value={patient.contactPerson.address.district}
+                    value={patient.contactPerson.conAddress.district}
                     onChange={(e) => {
                       let temppatient = { ...patient };
-                      temppatient.contactPerson.address.district =
+                      temppatient.contactPerson.conAddress.district =
                         e.target.value;
                       setPatient(temppatient);
                     }}
@@ -590,10 +704,10 @@ export default function Register(props) {
                     className="bg-blue-100 h-10  rounded  pl-4"
                     required
                     placeholder="Pin-code"
-                    value={patient.contactPerson.address.pincode}
+                    value={patient.contactPerson.conAddress.pincode}
                     onChange={(e) => {
                       let temppatient = { ...patient };
-                      temppatient.contactPerson.address.pincode =
+                      temppatient.contactPerson.conAddress.pincode =
                         e.target.value;
                       setPatient(temppatient);
                     }}
@@ -602,10 +716,10 @@ export default function Register(props) {
                     type="text"
                     className="bg-blue-100 h-10  rounded  pl-4"
                     placeholder="State"
-                    value={patient.contactPerson.address.state}
+                    value={patient.contactPerson.conAddress.state}
                     onChange={(e) => {
                       let temppatient = { ...patient };
-                      temppatient.contactPerson.address.state = e.target.value;
+                      temppatient.contactPerson.conAddress.state = e.target.value;
                       setPatient(temppatient);
                     }}
                   ></input>
