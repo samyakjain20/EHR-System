@@ -32,7 +32,7 @@ export default function Login(props) {
       if (data.msg === "Doctor Login Found") {
         navigate("/doctor/dashboard");
       }
-      if (data.msg === "Admin Login Found") {
+      if (data.msg === "Hospital Login Found") {
         navigate("/admin/dashboard");
       }
       if (data.msg === "Patient Login Found") {
@@ -85,7 +85,7 @@ export default function Login(props) {
 		}
   };
 
-  const handleDoctorAdminLogin = async (email, password, metaAccount, path) => {
+  const handleDoctorLabHospitalLogin = async (email, password, metaAccount, path) => {
     setLoading(true);
     const res = await fetch(path, {
       method: "POST",
@@ -138,10 +138,13 @@ export default function Login(props) {
         handlePatientLogin(username, password, metaAccount);
         break;
       case "Doctor":
-        handleDoctorAdminLogin(username, password, metaAccount, "/login/doctor");
+        handleDoctorLabHospitalLogin(username, password, metaAccount, "/login/doctor");
         break;
-      case "Admin":
-        handleDoctorAdminLogin(username, password, metaAccount, "/login/admin");
+      case "Hospital":
+        handleDoctorLabHospitalLogin(username, password, metaAccount, "/login/hospital");
+        break;
+      case "Lab":
+        handleDoctorLabHospitalLogin(username, password, metaAccount, "/login/lab");
         break;
       default:
         break;
@@ -249,22 +252,41 @@ export default function Login(props) {
         >
           Doctor
         </button>
+        
         <button
           onClick={() => {
-            setToggle("Admin");
+            setToggle("Lab");
             setUsername("");
             setPassword("");
             setUsernameError("");
             setPasswordError("");
           }}
           className={
-            Toggle === "Admin"
+            Toggle === "Lab"
               ? "py-2 px-8 text-lg font-poppins font-semibold cursor-pointer rounded bg-primary"
               : "py-2 px-8 text-lg font-poppins font-medium text-primary cursor-pointer rounded"
           }
         >
-          Admin
+          Lab
         </button>
+
+        <button
+          onClick={() => {
+            setToggle("Hospital");
+            setUsername("");
+            setPassword("");
+            setUsernameError("");
+            setPasswordError("");
+          }}
+          className={
+            Toggle === "Hospital"
+              ? "py-2 px-8 text-lg font-poppins font-semibold cursor-pointer rounded bg-primary"
+              : "py-2 px-8 text-lg font-poppins font-medium text-primary cursor-pointer rounded"
+          }
+        >
+          Hospital
+        </button>
+
       </div>
 
       <div>
@@ -278,14 +300,11 @@ export default function Login(props) {
       </div>
 
       <form className="flex flex-col w-full px-8" onSubmit={handleLogin}>
-        <label
-          htmlFor="email"
-          className="font-poppins pt-2 pb-1 text-lg font-bold"
-        >
-          {Toggle === "Patient" ? "Health Id" : "Email"}
+        <label htmlFor="email" className="font-poppins pt-2 pb-1 text-lg font-bold">
+          {Toggle === "Patient" ? "Abha ID" : "Email"}
         </label>
         <input
-          type="text"
+          type = {Toggle === "Patient" ? "text" : "email"}
           name="username"
           id="username"
           className="font-poppins px-3 py-2 bg-bgsecondary rounded outline-none"
