@@ -1,56 +1,62 @@
 import patient_profile from "../assets/img/dashboard/patient2_pbl.png";
-
 import reports from "../assets/img/dashboard/report2_pbl.png";
-
 import search from "../assets/img/dashboard/search2.png";
 import Footer from "../components/landingPage/Footer";
 import eye from "../assets/img/dashboard/eye.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { UserContractObj, FileContractObj } from "../GlobalData/GlobalContext";
+const ethers = require("ethers")
+
 
 const PatientDashboard = (props) => {
   const navigate = useNavigate();
 
-  const [dob, setDob] = useState("01/01/2006");
+  const {userMgmtContract, setUserMgmtContract} = UserContractObj();
+  const {fileMgmtContract, setFileMgmtContract} = FileContractObj();
+  const [dob, setDob] = useState("");
   const [patient, setPatient] = useState({
+    username: "",
+    passwordHash: "",
     name: {
-      firstName: "Hugo",
-      middleName: "Chavier",
-      surName: "Boss",
+      firstName: "",
+      middleName: "",
+      lastName: "",
     },
-    dob: "01/01/2006",
-    mobile: "2876110298",
-    email: "hugo@gmail.com",
-    adharCard: "123561752781",
-    bloodGroup: "O+",
-    address: {
-      building: "704, Tower A",
-      city: "Mumbai",
-      taluka: "West",
-      district: "Andheri",
-      state: "Maharashtra",
-      pincode: "176520",
+    dob: "",
+    mobile: "",
+    email: "",
+    adharCard: "",
+    abhaId: "",
+    bloodGroup: "",
+    patAddress: {
+      building: "",
+      city: "",
+      taluka: "",
+      district: "",
+      state: "",
+      pincode: "",
     },
-    password: "hugo@boss",
-    diseases: [{ disease: "Sugar", yrs: "5" }],
     contactPerson: {
       name: {
-        firstName: "Chanel",
-        surName: "Dior",
+        firstName: "",
+        middleName: "",
+        lastName: "",
       },
-      mobile: "7182092871",
-      email: "chanel@gmail.com",
-      relation: "Sister",
-      address: {
-        building: "705, Tower A",
-        city: "Mumbai",
-        taluka: "West",
-        district: "Andheri",
-        state: "Maharashtra",
-        pincode: "176520",
+      mobile: "",
+      email: "",
+      relation: "",
+      conAddress: {
+        building: "",
+        city: "",
+        taluka: "",
+        district: "",
+        state: "",
+        pincode: "",
       },
     },
   });
+
   const [prescriptions, setPrescriptions] = useState([{}]);
 
   const convertDatetoString = (dateString) => {
@@ -60,28 +66,17 @@ const PatientDashboard = (props) => {
     let year = date.getFullYear();
     return `${day}/${month}/${year}`;
   };
+  
   useEffect(() => {
     async function getpatient() {
-      const res = await fetch("/getpatient");
-      const data = await res.json();
-      if (data.AuthError) {
-        props.settoastCondition({
-          status: "info",
-          message: "Please Login to proceed!!!",
-        });
-        props.setToastShow(true);
-        navigate("/");
-      } else {
-        setPatient(data.patient);
-        if (data.patient.prescriptions) {
-          setPrescriptions(data.patient.prescriptions.reverse());
-        }
-      }
+      const data = await userMgmtContract.getPatientInfo();
+      console.log(data);
+      var patientObj = JSON.parse(data);
+      setPatient(patientObj);
     }
     getpatient();
   }, [dob]);
 
-  
 
   return (
     <div className="full-body col-span-10 h-screen" style={{overflow:'auto'}}>
@@ -91,7 +86,7 @@ const PatientDashboard = (props) => {
             <div className="flex  h-12 m-2 bg-bgprimary rounded mt-4  ">
               <div>
                 <h1 className="text-2xl font-poppins font-bold p-2 ">
-                  DashBoard Today
+                  My Dashboard
                 </h1>
               </div>
 
@@ -113,7 +108,7 @@ const PatientDashboard = (props) => {
                     alt="profile"
                   ></img>
                   <div className="mt-4 ml-4  font-bold font-poppins">
-                    <h1>{`${patient.name.firstName}  ${patient.name.surName}`}</h1>
+                    <h1>{`${patient.name.firstName}  ${patient.name.lastName}`}</h1>
                   </div>
                 </button>
               </Link>
@@ -135,12 +130,12 @@ const PatientDashboard = (props) => {
                   <div className="flex ml-2   ">
                     <h1 className="pl-1">{patient.name.firstName}</h1>
                     <h1 className="pl-1">{patient.name.middleName}</h1>
-                    <h1 className="pl-1">{patient.name.surName}</h1>
+                    <h1 className="pl-1">{patient.name.lastName}</h1>
                   </div>
                 </div>
                 <div className="flex">
                   <div>
-                    <h1>Date : </h1>
+                    <h1>Date of Birth : </h1>
                   </div>
                   <div className="ml-2">
                     <h1>{convertDatetoString(patient.dob)}</h1>
@@ -154,68 +149,9 @@ const PatientDashboard = (props) => {
                     <h1>{patient.bloodGroup}</h1>
                   </div>
                 </div>
-                <div>
-                  <h1 className="font-bold mt-4">Past Health History</h1>
-                  <div>{`${patient.diseases[0].disease} (${patient.diseases[0].yrs} yrs.)`}</div>
-                </div>
               </div>
             </div>
-            {/* recent health check up start */}
-            <div className="m-4 p-4 ">
-              <div>
-                <h1 className="font-bold font-poppins text-xl ">
-                  Recent Health Checkup
-                </h1>
-              </div>
-              {prescriptions.length > 0 ? (
-                <div className="bg-white mt-4 font-poppins p-4 rounded-xl shadow px-8">
-                  <div className="flex ">
-                    <div>
-                      <h1>Consultant Doctor :</h1>
-                    </div>
-                    <div className="ml-2">
-                      <h1>{`Dr. ${prescriptions[0].doctor}`}</h1>
-                    </div>
-                  </div>
-                  <div className="flex">
-                    <div>
-                      <h1>Date :</h1>
-                    </div>
-                    <div className="ml-2">
-                      <h1>{convertDatetoString(prescriptions[0].createdAt)}</h1>
-                    </div>
-                  </div>
-                  <div className="flex">
-                    <div>
-                      <h1>Diagnosis : </h1>
-                    </div>
-                    <div className="ml-2">
-                      <h1>{prescriptions[0].diagnosis}</h1>
-                    </div>
-                  </div>
-                  <Link
-                    to="/patient/prescription"
-                    onClick={() => {
-                      props.setPrescriptionID(prescriptions[0]._id);
-                    }}
-                  >
-                    <div className=" mt-2 flex items-center justify-evenly text-base bg-primary py-1 px-2 rounded font-semibold font-poppins shadow-sm hover:bg-bgsecondary w-5/12  ">
-                      <img src={reports} className="h-4" alt="report"></img>
-
-                      <button className=" font-semibold pl-1">
-                        Preview Prescription
-                      </button>
-                    </div>
-                  </Link>
-                </div>
-              ) : (
-                <div className="bg-white mt-4 font-poppins p-4 rounded-xl shadow px-8 flex justify-center font-bold">
-                  {" "}
-                  No Data Found...{" "}
-                </div>
-              )}
-            </div>
-            {/* recent health check up end */}
+          
             <div></div>
           </div>
 

@@ -3,8 +3,12 @@ import plus_logo from "../../assets/img/dashboard/add2_pbl.png";
 import minus_logo from "../../assets/img/dashboard/minus2_pbl.png";
 import { useNavigate } from "react-router-dom";
 import ReactLoading from "react-loading";
+import { UserContractObj, FileContractObj } from "../../GlobalData/GlobalContext";
+const ethers = require("ethers")
 
 export default function RegisterDoctor(props) {
+  const {userMgmtContract, setUserMgmtContract} = UserContractObj();
+  const {fileMgmtContract, setFileMgmtContract} = FileContractObj();
   const navigate = useNavigate();
   const [Loading, setLoading] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -27,27 +31,28 @@ export default function RegisterDoctor(props) {
 
   const [doctor, setDoctor] = useState({
     name: {
-      firstName: "",
-      middleName: "",
-      surName: "",
+      firstName: "Hargun",
+      middleName: "Jaspal",
+      surName: "Arneja",
     },
-    emergencyno: "",
+    emergencyno: "9876564521",
     dob: "",
-    mobile: "",
-    email: "",
-    adharCard: "",
-    bloodGroup: "",
+    mobile: "9876564521",
+    email: "hargun@doctor.com",
+    adharCard: "213454324567",
+    bloodGroup: "O+",
     education: EducationList,
     address: {
-      building: "",
-      city: "",
-      taluka: "",
-      district: "",
-      state: "",
-      pincode: "",
+      building: "21",
+      city: "Nagpur",
+      taluka: "Dhantoli",
+      district: "Wardha Road",
+      state: "MH",
+      pincode: "440003",
     },
     specialization: SpecialityList,
     password: "",
+    username: ""
   });
 
   useEffect(() => {
@@ -71,42 +76,48 @@ export default function RegisterDoctor(props) {
   });
 
   const handleRegisterDoctor = async (e) => {
-    e.preventDefault();
-    setPasswordError("");
-    if (doctor.password === confirmPassword) {
-      setLoading(true);
+    try{
       e.preventDefault();
-      const res = await fetch("/register/doctor", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(doctor),
-      });
+      setPasswordError("");
+      if (doctor.password === confirmPassword) {
+        setLoading(true);
+        e.preventDefault();
+        
+        const passwordHash = ethers.utils.formatBytes32String(doctor.password);
+        let docStr = JSON.stringify(doctor);
+        doctor.username = doctor.email;
+        const data = await userMgmtContract.registerDoctor(doctor.username, passwordHash, docStr);
+        console.log(data);
 
-      const data = await res.json();
-
-      if (data.errors) {
-        setLoading(false);
-        setErrors(data.errors);
-        props.settoastCondition({
-          status: "error",
-          message: "Please Enter all fields correctly!",
-        });
-        props.setToastShow(true);
+        if (data.errors) {
+          setLoading(false);
+          setErrors(data.errors);
+          props.settoastCondition({
+            status: "error",
+            message: "Please Enter all fields correctly!",
+          });
+          props.setToastShow(true);
+        } else {
+          setLoading(false);
+          props.settoastCondition({
+            status: "success",
+            message: "Your Registration done Successfully!",
+          });
+          props.setToastShow(true);
+          navigate("/doctor/dashboard");
+        }
       } else {
-        setLoading(false);
-        props.settoastCondition({
-          status: "success",
-          message: "Your Registration done Successfully!",
-        });
-        props.setToastShow(true);
-        navigate("/doctor/dashboard");
+        setPasswordError("Password Doesn't Matches");
       }
-    } else {
-      setPasswordError("Password Doesn't Matches");
+    }
+    
+    catch (error) {
+      setLoading(false);
+      console.log(error.data.data.reason);
+      window.alert(error.data.data.reason);
     }
   };
+
   return (
     // <div className="lg:grid lg:grid-cols-4 lg:gap-2 mt-4 mr-4 grid grid-cols-4 gap-2">
     <div className="">

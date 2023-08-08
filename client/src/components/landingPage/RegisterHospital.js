@@ -10,7 +10,7 @@ const ethers = require("ethers")
 
 export default function RegisterHospital(props) {
   const navigate = useNavigate();
-  const {userMgmtContract, setUserMgmtContract} = UserContractObj();;
+  const {userMgmtContract, setUserMgmtContract} = UserContractObj();
   const {fileMgmtContract, setFileMgmtContract} = FileContractObj();
   const [Loading, setLoading] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -54,39 +54,50 @@ export default function RegisterHospital(props) {
   });
 
   const handleRegisterHospital = async (e) => {
-    e.preventDefault();
-    setPasswordError("");
-    if (hospital.password === confirmPassword) {
-      setLoading(true);
+    try{
       e.preventDefault();
+      setPasswordError("");
+      if (hospital.password === confirmPassword) {
+        setLoading(true);
+        e.preventDefault();
 
-      const passwordHash = ethers.utils.formatBytes32String(hospital.password);
-      let hospitalStr = JSON.stringify(hospital);
-      hospital.username = hospital.orgEmail;
-      const data = await userMgmtContract.registerHospital(hospital.username, passwordHash, hospitalStr);
-      console.log(data);
+        const passwordHash = ethers.utils.formatBytes32String(hospital.password);
+        let hospitalStr = JSON.stringify(hospital);
+        hospital.username = hospital.orgEmail;
+        const data = await userMgmtContract.registerHospital(hospital.username, passwordHash, hospitalStr);
+        console.log(data);
 
-      if (data.errors) {
-        setLoading(false);
-        setErrors(data.errors);
-        props.settoastCondition({
-          status: "error",
-          message: "Please Enter all fields correctly!",
-        });
-        props.setToastShow(true);
+        if (data.errors) {
+          setLoading(false);
+          setErrors(data.errors);
+          props.settoastCondition({
+            status: "error",
+            message: "Please Enter all fields correctly!",
+          });
+          props.setToastShow(true);
+        } else {
+          setLoading(false);
+          props.settoastCondition({
+            status: "success",
+            message: "Hospital Registration done Successfully!",
+          });
+          props.setToastShow(true);
+          navigate("/hospital/dashboard");
+        }
       } else {
-        setLoading(false);
-        props.settoastCondition({
-          status: "success",
-          message: "Hospital Registration done Successfully!",
-        });
-        props.setToastShow(true);
-        navigate("/hospital/dashboard");
+        setPasswordError("Password Doesn't Matches");
       }
-    } else {
-      setPasswordError("Password Doesn't Matches");
+    }
+
+    catch (error) {
+      setLoading(false);
+      console.log(error.data.data.reason);
+      window.alert(error.data.data.reason);
     }
   };
+
+
+
   return (
     // <div className="lg:grid lg:grid-cols-4 lg:gap-2 mt-4 mr-4 grid grid-cols-4 gap-2">
     <div className="">
