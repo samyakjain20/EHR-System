@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import profile from "../../assets/img/landingPage/profile.png";
 import doctor from "../../assets/img/landingPage/doctor.jpg";
-import doctor1 from "../../assets/img/landingPage/doctor1.png";
 import patient from "../../assets/img/landingPage/patient1.png";
 import ReactLoading from "react-loading";
 
@@ -24,6 +23,7 @@ export default function Login(props) {
   const [fileMgmtContract, setFileMgmtContract] = useState(null);
   const [provider, setProvider] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
+  
 
   useEffect(() => {
     const auth = async () => {
@@ -40,7 +40,7 @@ export default function Login(props) {
       }
     };
     auth();
-  });
+  }, []);
 
   const handlePatientLogin = async (abhaID, password, metaAccount) => {
     setLoading(true);
@@ -74,7 +74,9 @@ export default function Login(props) {
       }
 
 		} catch (error) {
-            console.log("Here", error);
+        setLoading(false);
+        console.log(error.data.data.reason);
+        window.alert(error.data.data.reason);
 			if (
 				error.response &&
 				error.response.status >= 400 &&
@@ -85,52 +87,61 @@ export default function Login(props) {
 		}
   };
 
-  const handleDoctorLabHospitalLogin = async (email, password, metaAccount, path) => {
+  const handleDoctorLabHospitalLogin = async (email, password, metaAccount, path, role) => {
     setLoading(true);
-    const res = await fetch(path, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email,
-        password,
-        metaAccount
-      }),
-    });
-
-    const data = await res.json();
-    if (data.err) {
-      setLoading(false);
-      props.settoastCondition({
-        status: "error",
-        message: "Wrong Credentials!!!",
-      });
-      props.setToastShow(true);
-    } else if (data.errors) {
-      setUsernameError(data.errors.abhaID);
-      setPasswordError(data.errors.password);
-      setLoading(false);
-      props.settoastCondition({
-        status: "error",
-        message: "Wrong Credentials!!!",
-      });
-      props.setToastShow(true);
-    } else {
-      setLoading(false);
-      props.settoastCondition({
-        status: "success",
-        message: "Logged in Successfully!!!",
-      });
-      props.setToastShow(true);
-      if (Toggle === "Doctor") {
-        navigate("/doctor/dashboard");
-      } else if(Toggle === "Hospital") {
-        navigate("/hospital/dashboard");
-      } else if(Toggle === "Lab") {
-        navigate("/lab/dashboard");
+    console.log("Pressed Login")
+    try {
+      data.userID = email;
+      data.password = ethers.utils.formatBytes32String(password);
+      data.metaAccount = metaAccount;
+      data.role = role;
+      console.log(data);
+      
+      var res = null;
+      switch (role) {
+        case "Doctor":
+          res = await userMgmtContract.loginDoctor(data.password);
+          break;
+        case "Hospital":
+          res = await userMgmtContract.loginHospital(data.password);
+          break;
+        case "Lab":
+          res = await userMgmtContract.loginLab(data.password);
+          break;
       }
-    }
+
+      console.log(res);
+
+      if (res.errors) {
+        setLoading(false);
+        props.settoastCondition({
+          status: "error",
+          message: "Please Enter all fields correctly!",
+        });
+        props.setToastShow(true);
+      } 
+      else {
+        setLoading(false);
+        props.settoastCondition({
+          status: "success",
+          message: "Your Registration done Successfully!",
+        });
+        props.setToastShow(true);
+        navigate(path);
+      }
+
+		} catch (error) {
+        setLoading(false);
+        console.log(error.data.data.reason);
+        window.alert(error.data.data.reason);
+			if (
+				error.response &&
+				error.response.status >= 400 &&
+				error.response.status <= 500
+			) {
+				setError(error.response.data.message);
+			}
+		}
   };
 
   const handleLogin = async (e) => {
@@ -140,13 +151,13 @@ export default function Login(props) {
         handlePatientLogin(username, password, metaAccount);
         break;
       case "Doctor":
-        handleDoctorLabHospitalLogin(username, password, metaAccount, "/login/doctor");
+        handleDoctorLabHospitalLogin(username, password, metaAccount, "/doctor/dashboard", Toggle);
         break;
       case "Hospital":
-        handleDoctorLabHospitalLogin(username, password, metaAccount, "/login/hospital");
+        handleDoctorLabHospitalLogin(username, password, metaAccount, "/hospital/dashboard", Toggle);
         break;
       case "Lab":
-        handleDoctorLabHospitalLogin(username, password, metaAccount, "/login/lab");
+        handleDoctorLabHospitalLogin(username, password, metaAccount, "/lab/dashboard", Toggle);
         break;
       default:
         break;
@@ -176,10 +187,10 @@ export default function Login(props) {
           const address = await signer.getAddress();
           setMetaAccount(address);
 
-          const fileAbi = require("./contracts/FileManagement.json");
-          const userAbi = require("./contracts/UserManagement.json");
-          let userMgmtContractAddress = "0xbFC514e76C71B37A8033DCB1ec2C12141051A596";
-          let fileMgmtContractAddress = "0x8ADC9Dd442f9d12517aaE192503B267652ac1B5a";
+          const fileAbi = require("../../components/landingPage/contracts/FileManagement.json");
+          const userAbi = require("../../components/landingPage/contracts/UserManagement.json");
+          let userMgmtContractAddress = "0xF7D7eDA4AC98E9Ce76F3C537c8EC7AbA84CE1d72";
+          let fileMgmtContractAddress = "0x0dAFF696d6EEd9FD0f46999DF322Fd8b34277964";
 
           const userMgmtContract = new ethers.Contract(
             userMgmtContractAddress,

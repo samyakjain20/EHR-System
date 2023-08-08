@@ -5,27 +5,32 @@ import plus_logo from "../../assets/img/dashboard/add2_pbl.png";
 import minus_logo from "../../assets/img/dashboard/minus2_pbl.png";
 import { useNavigate } from "react-router-dom";
 import ReactLoading from "react-loading";
+import { UserContractObj, FileContractObj } from "../../GlobalData/GlobalContext";
+const ethers = require("ethers")
 
 export default function RegisterHospital(props) {
   const navigate = useNavigate();
+  const {userMgmtContract, setUserMgmtContract} = UserContractObj();
+  const {fileMgmtContract, setFileMgmtContract} = FileContractObj();
   const [Loading, setLoading] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [errors, setErrors] = useState({});
 
   const [hospital, setHospital] = useState({
-    org: "",
-    orgEmail: "",
+    org: "Apollo",
+    orgEmail: "apollo@hospital.com",
     orgAddress: {
-      building: "",
-      city: "",
-      taluka: "",
-      district: "",
-      state: "",
-      pincode: "",
+      building: "21",
+      city: "Hyderabad",
+      taluka: "Gachibowli",
+      district: "Hyderabad",
+      state: "Telangana",
+      pincode: "500032",
     },
-    orgContactNumber: "",
+    orgContactNumber: "0402345673",
     password: "",
+    username: ""
   });
 
   useEffect(() => {
@@ -49,42 +54,50 @@ export default function RegisterHospital(props) {
   });
 
   const handleRegisterHospital = async (e) => {
-    e.preventDefault();
-    setPasswordError("");
-    if (hospital.password === confirmPassword) {
-      setLoading(true);
+    try{
       e.preventDefault();
-      const res = await fetch("/register/hospital", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(hospital),
-      });
+      setPasswordError("");
+      if (hospital.password === confirmPassword) {
+        setLoading(true);
+        e.preventDefault();
 
-      const data = await res.json();
+        const passwordHash = ethers.utils.formatBytes32String(hospital.password);
+        let hospitalStr = JSON.stringify(hospital);
+        hospital.username = hospital.orgEmail;
+        const data = await userMgmtContract.registerHospital(hospital.username, passwordHash, hospitalStr);
+        console.log(data);
 
-      if (data.errors) {
-        setLoading(false);
-        setErrors(data.errors);
-        props.settoastCondition({
-          status: "error",
-          message: "Please Enter all fields correctly!",
-        });
-        props.setToastShow(true);
+        if (data.errors) {
+          setLoading(false);
+          setErrors(data.errors);
+          props.settoastCondition({
+            status: "error",
+            message: "Please Enter all fields correctly!",
+          });
+          props.setToastShow(true);
+        } else {
+          setLoading(false);
+          props.settoastCondition({
+            status: "success",
+            message: "Hospital Registration done Successfully!",
+          });
+          props.setToastShow(true);
+          navigate("/hospital/dashboard");
+        }
       } else {
-        setLoading(false);
-        props.settoastCondition({
-          status: "success",
-          message: "Hospital Registration done Successfully!",
-        });
-        props.setToastShow(true);
-        navigate("/hospital/dashboard");
+        setPasswordError("Password Doesn't Matches");
       }
-    } else {
-      setPasswordError("Password Doesn't Matches");
+    }
+
+    catch (error) {
+      setLoading(false);
+      console.log(error.data.data.reason);
+      window.alert(error.data.data.reason);
     }
   };
+
+
+
   return (
     // <div className="lg:grid lg:grid-cols-4 lg:gap-2 mt-4 mr-4 grid grid-cols-4 gap-2">
     <div className="">

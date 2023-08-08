@@ -9,104 +9,67 @@ import blood from "../../assets/img/dashboard/patient-profile-blood.png";
 import healthid from "../../assets/img/dashboard/patient-profile-healthid.png";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { UserContractObj, FileContractObj } from "../../GlobalData/GlobalContext";
+const ethers = require("ethers")
 
 const PatientProfile = (props) => {
   const navigate = useNavigate();
-  // const [patient, setPatient] = useState({
-  //   healthID: "",
-  //   name: {
-  //     firstName: "",
-  //     middleName: "",
-  //     surName: "",
-  //   },
-  //   dob: "",
-  //   mobile: "",
-  //   email: "",
-  //   adharCard: "",
-  //   bloodGroup: "",
-  //   address: {
-  //     building: "",
-  //     city: "",
-  //     taluka: "",
-  //     district: "",
-  //     state: "",
-  //     pincode: "",
-  //   },
-  //   password: "",
-  //   diseases: [{ disease: "", yrs: "" }],
-  //   contactPerson: {
-  //     name: {
-  //       firstName: "",
-  //       surName: "",
-  //     },
-  //     mobile: "",
-  //     email: "",
-  //     relation: "",
-  //     address: {
-  //       building: "",
-  //       city: "",
-  //       taluka: "",
-  //       district: "",
-  //       state: "",
-  //       pincode: "",
-  //     },
-  //   },
-  // });
+  const {userMgmtContract, setUserMgmtContract} = UserContractObj();
+  const {fileMgmtContract, setFileMgmtContract} = FileContractObj();
+
   const [patient, setPatient] = useState({
+    username: "",
+    passwordHash: "",
     name: {
-      firstName: "Hugo",
-      middleName: "Chavier",
-      surName: "Boss",
+      firstName: "",
+      middleName: "",
+      lastName: "",
     },
-    dob: "01/01/2006",
-    mobile: "2876110298",
-    email: "hugo@gmail.com",
-    adharCard: "123561752781",
-    bloodGroup: "O+",
-    address: {
-      building: "704, Tower A",
-      city: "Mumbai",
-      taluka: "West",
-      district: "Andheri",
-      state: "Maharashtra",
-      pincode: "176520",
+    dob: "",
+    mobile: "",
+    email: "",
+    adharCard: "",
+    abhaId: "",
+    bloodGroup: "",
+    patAddress: {
+      building: "",
+      city: "",
+      taluka: "",
+      district: "",
+      state: "",
+      pincode: "",
     },
-    password: "hugo@boss",
-    diseases: [{ disease: "Sugar", yrs: "5" }],
     contactPerson: {
       name: {
-        firstName: "Chanel",
-        surName: "Dior",
+        firstName: "",
+        middleName: "",
+        lastName: "",
       },
-      mobile: "7182092871",
-      email: "chanel@gmail.com",
-      relation: "Sister",
-      address: {
-        building: "705, Tower A",
-        city: "Mumbai",
-        taluka: "West",
-        district: "Andheri",
-        state: "Maharashtra",
-        pincode: "176520",
+      mobile: "",
+      email: "",
+      relation: "",
+      conAddress: {
+        building: "",
+        city: "",
+        taluka: "",
+        district: "",
+        state: "",
+        pincode: "",
       },
     },
   });
+  
   useEffect(() => {
     async function getpatient() {
-      const res = await fetch("/getpatient");
-      const data = await res.json();
-      if (data.AuthError) {
-        props.settoastCondition({
-          status: "info",
-          message: "Please Login to proceed!!!",
-        });
-        props.setToastShow(true);
-        navigate("/");
-      } else {
-        setPatient(data.patient);
-      }
+
+      const data = await userMgmtContract.getPatientInfo();
+      console.log(data);
+      var patientObj = JSON.parse(data);
+      setPatient(patientObj);
     }
+
     getpatient();
+      
   }, []);
 
   const convertDatetoString = (dateString) => {
@@ -134,7 +97,7 @@ const PatientProfile = (props) => {
               <div className="flex mt-1">
                 <h2 className="ml-2">{patient.name.firstName}</h2>
                 <h2 className="ml-2">{patient.name.middleName}</h2>
-                <h2 className="ml-2">{patient.name.surName}</h2>
+                <h2 className="ml-2">{patient.name.lastName}</h2>
               </div>
             </div>
             <div className="flex ml-8 mt-4">
@@ -154,10 +117,6 @@ const PatientProfile = (props) => {
               <img src={mail} className="h-6 w-5 " />
               <h2 className="ml-4 ">{patient.email}</h2>
             </div>
-            <div className="flex ml-8 mt-4">
-              <img src={healthid} className="h-6 w-5 " />
-              <h2 className="ml-4">{patient.healthID}</h2>
-            </div>
           </div>
         </div>
         <div className="my-2">
@@ -167,7 +126,7 @@ const PatientProfile = (props) => {
               <div className="ml-4">
                 <h2>
                   {" "}
-                  {`${patient.address.building},  ${patient.address.city},  ${patient.address.taluka},  ${patient.address.district},  ${patient.address.state},  ${patient.address.pincode}`}
+                  {`${patient.patAddress.building},  ${patient.patAddress.city},  ${patient.patAddress.taluka},  ${patient.patAddress.district},  ${patient.patAddress.state},  ${patient.patAddress.pincode}`}
                 </h2>
               </div>
             </div>
@@ -179,7 +138,7 @@ const PatientProfile = (props) => {
             <div className="flex mt-4 ">
               <img src={name} className="h-8 w-8" />
               <h1 className="mx-2"> {patient.contactPerson.name.firstName}</h1>
-              <h1 className="mx-2">{patient.contactPerson.name.surName}</h1>
+              <h1 className="mx-2">{patient.contactPerson.name.lastName}</h1>
             </div>
 
             <div className="flex mt-3">
@@ -198,7 +157,7 @@ const PatientProfile = (props) => {
               <div className="ml-4">
                 <h2>
                   {" "}
-                  {`${patient.contactPerson.address.building},  ${patient.contactPerson.address.city},  ${patient.contactPerson.address.taluka},  ${patient.contactPerson.address.district},  ${patient.contactPerson.address.state},  ${patient.contactPerson.address.pincode}`}
+                  {`${patient.contactPerson.conAddress.building},  ${patient.contactPerson.conAddress.city},  ${patient.contactPerson.conAddress.taluka},  ${patient.contactPerson.conAddress.district},  ${patient.contactPerson.conAddress.state},  ${patient.contactPerson.conAddress.pincode}`}
                 </h2>
               </div>
             </div>

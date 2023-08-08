@@ -5,6 +5,10 @@ import LandingPage from "./pages/LandingPage";
 import About from "./components/landingPage/About";
 import PatientDashboard from "./pages/PatientDashboard";
 import DoctorDashboard from "./pages/DoctorDashboard";
+import HospitalDashboard from "./pages/HospitalDashboard";
+import LabDashboard from "./pages/LabDashboard";
+import LabDashboardSidebar from "./components/labDashboard/LabDashboardSidebar";
+import LabProfile from "./components/labDashboard/LabProfile";
 import HospitalSideBar from "./components/hospitalDashboard/HospitalSidebar";
 import PatientProfile from "./components/patientDashboard/PatientProfile";
 import DoctorProfile from "./components/doctorDashboard/DoctorProfile";
@@ -100,16 +104,6 @@ function App() {
               />
             }
           >
-            {/* <Route
-            path="/"
-            element={
-              <PatientDashboard
-                setPrescriptionID={setPrescriptionID}
-                settoastCondition={settoastCondition}
-                setToastShow={setToastShow}
-              />
-            }
-          /> */}
             <Route
               path="dashboard"
               element={
@@ -277,6 +271,42 @@ function App() {
               }
             />
           </Route>
+
+          <Route
+            path="lab"
+            element={
+              <LabDashboardSidebar
+                setToastShow={setToastShow}
+                settoastCondition={settoastCondition}
+              />
+            }
+          >
+            <Route
+              path="dashboard"
+              element={
+                <LabDashboard
+                  healthID={healthID}
+                  setHealthID={setHealthID}
+                  setPrescriptionID={setPrescriptionID}
+                  setToastShow={setToastShow}
+                  settoastCondition={settoastCondition}
+                />
+              }
+            />
+            <Route
+              path="profile"
+              element={
+                <LabProfile
+                  healthID={healthID}
+                  setHealthID={setHealthID}
+                  setPrescriptionID={setPrescriptionID}
+                  setToastShow={setToastShow}
+                  settoastCondition={settoastCondition}
+                />
+              }
+            />
+          </Route>
+
 
           <Route
             path="hospital"

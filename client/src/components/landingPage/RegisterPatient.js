@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Footer from "./Footer";
 import Navbar from "./Navbar";
-import plus_logo from "../../assets/img/dashboard/add2_pbl.png";
-import minus_logo from "../../assets/img/dashboard/minus2_pbl.png";
 import { useNavigate } from "react-router-dom";
 import ReactLoading from "react-loading";
 import RegisterDoctor from "./RegisterDoctor";
@@ -12,10 +10,10 @@ import RegisterLab from "./RegisterLab";
 
 const ethers = require("ethers")
 
+
 export default function Register(props) {
   const [metaAccount, setMetaAccount] = useState(''); // meta mask account
-  // const { globalVariable, setGlobalVariable } = 
-  const {userMgmtContract, setUserMgmtContract} = UserContractObj();;
+  const {userMgmtContract, setUserMgmtContract} = UserContractObj();
   const {fileMgmtContract, setFileMgmtContract} = FileContractObj();
   const [provider, setProvider] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
@@ -37,44 +35,43 @@ export default function Register(props) {
   });
 
   const [patient, setPatient] = useState({
-    username: "samyak23",
+    username: "",
     passwordHash: "",
-    isRegistered: false,
     name: {
-      firstName: "xbc ",
-      middleName: "b xc",
-      lastName: "xd",
+      firstName: "Yash",
+      middleName: "Sanjay",
+      lastName: "Pathak",
     },
     dob: "",
-    mobile: "34567",
+    mobile: "9689491159",
     email: "yash@gmail.com",
-    adharCard: "234",
-    abhaId: "234",
-    bloodGroup: "A+",
+    adharCard: "234354561123",
+    abhaId: "12342345",
+    bloodGroup: "O+",
     patAddress: {
-      building: "szx",
-      city: "v ",
-      taluka: "c",
-      district: "xc ",
-      state: "xv ",
-      pincode: "567",
+      building: "Flat 301 Ganesh Apartment",
+      city: "Nagpur",
+      taluka: "Urban",
+      district: "Somalwada",
+      state: "MH",
+      pincode: "440025",
     },
     contactPerson: {
       name: {
-        firstName: "cxb",
-        middleName: "cbx",
-        lastName: "bcx",
+        firstName: "Sanjay",
+        middleName: "M",
+        lastName: "Pathak",
       },
-      mobile: "3456",
-      email: "yash@gmail.com",
-      relation: "sdf",
+      mobile: "9422162812",
+      email: "sanjay@gmail.com",
+      relation: "father",
       conAddress: {
-        building: "vzd",
-        city: "vdz",
-        taluka: "vdz",
-        district: "vzd",
-        state: "vz",
-        pincode: "34",
+        building: "Flat 301 Ganesh Apartment",
+        city: "Nagpur",
+        taluka: "Urban",
+        district: "Somalwada",
+        state: "MH",
+        pincode: "440025",
       },
     },
   });
@@ -95,114 +92,61 @@ export default function Register(props) {
       }
     };
 
-    // const getAccount = async () => {
-    //   console.log("In get Acc");
-    //   const provider = new ethers.providers.Web3Provider(window.ethereum);
-    //   console.log("Provider: ", provider);
-    //   console.log("Meta Acc:", metaAccount);
-    //   if(provider){
-    //     try {
-    //       if(metaAccount != ''){
-    //         setMetaAccount('');
-    //         console.log("Meta Mask Account Removed", metaAccount);
-    //       }
-    //       else{
-    //         console.log("Inside Else!");
-    //         window.ethereum.on("chainChanged", () => {
-    //           console.log("Hello1!");
-    //           window.location.reload();
-    //         });
-    
-    //         window.ethereum.on("accountsChanged", () => {
-    //           console.log("Hello2!");
-    //           window.location.reload();
-    //         });
-    //         console.log("Hello3");
-            
-    //         await provider.send("eth_requestAccounts", []);
-    //         const signer = provider.getSigner();
-    //         const address = await signer.getAddress();
-    //         // console.log("Hello4", userMgmtContractAddress.userMgmtContractAddress);
-    //         setMetaAccount(address);
-    //         // let userMgmtContractAddress = "0x1dD89592B8329A00A30f3399381daF499F86b6D4";
-    //         // let fileMgmtContractAddress = "0x8ADC9Dd442f9d12517aaE192503B267652ac1B5a";
-  
-    //         // const userMgmtContract = new ethers.Contract(
-    //         //   userMgmtContractAddress,
-    //         //   userAbi,
-    //         //   signer
-    //         // );
-  
-    //         // const fileMgmtContract = new ethers.Contract(
-    //         //   fileMgmtContractAddress,
-    //         //   fileAbi,
-    //         //   signer
-    //         // );
-  
-    //         setFileMgmtContract(fileMgmtContract);
-    //         setUserMgmtContract(userMgmtContract);
-    //         setProvider(provider);
-    //         console.log(address);
-    //         console.log(userMgmtContract);
-    //         console.log(fileMgmtContract);
-  
-    //       }
-    //     } catch (err) {
-    //       if (err.code === 4001) {
-    //         // EIP-1193 userRejectedRequest error
-    //         // If this happens, the user rejected the connection request.
-    //         console.log('Please connect to MetaMask.');
-    //       } else {
-    //         console.error(err);
-    //       }
-    //     }
-    //   }
-    //   else{
-    //     console.error("Metamask is not installed");
-    //   }
-    // };
-
-    // getAccount();
-    console.log("Hello123");
     console.log(userMgmtContract);
     auth();
   }, []);
 
   const handleRegisterPatient = async (e) => {    
-    e.preventDefault();
-    setPasswordError("");
-    console.log("Here: "+ patient.passwordHash)
-    if (patient.passwordHash === confirmPassword) {
-      setLoading(true);
+    try{
       e.preventDefault();
-      patient.passwordHash = ethers.utils.formatBytes32String(patient.passwordHash);
-      console.log(patient.passwordHash);
-      let userStr = JSON.stringify(patient);
-      const data = await userMgmtContract.registerPatient(patient.username, patient.passwordHash, patient.abhaId, userStr);
-      console.log(data);
+      setPasswordError("");
+      if (patient.passwordHash === confirmPassword) {
+        setLoading(true);
+        e.preventDefault();
+        
+        patient.passwordHash = ethers.utils.formatBytes32String(patient.passwordHash);
+        console.log(patient.passwordHash);
+        let userStr = JSON.stringify(patient);
+        patient.username = patient.abhaId;
+        const data = await userMgmtContract.registerPatient(patient.username, patient.passwordHash, userStr);
+        console.log(data);
 
-      if (data.errors) {
-        setLoading(false);
-        setErrors(data.errors);
-        props.settoastCondition({
-          status: "error",
-          message: "Please Enter all fields correctly!",
-        });
-        props.setToastShow(true);
+        if (data.errors) {
+          setLoading(false);
+          setErrors(data.errors);
+          props.settoastCondition({
+            status: "error",
+            message: "Please Enter all fields correctly!",
+          });
+          props.setToastShow(true);
+        } 
+        else {
+          setLoading(false);
+          props.settoastCondition({
+            status: "success",
+            message: "Your Registration done Successfully!",
+          });
+          props.setToastShow(true);
+          navigate("/patient/dashboard");
+        }
       } 
+      
       else {
-        setLoading(false);
-        props.settoastCondition({
-          status: "success",
-          message: "Your Registration done Successfully!",
-        });
-        props.setToastShow(true);
-        navigate("/patient/dashboard");
+        setPasswordError("Password Doesn't Matches");
       }
-    } 
+    }
     
-    else {
-      setPasswordError("Password Doesn't Matches");
+    catch (error) {
+      setLoading(false);
+      console.log(error.data.data.reason);
+      window.alert(error.data.data.reason);
+        if (
+          error.response &&
+          error.response.status >= 400 &&
+          error.response.status <= 500
+        ) {
+          setError(error.response.data.message);
+        }
     }
   };
 

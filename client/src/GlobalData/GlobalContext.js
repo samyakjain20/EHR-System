@@ -42,7 +42,7 @@ export function GlobalProvider({ children }) {                             //0xb
 
                         const fileAbi = require("../components/landingPage/contracts/FileManagement.json");
                         const userAbi = require("../components/landingPage/contracts/UserManagement.json");
-                        let userMgmtContractAddress = "0xbFC514e76C71B37A8033DCB1ec2C12141051A596";
+                        let userMgmtContractAddress = "0xF7D7eDA4AC98E9Ce76F3C537c8EC7AbA84CE1d72";
                         let fileMgmtContractAddress = "0x0dAFF696d6EEd9FD0f46999DF322Fd8b34277964";
 
                         const userMgmtContract = new ethers.Contract(
