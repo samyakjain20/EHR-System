@@ -161,12 +161,14 @@ export default function Register(props) {
   const handleRegisterPatient = async (e) => {    
     e.preventDefault();
     setPasswordError("");
-
+    console.log("Here: "+ patient.passwordHash)
     if (patient.passwordHash === confirmPassword) {
       setLoading(true);
       e.preventDefault();
-
+      console.log("Hello from Sid!");
       patient.passwordHash = ethers.utils.formatBytes32String(patient.passwordHash);
+      console.log(patient.passwordHash, "----------");
+      console.log("Bye from Sid!");
       let userStr = JSON.stringify(patient);
       const data = await userMgmtContract.registerPatient(patient.username, patient.passwordHash, patient.abhaId, userStr);
       console.log(data);
