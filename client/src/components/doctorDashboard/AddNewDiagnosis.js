@@ -81,6 +81,7 @@ const AddNewDiagnosis = (props) => {
       mobile: "",
     },
     chiefComplaints: chiefComplaints,
+    abhaID: { abhaID: ""},
     notes: { note: "" },
     diagnosis: { diagno: "" },
     procedureConducted: { procedure: "" },
@@ -205,32 +206,32 @@ const AddNewDiagnosis = (props) => {
             >
               <div className="grid grid-cols-6 mt-2">
                 <input
-                    type="date"
-                    className=" bg-blue-100 lg:h-8 rounded px-3 ml-2 h-8"
-                    required
-                    // value={}
-                    // onChange={(e) => {
-                    //   let temppatient = { ...patient };
-                    //   temppatient.dob = e.target.value;
-                    //   setPatient(temppatient);
-                    // }}
-                  ></input>
-                  {/* <label>Date</label> */}
+                  type="date"
+                  className=" bg-blue-100 lg:h-8 rounded px-3 ml-2 h-8"
+                  required
+                // value={}
+                // onChange={(e) => {
+                //   let temppatient = { ...patient };
+                //   temppatient.dob = e.target.value;
+                //   setPatient(temppatient);
+                // }}
+                ></input>
+                {/* <label>Date</label> */}
 
-                  <div className="px-12">
-                    <Upload {...propsFile}>
-                      <Button icon={<UploadOutlined />}>Select File</Button>
-                    </Upload>
-                  </div>
-                  <Button
-                    className="bg-primary hover:bg-bgsecondary"
-                    onClick={handleUpload}
-                    disabled={fileList.length === 0}
-                    loading={uploading}
-                  
-                  >
-                    {uploading ? 'Uploading' : 'Start Upload'}
-                  </Button>
+                <div className="px-12">
+                  <Upload {...propsFile}>
+                    <Button icon={<UploadOutlined />}>Select File</Button>
+                  </Upload>
+                </div>
+                <Button
+                  className="bg-primary hover:bg-bgsecondary"
+                  onClick={handleUpload}
+                  disabled={fileList.length === 0}
+                  loading={uploading}
+
+                >
+                  {uploading ? 'Uploading' : 'Start Upload'}
+                </Button>
               </div>
             </form>
           </div>
@@ -239,6 +240,20 @@ const AddNewDiagnosis = (props) => {
             <h1 className="text-2xl text-green-600">Enter Diagnosis Details</h1>
 
             <form onSubmit={handleAddPrescription} >
+              <div className="grid grid-cols-6 mt-3  ">
+                <h1 className="">Patient Abha ID:</h1>
+                <input
+                  placeholder="Abha ID"
+                  className=" bg-blue-100 rounded mx-2 px-2 py-1.5 outline-none col-span-2"
+                  // value={prescription.notes}
+                  value={prescription.notes.note}
+                  onChange={(e) => {
+                    let tempprescription = { ...prescription };
+                    tempprescription.abhaID.abhaID = e.target.value;
+                    setPrescription(tempprescription);
+                  }}
+                ></input>
+              </div>
               <div className="mt-3">
                 {chiefComplaints.map((chiefComplaint, index) => (
                   <div className="grid grid-cols-6 mt-2">
@@ -320,19 +335,9 @@ const AddNewDiagnosis = (props) => {
                   </div>
                 ))}
               </div>
+
               <div className="grid grid-cols-6 mt-3  ">
                 <h1 className="">Notes </h1>
-
-                {/* <input
-                  placeholder=" Note "
-                  className=" bg-blue-100 rounded mx-2 px-2 py-1.5 outline-none col-span-2"
-                  value={prescription.notes}
-                  onChange={(e) => {
-                    let tempprescription = { ...prescription };
-                    tempprescription.notes = e.target.value;
-                    setPrescription(tempprescription);
-                  }}
-                ></input> */}
                 <input
                   placeholder=" Note "
                   className=" bg-blue-100 rounded mx-2 px-2 py-1.5 outline-none col-span-2"
