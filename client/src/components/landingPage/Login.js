@@ -123,10 +123,12 @@ export default function Login(props) {
         message: "Logged in Successfully!!!",
       });
       props.setToastShow(true);
-      if (path == "/login/doctor") {
+      if (Toggle === "Doctor") {
         navigate("/doctor/dashboard");
-      } else {
-        navigate("/admin/dashboard");
+      } else if(Toggle === "Hospital") {
+        navigate("/hospital/dashboard");
+      } else if(Toggle === "Lab") {
+        navigate("/lab/dashboard");
       }
     }
   };
