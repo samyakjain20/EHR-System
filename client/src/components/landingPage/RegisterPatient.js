@@ -1,20 +1,18 @@
 import React, { useEffect, useState } from "react";
 import Footer from "./Footer";
 import Navbar from "./Navbar";
-import plus_logo from "../../assets/img/dashboard/add2_pbl.png";
-import minus_logo from "../../assets/img/dashboard/minus2_pbl.png";
 import { useNavigate } from "react-router-dom";
 import ReactLoading from "react-loading";
 import RegisterDoctor from "./RegisterDoctor";
 import RegisterHospital from "./RegisterHospital";
 import { UserContractObj, FileContractObj } from "../../GlobalData/GlobalContext";
+import RegisterLab from "./RegisterLab";
+
 const ethers = require("ethers")
-const fileAbi = require("./contracts/FileManagement.json");
-const userAbi = require("./contracts/UserManagement.json");
+
 
 export default function Register(props) {
   const [metaAccount, setMetaAccount] = useState(''); // meta mask account
-  // const { globalVariable, setGlobalVariable } = 
   const {userMgmtContract, setUserMgmtContract} = UserContractObj();;
   const {fileMgmtContract, setFileMgmtContract} = FileContractObj();
   const [provider, setProvider] = useState(null);
@@ -29,8 +27,6 @@ export default function Register(props) {
   const [Loading, setLoading] = useState(false);
   const [Toggle, setToggle] = useState("Patient");
   const [confirmPassword, setConfirmPassword] = useState("");
-  // const [userMgmtContract, setUserMgmtContractAddress] = useState(UserContract);
-  // const [fileMgmtContractAddress, setFileMgmtContractAddress] = useState(FileContract);
 
   const [errors, setErrors] = useState({
     name: {},
@@ -39,27 +35,26 @@ export default function Register(props) {
   });
 
   const [patient, setPatient] = useState({
-    username: "samyak23",
+    username: "",
     passwordHash: "",
-    isRegistered: false,
     name: {
-      firstName: "xbc ",
-      middleName: "b xc",
-      lastName: "xd",
+      firstName: "Yash",
+      middleName: "Sanjay",
+      lastName: "Pathak",
     },
-    dob: "",
-    mobile: "34567",
+    dob: "11/05/1997",
+    mobile: "9689491159",
     email: "yash@gmail.com",
-    adharCard: "234",
-    abhaId: "234",
-    bloodGroup: "A+",
+    adharCard: "234354561123",
+    abhaId: "12342345",
+    bloodGroup: "O+",
     patAddress: {
-      building: "szx",
-      city: "v ",
-      taluka: "c",
-      district: "xc ",
-      state: "xv ",
-      pincode: "567",
+      building: "Flat 301 Ganesh Apartment",
+      city: "Nagpur",
+      taluka: "Urban",
+      district: "Somalwada",
+      state: "MH",
+      pincode: "440025",
     },
     contactPerson: {
       name: {
@@ -90,81 +85,13 @@ export default function Register(props) {
         navigate("/doctor/dashboard");
       }
       if (data.msg === "Admin Login Found") {
-        navigate("/admin/dashboard");
+        navigate("/hospital/dashboard");
       }
       if (data.msg === "Patient Login Found") {
         navigate("/patient/dashboard");
       }
     };
 
-    // const getAccount = async () => {
-    //   console.log("In get Acc");
-    //   const provider = new ethers.providers.Web3Provider(window.ethereum);
-    //   console.log("Provider: ", provider);
-    //   console.log("Meta Acc:", metaAccount);
-    //   if(provider){
-    //     try {
-    //       if(metaAccount != ''){
-    //         setMetaAccount('');
-    //         console.log("Meta Mask Account Removed", metaAccount);
-    //       }
-    //       else{
-    //         console.log("Inside Else!");
-    //         window.ethereum.on("chainChanged", () => {
-    //           console.log("Hello1!");
-    //           window.location.reload();
-    //         });
-    
-    //         window.ethereum.on("accountsChanged", () => {
-    //           console.log("Hello2!");
-    //           window.location.reload();
-    //         });
-    //         console.log("Hello3");
-            
-    //         await provider.send("eth_requestAccounts", []);
-    //         const signer = provider.getSigner();
-    //         const address = await signer.getAddress();
-    //         // console.log("Hello4", userMgmtContractAddress.userMgmtContractAddress);
-    //         setMetaAccount(address);
-    //         // let userMgmtContractAddress = "0x1dD89592B8329A00A30f3399381daF499F86b6D4";
-    //         // let fileMgmtContractAddress = "0x8ADC9Dd442f9d12517aaE192503B267652ac1B5a";
-  
-    //         // const userMgmtContract = new ethers.Contract(
-    //         //   userMgmtContractAddress,
-    //         //   userAbi,
-    //         //   signer
-    //         // );
-  
-    //         // const fileMgmtContract = new ethers.Contract(
-    //         //   fileMgmtContractAddress,
-    //         //   fileAbi,
-    //         //   signer
-    //         // );
-  
-    //         setFileMgmtContract(fileMgmtContract);
-    //         setUserMgmtContract(userMgmtContract);
-    //         setProvider(provider);
-    //         console.log(address);
-    //         console.log(userMgmtContract);
-    //         console.log(fileMgmtContract);
-  
-    //       }
-    //     } catch (err) {
-    //       if (err.code === 4001) {
-    //         // EIP-1193 userRejectedRequest error
-    //         // If this happens, the user rejected the connection request.
-    //         console.log('Please connect to MetaMask.');
-    //       } else {
-    //         console.error(err);
-    //       }
-    //     }
-    //   }
-    //   else{
-    //     console.error("Metamask is not installed");
-    //   }
-    // };
-
-    // getAccount();
     console.log("Hello123");
     console.log(userMgmtContract);
     auth();
@@ -180,7 +107,8 @@ export default function Register(props) {
       patient.passwordHash = ethers.utils.formatBytes32String(patient.passwordHash);
       console.log(patient.passwordHash);
       let userStr = JSON.stringify(patient);
-      const data = await userMgmtContract.registerPatient(patient.username, patient.passwordHash, patient.abhaId, userStr);
+      patient.username = patient.abhaId;
+      const data = await userMgmtContract.registerPatient(patient.username, patient.passwordHash, userStr);
       console.log(data);
 
       if (data.errors) {
@@ -241,6 +169,16 @@ export default function Register(props) {
               >
                 Doctor
               </button>
+              <button
+                onClick={() => setToggle("Lab")}
+                className={
+                  Toggle === "Lab"
+                    ? "py-2 px-8 text-lg font-poppins font-semibold cursor-pointer rounded bg-primary"
+                    : "py-2 px-8 text-lg font-poppins font-semibold cursor-pointer rounded bg-bgsecondary"
+                }
+              >
+                Laboratory
+              </button>
               
               <button
                 onClick={() => setToggle("Hospital")}
@@ -254,28 +192,25 @@ export default function Register(props) {
               </button>
             </div>
             <div className={Toggle === "Doctor" ? "" : "hidden" }>
-              <RegisterDoctor/>
+              <RegisterDoctor
+                setToastShow={props.setToastShow}
+                settoastCondition={props.settoastCondition}
+              />
+            </div>
+            
+            <div className={Toggle === "Lab" ? "" : "hidden" }>
+              <RegisterLab                
+                setToastShow={props.setToastShow}
+                settoastCondition={props.settoastCondition}
+              />
             </div>
 
             <div className={ Toggle === "Hospital" ? "" : "hidden" }>
-              <RegisterHospital/>
+              <RegisterHospital
+                setToastShow={props.setToastShow}
+                settoastCondition={props.settoastCondition}
+              />
             </div>
-            {/* <div
-              className={ Toggle === "Hospital" ? "h-96 p-2 flex flex-col justify-center " : "hidden" }
-            >
-                <h1 className="font-bold flex justify-center mt-6">
-                  For register as doctor contact to admin with you all information
-                </h1>
-                <div className="border-4 p-4 mx-auto w-1/2 rounded-xl mt-8  ">
-                  <h1>send your all information</h1>
-                  <div>
-                    <div className=" rounded-xl p-4 mt-4 ">
-                      <h1 className="font-bold">Email :</h1>
-                      <p>admin@gmail.com</p>
-                    </div>
-                  </div>
-                </div>
-            </div> */}
 
             <form
               onSubmit={handleRegisterPatient}
