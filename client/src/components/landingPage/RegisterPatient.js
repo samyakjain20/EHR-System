@@ -7,13 +7,16 @@ import { useNavigate } from "react-router-dom";
 import ReactLoading from "react-loading";
 import RegisterDoctor from "./RegisterDoctor";
 import RegisterHospital from "./RegisterHospital";
-
+import { UserContractObj, FileContractObj } from "../../GlobalData/GlobalContext";
 const ethers = require("ethers")
+const fileAbi = require("./contracts/FileManagement.json");
+const userAbi = require("./contracts/UserManagement.json");
 
 export default function Register(props) {
   const [metaAccount, setMetaAccount] = useState(''); // meta mask account
-  const [userMgmtContract, setUserMgmtContract] = useState(null);
-  const [fileMgmtContract, setFileMgmtContract] = useState(null);
+  // const { globalVariable, setGlobalVariable } = 
+  const {userMgmtContract, setUserMgmtContract} = UserContractObj();;
+  const {fileMgmtContract, setFileMgmtContract} = FileContractObj();
   const [provider, setProvider] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [error, setError] = useState("");
@@ -26,6 +29,9 @@ export default function Register(props) {
   const [Loading, setLoading] = useState(false);
   const [Toggle, setToggle] = useState("Patient");
   const [confirmPassword, setConfirmPassword] = useState("");
+  // const [userMgmtContract, setUserMgmtContractAddress] = useState(UserContract);
+  // const [fileMgmtContractAddress, setFileMgmtContractAddress] = useState(FileContract);
+
   const [errors, setErrors] = useState({
     name: {},
     address: {},
@@ -91,70 +97,76 @@ export default function Register(props) {
       }
     };
 
-    const getAccount = async () => {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      if(provider){
-        try {
-          if(metaAccount != ''){
-            setMetaAccount('');
-            console.log("Meta Mask Account Removed", metaAccount);
-          }
-          else{
-            
-            window.ethereum.on("chainChanged", () => {
-              window.location.reload();
-            });
+    // const getAccount = async () => {
+    //   console.log("In get Acc");
+    //   const provider = new ethers.providers.Web3Provider(window.ethereum);
+    //   console.log("Provider: ", provider);
+    //   console.log("Meta Acc:", metaAccount);
+    //   if(provider){
+    //     try {
+    //       if(metaAccount != ''){
+    //         setMetaAccount('');
+    //         console.log("Meta Mask Account Removed", metaAccount);
+    //       }
+    //       else{
+    //         console.log("Inside Else!");
+    //         window.ethereum.on("chainChanged", () => {
+    //           console.log("Hello1!");
+    //           window.location.reload();
+    //         });
     
-            window.ethereum.on("accountsChanged", () => {
-              window.location.reload();
-            });
+    //         window.ethereum.on("accountsChanged", () => {
+    //           console.log("Hello2!");
+    //           window.location.reload();
+    //         });
+    //         console.log("Hello3");
+            
+    //         await provider.send("eth_requestAccounts", []);
+    //         const signer = provider.getSigner();
+    //         const address = await signer.getAddress();
+    //         // console.log("Hello4", userMgmtContractAddress.userMgmtContractAddress);
+    //         setMetaAccount(address);
+    //         // let userMgmtContractAddress = "0x1dD89592B8329A00A30f3399381daF499F86b6D4";
+    //         // let fileMgmtContractAddress = "0x8ADC9Dd442f9d12517aaE192503B267652ac1B5a";
   
-            await provider.send("eth_requestAccounts", []);
-            const signer = provider.getSigner();
-            const address = await signer.getAddress();
-            setMetaAccount(address);
+    //         // const userMgmtContract = new ethers.Contract(
+    //         //   userMgmtContractAddress,
+    //         //   userAbi,
+    //         //   signer
+    //         // );
   
-            const fileAbi = require("./contracts/FileManagement.json");
-            const userAbi = require("./contracts/UserManagement.json");
-            let userMgmtContractAddress = "0x1dD89592B8329A00A30f3399381daF499F86b6D4";
-            let fileMgmtContractAddress = "0x8ADC9Dd442f9d12517aaE192503B267652ac1B5a";
+    //         // const fileMgmtContract = new ethers.Contract(
+    //         //   fileMgmtContractAddress,
+    //         //   fileAbi,
+    //         //   signer
+    //         // );
   
-            const userMgmtContract = new ethers.Contract(
-              userMgmtContractAddress,
-              userAbi,
-              signer
-            );
+    //         setFileMgmtContract(fileMgmtContract);
+    //         setUserMgmtContract(userMgmtContract);
+    //         setProvider(provider);
+    //         console.log(address);
+    //         console.log(userMgmtContract);
+    //         console.log(fileMgmtContract);
   
-            const fileMgmtContract = new ethers.Contract(
-              fileMgmtContractAddress,
-              fileAbi,
-              signer
-            );
-  
-            setFileMgmtContract(fileMgmtContract);
-            setUserMgmtContract(userMgmtContract);
-            setProvider(provider);
-            console.log(address);
-            console.log(userMgmtContract);
-            console.log(fileMgmtContract);
-  
-          }
-        } catch (err) {
-          if (err.code === 4001) {
-            // EIP-1193 userRejectedRequest error
-            // If this happens, the user rejected the connection request.
-            console.log('Please connect to MetaMask.');
-          } else {
-            console.error(err);
-          }
-        }
-      }
-      else{
-        console.error("Metamask is not installed");
-      }
-    };
+    //       }
+    //     } catch (err) {
+    //       if (err.code === 4001) {
+    //         // EIP-1193 userRejectedRequest error
+    //         // If this happens, the user rejected the connection request.
+    //         console.log('Please connect to MetaMask.');
+    //       } else {
+    //         console.error(err);
+    //       }
+    //     }
+    //   }
+    //   else{
+    //     console.error("Metamask is not installed");
+    //   }
+    // };
 
-    getAccount();
+    // getAccount();
+    console.log("Hello123");
+    console.log(userMgmtContract);
     auth();
   }, []);
 
@@ -165,10 +177,8 @@ export default function Register(props) {
     if (patient.passwordHash === confirmPassword) {
       setLoading(true);
       e.preventDefault();
-      console.log("Hello from Sid!");
       patient.passwordHash = ethers.utils.formatBytes32String(patient.passwordHash);
-      console.log(patient.passwordHash, "----------");
-      console.log("Bye from Sid!");
+      console.log(patient.passwordHash);
       let userStr = JSON.stringify(patient);
       const data = await userMgmtContract.registerPatient(patient.username, patient.passwordHash, patient.abhaId, userStr);
       console.log(data);
