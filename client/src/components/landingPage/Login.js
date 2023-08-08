@@ -24,6 +24,7 @@ export default function Login(props) {
   const [fileMgmtContract, setFileMgmtContract] = useState(null);
   const [provider, setProvider] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
+  
 
   useEffect(() => {
     const auth = async () => {

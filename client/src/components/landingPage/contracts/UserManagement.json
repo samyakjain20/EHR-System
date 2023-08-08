@@ -270,6 +270,11 @@
 						"internalType": "bool",
 						"name": "isRegistered",
 						"type": "bool"
+					},
+					{
+						"internalType": "string",
+						"name": "hospitalDetails",
+						"type": "string"
 					}
 				],
 				"internalType": "struct UserManagement.Hospital",
@@ -386,6 +391,11 @@
 				"internalType": "bool",
 				"name": "isRegistered",
 				"type": "bool"
+			},
+			{
+				"internalType": "string",
+				"name": "hospitalDetails",
+				"type": "string"
 			}
 		],
 		"stateMutability": "view",
@@ -554,26 +564,14 @@
 				"type": "string"
 			},
 			{
-				"components": [
-					{
-						"internalType": "string",
-						"name": "username",
-						"type": "string"
-					},
-					{
-						"internalType": "bytes32",
-						"name": "passwordHash",
-						"type": "bytes32"
-					},
-					{
-						"internalType": "bool",
-						"name": "isRegistered",
-						"type": "bool"
-					}
-				],
-				"internalType": "struct UserManagement.Hospital",
-				"name": "_hospital",
-				"type": "tuple"
+				"internalType": "bytes32",
+				"name": "_password",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "string",
+				"name": "_hospitalDetails",
+				"type": "string"
 			}
 		],
 		"name": "registerHospital",
@@ -627,11 +625,6 @@
 				"internalType": "bytes32",
 				"name": "_password",
 				"type": "bytes32"
-			},
-			{
-				"internalType": "string",
-				"name": "_abhaId",
-				"type": "string"
 			},
 			{
 				"internalType": "string",

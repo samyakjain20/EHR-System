@@ -5,27 +5,32 @@ import plus_logo from "../../assets/img/dashboard/add2_pbl.png";
 import minus_logo from "../../assets/img/dashboard/minus2_pbl.png";
 import { useNavigate } from "react-router-dom";
 import ReactLoading from "react-loading";
+import { UserContractObj, FileContractObj } from "../../GlobalData/GlobalContext";
+const ethers = require("ethers")
 
 export default function RegisterHospital(props) {
   const navigate = useNavigate();
+  const {userMgmtContract, setUserMgmtContract} = UserContractObj();;
+  const {fileMgmtContract, setFileMgmtContract} = FileContractObj();
   const [Loading, setLoading] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [errors, setErrors] = useState({});
 
   const [hospital, setHospital] = useState({
-    org: "",
-    orgEmail: "",
+    org: "Apollo",
+    orgEmail: "apollo@hospital.com",
     orgAddress: {
-      building: "",
-      city: "",
-      taluka: "",
-      district: "",
-      state: "",
-      pincode: "",
+      building: "21",
+      city: "Hyderabad",
+      taluka: "Gachibowli",
+      district: "Hyderabad",
+      state: "Telangana",
+      pincode: "500032",
     },
-    orgContactNumber: "",
+    orgContactNumber: "0402345673",
     password: "",
+    username: ""
   });
 
   useEffect(() => {
@@ -54,15 +59,12 @@ export default function RegisterHospital(props) {
     if (hospital.password === confirmPassword) {
       setLoading(true);
       e.preventDefault();
-      const res = await fetch("/register/hospital", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(hospital),
-      });
 
-      const data = await res.json();
+      const passwordHash = ethers.utils.formatBytes32String(hospital.password);
+      let hospitalStr = JSON.stringify(hospital);
+      hospital.username = hospital.orgEmail;
+      const data = await userMgmtContract.registerHospital(hospital.username, passwordHash, hospitalStr);
+      console.log(data);
 
       if (data.errors) {
         setLoading(false);
