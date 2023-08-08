@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios"
 import profile from "../../assets/img/landingPage/profile.png";
 import doctor from "../../assets/img/landingPage/doctor.jpg";
 import doctor1 from "../../assets/img/landingPage/doctor1.png";
 import patient from "../../assets/img/landingPage/patient1.png";
 import ReactLoading from "react-loading";
+
+const ethers = require("ethers")
+
 export default function Login(props) {
   const navigate = useNavigate();
   const [Loading, setLoading] = useState(false);
@@ -16,7 +18,12 @@ export default function Login(props) {
   const [password, setPassword] = useState("");
   const [usernameError, setUsernameError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  
   const [metaAccount, setMetaAccount] = useState(''); // meta mask account
+  const [userMgmtContract, setUserMgmtContract] = useState(null);
+  const [fileMgmtContract, setFileMgmtContract] = useState(null);
+  const [provider, setProvider] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
     const auth = async () => {
@@ -39,21 +46,33 @@ export default function Login(props) {
     setLoading(true);
     console.log("Pressed Login")
     try {
-			const url = "http://localhost:8080/api/auth";
-      console.log(data);
-			// data.role = selectedtype;
-			// alert("Before Login " + data.role);
       data.userID = abhaID;
-      data.password = password;
+      data.password = ethers.utils.formatBytes32String(password);
       data.metaAccount = metaAccount;
-			const { data: res } = await axios.post(url, data);
-      console.log("Here", data);
-			console.log("Yo", res);
-			localStorage.setItem("token", res.data);
-			localStorage.setItem("userID", data.userID);
-			// localStorage.setItem("type", data.role);
-			// if(localStorage.getItem("type") === "student")
-			window.location = "http://localhost:3000/dashboard";
+      data.role = "Patient";
+      console.log(data);
+
+      const res = await userMgmtContract.loginPatient(data.password);
+      console.log(res);
+
+      if (res.errors) {
+        setLoading(false);
+        props.settoastCondition({
+          status: "error",
+          message: "Please Enter all fields correctly!",
+        });
+        props.setToastShow(true);
+      } 
+      else {
+        setLoading(false);
+        props.settoastCondition({
+          status: "success",
+          message: "Your Registration done Successfully!",
+        });
+        props.setToastShow(true);
+        navigate("/patient/dashboard");
+      }
+
 		} catch (error) {
             console.log("Here", error);
 			if (
@@ -64,32 +83,6 @@ export default function Login(props) {
 				setError(error.response.data.message);
 			}
 		}
-    // const res = await fetch("/api/auth", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({
-    //     abhaID,
-    //     password,
-    //   }),
-    // });
-
-    // const data = await res.json();
-
-    // if (data.errors) {
-    //   setUsernameError(data.errors.abhaID);
-    //   setPasswordError(data.errors.password);
-    //   setLoading(false);
-    // } else {
-    //   setLoading(false);
-    //   props.settoastCondition({
-    //     status: "success",
-    //     message: "Logged in Successfully!!!",
-    //   });
-    //   props.setToastShow(true);
-    //   navigate("/patient/dashboard");
-    // }
   };
 
   const handleDoctorAdminLogin = async (email, password, metaAccount, path) => {
@@ -156,25 +149,65 @@ export default function Login(props) {
   };
   
   const getAccount = async () => {
-    try {
-      if(metaAccount != ''){
-        setMetaAccount('');
-        console.log("meta account removed", metaAccount);
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    if(provider){
+      try {
+        if(metaAccount != ''){
+          setMetaAccount('');
+          console.log("Meta Mask Account Removed", metaAccount);
+        }
+        else{
+          
+          window.ethereum.on("chainChanged", () => {
+            window.location.reload();
+          });
+  
+          window.ethereum.on("accountsChanged", () => {
+            window.location.reload();
+          });
+
+          await provider.send("eth_requestAccounts", []);
+          const signer = provider.getSigner();
+          const address = await signer.getAddress();
+          setMetaAccount(address);
+
+          const fileAbi = require("./contracts/FileManagement.json");
+          const userAbi = require("./contracts/UserManagement.json");
+          let userMgmtContractAddress = "0x1dD89592B8329A00A30f3399381daF499F86b6D4";
+          let fileMgmtContractAddress = "0x8ADC9Dd442f9d12517aaE192503B267652ac1B5a";
+
+          const userMgmtContract = new ethers.Contract(
+            userMgmtContractAddress,
+            userAbi,
+            signer
+          );
+
+          const fileMgmtContract = new ethers.Contract(
+            fileMgmtContractAddress,
+            fileAbi,
+            signer
+          );
+
+          setFileMgmtContract(fileMgmtContract);
+          setUserMgmtContract(userMgmtContract);
+          setProvider(provider);
+          console.log(address);
+          console.log(userMgmtContract);
+          console.log(fileMgmtContract);
+
+        }
+      } catch (err) {
+        if (err.code === 4001) {
+          // EIP-1193 userRejectedRequest error
+          // If this happens, the user rejected the connection request.
+          console.log('Please connect to MetaMask.');
+        } else {
+          console.error(err);
+        }
       }
-      else{
-        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-        const account = accounts[0];
-        setMetaAccount(account);
-        console.log("meta account added", metaAccount);  
-      }
-    } catch (err) {
-      if (err.code === 4001) {
-        // EIP-1193 userRejectedRequest error
-        // If this happens, the user rejected the connection request.
-        console.log('Please connect to MetaMask.');
-      } else {
-        console.error(err);
-      }
+    }
+    else{
+      console.error("Metamask is not installed");
     }
   };
 
