@@ -6,6 +6,8 @@ import ReactLoading from "react-loading";
 import RegisterDoctor from "./RegisterDoctor";
 import RegisterHospital from "./RegisterHospital";
 import { UserContractObj, FileContractObj } from "../../GlobalData/GlobalContext";
+import RegisterLab from "./RegisterLab";
+
 const ethers = require("ethers")
 
 
@@ -83,7 +85,7 @@ export default function Register(props) {
         navigate("/doctor/dashboard");
       }
       if (data.msg === "Admin Login Found") {
-        navigate("/admin/dashboard");
+        navigate("/hospital/dashboard");
       }
       if (data.msg === "Patient Login Found") {
         navigate("/patient/dashboard");
@@ -167,6 +169,16 @@ export default function Register(props) {
               >
                 Doctor
               </button>
+              <button
+                onClick={() => setToggle("Lab")}
+                className={
+                  Toggle === "Lab"
+                    ? "py-2 px-8 text-lg font-poppins font-semibold cursor-pointer rounded bg-primary"
+                    : "py-2 px-8 text-lg font-poppins font-semibold cursor-pointer rounded bg-bgsecondary"
+                }
+              >
+                Laboratory
+              </button>
               
               <button
                 onClick={() => setToggle("Hospital")}
@@ -184,7 +196,13 @@ export default function Register(props) {
                 setToastShow={props.setToastShow}
                 settoastCondition={props.settoastCondition}
               />
-              
+            </div>
+            
+            <div className={Toggle === "Lab" ? "" : "hidden" }>
+              <RegisterLab                
+                setToastShow={props.setToastShow}
+                settoastCondition={props.settoastCondition}
+              />
             </div>
 
             <div className={ Toggle === "Hospital" ? "" : "hidden" }>
