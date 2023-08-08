@@ -1,3 +1,14 @@
 ./client/node_modules
 ./thirdweb-contracts/node_modules
 ./thirdweb-contracts/.env
+node_modules
+.env
+coverage
+coverage.json
+typechain
+typechain-types
+
+# Hardhat files
+cache
+artifacts
+
