@@ -33,7 +33,7 @@ export default function Register(props) {
   });
 
   const [patient, setPatient] = useState({
-    username: "p1",
+    username: "samyak23",
     passwordHash: "",
     isRegistered: false,
     name: {
