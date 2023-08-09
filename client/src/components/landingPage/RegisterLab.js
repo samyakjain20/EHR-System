@@ -10,6 +10,10 @@ export default function RegisterLab(props) {
   const {userMgmtContract, setUserMgmtContract} = UserContractObj();
   const {fileMgmtContract, setFileMgmtContract} = FileContractObj();
   const [metaAccount, setMetaAccount] = useState(''); // meta mask account
+
+  const [hospitalList, setHospitalList] = useState([]);
+  const [hospitalSelected, setHospitalSelected] = useState('');
+
   const navigate = useNavigate();
   const [Loading, setLoading] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -44,7 +48,8 @@ export default function RegisterLab(props) {
     },
     specialization: SpecialityList,
     password: "",
-    username: ""
+    username: "",
+    hospitalSelected: ""
   });
 
   useEffect(() => {
@@ -52,8 +57,16 @@ export default function RegisterLab(props) {
       const acc = await userMgmtContract.retrive();
       setMetaAccount(acc);
     };
+
+    const getHospitalList = async () => {
+      const data = await userMgmtContract.getHospitalIds();
+      console.log(data);
+      setHospitalList(data);
+    };
+
     auth();
-  });
+    getHospitalList();
+  }, []);
 
   const handleRegisterLab = async (e) => {
     try{
@@ -96,6 +109,10 @@ export default function RegisterLab(props) {
       console.log(error.data.data.reason);
       window.alert(error.data.data.reason);
     }
+  };
+
+  const handleChange = (event) => {
+    setHospitalSelected(event.target.value);
   };
 
   return (
@@ -297,6 +314,31 @@ export default function RegisterLab(props) {
                 ))}
               </div>
             </div>
+
+            <div className="grid grid-cols-4 gap-2 mt-4 mr-4">
+                <label className="  lg:text-xl font-bold px-4">
+                  Select Hospital
+                </label>
+                <div className="">
+                  <select
+                    className="pl-4 lg:w-1/2 bg-blue-100 lg:h-10  rounded  h-8"
+                    id="blood-group"
+                    value={lab.hospitalSelected}
+                    onChange={(e) => {
+                      let templab = { ...lab };
+                      templab.hospitalSelected = e.target.value;
+                      setLab(templab);
+                    }}
+                  >
+                    <option value="">Select an option</option>
+                      {hospitalList.map((item, index) => (
+                        <option key={index} value={item}>
+                          {item}
+                        </option>
+                      ))}
+                  </select>
+                </div>
+              </div>
 
             <div class="grid grid-cols-4 gap-2 mr-4">
               <label type="password" class="  lg:text-xl  font-bold px-4">
