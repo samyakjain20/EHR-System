@@ -4,11 +4,11 @@ const ethers = require("ethers")
 
 const UserContract = createContext();
 const FileContract = createContext();
+const MetaAccount = createContext();
 
 export function GlobalProvider({ children }) {                             //0xbFC514e76C71B37A8033DCB1ec2C12141051A596
     // const [userMgmtContractAddress, setuserMgmtContractAddress] = useState("0xbFC514e76C71B37A8033DCB1ec2C12141051A596");
     // const [fileMgmtContractAddress, setfileMgmtContractAddress] = useState("0x0dAFF696d6EEd9FD0f46999DF322Fd8b34277964");
-
 
     const [metaAccount, setMetaAccount] = useState(''); // meta mask account
     const [userMgmtContract, setUserMgmtContract] = useState(null);
@@ -84,11 +84,13 @@ export function GlobalProvider({ children }) {                             //0xb
     }, []);
 
     return (
-        <UserContract.Provider value={{ userMgmtContract, setUserMgmtContract }}>
-            <FileContract.Provider value={{ fileMgmtContract, setFileMgmtContract }}>
-                {children}
-            </FileContract.Provider>
-        </UserContract.Provider>
+        <MetaAccount.Provider value = {{metaAccount, setMetaAccount}}>
+            <UserContract.Provider value={{ userMgmtContract, setUserMgmtContract}}>
+                <FileContract.Provider value={{ fileMgmtContract, setFileMgmtContract }}>
+                    {children}
+                </FileContract.Provider>
+            </UserContract.Provider>
+        </MetaAccount.Provider>
     );
 }
 
@@ -98,4 +100,8 @@ export function UserContractObj() {
 
 export function FileContractObj() {
     return useContext(FileContract);
+}
+
+export function MetaAccountObj(){
+    return useContext(MetaAccount);
 }

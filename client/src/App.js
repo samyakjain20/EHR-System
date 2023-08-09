@@ -1,7 +1,6 @@
 import "./App.css";
 import Contact from "./components/landingPage/Contact";
 import RegisterPatient from "./components/landingPage/RegisterPatient";
-import RegisterDoctor from "./components/hospitalDashboard/Manage";
 import LandingPage from "./pages/LandingPage";
 import About from "./components/landingPage/About";
 import PatientDashboard from "./pages/PatientDashboard";
@@ -15,7 +14,7 @@ import PatientProfile from "./components/patientDashboard/PatientProfile";
 import DoctorProfile from "./components/doctorDashboard/DoctorProfile";
 import PatientReports from "./components/patientDashboard/PatientReports";
 import AddNewDiagnosis from "./components/doctorDashboard/AddNewDiagnosis";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import PatientList from "./components/hospitalDashboard/PatientList";
 import DoctorList from "./components/hospitalDashboard/DoctorList";
 import PatientProfileSideBar from "./components/patientDashboard/PatientProfileSideBar";

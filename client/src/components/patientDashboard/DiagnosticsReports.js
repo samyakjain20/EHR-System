@@ -4,6 +4,7 @@ import PatientHistoryCompo from "./PatientHistoryCompo";
 import { Table, Input } from 'antd';
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { UserContractObj, FileContractObj, MetaAccountObj } from "../../GlobalData/GlobalContext";
 
 const DiagnosticsReports = (props) => {
   const navigate = useNavigate();
@@ -48,6 +49,11 @@ const DiagnosticsReports = (props) => {
     },
   });
   const [prescriptions, setPrescriptions] = useState([{}]);
+
+  const {userMgmtContract, setUserMgmtContract} = UserContractObj();
+  const {fileMgmtContract, setFileMgmtContract} = FileContractObj();
+  const {metaAccount, setMetaAccount} = MetaAccountObj();
+  
 
   const columns = [
     {
@@ -132,8 +138,15 @@ const DiagnosticsReports = (props) => {
         setDob(convertDatetoString(patient.dob));
       }
     }
+
+    async function getReports(){
+      const data = await fileMgmtContract.addFile(metaAccount, "DiagonsticsReport");
+      console.log(data);
+    }
+
     getpatient();
-  }, [dob]);
+    getReports();
+  }, []);
   return (
     <div className="col-span-10" style={{ overflow: 'auto' }}>
       <div className=" px-12">
