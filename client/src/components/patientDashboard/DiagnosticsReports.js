@@ -4,77 +4,27 @@ import PatientHistoryCompo from "./PatientHistoryCompo";
 import { Table, Input } from 'antd';
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { UserContractObj, FileContractObj, MetaAccountObj } from "../../GlobalData/GlobalContext";
+import { UserContractObj, FileContractObj, MetaAccountObj, PatientDataObj } from "../../GlobalData/GlobalContext";
 
 const DiagnosticsReports = (props) => {
   const navigate = useNavigate();
   const [dob, setDob] = useState("01/01/2006");
-  const [patient, setPatient] = useState({
-    name: {
-      firstName: "Hugo",
-      middleName: "Chavier",
-      surName: "Boss",
-    },
-    dob: "01/01/2006",
-    mobile: "2876110298",
-    email: "hugo@gmail.com",
-    adharCard: "123561752781",
-    bloodGroup: "O+",
-    address: {
-      building: "704, Tower A",
-      city: "Mumbai",
-      taluka: "West",
-      district: "Andheri",
-      state: "Maharashtra",
-      pincode: "176520",
-    },
-    password: "hugo@boss",
-    diseases: [{ disease: "Sugar", yrs: "5" }],
-    contactPerson: {
-      name: {
-        firstName: "Chanel",
-        surName: "Dior",
-      },
-      mobile: "7182092871",
-      email: "chanel@gmail.com",
-      relation: "Sister",
-      address: {
-        building: "705, Tower A",
-        city: "Mumbai",
-        taluka: "West",
-        district: "Andheri",
-        state: "Maharashtra",
-        pincode: "176520",
-      },
-    },
-  });
+  const { fileMgmtContract, setFileMgmtContract } = FileContractObj();
+  const { metaAccount, setMetaAccount } = MetaAccountObj();
+  const { patient, setPatient } = PatientDataObj();
   const [prescriptions, setPrescriptions] = useState([{}]);
-
-  const {userMgmtContract, setUserMgmtContract} = UserContractObj();
-  const {fileMgmtContract, setFileMgmtContract} = FileContractObj();
-  const {metaAccount, setMetaAccount} = MetaAccountObj();
-  
+  const [healthReports, setHealthReports] = useState([{}]);
 
   const columns = [
     {
-      title: 'Record Type',
-      dataIndex: 'recordtype',
-      key: 'recordtype',
+      title: 'Associated Hospital/Lab',
+      dataIndex: 'hospitalName',
+      key: 'hospitalName',
     },
     {
       title: 'Associated Doctor',
-      dataIndex: 'associateddoctor',
-      key: 'associateddoctor',
-    },
-    {
-      title: 'Associated Hospital/Lab',
-      dataIndex: 'associatedhospital',
-      key: 'associatedhospital',
-    },
-    {
-      title: 'Diagnosis',
-      dataIndex: 'diagnosis',
-      key: 'diagnosis',
+      dataIndex: 'doctorName',
+      key: 'doctorName',
     },
     {
       title: 'Date',
@@ -83,18 +33,25 @@ const DiagnosticsReports = (props) => {
     },
     {
       title: 'File',
-      dataIndex: 'file',
-      key: 'file',
+      dataIndex: 'url',
+      key: 'url',
+      render: (text, record) => <a href={text} style={{color:'blue'}} target="_blank" rel="noopener noreferrer">Click to View</a>
+    },
+    {
+      title: 'Record Type',
+      dataIndex: 'recordType',
+      key: 'recordType',
+    },
+    {
+      title: 'Diagnosis',
+      dataIndex: 'description',
+      key: 'description',
     },
   ];
 
-  const healthReports = [
-    { recordtype: 'prescription', associateddoctor: 'Raman Das', associatedhospital: 'Appollo Hospital', diagnosis: 'Flu', date: '2023-08-01', file: 'fileUrl' },
-    { recordtype: 'prescription', associateddoctor: 'Ashok Kumar', associatedhospital: 'Citi Hospital', diagnosis: 'Malaria', date: '2012-05-01', file: 'fileUrl' },
-    { recordtype: 'prescription', associateddoctor: 'Ritik Kaul', associatedhospital: 'Max Hospital', diagnosis: 'Dengue', date: '2012-05-01', file: 'fileUrl' },
-    { recordtype: 'prescription', associateddoctor: 'Mahesh Gupta', associatedhospital: 'Delta Hospital', diagnosis: 'Cough', date: '2012-05-01', file: 'fileUrl' },
-    // Add more health reports here
-  ];
+  // const healthReports = [
+  //   // Add more health reports here
+  // ];
 
   const [searchText, setSearchText] = useState('');
   const filteredReports = healthReports.filter((report) => {
@@ -120,32 +77,16 @@ const DiagnosticsReports = (props) => {
   };
 
   useEffect(() => {
-    async function getpatient() {
-      const res = await fetch("/getpatient");
-      const data = await res.json();
-      if (data.AuthError) {
-        props.settoastCondition({
-          status: "info",
-          message: "Please Login to proceed!!!",
-        });
-        props.setToastShow(true);
-        navigate("/");
-      } else {
-        setPatient(data.patient);
-        if (data.patient.prescriptions) {
-          setPrescriptions(data.patient.prescriptions.reverse());
-        }
-        setDob(convertDatetoString(patient.dob));
-      }
-    }
+    const getLabreports = async () => {
+      const acc = await fileMgmtContract.displayFiles(metaAccount, "DiagonsticsReport");
+      console.log(acc);
+      const jsonArray = acc.map(jsonString => JSON.parse(jsonString));
+      setHealthReports(jsonArray);
+      console.log(jsonArray);
+    };
 
-    async function getReports(){
-      const data = await fileMgmtContract.addFile(metaAccount, "DiagonsticsReport");
-      console.log(data);
-    }
-
-    getpatient();
-    getReports();
+    // console.log(userMgmtContract);
+    getLabreports();
   }, []);
   return (
     <div className="col-span-10" style={{ overflow: 'auto' }}>
@@ -162,7 +103,7 @@ const DiagnosticsReports = (props) => {
                 <div className="grid grid-rows-2 ml-4 gap-2  mb-4">
                   <div className="mt-4 ml-4  font-bold font-poppins">
                     <h1 className="ml-2">
-                      {`${patient.name.firstName} ${patient.name.surName}`}
+                      {`${patient.name.firstName} ${patient.name.lastName}`}
                     </h1>
                   </div>
                 </div>
@@ -170,7 +111,7 @@ const DiagnosticsReports = (props) => {
             </Link>
             <div className="flex justify-between m-8">
               <div className="font-bold text-xl -ml-8">
-                <h1>Patient Diagnostics Reports</h1>
+                <h1>Patient Diagonstics Report</h1>
               </div>
             </div>
             <div>
@@ -184,8 +125,8 @@ const DiagnosticsReports = (props) => {
             </div>
             <div style={{ border: '1px solid #d9d9d9', padding: '8px' }}>
               <Table
-                dataSource={filteredReports}
                 columns={columns}
+                dataSource={filteredReports}
                 rowKey="id"
                 bordered
                 rowClassName={rowClassName}

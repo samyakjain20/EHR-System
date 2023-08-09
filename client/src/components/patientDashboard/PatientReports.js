@@ -54,9 +54,10 @@ const PatientReports = (props) => {
       const reportData = report;
       reportData.url = fileUrl;
       let fileDetails = JSON.stringify(reportData);
-      const data = await fileMgmtContract.addFile(report.recordType, fileDetails);
+      console.log(fileDetails);
+      const data = await fileMgmtContract.addFile(metaAccount, report.recordType, fileDetails);
       console.log(data);
-      const retrieveFiles = await fileMgmtContract.displayFiles(report.recordType);
+      const retrieveFiles = await fileMgmtContract.displayFiles(metaAccount, report.recordType);
       console.log("retrieve files: ", retrieveFiles.toString());
 
       if (data.errors) {
@@ -156,9 +157,9 @@ const PatientReports = (props) => {
                   required>
                     <option value="">Choose Type</option>
                     <option value="LabReport">Lab Report</option>
-                    <option value="DiagonsticsReport">Diagonsis Report</option>
+                    <option value="DiagonsticsReport">Diagonstics Report</option>
                     <option value="DischargeReport">Discharge Report</option>
-                    <option value="Vaccination">Vaccination Summary</option>
+                    <option value="PrescriptionReport">Prescription Report</option>
                   </select>
                 </div>
 
@@ -203,6 +204,12 @@ const PatientReports = (props) => {
                     type="diagnosis"
                     placeholder="Diagnosis"
                     required
+                    value={report.description}
+                    onChange={(e) => {
+                      let tempreport = { ...report };
+                      tempreport.description = e.target.value;
+                      setReport(tempreport);
+                    }}
                     className="pl-4 bg-blue-100 lg:h-8  rounded h-8"
                   ></input>
                 </div>

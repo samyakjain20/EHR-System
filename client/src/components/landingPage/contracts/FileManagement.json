@@ -21,6 +21,11 @@
 	{
 		"inputs": [
 			{
+				"internalType": "address",
+				"name": "_user",
+				"type": "address"
+			},
+			{
 				"internalType": "string",
 				"name": "_typeofFile",
 				"type": "string"
@@ -38,6 +43,11 @@
 	},
 	{
 		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_user",
+				"type": "address"
+			},
 			{
 				"internalType": "string",
 				"name": "_typeofFile",
