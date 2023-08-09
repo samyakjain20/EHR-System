@@ -6,14 +6,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { UploadOutlined } from '@ant-design/icons';
 import { Button, message, Upload } from 'antd';
 import axios from 'axios';
-import { UserContractObj, FileContractObj, MetaAccountObj } from "../../GlobalData/GlobalContext";
+import { UserContractObj, FileContractObj, MetaAccountObj, PatientDataObj } from "../../GlobalData/GlobalContext";
 
 const PatientReports = (props) => {
   const navigate = useNavigate();
   const [dob, setDob] = useState("01/01/2006");
-  const {fileMgmtContract, setFileMgmtContract} = FileContractObj();
-  const {metaAccount, setMetaAccount} = MetaAccountObj();
-  
+  const { fileMgmtContract, setFileMgmtContract } = FileContractObj();
+  const { metaAccount, setMetaAccount } = MetaAccountObj();
+
   const [report, setReport] = useState({
     hospitalName: "",
     doctorName: "",
@@ -22,46 +22,8 @@ const PatientReports = (props) => {
     recordType: "",
     description: ""
   });
-  const [patient, setPatient] = useState({
-    name: {
-      firstName: "Hugo",
-      middleName: "Chavier",
-      surName: "Boss",
-    },
-    dob: "01/01/2006",
-    mobile: "2876110298",
-    email: "hugo@gmail.com",
-    adharCard: "123561752781",
-    bloodGroup: "O+",
-    address: {
-      building: "704, Tower A",
-      city: "Mumbai",
-      taluka: "West",
-      district: "Andheri",
-      state: "Maharashtra",
-      pincode: "176520",
-    },
-    password: "hugo@boss",
-    diseases: [{ disease: "Sugar", yrs: "5" }],
-    contactPerson: {
-      name: {
-        firstName: "Chanel",
-        surName: "Dior",
-      },
-      mobile: "7182092871",
-      email: "chanel@gmail.com",
-      relation: "Sister",
-      address: {
-        building: "705, Tower A",
-        city: "Mumbai",
-        taluka: "West",
-        district: "Andheri",
-        state: "Maharashtra",
-        pincode: "176520",
-      },
-    },
-  });
 
+  const {patient, setPatient} = PatientDataObj();
 
   const [fileList, setFileList] = useState([]);
   const [uploading, setUploading] = useState(false);
@@ -74,21 +36,21 @@ const PatientReports = (props) => {
     try {
       const formData = new FormData();
       formData.append("file", fileList[0]);
-      console.log("form: ", formData);
+      // console.log("form: ", formData);
 
       const resFile = await axios({
-          method: "post",
-          url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
-          data: formData,
-          headers: {
-              'pinata_api_key': `${pinataApiKey}`,
-              'pinata_secret_api_key': `${pinataSecretApiKey}`,
-              "Content-Type": "multipart/form-data"
-          },
+        method: "post",
+        url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
+        data: formData,
+        headers: {
+          'pinata_api_key': `${pinataApiKey}`,
+          'pinata_secret_api_key': `${pinataSecretApiKey}`,
+          "Content-Type": "multipart/form-data"
+        },
       });
 
       const fileUrl = `https://gateway.pinata.cloud/ipfs/${resFile.data.IpfsHash}`;
-      
+      console.log(fileUrl);      
       const reportData = report;
       reportData.url = fileUrl;
       let fileDetails = JSON.stringify(reportData);
@@ -96,16 +58,21 @@ const PatientReports = (props) => {
 
       // const retrieveFiles = await fileMgmtContract.displayFiles(metaAccount, report.recordType);
       // console.log("retrieve files: ", retrieveFiles.toString());
+      const data = await fileMgmtContract.addFile(report.recordType, fileDetails);
+      console.log(data);
+      const retrieveFiles = await fileMgmtContract.displayFiles(report.recordType);
+      console.log("retrieve files: ", retrieveFiles.toString());
 
       if (data.errors) {
         setUploading(false);
+        console.log(data.errors);
         props.settoastCondition({
           status: "error",
           message: "Report Upload failed, check network!",
         });
         console.log(data.errors)
         props.setToastShow(true);
-      } 
+      }
       else {
         setUploading(false);
         props.settoastCondition({
@@ -113,7 +80,7 @@ const PatientReports = (props) => {
           message: "Report uploaded Successfully!",
         });
         props.setToastShow(true);
-        navigate("/patient/");
+        navigate("/patient/dashboard");
       }
 
     } catch (error) {
@@ -123,7 +90,7 @@ const PatientReports = (props) => {
         message: "Report Upload failed, check network!",
       });
       props.setToastShow(true);
-  }
+    }
   };
 
   const propsFile = {
@@ -148,24 +115,6 @@ const PatientReports = (props) => {
     return `${day}/${month}/${year}`;
   };
 
-  useEffect(() => {
-    async function getpatient() {
-      const res = await fetch("/getpatient");
-      const data = await res.json();
-      if (data.AuthError) {
-        props.settoastCondition({
-          status: "info",
-          message: "Please Login to proceed!!!",
-        });
-        props.setToastShow(true);
-        navigate("/");
-      } else {
-        setPatient(data.patient);
-        setDob(convertDatetoString(patient.dob));
-      }
-    }
-    getpatient();
-  }, []);
   return (
     <div className="col-span-10">
       <div className=" px-12">
@@ -181,7 +130,7 @@ const PatientReports = (props) => {
                 <div className="grid grid-rows-2 ml-4 gap-2  mb-4">
                   <div className="mt-4 ml-4  font-bold font-poppins">
                     <h1 className="ml-2">
-                      {`${patient.name.firstName} ${patient.name.surName}`}
+                      {`${patient.name.firstName} ${patient.name.lastName}`}
                     </h1>
                   </div>
                 </div>
