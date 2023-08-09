@@ -61,7 +61,11 @@ const DoctorDashboard = (props) => {
       setDoctor(doctortObj);
     }
 
-    async function getpatient() {      
+    async function getpatient() {
+      const data = await userMgmtContract.getPatientObjs();
+      console.log(data);
+      var patientObj = JSON.parse(data);
+      setPatient(patientObj);
     }
 
     getdoctor();

@@ -10,6 +10,10 @@ export default function RegisterDoctor(props) {
   const {userMgmtContract, setUserMgmtContract} = UserContractObj();
   const {fileMgmtContract, setFileMgmtContract} = FileContractObj();
   const [metaAccount, setMetaAccount] = useState(''); // meta mask account
+
+  const [hospitalList, setHospitalList] = useState([]);
+  const [hospitalSelected, setHospitalSelected] = useState('');
+
   const navigate = useNavigate();
   const [Loading, setLoading] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -29,6 +33,7 @@ export default function RegisterDoctor(props) {
     SpecialityList1.push({ special: "" });
     setSpecialityList(SpecialityList1);
   };
+  
 
   const [doctor, setDoctor] = useState({
     name: {
@@ -52,6 +57,7 @@ export default function RegisterDoctor(props) {
       pincode: "440003",
     },
     specialization: SpecialityList,
+    hospitalSelected: "",
     password: "",
     username: ""
   });
@@ -61,8 +67,16 @@ export default function RegisterDoctor(props) {
       const acc = await userMgmtContract.retrive();
       setMetaAccount(acc);
     };
+
+    const getHospitalList = async () => {
+      const data = await userMgmtContract.getHospitalIds();
+      console.log(data);
+      setHospitalList(data);
+    };
+
     auth();
-  });
+    getHospitalList();
+  }, []);
 
   const handleRegisterDoctor = async (e) => {
     try{
@@ -465,6 +479,31 @@ export default function RegisterDoctor(props) {
                 ))}
               </div>
             </div>
+
+            <div className="grid grid-cols-4 gap-2 mt-4 mr-4">
+                <label className="  lg:text-xl font-bold px-4">
+                  Select Hospital
+                </label>
+                <div className="">
+                  <select
+                    className="pl-4 lg:w-1/2 bg-blue-100 lg:h-10  rounded  h-8"
+                    id="blood-group"
+                    value={doctor.hospitalSelected}
+                    onChange={(e) => {
+                      let tempdoctor = { ...doctor };
+                      tempdoctor.hospitalSelected = e.target.value;
+                      setDoctor(tempdoctor);
+                    }}
+                  >
+                    <option value="">Select an option</option>
+                      {hospitalList.map((item, index) => (
+                        <option key={index} value={item}>
+                          {item}
+                        </option>
+                      ))}
+                  </select>
+                </div>
+              </div>
 
             <div class="grid grid-cols-4 gap-2 mt-4 mr-4">
               <label type="password" class="  lg:text-xl  font-bold px-4">

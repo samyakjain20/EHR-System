@@ -6,24 +6,68 @@ import { Link, useNavigate } from "react-router-dom";
 import { UploadOutlined } from '@ant-design/icons';
 import { Button, message, Upload } from 'antd';
 import axios from 'axios';
-import { UserContractObj, FileContractObj, MetaAccountObj, PatientDataObj } from "../../GlobalData/GlobalContext";
+import { UserContractObj, FileContractObj, MetaAccountObj } from "../../GlobalData/GlobalContext";
+const ethers = require("ethers")
 
 const PatientReports = (props) => {
   const navigate = useNavigate();
   const [dob, setDob] = useState("01/01/2006");
-  const { fileMgmtContract, setFileMgmtContract } = FileContractObj();
-  const { metaAccount, setMetaAccount } = MetaAccountObj();
+  const {userMgmtContract, setUserMgmtContract} = UserContractObj();
+  const {fileMgmtContract, setFileMgmtContract} = FileContractObj();
+  const {metaAccount, setMetaAccount} = MetaAccountObj();
 
+  const [doctorList, setDoctorList] = useState([]);
+  const [doctorName, setDoctorName] = useState('');
+  
   const [report, setReport] = useState({
-    hospitalName: "",
     doctorName: "",
     date: "",
     url : "",
     recordType: "",
-    description: ""
+    file: null
   });
-
-  const {patient, setPatient} = PatientDataObj();
+  
+  const [patient, setPatient] = useState({
+    username: "",
+    passwordHash: "",
+    name: {
+      firstName: "",
+      middleName: "",
+      lastName: "",
+    },
+    dob: "",
+    mobile: "",
+    email: "",
+    adharCard: "",
+    abhaId: "",
+    bloodGroup: "",
+    patAddress: {
+      building: "",
+      city: "",
+      taluka: "",
+      district: "",
+      state: "",
+      pincode: "",
+    },
+    contactPerson: {
+      name: {
+        firstName: "",
+        middleName: "",
+        lastName: "",
+      },
+      mobile: "",
+      email: "",
+      relation: "",
+      conAddress: {
+        building: "",
+        city: "",
+        taluka: "",
+        district: "",
+        state: "",
+        pincode: "",
+      },
+    },
+  });
 
   const [fileList, setFileList] = useState([]);
   const [uploading, setUploading] = useState(false);
@@ -111,6 +155,27 @@ const PatientReports = (props) => {
     return `${day}/${month}/${year}`;
   };
 
+
+  useEffect(() => {
+    async function getpatient() {
+      const data = await userMgmtContract.getPatientInfo();
+      console.log(data);
+      var patientObj = JSON.parse(data);
+      setPatient(patientObj);
+    }
+
+    const getDoctorList = async () => {
+      const data = await userMgmtContract.getDoctorIds();
+      console.log(data);
+      setDoctorList(data);
+    };
+
+    getpatient();
+    getDoctorList();
+
+  }, []);
+
+
   return (
     <div className="col-span-10">
       <div className=" px-12">
@@ -126,6 +191,7 @@ const PatientReports = (props) => {
                 <div className="grid grid-rows-2 ml-4 gap-2  mb-4">
                   <div className="mt-4 ml-4  font-bold font-poppins">
                     <h1 className="ml-2">
+                      {`${patient.name.firstName} ${patient.name.lastName}`}
                       {`${patient.name.firstName} ${patient.name.lastName}`}
                     </h1>
                   </div>
@@ -162,37 +228,31 @@ const PatientReports = (props) => {
                   </select>
                 </div>
 
-                <div className="lg:grid grid-cols-5 gap-2 mt-4 mr-4">
-                  <label className="font-bold lg:text-xl px-12 ">
-                    Doctor:
-                  </label>
 
-                  <input required type="text" placeholder="Reference Doctor" 
+              <div className="lg:grid grid-cols-5 gap-2 mt-4 mr-4">
+                <label className="font-bold lg:text-xl px-12 ">
+                  Select Doctor
+                </label>
+                <div className="">
+                  <select
+                    className="pl-4 lg:w-1/2 bg-blue-100 lg:h-10  rounded  h-8"
+                    id="blood-group"
                     value={report.doctorName}
                     onChange={(e) => {
                       let tempreport = { ...report };
                       tempreport.doctorName = e.target.value;
                       setReport(tempreport);
                     }}
-                    className="pl-4 bg-blue-100 lg:h-8  rounded h-8"
-                  ></input>
+                  >
+                    <option value="">Select an option</option>
+                      {doctorList.map((item, index) => (
+                        <option key={index} value={item}>
+                          {item}
+                        </option>
+                      ))}
+                  </select>
                 </div>
-
-                <div className="lg:grid grid-cols-5 gap-2 mt-4 mr-4">
-                  <label className="font-bold lg:text-xl px-12 ">
-                    Hospital:
-                  </label>
-
-                  <input required type="text" placeholder="Reference Hospital" 
-                    value={report.hospitalName}
-                    onChange={(e) => {
-                      let tempreport = { ...report };
-                      tempreport.hospitalName = e.target.value;
-                      setReport(tempreport);
-                    }}
-                    className="pl-4 bg-blue-100 lg:h-8  rounded h-8"
-                  ></input>
-                </div>
+              </div>
 
                 <div className="lg:grid grid-cols-5 gap-2 mt-4 mr-4">
                   <label className="font-bold lg:text-xl px-12 ">
