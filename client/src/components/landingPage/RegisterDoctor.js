@@ -9,6 +9,7 @@ const ethers = require("ethers")
 export default function RegisterDoctor(props) {
   const {userMgmtContract, setUserMgmtContract} = UserContractObj();
   const {fileMgmtContract, setFileMgmtContract} = FileContractObj();
+  const [metaAccount, setMetaAccount] = useState(''); // meta mask account
   const navigate = useNavigate();
   const [Loading, setLoading] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -33,7 +34,7 @@ export default function RegisterDoctor(props) {
     name: {
       firstName: "Hargun",
       middleName: "Jaspal",
-      surName: "Arneja",
+      lastName: "Arneja",
     },
     emergencyno: "9876564521",
     dob: "",
@@ -57,20 +58,8 @@ export default function RegisterDoctor(props) {
 
   useEffect(() => {
     const auth = async () => {
-      const res = await fetch("/auth");
-      const data = await res.json();
-      if (data.msg === "Doctor Login Found") {
-        navigate("/doctor/dashboard");
-      }
-      if (data.msg === "Hospital Login Found") {
-        navigate("/hospital/dashboard");
-      }
-      if (data.msg === "Admin Login Found") {
-        navigate("/admin/dashboard");
-      }
-      if (data.msg === "Patient Login Found") {
-        navigate("/patient/dashboard");
-      }
+      const acc = await userMgmtContract.retrive();
+      setMetaAccount(acc);
     };
     auth();
   });
@@ -119,12 +108,14 @@ export default function RegisterDoctor(props) {
   };
 
   return (
-    // <div className="lg:grid lg:grid-cols-4 lg:gap-2 mt-4 mr-4 grid grid-cols-4 gap-2">
     <div className="">
       <form onSubmit={handleRegisterDoctor} >
 
+            {metaAccount}
             <div class="grid grid-cols-4 gap-2 mt-4 mr-4">
+              
               <label class="font-bold lg:text-xl  font-poppins px-4 my-4 ">
+                
                 Doctor Name
               </label>
               <input
@@ -153,10 +144,10 @@ export default function RegisterDoctor(props) {
                 class="bg-blue-100 rounded h-10 pl-4 mt-4 "
                 required
                 placeholder="last name"
-                value={doctor.name.surName}
+                value={doctor.name.lastName}
                 onChange={(e) => {
                   let tempdoctor = { ...doctor };
-                  tempdoctor.name.surName = e.target.value;
+                  tempdoctor.name.lastName = e.target.value;
                   setDoctor(tempdoctor);
                 }}
               ></input>

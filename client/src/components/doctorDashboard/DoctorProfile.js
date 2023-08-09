@@ -14,32 +14,26 @@ import degree from "../../assets/img/dashboard/doctor-profile-degree.png";
 import home from "../../assets/img/dashboard/doctor-profile-home.png";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { UserContractObj, FileContractObj } from "../../GlobalData/GlobalContext";
+const ethers = require("ethers")
 
 const DoctorProfile = (props) => {
+  const {userMgmtContract, setUserMgmtContract} = UserContractObj();
+  const {fileMgmtContract, setFileMgmtContract} = FileContractObj();
   const navigate = useNavigate();
   const [doctor, setDoctor] = useState({
     name: {
       firstName: "",
       middleName: "",
-      surName: "",
-    },
-    org: "",
-    orgAddress: {
-      building: "",
-      city: "",
-      taluka: "",
-      district: "",
-      state: "",
-      pincode: "",
+      lastName: "",
     },
     emergencyno: "",
-    orgNumber: "",
     dob: "",
     mobile: "",
     email: "",
     adharCard: "",
     bloodGroup: "",
-    education: [{ degree: "" }],
+    education: "",
     address: {
       building: "",
       city: "",
@@ -48,9 +42,9 @@ const DoctorProfile = (props) => {
       state: "",
       pincode: "",
     },
-    specialization: [{ special: "" }],
+    specialization: {},
     password: "",
-    _id: "",
+    username: ""
   });
 
   const convertDatetoString = (dateString) => {
@@ -63,18 +57,12 @@ const DoctorProfile = (props) => {
 
   useEffect(() => {
     async function getdoctor() {
-      const res = await fetch("/getdoctor");
-      const data = await res.json();
-      if (data.AuthError) {
-        props.settoastCondition({
-          status: "info",
-          message: "Please Login to proceed!!!",
-        });
-        props.setToastShow(true);
-      } else {
-        setDoctor(data.doctor);
-      }
+      const data = await userMgmtContract.getDoctorInfo();
+      console.log(data);
+      var DoctorObj = JSON.parse(data);
+      setDoctor(DoctorObj);
     }
+    
     getdoctor();
   }, []);
 
@@ -96,7 +84,7 @@ const DoctorProfile = (props) => {
                 <h2 className="ml-2">Dr.</h2>
                 <h2 className="ml-2">{doctor.name.firstName}</h2>
                 <h2 className="ml-2">{doctor.name.middleName}</h2>
-                <h2 className="ml-2">{doctor.name.surName}</h2>
+                <h2 className="ml-2">{doctor.name.lastName}</h2>
               </div>
             </div>
             <div className="flex ml-8 mt-4">
@@ -130,19 +118,11 @@ const DoctorProfile = (props) => {
             </div>
             <div className="flex mt-4">
               <img src={degree} className="h-6 w-6" />
-              <h1 className="ml-4">
-                {doctor.education.map((i) => {
-                  return `${i.degree}  `;
-                })}
-              </h1>
+              
             </div>
             <div className="flex mt-4">
               <img src={speciality} className="h-6 w-6" />
-              <h1 className="ml-4">
-                {doctor.specialization.map((i) => {
-                  return `${i.special}  `;
-                })}
-              </h1>
+              
             </div>
           </div>
           <div className="p-8 m-2 bg-white shadow-md w-2/3 rounded-md mt-10">
@@ -169,7 +149,7 @@ const DoctorProfile = (props) => {
               <img src={address} className="h-7 w-8" />
               <div className="ml-4 ">
                 <h2>
-                  {`${doctor.orgAddress.building},  ${doctor.orgAddress.city},  ${doctor.orgAddress.taluka},  ${doctor.orgAddress.district},  ${doctor.orgAddress.state}-  ${doctor.orgAddress.pincode}`}
+                  {`${doctor.address.building},  ${doctor.address.city},  ${doctor.address.taluka},  ${doctor.address.district},  ${doctor.address.state}-  ${doctor.address.pincode}`}
                 </h2>
               </div>
             </div>
