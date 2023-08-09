@@ -5,6 +5,7 @@ const ethers = require("ethers")
 const UserContract = createContext();
 const FileContract = createContext();
 const MetaAccount = createContext();
+const PatientData = createContext();
 
 export function GlobalProvider({ children }) {                             //0xbFC514e76C71B37A8033DCB1ec2C12141051A596
     // const [userMgmtContractAddress, setuserMgmtContractAddress] = useState("0xbFC514e76C71B37A8033DCB1ec2C12141051A596");
@@ -15,6 +16,47 @@ export function GlobalProvider({ children }) {                             //0xb
     const [fileMgmtContract, setFileMgmtContract] = useState(null);
     const [provider, setProvider] = useState(null);
     const [modalOpen, setModalOpen] = useState(false);
+    const [patient, setPatient] = useState({
+        username: "",
+        passwordHash: "",
+        name: {
+            firstName: "",
+            middleName: "",
+            lastName: "",
+        },
+        dob: "",
+        mobile: "",
+        email: "",
+        adharCard: "",
+        abhaId: "",
+        bloodGroup: "",
+        patAddress: {
+            building: "",
+            city: "",
+            taluka: "",
+            district: "",
+            state: "",
+            pincode: "",
+        },
+        contactPerson: {
+            name: {
+                firstName: "",
+                middleName: "",
+                lastName: "",
+            },
+            mobile: "",
+            email: "",
+            relation: "",
+            conAddress: {
+                building: "",
+                city: "",
+                taluka: "",
+                district: "",
+                state: "",
+                pincode: "",
+            },
+        },
+    });
 
     useEffect(() => {
         const getAccount = async () => {
@@ -39,11 +81,11 @@ export function GlobalProvider({ children }) {                             //0xb
                         const signer = provider.getSigner();
                         const address = await signer.getAddress();
                         setMetaAccount(address);
-
+                        console.log(metaAccount);
                         const fileAbi = require("../components/landingPage/contracts/FileManagement.json");
                         const userAbi = require("../components/landingPage/contracts/UserManagement.json");
-                        let userMgmtContractAddress = "0x874463720706a3C45a496FF14c79BDcdC62e3c8e";
-                        let fileMgmtContractAddress = "0x0dAFF696d6EEd9FD0f46999DF322Fd8b34277964";
+                        let userMgmtContractAddress = "0x4d3A01c86Dbc34Fe09a822601abcC7e0019659A1";
+                        let fileMgmtContractAddress = "0x3c74A74348539928127AD57F1F37caDD9Fb409d6";
 
                         const userMgmtContract = new ethers.Contract(
                             userMgmtContractAddress,
@@ -84,14 +126,20 @@ export function GlobalProvider({ children }) {                             //0xb
     }, []);
 
     return (
-        <MetaAccount.Provider value = {{metaAccount, setMetaAccount}}>
-            <UserContract.Provider value={{ userMgmtContract, setUserMgmtContract}}>
+        <MetaAccount.Provider value={{ metaAccount, setMetaAccount }}>
+            <UserContract.Provider value={{ userMgmtContract, setUserMgmtContract }}>
                 <FileContract.Provider value={{ fileMgmtContract, setFileMgmtContract }}>
-                    {children}
+                    <PatientData.Provider value={{ patient, setPatient }}>
+                        {children}
+                    </PatientData.Provider>
                 </FileContract.Provider>
             </UserContract.Provider>
         </MetaAccount.Provider>
     );
+}
+
+export function PatientDataObj() {
+    return useContext(PatientData);
 }
 
 export function UserContractObj() {
@@ -102,6 +150,6 @@ export function FileContractObj() {
     return useContext(FileContract);
 }
 
-export function MetaAccountObj(){
+export function MetaAccountObj() {
     return useContext(MetaAccount);
 }

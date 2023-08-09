@@ -8,30 +8,13 @@
 			},
 			{
 				"internalType": "string",
-				"name": "url",
+				"name": "_typeofFile",
 				"type": "string"
 			},
 			{
-				"components": [
-					{
-						"internalType": "string",
-						"name": "url",
-						"type": "string"
-					},
-					{
-						"internalType": "string",
-						"name": "typeOfFile",
-						"type": "string"
-					},
-					{
-						"internalType": "string",
-						"name": "uploadDate",
-						"type": "string"
-					}
-				],
-				"internalType": "struct FileManagement.FileDetails",
-				"name": "fileDetails",
-				"type": "tuple"
+				"internalType": "string",
+				"name": "_fileDetails",
+				"type": "string"
 			}
 		],
 		"name": "addFile",
@@ -45,6 +28,11 @@
 				"internalType": "address",
 				"name": "_user",
 				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "_typeofFile",
+				"type": "string"
 			}
 		],
 		"name": "displayFiles",
@@ -66,6 +54,57 @@
 				"type": "address"
 			}
 		],
+		"name": "displayReqAcess",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "address",
+						"name": "doctor",
+						"type": "address"
+					},
+					{
+						"internalType": "string",
+						"name": "doctorName",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "hospital",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "speciality",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "typeOfFile",
+						"type": "string"
+					}
+				],
+				"internalType": "struct FileManagement.ReqAccessDocDetails[]",
+				"name": "",
+				"type": "tuple[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_user",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "_typeofFile",
+				"type": "string"
+			}
+		],
 		"name": "giveAccess",
 		"outputs": [],
 		"stateMutability": "nonpayable",
@@ -77,36 +116,43 @@
 				"internalType": "address",
 				"name": "_user",
 				"type": "address"
-			}
-		],
-		"name": "revokeAccess",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "shareAccessList",
-		"outputs": [
+			},
 			{
 				"components": [
 					{
 						"internalType": "address",
-						"name": "user",
+						"name": "doctor",
 						"type": "address"
 					},
 					{
-						"internalType": "bool",
-						"name": "hasAccess",
-						"type": "bool"
+						"internalType": "string",
+						"name": "doctorName",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "hospital",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "speciality",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "typeOfFile",
+						"type": "string"
 					}
 				],
-				"internalType": "struct FileManagement.FileAccess[]",
-				"name": "",
-				"type": "tuple[]"
+				"internalType": "struct FileManagement.ReqAccessDocDetails",
+				"name": "reqAccessDocDetails",
+				"type": "tuple"
 			}
 		],
-		"stateMutability": "view",
+		"name": "reqAccess",
+		"outputs": [],
+		"stateMutability": "nonpayable",
 		"type": "function"
 	}
 ]

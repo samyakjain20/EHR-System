@@ -5,7 +5,7 @@ import Footer from "../components/landingPage/Footer";
 import eye from "../assets/img/dashboard/eye.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { UserContractObj, FileContractObj } from "../GlobalData/GlobalContext";
+import { UserContractObj, FileContractObj, PatientDataObj } from "../GlobalData/GlobalContext";
 const ethers = require("ethers")
 
 
@@ -15,48 +15,7 @@ const PatientDashboard = (props) => {
   const {userMgmtContract, setUserMgmtContract} = UserContractObj();
   const {fileMgmtContract, setFileMgmtContract} = FileContractObj();
   const [dob, setDob] = useState("");
-  const [patient, setPatient] = useState({
-    username: "",
-    passwordHash: "",
-    name: {
-      firstName: "",
-      middleName: "",
-      lastName: "",
-    },
-    dob: "",
-    mobile: "",
-    email: "",
-    adharCard: "",
-    abhaId: "",
-    bloodGroup: "",
-    patAddress: {
-      building: "",
-      city: "",
-      taluka: "",
-      district: "",
-      state: "",
-      pincode: "",
-    },
-    contactPerson: {
-      name: {
-        firstName: "",
-        middleName: "",
-        lastName: "",
-      },
-      mobile: "",
-      email: "",
-      relation: "",
-      conAddress: {
-        building: "",
-        city: "",
-        taluka: "",
-        district: "",
-        state: "",
-        pincode: "",
-      },
-    },
-  });
-
+  const {patient, setPatient} = PatientDataObj();
   const [prescriptions, setPrescriptions] = useState([{}]);
 
   const convertDatetoString = (dateString) => {
@@ -75,7 +34,7 @@ const PatientDashboard = (props) => {
       setPatient(patientObj);
     }
     getpatient();
-  }, [dob]);
+  }, []);
 
 
   return (

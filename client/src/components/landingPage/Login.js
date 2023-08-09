@@ -188,8 +188,8 @@ export default function Login(props) {
 
           const fileAbi = require("../../components/landingPage/contracts/FileManagement.json");
           const userAbi = require("../../components/landingPage/contracts/UserManagement.json");
-          let userMgmtContractAddress = "0x874463720706a3C45a496FF14c79BDcdC62e3c8e";
-          let fileMgmtContractAddress = "0x0dAFF696d6EEd9FD0f46999DF322Fd8b34277964";
+          let userMgmtContractAddress = "0x4d3A01c86Dbc34Fe09a822601abcC7e0019659A1";
+          let fileMgmtContractAddress = "0x3c74A74348539928127AD57F1F37caDD9Fb409d6";
 
           const userMgmtContract = new ethers.Contract(
             userMgmtContractAddress,
