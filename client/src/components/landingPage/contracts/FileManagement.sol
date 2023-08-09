@@ -9,6 +9,7 @@ contract FileManagement {
         bool hasAccess;
     }
 
+    // not using anywhere, storing as string, just for our reference
     struct ReqAccessDocDetails {
         address doctor;
         string doctorName;
@@ -17,12 +18,14 @@ contract FileManagement {
         string typeOfFile;
     }
 
+    // not using anywhere, storing as string, just for our reference
     struct FileDetails {
         string url;
         string typeOfFile;
         string hospitalName;
         string doctorName;
         string uploadDate;
+        string description;
     }
     // mapping(string=>string) allFiles; // fileUrl => fileData
     // address to filedetails(string) mappings
@@ -35,9 +38,12 @@ contract FileManagement {
     mapping(address=>mapping(address=>mapping(string=>bool))) ownership; // owner1 given access to owner2 of "xyz" type of files
     mapping(address=>mapping(address=>mapping(string=>bool))) previousData;
 
-    mapping(address=>ReqAccessDocDetails[]) ReqAccessList; // [owner][typeOfFile] = [...addresses]
+    mapping(address=>string[]) ReqAccessList; // [owner] => [...ReqAccessDocDetails]
 
-    function addFile(address _user, string calldata _typeofFile, string memory _fileDetails) external {
+    event FileAdded(address indexed user, string _typeofFile);
+
+    function addFile(string calldata _typeofFile, string memory _fileDetails) external {
+        address _user = msg.sender;
         if(keccak256(abi.encodePacked(_typeofFile)) == keccak256(abi.encodePacked("LabReport")) ){
             LabList[_user].push(_fileDetails);
         }
@@ -59,6 +65,8 @@ contract FileManagement {
         });
         fileAccessList[_user].push(file);
         ownership[_user][_user][_typeofFile] = true;
+        
+        emit FileAdded(_user, _typeofFile);
     }
     
     function giveAccess(address _user, string memory _typeofFile) external {
@@ -78,11 +86,11 @@ contract FileManagement {
         }
     }
 
-    function reqAccess(address _user, ReqAccessDocDetails memory reqAccessDocDetails ) external {
+    function reqAccess(address _user, string memory reqAccessDocDetails ) external {
         ReqAccessList[_user].push(reqAccessDocDetails);
     }
 
-    function displayReqAcess(address _user) external view returns (ReqAccessDocDetails[] memory) {
+    function displayReqAcess(address _user) external view returns (string[] memory) {
         return ReqAccessList[_user];
     }
 
@@ -96,8 +104,9 @@ contract FileManagement {
     //     }
     // }
 
-    function displayFiles(address _user, string memory _typeofFile) external returns (string[] memory) {
-        require(_user == msg.sender || ownership[_user][msg.sender][_typeofFile], "You do not have access to the files!");
+    function displayFiles(string memory _typeofFile) public view returns (string[] memory) {
+        address _user = msg.sender;
+         require(_user == msg.sender || ownership[_user][msg.sender][_typeofFile], "You do not have access to the files!");
         // return fileList[_user];
         if(keccak256(abi.encodePacked(_typeofFile)) == keccak256(abi.encodePacked("LabReport"))){
             return LabList[_user];
@@ -111,22 +120,22 @@ contract FileManagement {
         else if(keccak256(abi.encodePacked(_typeofFile)) == keccak256(abi.encodePacked("Vaccination"))){
             return VaccniationList[_user];
         }
-        else if(keccak256(abi.encodePacked(_typeofFile)) == keccak256(abi.encodePacked("All"))){
-            string[] storage allFileList = VaccniationList[_user];
+        else {
+            // string[] storage allFileList = VaccniationList[_user];
+            uint256 len = VaccniationList[_user].length + LabList[_user].length + DischargeList[_user].length + DiagonsticsList[_user].length;
+            string[] memory allFileList = new string[](len);
+            uint256 index = 0;
             for(uint i=0; i < LabList[_user].length; i++)
-                allFileList.push(LabList[_user][i]);
+                allFileList[index++] = LabList[_user][i];
 
             for(uint i=0; i < DischargeList[_user].length; i++)
-                allFileList.push(DischargeList[_user][i]);
+                allFileList[index++] = DischargeList[_user][i];
 
             for(uint i=0; i < DiagonsticsList[_user].length; i++)
-                allFileList.push(DiagonsticsList[_user][i]);
+                allFileList[index++] = DiagonsticsList[_user][i];
+
             return allFileList;
         }
 
     }
-
-    // function shareAccessList() public view returns (FileAccess[] memory) {
-    //     return fileAccessList[msg.sender];
-    // }
 }
