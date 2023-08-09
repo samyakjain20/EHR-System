@@ -4,6 +4,7 @@ import PatientHistoryCompo from "./PatientHistoryCompo";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import ConsentManagerComp from "./consentManagerComp";
+import { UserContractObj, FileContractObj, MetaAccountObj, PatientDataObj } from "../../GlobalData/GlobalContext";
 
 const ConsentManager = (props) => {
   const navigate = useNavigate();
@@ -54,12 +55,16 @@ const ConsentManager = (props) => {
     let year = date.getFullYear();
     return `${day}/${month}/${year}`;
   };
+
+  const { fileMgmtContract, setFileMgmtContract } = FileContractObj();
+  const { metaAccount, setMetaAccount } = MetaAccountObj();
   
   useEffect(() => {
     async function getAllConsents() {
-      const res = await fetch("/getAllConsents");
-
+      
     }
+
+    getAllConsents();
   }, []);
 
   return (

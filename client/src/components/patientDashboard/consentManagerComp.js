@@ -39,14 +39,14 @@ const ConsentManagerComp = (props) => {
       </div>
 
       <div>
-        <button onClick = {rejectConsentReq} class="bg-red-500 text-white font-sm py-1 px-3 mx-1 rounded inline-flex items-center">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+        <button onClick = {rejectConsentReq} className="bg-red-500 text-white font-sm py-1 px-3 mx-1 rounded inline-flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
         
-        <button onClick = {acceptConsentReq} class="bg-green-500 text-white py-1 px-3 mx-1 rounded inline-flex items-center">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+        <button onClick = {acceptConsentReq} className="bg-green-500 text-white py-1 px-3 mx-1 rounded inline-flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
             <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
           </svg>
         </button>  
