@@ -7,7 +7,7 @@ import eye from "../assets/img/dashboard/eye.png";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import ReactLoading from "react-loading";
-import { UserContractObj, FileContractObj, MetaAccountObj } from "../../GlobalData/GlobalContext";
+import { UserContractObj, FileContractObj, MetaAccountObj } from "../GlobalData/GlobalContext";
 const ethers = require("ethers")
 
 const DoctorDashboard = (props) => {
@@ -123,8 +123,8 @@ const DoctorDashboard = (props) => {
     e.preventDefault();
     try {
       const reqAcessDetailsData = reqAccessDetails;
-      reqAcessData.typeofFile = typeOfFile;
-      const reqData = JSON.stringify(reqAcessData);
+      reqAcessDetailsData.typeofFile = typeOfFile;
+      const reqData = JSON.stringify(reqAcessDetailsData);
       console.log("reqAcess data sent: ", reqData)
       const data = await fileMgmtContract.reqAccess(metaAccount, reqData);
       if (data.errors) {

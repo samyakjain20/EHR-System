@@ -50,9 +50,9 @@ contract FileManagement {
             DiagonsticsList[_user].push(_fileDetails);
         }
         else if(keccak256(abi.encodePacked(_typeofFile)) == keccak256(abi.encodePacked("DischargeReport"))){
-            DiagonsticsList[_user].push(_fileDetails);
+            DischargeList[_user].push(_fileDetails);
         }
-        else if(keccak256(abi.encodePacked(_typeofFile)) == keccak256(abi.encodePacked("vaccination"))){
+        else if(keccak256(abi.encodePacked(_typeofFile)) == keccak256(abi.encodePacked("PrescriptionReport"))){
             VaccniationList[_user].push(_fileDetails);
         }
 
@@ -113,9 +113,9 @@ contract FileManagement {
             return DiagonsticsList[_user];
         }
         else if(keccak256(abi.encodePacked(_typeofFile)) == keccak256(abi.encodePacked("DischargeReport"))){
-            return DiagonsticsList[_user];
+            return DischargeList[_user];
         }
-        else if(keccak256(abi.encodePacked(_typeofFile)) == keccak256(abi.encodePacked("Vaccination"))){
+        else if(keccak256(abi.encodePacked(_typeofFile)) == keccak256(abi.encodePacked("PrescriptionReport"))){
             return VaccniationList[_user];
         }
         else {
