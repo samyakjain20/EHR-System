@@ -36,7 +36,7 @@ const PatientReports = (props) => {
     try {
       const formData = new FormData();
       formData.append("file", fileList[0]);
-      console.log("form: ", formData);
+      // console.log("form: ", formData);
 
       const resFile = await axios({
         method: "post",
@@ -50,17 +50,18 @@ const PatientReports = (props) => {
       });
 
       const fileUrl = `https://gateway.pinata.cloud/ipfs/${resFile.data.IpfsHash}`;
-      
+      console.log(fileUrl);      
       const reportData = report;
       reportData.url = fileUrl;
       let fileDetails = JSON.stringify(reportData);
       const data = await fileMgmtContract.addFile(report.recordType, fileDetails);
-
+      console.log(data);
       const retrieveFiles = await fileMgmtContract.displayFiles(report.recordType);
       console.log("retrieve files: ", retrieveFiles.toString());
 
       if (data.errors) {
         setUploading(false);
+        console.log(data.errors);
         props.settoastCondition({
           status: "error",
           message: "Report Upload failed, check network!",
@@ -75,7 +76,7 @@ const PatientReports = (props) => {
           message: "Report uploaded Successfully!",
         });
         props.setToastShow(true);
-        navigate("/patient/");
+        navigate("/patient/dashboard");
       }
 
     } catch (error) {
