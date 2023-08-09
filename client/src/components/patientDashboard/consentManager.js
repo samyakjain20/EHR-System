@@ -71,7 +71,7 @@ const ConsentManager = (props) => {
     <div className="col-span-10">
       <div className=" px-12">
         <div className="h-screen">
-          <div className="font-poppins   mainf">
+          <div className="   mainf">
             <Link to="/patient/profile">
               <div className="flex bg-white rounded shadow  px-4   ml-auto h-14 w-1/5 mr-8 mt-8">
                 <img
@@ -80,7 +80,7 @@ const ConsentManager = (props) => {
                   alt="profile"
                 ></img>
                 <div className="grid grid-rows-2 ml-4 gap-2  mb-4">
-                  <div className="mt-4 ml-4  font-bold font-poppins">
+                  <div className="mt-4 ml-4  font-bold ">
                     <h1 className="ml-2">
                       {`${patient.name.firstName} ${patient.name.surName}`}
                     </h1>

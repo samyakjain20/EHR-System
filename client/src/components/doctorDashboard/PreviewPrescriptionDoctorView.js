@@ -105,7 +105,7 @@ const PreviewPrescriptionDoctorView = (props) => {
 
   return (
     <div
-      className="body h-screen col-span-10 font-poppins   overflow-y-scroll scroll-m-0"
+      className="body h-screen col-span-10    overflow-y-scroll scroll-m-0"
       id="prescription"
     >
       <div className="w-3/4  ml-32 bg-white shadow-xl p-8 mb-4 mt-6">

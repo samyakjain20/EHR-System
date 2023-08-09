@@ -120,8 +120,8 @@ export default function RegisterLab(props) {
       <form onSubmit={handleRegisterLab} >
 
             {metaAccount}
-            <div className="grid grid-cols-4 gap-2 mt-4 mr-4">
-              <label className="font-bold lg:text-xl  font-poppins px-4 my-4 ">
+            <div class="grid grid-cols-4 gap-2 mt-4 mr-4">
+              <label class="font-semibold lg:text-lg   px-4 my-4 ">
                 Lab Name
               </label>
               <input
@@ -137,8 +137,8 @@ export default function RegisterLab(props) {
               ></input>
             </div>
             
-            <div className="grid grid-cols-4 gap-2 mt-4 mr-4">
-              <label className="font-bold lg:text-xl  px-4 ">Contact No. </label>
+            <div class="grid grid-cols-4 gap-2 mt-4 mr-4">
+              <label class="font-semibold lg:text-lg  px-4 ">Contact No. </label>
 
               <input
                 type="tel"
@@ -154,8 +154,8 @@ export default function RegisterLab(props) {
               ></input>
             </div>
 
-            <div className="grid grid-cols-4 gap-2 mt-4 mr-4">
-              <label className="  lg:text-xl  font-bold px-4">Contact Email</label>
+            <div class="grid grid-cols-4 gap-2 mt-4 mr-4">
+              <label class="  lg:text-xl  font-bold px-4">Contact Email</label>
               <input
                 type="email"
                 id="email"
@@ -172,8 +172,8 @@ export default function RegisterLab(props) {
             </div>
 
 
-            <div className="grid grid-cols-4 gap-2 mt-4 mr-4 grid-flow-dense ">
-              <label className=" lg:text-xl  font-bold px-4 mb-8 col-span-1">
+            <div class="grid grid-cols-4 gap-2 mt-4 mr-4 grid-flow-dense ">
+              <label class=" lg:text-xl  font-bold px-4 mb-8 col-span-1">
                 Address
               </label>
               <div className="grid grid-cols-2 gap-4 col-span-3 ">
@@ -251,8 +251,8 @@ export default function RegisterLab(props) {
               </div>
             </div>
 
-            <div className="grid grid-cols-4 gap-2  mr-4 mt-5">
-              <label className=" lg:text-xl  font-bold px-4 grid col-start-1 col-span-1">
+            <div class="grid grid-cols-4 gap-2  mr-4 mt-5">
+              <label class=" lg:text-xl  font-bold px-4 grid col-start-1 col-span-1">
                 Specility
               </label>
               <div className=" ">
@@ -277,7 +277,7 @@ export default function RegisterLab(props) {
                     <div className="flex  ml-4">
                       {index === 0 ? (
                         <div
-                          className=" m-2 h-10 w-16 mt-0 ml-4  font-poppins font-semibold cursor-pointer "
+                          className=" m-2 h-10 w-16 mt-0 ml-4   font-semibold cursor-pointer "
                           onClick={handelSpecialityAdd}
                         >
                           <img
@@ -291,7 +291,7 @@ export default function RegisterLab(props) {
                       )}
 
                       <div
-                        className=" m-2 h-10 w-20 mt-0 font-poppins font-semibold cursor-pointer "
+                        className=" m-2 h-10 w-20 mt-0  font-semibold cursor-pointer "
                         onClick={() => {
                           if (SpecialityList.length > 1) {
                             let SpecialityList1 = [...SpecialityList];
@@ -315,8 +315,8 @@ export default function RegisterLab(props) {
               </div>
             </div>
 
-            <div className="grid grid-cols-4 gap-2 mt-4 mr-4">
-                <label className="  lg:text-xl font-bold px-4">
+            <div className="grid grid-cols-4 gap-2 mr-4 mb-4">
+                <label className="  lg:text-lg font-semibold px-4">
                   Select Hospital
                 </label>
                 <div className="">
@@ -340,8 +340,8 @@ export default function RegisterLab(props) {
                 </div>
               </div>
 
-            <div className="grid grid-cols-4 gap-2 mr-4">
-              <label type="password" className="lg:text-xl  font-bold px-4">
+            <div class="grid grid-cols-4 gap-2 mr-4">
+              <label type="password" class="  lg:text-xl  font-bold px-4">
                 Password
               </label>
               <input
@@ -359,8 +359,8 @@ export default function RegisterLab(props) {
               ></input>
             </div>
 
-            <div className="grid grid-cols-4 gap-2 mt-4 mr-4">
-              <label type="password" className=" lg:text-xl  font-bold px-4">
+            <div class="grid grid-cols-4 gap-2 mt-4 mr-4">
+              <label type="password" class=" lg:text-xl  font-bold px-4">
                 Confirm Password
               </label>
               <input
@@ -384,7 +384,7 @@ export default function RegisterLab(props) {
                   width={"5%"}
                 />
               ) : (
-                <button className="bg-primary rounded p-2 px-8 font-bold text-xl hover:bg-bgsecondary mb-4 ">
+                <button className="bg-primary rounded p-2 px-8 font-semibold text-xl hover:bg-bgsecondary mb-4 ">
                   Submit
                 </button>
               )}

@@ -26,12 +26,10 @@ const PatientProfileSideBar = (props) => {
       <div className="side_bar bg-white shadow col-span-2">
         <div className="flex m-2 mt-4  ">
           <div className="logo m-2  ">
-            <img src={logo} className="w-16" alt="logo"></img>
-          </div>
-          <div className="heading font-poppins font-bold text-m  ">
             <Link to="/">
-              <h1>Public health Record System</h1>
+              <img src={logo} className="w-32" alt="logo"></img>
             </Link>
+            
           </div>
         </div>
         <nav>
@@ -46,7 +44,7 @@ const PatientProfileSideBar = (props) => {
               <div className="w-6 ml-4  ">
                 <img src={dashboard} alt="dashboard"></img>
               </div>
-              <div className="font-poppins font-bold ml-4">
+              <div className=" font-bold ml-4">
                 <h1>Dashboard</h1>
               </div>
             </div>
@@ -61,15 +59,15 @@ const PatientProfileSideBar = (props) => {
               <div className="w-6 ml-4  ">
                 <img src={reports} alt="reports"></img>
               </div>
-              <div className="font-poppins font-bold ml-4">
+              <div className=" font-bold ml-4">
                 <h1>Add Report</h1>
               </div>
             </div>
           </Link>
 
           <div className="p-4">
-            <h1 className="font-poppins font-bold text-xl mt-4">Main menu</h1>
-            <div className="grid grid-rows-2 gap-4 font-bold font-poppins mt-4">
+            <h1 className=" font-bold text-xl mt-4">Main menu</h1>
+            <div className="grid grid-rows-2 gap-4 font-bold  mt-4">
               <Link
                 to="/patient/prescriptions"
                 onClick={() => setToggle("Patient_Prescriptions")}
@@ -168,7 +166,7 @@ const PatientProfileSideBar = (props) => {
           </div>
         </nav>
 
-        <div className=" mx-auto py-1  mt-24  bg-primary  rounded font-semibold font-poppins shadow-sm hover:bg-bgsecondary w-2/5  ">
+        <div className=" mx-auto py-1  mt-24  bg-primary  rounded font-semibold  shadow-sm hover:bg-bgsecondary w-2/5  ">
           <button className="font-bold  flex items-center" onClick={logout}>
             <img src={logoutimg} className="h-4 px-2 " alt="logout"></img>logout
           </button>

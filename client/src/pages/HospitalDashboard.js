@@ -38,7 +38,7 @@ const HospitalDashboard = (props) => {
             <div className="flex  h-12 m-2 bg-bgprimary rounded ml-6 ">
               <Link to="/AdminDash">
                 <div>
-                  <h1 className="text-2xl font-poppins font-bold p-2 ">
+                  <h1 className="text-2xl  font-bold p-2 ">
                     DashBoard Today
                   </h1>
                 </div>
@@ -64,7 +64,7 @@ const HospitalDashboard = (props) => {
                   className="h-12 my-1  p-1 rounded-2xl"
                   alt="profile"
                 ></img>
-                <div className="flex items-center ml-4  font-bold font-poppins">
+                <div className="flex items-center ml-4  font-bold ">
                   <h1>{adminEmail} </h1>
                 </div>
               </div>

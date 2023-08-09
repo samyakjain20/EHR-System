@@ -10,17 +10,18 @@ export default function LandingPage(props) {
       <Navbar></Navbar>
 
       <div className="body lg:flex px-16 w-full lg:h-5/6 ">
-        <img
-          src={Vector}
-          alt="Graphics"
-          className="lg:w-1/2 h-full lg:my-auto lg:mx-auto mt-24"
-        />
-        <div className="lg:ml-auto lg:w-1/2 w-screen">
+      <div className="lg:ml-auto lg:w-1/2 w-screen mr-30 pb-6">
           <Login
             setToastShow={props.setToastShow}
             settoastCondition={props.settoastCondition}
           ></Login>
         </div>
+        <img
+          src={Vector}
+          alt="Graphics"
+          className="lg:w-1/2 h-full lg:my-auto lg:mx-auto mt-10 pt-5"
+        />
+        
       </div>
       <div className="mt-auto relative -bottom-0">
         <Footer></Footer>

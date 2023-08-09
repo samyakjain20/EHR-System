@@ -160,7 +160,7 @@ const DoctorDashboard = (props) => {
           <div className="">
             <div className="flex  h-12 m-2 bg-bgprimary rounded mt-4 ">
               <div>
-                <h1 className="text-2xl font-poppins font-bold p-2 ">
+                <h1 className="text-2xl  font-bold p-2 ">
                   My Dashboard
                 </h1>
               </div>
@@ -183,7 +183,7 @@ const DoctorDashboard = (props) => {
                     alt="profile"
                   ></img>
                   <div className="grid grid-rows-2 ml-4 gap-2  mb-4">
-                    <div className="font-bold font-poppins text-base">
+                    <div className="font-bold  text-base">
                       <h1 className="">
                         {`Dr. ${doctor.name.firstName} ${doctor.name.lastName}`}
                       </h1>
@@ -203,7 +203,7 @@ const DoctorDashboard = (props) => {
             className="grid grid-cols-9 bg-white rounded p-4 ml-12 mr-8 mt-4 shadow"
           >
             <div className="grid col-start-1 col-span-3">
-              <h1 className="text-xl font-poppins font-bold p-2 ">
+              <h1 className="text-xl  font-bold p-2 ">
                 Search Patient By Health Id :
               </h1>
             </div>
@@ -228,19 +228,19 @@ const DoctorDashboard = (props) => {
                 />
               </div>
             ) : (
-              <div className=" grid col-start-8  h-10 ml-4  bg-primary  rounded font-semibold font-poppins shadow-sm hover:bg-bgsecondary  ">
+              <div className=" grid col-start-8  h-10 ml-4  bg-primary  rounded font-semibold  shadow-sm hover:bg-bgsecondary  ">
                 <div className="flex py-2 px-4 items-center ">
                   <img src={search} className=" h-4  " alt="search"></img>
-                  <button className="ml-2 flex  rounded font-semibold font-poppins shadow-sm hover:bg-bgsecondary   ">
+                  <button className="ml-2 flex  rounded font-semibold  shadow-sm hover:bg-bgsecondary   ">
                     Search
                   </button>
                 </div>
               </div>
             )}
-            <div className="grid col-start-9  h-10 ml-4  bg-primary  rounded font-semibold font-poppins shadow-sm hover:bg-bgsecondary  ">
+            <div className="grid col-start-9  h-10 ml-4  bg-primary  rounded font-semibold  shadow-sm hover:bg-bgsecondary  ">
               <div className="flex py-2 px-4 items-center ">
                 <div
-                  className="ml-2 flex cursor-pointer rounded font-semibold font-poppins shadow-sm hover:bg-bgsecondary "
+                  className="ml-2 flex cursor-pointer rounded font-semibold  shadow-sm hover:bg-bgsecondary "
                   onClick={() => {
                     props.setHealthID("");
                   }}
@@ -255,11 +255,11 @@ const DoctorDashboard = (props) => {
             <div className="grid grid-cols-2">
               <div className="m-4 p-4">
                 <div>
-                  <h1 className="font-bold font-poppins text-xl ">
+                  <h1 className="font-bold  text-xl ">
                     Patient Details
                   </h1>
                 </div>
-                <div className="bg-white font-poppins p-4 mt-4 px-8 rounded-xl shadow">
+                <div className="bg-white  p-4 mt-4 px-8 rounded-xl shadow">
                   <div className="flex">
                     <div>
                       <h1>Name : </h1>
@@ -295,12 +295,12 @@ const DoctorDashboard = (props) => {
               {/* recent health check up start */}
               <div className="m-4 p-4 ">
                 <div>
-                  <h1 className="font-bold font-poppins text-xl ">
+                  <h1 className="font-bold  text-xl ">
                     Recent Health Checkup
                   </h1>
                 </div>
                 {prescriptions.length > 0 ? (
-                  <div className="bg-white mt-4 font-poppins p-4 rounded-xl shadow px-8">
+                  <div className="bg-white mt-4  p-4 rounded-xl shadow px-8">
                     <div className="flex ">
                       <div>
                         <h1>Consultant Doctor :</h1>
@@ -333,7 +333,7 @@ const DoctorDashboard = (props) => {
                         props.setPrescriptionID(prescriptions[0]._id);
                       }}
                     >
-                      <div className=" mt-2 flex items-center justify-evenly text-base bg-primary py-1 px-2 rounded font-semibold font-poppins shadow-sm hover:bg-bgsecondary w-5/12  ">
+                      <div className=" mt-2 flex items-center justify-evenly text-base bg-primary py-1 px-2 rounded font-semibold  shadow-sm hover:bg-bgsecondary w-5/12  ">
                         <img src={reports} className="h-4" alt="report"></img>
 
                         <button className=" font-semibold pl-1">
@@ -343,7 +343,7 @@ const DoctorDashboard = (props) => {
                     </Link>
                   </div>
                 ) : (
-                  <div className="bg-white mt-4 font-poppins p-4 rounded-xl shadow px-8 flex justify-center font-bold">
+                  <div className="bg-white mt-4  p-4 rounded-xl shadow px-8 flex justify-center font-bold">
                     {" "}
                     No Data Found...{" "}
                   </div>
@@ -359,13 +359,13 @@ const DoctorDashboard = (props) => {
           )}
 
           {Object.keys(patient).length !== 0 ? (
-            <div className="font-poppins m-4  ">
+            <div className=" m-4  ">
               <div className="flex justify-between m-8">
                 <div className="font-bold text-xl ml-4">
                   <h1>Patient Dashboard</h1>
                 </div>
                 <Link to="/doctor/addDiagno">
-                  <div className=" flex  bg-primary pl-0 pr-3 py-1 items-center justify-items-center  rounded font-semibold font-poppins shadow-sm hover:bg-bgsecondary   ">
+                  <div className=" flex  bg-primary pl-0 pr-3 py-1 items-center justify-items-center  rounded font-semibold  shadow-sm hover:bg-bgsecondary   ">
                     <img
                       src={add_pre_logo}
                       className="h-3 mx-3"
@@ -415,7 +415,7 @@ const DoctorDashboard = (props) => {
                               props.setPrescriptionID(prescription._id)
                             }
                           >
-                            <div className=" flex  justify-center bg-primary py-1 px-3 rounded font-semibold font-poppins shadow-sm hover:bg-bgsecondary w-2/5   ">
+                            <div className=" flex  justify-center bg-primary py-1 px-3 rounded font-semibold  shadow-sm hover:bg-bgsecondary w-2/5   ">
                               <img
                                 src={eye}
                                 className="h-4 my-auto"

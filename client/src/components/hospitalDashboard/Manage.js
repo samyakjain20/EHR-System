@@ -110,7 +110,7 @@ export default function Manage(props) {
         <div className="addDoctor ">
           <form onSubmit={addDoctor} className="grid grid-cols-9 lg:my-8 sm:my-2">
             <div className="grid col-start-1 col-span-3">
-              <h1 className="text-xl font-poppins font-bold p-2 ">
+              <h1 className="text-xl  font-bold p-2 ">
                 Enter Abha ID to Add Doctor :
               </h1>
             </div>
@@ -129,7 +129,7 @@ export default function Manage(props) {
             </div>
             
             
-            <div className="grid col-span-2 lg:mx-10 bg-primary rounded font-semibold font-poppins shadow-sm hover:bg-bgsecondary">
+            <div className="grid col-span-2 lg:mx-10 bg-primary rounded font-semibold  shadow-sm hover:bg-bgsecondary">
               <button className="font-bold flex items-center px-2"> Add Doctor</button>
             </div>
           </form>
@@ -139,7 +139,7 @@ export default function Manage(props) {
         <div className="addLab">
           <form onSubmit={addDoctor}  className="grid grid-cols-9 lg:my-8 sm:my-2" >
             <div className="grid col-start-1 col-span-3">
-              <h1 className="text-xl font-poppins font-bold p-2 ">
+              <h1 className="text-xl  font-bold p-2 ">
                 Enter Wallet ID of Laboratory:
               </h1>
             </div>
@@ -158,7 +158,7 @@ export default function Manage(props) {
             </div>
             
             
-            <div className="grid col-span-2 lg:mx-10 bg-primary rounded font-semibold font-poppins shadow-sm hover:bg-bgsecondary">
+            <div className="grid col-span-2 lg:mx-10 bg-primary rounded font-semibold  shadow-sm hover:bg-bgsecondary">
               <button className="font-bold flex items-center px-2"> Add Laboratory</button>
             </div>
           </form>
@@ -172,7 +172,7 @@ export default function Manage(props) {
         <div className="addDoctor ">
           <form onSubmit={addDoctor} className="grid grid-cols-9 lg:my-8 sm:my-2">
             <div className="grid col-start-1 col-span-3">
-              <h1 className="text-xl font-poppins font-bold p-2 ">
+              <h1 className="text-xl  font-bold p-2 ">
                 Enter Abha ID to Add Doctor :
               </h1>
             </div>
@@ -191,7 +191,7 @@ export default function Manage(props) {
             </div>
             
             
-            <div className="grid col-span-2 lg:mx-10 bg-red-500 rounded font-semibold font-poppins shadow-sm hover:bg-bgsecondary">
+            <div className="grid col-span-2 lg:mx-10 bg-red-500 rounded font-semibold  shadow-sm hover:bg-bgsecondary">
               <button className="font-bold flex items-center px-2 text-white"> Remove Doctor</button>
             </div>
           </form>
@@ -201,7 +201,7 @@ export default function Manage(props) {
         <div className="addLab">
           <form onSubmit={addDoctor}  className="grid grid-cols-9 lg:my-8 sm:my-2" >
             <div className="grid col-start-1 col-span-3">
-              <h1 className="text-xl font-poppins font-bold p-2 ">
+              <h1 className="text-xl  font-bold p-2 ">
                 Enter Wallet ID of Laboratory:
               </h1>
             </div>
@@ -220,7 +220,7 @@ export default function Manage(props) {
             </div>
             
             
-            <div className="grid col-span-2 lg:mx-10 bg-red-500 rounded font-semibold font-poppins shadow-sm hover:bg-bgsecondary">
+            <div className="grid col-span-2 lg:mx-10 bg-red-500 rounded font-semibold  shadow-sm hover:bg-bgsecondary">
               <button className="font-bold flex items-center px-2 text-white"> Remove Laboratory</button>
             </div>
           </form>

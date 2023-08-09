@@ -248,7 +248,7 @@ const AddNewDiagnosis = (props) => {
     return `${day}/${month}/${year}`;
   };
   return (
-    <div className="font-poppins col-span-10 overflow-y-scroll">
+    <div className=" col-span-10 overflow-y-scroll">
       <div className=" lg:min-h-screen lg:grid grid-cols-6  ">
         <div className=" col-start-1 col-span-6 ml-8">
           <h1 className="font-bold lg:text-2xl my-6 ml-6  ">
@@ -373,7 +373,7 @@ const AddNewDiagnosis = (props) => {
                     ></input>
                     <div className="flex ml-3">
                       <div
-                        className=" m-2 h-8 w-16 mt-0  font-poppins font-semibold cursor-pointer "
+                        className=" m-2 h-8 w-16 mt-0   font-semibold cursor-pointer "
                         onClick={handleAddChiefComplaint}
                       >
                         <img
@@ -384,7 +384,7 @@ const AddNewDiagnosis = (props) => {
                       </div>
                       {chiefComplaints.length > 1 && (
                         <div
-                          className=" m-2 h-8 w-20 mt-0 font-poppins font-semibold cursor-pointer "
+                          className=" m-2 h-8 w-20 mt-0  font-semibold cursor-pointer "
                           onClick={() => {
                             let tempChiefComplaint = [...chiefComplaints];
                             tempChiefComplaint.splice(index, 1);
@@ -650,7 +650,7 @@ const AddNewDiagnosis = (props) => {
                       </div>
                       <div className="flex">
                         <div
-                          className=" m-2 h-10 w-16 mt-0  font-poppins font-semibold cursor-pointer "
+                          className=" m-2 h-10 w-16 mt-0   font-semibold cursor-pointer "
                           onClick={handleAddMedicine}
                         >
                           <img
@@ -661,7 +661,7 @@ const AddNewDiagnosis = (props) => {
                         </div>
                         {MedicineList.length > 1 && (
                           <div
-                            className=" m-2 h-10 w-20 mt-0   font-poppins font-semibold cursor-pointer "
+                            className=" m-2 h-10 w-20 mt-0    font-semibold cursor-pointer "
                             onClick={() => {
                               let tempmedicinelist = [...MedicineList];
                               setMedicineList(tempmedicinelist);
@@ -704,7 +704,7 @@ const AddNewDiagnosis = (props) => {
 
                     <div className="flex ml-3">
                       <div
-                        className=" m-2 h-8 w-16 mt-0  font-poppins font-semibold cursor-pointer "
+                        className=" m-2 h-8 w-16 mt-0   font-semibold cursor-pointer "
                         onClick={handleAddInvestigation}
                       >
                         <img
@@ -715,7 +715,7 @@ const AddNewDiagnosis = (props) => {
                       </div>
                       {investigations.length > 1 && (
                         <div
-                          className=" m-2 h-8 w-20 mt-0   font-poppins font-semibold cursor-pointer "
+                          className=" m-2 h-8 w-20 mt-0    font-semibold cursor-pointer "
                           onClick={() => {
                             let tempinvestigations = [...investigations];
                             tempinvestigations.splice(index, 1);
@@ -757,7 +757,7 @@ const AddNewDiagnosis = (props) => {
 
                     <div className="flex ml-3">
                       <div
-                        className=" m-2 h-8 w-16 mt-0  font-poppins font-semibold cursor-pointer "
+                        className=" m-2 h-8 w-16 mt-0   font-semibold cursor-pointer "
                         onClick={handleAddAdvices}
                       >
                         <img
@@ -768,7 +768,7 @@ const AddNewDiagnosis = (props) => {
                       </div>
                       {advices.length > 1 && (
                         <div
-                          className=" m-2 h-8 w-20 mt-0   font-poppins font-semibold cursor-pointer "
+                          className=" m-2 h-8 w-20 mt-0    font-semibold cursor-pointer "
                           onClick={() => {
                             const tempadvices = [...advices];
                             tempadvices.splice(index, 1);
