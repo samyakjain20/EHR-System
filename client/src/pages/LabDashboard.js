@@ -17,17 +17,10 @@ const LabDashboard = (props) => {
     const [patient, setPatient] = useState({});
     const [prescriptions, setPrescriptions] = useState([{}]);
     const [lab, setLab] = useState({
-        name: "",
         labID: "",
-        associatedHospital: "",
-    })
-    const [doctor, setDoctor] = useState({
-        name: {
-            firstName: "",
-            middleName: "",
-            surName: "",
-        },
-        org: "",
+        name: "Pathology Lab",
+        contactno:"",
+        email:"",
         orgAddress: {
             building: "",
             city: "",
@@ -36,27 +29,11 @@ const LabDashboard = (props) => {
             state: "",
             pincode: "",
         },
-        emergencyno: "",
-        orgNumber: "",
-        dob: "",
-        mobile: "",
-        email: "",
-        adharCard: "",
-        bloodGroup: "",
-        education: [{ degree: "" }],
-        address: {
-            building: "",
-            city: "",
-            taluka: "",
-            district: "",
-            state: "",
-            pincode: "",
-        },
-        specialization: [{ special: "" }],
-        password: "",
-        _id: "",
+        associatedHospital: "",
+        associatedHospitalID:"",
+        speciality: ""
     });
-
+    
     const convertDatetoString = (dateString) => {
         let date = new Date(dateString);
         let day = date.getDate();
@@ -66,7 +43,7 @@ const LabDashboard = (props) => {
     };
 
     useEffect(() => {
-        async function getdoctor() {
+        async function getLabDetails() {
             const res = await fetch("/getdoctor");
             const data = await res.json();
             if (data.AuthError) {
@@ -77,46 +54,11 @@ const LabDashboard = (props) => {
                 props.setToastShow(true);
                 navigate("/");
             } else {
-                setDoctor(data.doctor);
+                // setDoctor(data.doctor);
+                console.log("Hello");
             }
         }
-        async function getpatient() {
-            setLoading(true);
-            if (props.healthID.length === 12) {
-                const res = await fetch(`/searchpatient/${props.healthID}`);
-                const data = await res.json();
-
-                if (data.AuthError) {
-                    setLoading(false);
-                    props.settoastCondition({
-                        status: "info",
-                        message: "Please Login to proceed!!!",
-                    });
-                    props.setToastShow(true);
-                    navigate("/");
-                } else if (data.error) {
-                    setLoading(false);
-                    props.settoastCondition({
-                        status: "error",
-                        message: "This HealthID doesn't exist!!!",
-                    });
-                    props.setToastShow(true);
-                } else {
-                    setPatient(data.patient);
-                    if (data.patient.prescriptions) {
-                        setPrescriptions(data.patient.prescriptions.reverse());
-                    }
-                    setDob(convertDatetoString(patient.dob));
-                    setLoading(false);
-                }
-            } else if (props.healthID.length === 0) {
-                setLoading(false);
-                setPatient({});
-            }
-            setLoading(false);
-        }
-        getdoctor();
-        getpatient();
+        getLabDetails();
     }, [dob]);
 
     const searchPatient = async (e) => {
@@ -230,14 +172,9 @@ const LabDashboard = (props) => {
                                     ></img>
                                     <div className="grid grid-rows-2 ml-4 gap-2  mb-4">
                                         <div className="font-bold font-poppins text-base">
-                                            <h1 className="">
-                                                {`Field: ${doctor.name.firstName} ${doctor.name.surName}`}
+                                            <h1 className="mt-4">
+                                                {`${lab.name}`}
                                             </h1>
-                                        </div>
-                                        <div className="">
-                                            <h2 className="text-sm">
-                                                {doctor.specialization[0].special}
-                                            </h2>
                                         </div>
                                     </div>
                                 </div>

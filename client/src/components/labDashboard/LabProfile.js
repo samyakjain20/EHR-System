@@ -8,6 +8,7 @@ import mail from "../../assets/img/dashboard/patient-profile-mail.png";
 import blood from "../../assets/img/dashboard/patient-profile-blood.png";
 import hospital from "../../assets/img/dashboard/doctor-profile-hospital.png";
 import hospital_contact from "../../assets/img/dashboard/doctor-profile-contact.png";
+import lab_logo from "../../assets/img/dashboard/lab.svg";
 import speciality from "../../assets/img/dashboard/doctor-profile-speciality.png";
 import degree from "../../assets/img/dashboard/doctor-profile-degree.png";
 import home from "../../assets/img/dashboard/doctor-profile-home.png";
@@ -83,7 +84,7 @@ const LabProfile = (props) => {
         <div className="p-4 m-8 bg-white shadow-md w-2/3 mx-auto rounded-md ">
           <div className="flex justify-center">
             <img
-              src={patient_card_profile}
+              src={lab_logo}
               className="h-40 w-40 rounded-full border-2  p-4 "
               alt="patient-profile"
             />
