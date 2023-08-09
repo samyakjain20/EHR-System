@@ -1,11 +1,25 @@
 [
 	{
+		"anonymous": false,
 		"inputs": [
 			{
+				"indexed": true,
 				"internalType": "address",
-				"name": "_user",
+				"name": "user",
 				"type": "address"
 			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "_typeofFile",
+				"type": "string"
+			}
+		],
+		"name": "FileAdded",
+		"type": "event"
+	},
+	{
+		"inputs": [
 			{
 				"internalType": "string",
 				"name": "_typeofFile",
@@ -24,11 +38,6 @@
 	},
 	{
 		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_user",
-				"type": "address"
-			},
 			{
 				"internalType": "string",
 				"name": "_typeofFile",
@@ -57,36 +66,9 @@
 		"name": "displayReqAcess",
 		"outputs": [
 			{
-				"components": [
-					{
-						"internalType": "address",
-						"name": "doctor",
-						"type": "address"
-					},
-					{
-						"internalType": "string",
-						"name": "doctorName",
-						"type": "string"
-					},
-					{
-						"internalType": "string",
-						"name": "hospital",
-						"type": "string"
-					},
-					{
-						"internalType": "string",
-						"name": "speciality",
-						"type": "string"
-					},
-					{
-						"internalType": "string",
-						"name": "typeOfFile",
-						"type": "string"
-					}
-				],
-				"internalType": "struct FileManagement.ReqAccessDocDetails[]",
+				"internalType": "string[]",
 				"name": "",
-				"type": "tuple[]"
+				"type": "string[]"
 			}
 		],
 		"stateMutability": "view",
@@ -118,36 +100,9 @@
 				"type": "address"
 			},
 			{
-				"components": [
-					{
-						"internalType": "address",
-						"name": "doctor",
-						"type": "address"
-					},
-					{
-						"internalType": "string",
-						"name": "doctorName",
-						"type": "string"
-					},
-					{
-						"internalType": "string",
-						"name": "hospital",
-						"type": "string"
-					},
-					{
-						"internalType": "string",
-						"name": "speciality",
-						"type": "string"
-					},
-					{
-						"internalType": "string",
-						"name": "typeOfFile",
-						"type": "string"
-					}
-				],
-				"internalType": "struct FileManagement.ReqAccessDocDetails",
+				"internalType": "string",
 				"name": "reqAccessDocDetails",
-				"type": "tuple"
+				"type": "string"
 			}
 		],
 		"name": "reqAccess",
