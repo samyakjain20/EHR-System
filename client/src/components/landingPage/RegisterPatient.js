@@ -13,7 +13,7 @@ const ethers = require("ethers")
 
 export default function Register(props) {
   const [metaAccount, setMetaAccount] = useState(''); // meta mask account
-  const {userMgmtContract, setUserMgmtContract} = UserContractObj();;
+  const {userMgmtContract, setUserMgmtContract} = UserContractObj();
   const {fileMgmtContract, setFileMgmtContract} = FileContractObj();
   const [provider, setProvider] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
@@ -42,7 +42,7 @@ export default function Register(props) {
       middleName: "Sanjay",
       lastName: "Pathak",
     },
-    dob: "11/05/1997",
+    dob: "",
     mobile: "9689491159",
     email: "yash@gmail.com",
     adharCard: "234354561123",
@@ -58,20 +58,20 @@ export default function Register(props) {
     },
     contactPerson: {
       name: {
-        firstName: "cxb",
-        middleName: "cbx",
-        lastName: "bcx",
+        firstName: "Sanjay",
+        middleName: "M",
+        lastName: "Pathak",
       },
-      mobile: "3456",
-      email: "yash@gmail.com",
-      relation: "sdf",
+      mobile: "9422162812",
+      email: "sanjay@gmail.com",
+      relation: "father",
       conAddress: {
-        building: "vzd",
-        city: "vdz",
-        taluka: "vdz",
-        district: "vzd",
-        state: "vz",
-        pincode: "34",
+        building: "Flat 301 Ganesh Apartment",
+        city: "Nagpur",
+        taluka: "Urban",
+        district: "Somalwada",
+        state: "MH",
+        pincode: "440025",
       },
     },
   });
@@ -92,47 +92,61 @@ export default function Register(props) {
       }
     };
 
-    console.log("Hello123");
     console.log(userMgmtContract);
     auth();
   }, []);
 
   const handleRegisterPatient = async (e) => {    
-    e.preventDefault();
-    setPasswordError("");
-    console.log("Here: "+ patient.passwordHash)
-    if (patient.passwordHash === confirmPassword) {
-      setLoading(true);
+    try{
       e.preventDefault();
-      patient.passwordHash = ethers.utils.formatBytes32String(patient.passwordHash);
-      console.log(patient.passwordHash);
-      let userStr = JSON.stringify(patient);
-      patient.username = patient.abhaId;
-      const data = await userMgmtContract.registerPatient(patient.username, patient.passwordHash, userStr);
-      console.log(data);
+      setPasswordError("");
+      if (patient.passwordHash === confirmPassword) {
+        setLoading(true);
+        e.preventDefault();
+        
+        patient.passwordHash = ethers.utils.formatBytes32String(patient.passwordHash);
+        console.log(patient.passwordHash);
+        let userStr = JSON.stringify(patient);
+        patient.username = patient.abhaId;
+        const data = await userMgmtContract.registerPatient(patient.username, patient.passwordHash, userStr);
+        console.log(data);
 
-      if (data.errors) {
-        setLoading(false);
-        setErrors(data.errors);
-        props.settoastCondition({
-          status: "error",
-          message: "Please Enter all fields correctly!",
-        });
-        props.setToastShow(true);
+        if (data.errors) {
+          setLoading(false);
+          setErrors(data.errors);
+          props.settoastCondition({
+            status: "error",
+            message: "Please Enter all fields correctly!",
+          });
+          props.setToastShow(true);
+        } 
+        else {
+          setLoading(false);
+          props.settoastCondition({
+            status: "success",
+            message: "Your Registration done Successfully!",
+          });
+          props.setToastShow(true);
+          navigate("/patient/dashboard");
+        }
       } 
+      
       else {
-        setLoading(false);
-        props.settoastCondition({
-          status: "success",
-          message: "Your Registration done Successfully!",
-        });
-        props.setToastShow(true);
-        navigate("/patient/dashboard");
+        setPasswordError("Password Doesn't Matches");
       }
-    } 
+    }
     
-    else {
-      setPasswordError("Password Doesn't Matches");
+    catch (error) {
+      setLoading(false);
+      console.log(error.data.data.reason);
+      window.alert(error.data.data.reason);
+        if (
+          error.response &&
+          error.response.status >= 400 &&
+          error.response.status <= 500
+        ) {
+          setError(error.response.data.message);
+        }
     }
   };
 

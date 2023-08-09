@@ -203,6 +203,11 @@
 				"internalType": "bool",
 				"name": "isRegistered",
 				"type": "bool"
+			},
+			{
+				"internalType": "string",
+				"name": "doctorDetails",
+				"type": "string"
 			}
 		],
 		"stateMutability": "view",
@@ -234,6 +239,11 @@
 						"internalType": "bool",
 						"name": "isRegistered",
 						"type": "bool"
+					},
+					{
+						"internalType": "string",
+						"name": "doctorDetails",
+						"type": "string"
 					}
 				],
 				"internalType": "struct UserManagement.Doctor",
@@ -311,6 +321,11 @@
 						"internalType": "bool",
 						"name": "isRegistered",
 						"type": "bool"
+					},
+					{
+						"internalType": "string",
+						"name": "labDetails",
+						"type": "string"
 					}
 				],
 				"internalType": "struct UserManagement.Lab",
@@ -322,46 +337,13 @@
 		"type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_userAddress",
-				"type": "address"
-			}
-		],
+		"inputs": [],
 		"name": "getPatientInfo",
 		"outputs": [
 			{
-				"components": [
-					{
-						"internalType": "string",
-						"name": "username",
-						"type": "string"
-					},
-					{
-						"internalType": "bytes32",
-						"name": "passwordHash",
-						"type": "bytes32"
-					},
-					{
-						"internalType": "bool",
-						"name": "isRegistered",
-						"type": "bool"
-					},
-					{
-						"internalType": "string",
-						"name": "abhaId",
-						"type": "string"
-					},
-					{
-						"internalType": "string",
-						"name": "patientDetails",
-						"type": "string"
-					}
-				],
-				"internalType": "struct UserManagement.Patient",
+				"internalType": "string",
 				"name": "patientInfo",
-				"type": "tuple"
+				"type": "string"
 			}
 		],
 		"stateMutability": "view",
@@ -425,6 +407,11 @@
 				"internalType": "bool",
 				"name": "isRegistered",
 				"type": "bool"
+			},
+			{
+				"internalType": "string",
+				"name": "labDetails",
+				"type": "string"
 			}
 		],
 		"stateMutability": "view",
@@ -529,26 +516,14 @@
 				"type": "string"
 			},
 			{
-				"components": [
-					{
-						"internalType": "string",
-						"name": "username",
-						"type": "string"
-					},
-					{
-						"internalType": "bytes32",
-						"name": "passwordHash",
-						"type": "bytes32"
-					},
-					{
-						"internalType": "bool",
-						"name": "isRegistered",
-						"type": "bool"
-					}
-				],
-				"internalType": "struct UserManagement.Doctor",
-				"name": "_doctor",
-				"type": "tuple"
+				"internalType": "bytes32",
+				"name": "_password",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "string",
+				"name": "_doctorDetails",
+				"type": "string"
 			}
 		],
 		"name": "registerDoctor",
@@ -587,26 +562,14 @@
 				"type": "string"
 			},
 			{
-				"components": [
-					{
-						"internalType": "string",
-						"name": "username",
-						"type": "string"
-					},
-					{
-						"internalType": "bytes32",
-						"name": "passwordHash",
-						"type": "bytes32"
-					},
-					{
-						"internalType": "bool",
-						"name": "isRegistered",
-						"type": "bool"
-					}
-				],
-				"internalType": "struct UserManagement.Lab",
-				"name": "_lab",
-				"type": "tuple"
+				"internalType": "bytes32",
+				"name": "_password",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "string",
+				"name": "_labDetails",
+				"type": "string"
 			}
 		],
 		"name": "registerLab",
