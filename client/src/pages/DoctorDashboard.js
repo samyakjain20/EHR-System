@@ -7,7 +7,7 @@ import eye from "../assets/img/dashboard/eye.png";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import ReactLoading from "react-loading";
-import { UserContractObj, FileContractObj } from "../GlobalData/GlobalContext";
+import { UserContractObj, FileContractObj, MetaAccountObj } from "../GlobalData/GlobalContext";
 const ethers = require("ethers")
 
 const DoctorDashboard = (props) => {
@@ -16,7 +16,7 @@ const DoctorDashboard = (props) => {
   const [Loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [dob, setDob] = useState("");
-  const [metaAccount, setMetaAccount] = useState(''); // meta mask account
+  const [metaAccount, setMetaAccount] = MetaAccountObj(); // meta mask account
   const [patient, setPatient] = useState({});
   const [prescriptions, setPrescriptions] = useState([{}]);
   const [doctor, setDoctor] = useState({
@@ -91,7 +91,7 @@ const DoctorDashboard = (props) => {
         setLoading(false);
         props.settoastCondition({
           status: "error",
-          message: "This HealthID doesn't exist!!!",
+          message: "This HealthID doesn't exits!!!",
         });
         props.setToastShow(true);
       } else {
@@ -109,7 +109,48 @@ const DoctorDashboard = (props) => {
       });
       props.setToastShow(true);
     }
-  };
+  };  
+  const [typeOfFile, setTypeOfFile] = useState("");
+  const [reqAccessDetails, setReqAccessDetails] = useState({
+    doctor: metaAccount,
+    doctorName : "Dr. " + doctor.name.firstName + " " + doctor.name.lastName,
+    hospital : doctor.org,
+    speciality : doctor.specialization.special,
+    typeofFile: "",
+  });
+
+  const handleReqAcess = async (e) =>{
+    e.preventDefault();
+    try {
+      const reqAcessDetailsData = reqAccessDetails;
+      reqAcessDetailsData.typeofFile = typeOfFile;
+      const reqData = JSON.stringify(reqAcessDetailsData);
+      console.log("reqAcess data sent: ", reqData)
+      const data = await fileMgmtContract.reqAccess(metaAccount, reqData);
+      if (data.errors) {
+        props.settoastCondition({
+          status: "error",
+          message: "Failed to send Access Request., check network!",
+        });
+        console.log(data.errors)
+        props.setToastShow(true);
+      } 
+      else {
+        props.settoastCondition({
+          status: "success",
+          message: "Request Acess Sent Successfully!",
+        });
+        props.setToastShow(true);
+        navigate("/doctor/dashboard");
+      }
+    } catch (error) {
+      props.settoastCondition({
+        status: "error",
+        message: "Failed to send Access Request.",
+      });
+      props.setToastShow(true);
+    }
+  }
 
   return (
     <div className="full-body col-span-10 h-screen">

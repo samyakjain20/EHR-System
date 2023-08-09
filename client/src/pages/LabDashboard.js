@@ -3,25 +3,26 @@ import reports from "../assets/img/dashboard/report2_pbl.png";
 import search from "../assets/img/dashboard/search2.png";
 import lab_logo from "../assets/img/dashboard/lab.svg";
 import Footer from "../components/landingPage/Footer";
-import eye from "../assets/img/dashboard/eye.png";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import ReactLoading from "react-loading";
 import { Button, message, Upload } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
-import { UserContractObj, FileContractObj } from "../GlobalData/GlobalContext";
+import { UserContractObj, FileContractObj, MetaAccountObj } from "../GlobalData/GlobalContext";
+import axios from "axios";
 const ethers = require("ethers")
 
 const LabDashboard = (props) => {
     const {userMgmtContract, setUserMgmtContract} = UserContractObj();
     const {fileMgmtContract, setFileMgmtContract} = FileContractObj();
+    const {metaAccount, setMetaAccount} = MetaAccountObj();
     const [Loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const [dob, setDob] = useState("");
     const [patient, setPatient] = useState({});
     const [prescriptions, setPrescriptions] = useState([{}]);
     const [lab, setLab] = useState({
-        name: "",
+        name: "Raju Labs",
         mobile: "",
         email: "",
         address: {
@@ -32,37 +33,86 @@ const LabDashboard = (props) => {
           state: "",
           pincode: "",
         },
+        org: "",
         specialization: {},
         password: "",
         username: ""
     })
+        
+    // uploading diagonstic report directtly 
+    const [report, setReport] = useState({
+        hospitalName: lab.org,
+        doctorName: lab.name,
+        recordType: "DiagnosticReport",
+        date: "",
+        url : "",
+        description: ""
+    });
+    const [fileList, setFileList] = useState([]);
+    const [uploading, setUploading] = useState(false);
+    const [patientAbhaID, setPatientAbhaID] = useState("");
+    const handleUpload = async (e) => {
+        e.preventDefault();
+        setUploading(true);
 
-    const [doctor, setDoctor] = useState({
-        name: {
-          firstName: "",
-          middleName: "",
-          lastName: "",
-        },
-        emergencyno: "",
-        dob: "",
-        mobile: "",
-        email: "",
-        adharCard: "",
-        bloodGroup: "",
-        education: "",
-        address: {
-          building: "",
-          city: "",
-          taluka: "",
-          district: "",
-          state: "",
-          pincode: "",
-        },
-        specialization: {},
-        password: "",
-        username: ""
-      });
+        const pinataApiKey = "e3763b7d1d1a2919759b"
+        const pinataSecretApiKey = "2175b03254e561d1c8b5d6efb80d06ffaf5408abbeb9e0493788c68e176d66e7"
+        try {
+        const formData = new FormData();
+        formData.append("file", fileList[0]);
 
+        const resFile = await axios({
+            method: "post",
+            url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
+            data: formData,
+            headers: {
+                'pinata_api_key': `${pinataApiKey}`,
+                'pinata_secret_api_key': `${pinataSecretApiKey}`,
+                "Content-Type": "multipart/form-data"
+            },
+        });
+
+        const fileUrl = `https://gateway.pinata.cloud/ipfs/${resFile.data.IpfsHash}`;
+        
+        const reportData = report;
+        reportData.url = fileUrl;
+        console.log(reportData);
+        // get patientAddress from abha id entered by doc
+        const patientAddress = "0xd36058a1F3376126D6b9D8453d6EA3D4830BE0cD"
+        let fileDetails = JSON.stringify(reportData);
+        const data = await fileMgmtContract.addFile(patientAddress, report.recordType, fileDetails);
+        
+        // const retrieveFiles = await fileMgmtContract.displayFiles(metaAccount, report.recordType);
+        // console.log("retrieve files: ", retrieveFiles.toString());
+
+        if (data.errors) {
+            setUploading(false);
+            props.settoastCondition({
+            status: "error",
+            message: "Report Upload failed, check network!",
+            });
+            console.log(data.errors)
+            props.setToastShow(true);
+        } 
+        else {
+            setUploading(false);
+            props.settoastCondition({
+            status: "success",
+            message: "Report uploaded Successfully!",
+            });
+            props.setToastShow(true);
+            navigate("/lab/dashboard");
+        }
+
+        } catch (error) {
+        setUploading(false);
+        props.settoastCondition({
+            status: "error",
+            message: "Report Upload failed, check network!",
+        });
+        props.setToastShow(true);
+    }
+    };
     const convertDatetoString = (dateString) => {
         let date = new Date(dateString);
         let day = date.getDate();
@@ -97,32 +147,6 @@ const LabDashboard = (props) => {
         
     };
 
-    const [fileList, setFileList] = useState([]);
-    const [uploading, setUploading] = useState(false);
-    const handleUpload = () => {
-        const formData = new FormData();
-        fileList.forEach((file) => {
-            formData.append('files[]', file);
-        });
-        setUploading(true);
-        // You can use any AJAX library you like
-        fetch('https://www.mocky.io/v2/5cc8019d300000980a055e76', {
-            method: 'POST',
-            body: formData,
-        })
-            .then((res) => res.json())
-            .then(() => {
-                setFileList([]);
-                message.success('upload successfully.');
-            })
-            .catch(() => {
-                message.error('upload failed.');
-            })
-            .finally(() => {
-                setUploading(false);
-            });
-    };
-
     const propsFile = {
         onRemove: (file) => {
             const index = fileList.indexOf(file);
@@ -136,8 +160,6 @@ const LabDashboard = (props) => {
         },
         fileList,
     };
-
-
     return (
         <div className="full-body col-span-10 h-screen">
             <div className="body-without-footer   bg-bgprimary ">
@@ -171,7 +193,7 @@ const LabDashboard = (props) => {
                                     <div className="grid grid-rows-2 ml-4 gap-2  mb-4">
                                         <div className="font-bold  text-base">
                                             <h1 className="">
-                                                {`Field: ${doctor.name.firstName} ${doctor.name.lastName}`}
+                                                {`Field: ${lab.name}`}
                                             </h1>
                                         </div>
                                         <div className="">
@@ -184,19 +206,32 @@ const LabDashboard = (props) => {
                     </div>
                     {/* dashboard today end */}
                     <div className="bg-white shadow p-6 m-2 ml-2 mt-8 lg:font-bold">
-                        <h1>Upload Diagnostics Report</h1>
-                        <form
-                        // className="bg-white shadow p-6 m-2 ml-2 mt-8 lg:font-bold  "
-                        >
+                        <h1 className="text-xl">Upload Diagnostics Report</h1>
+                        <form onSubmit={handleUpload} >
                             <div className="lg:grid grid-cols-6 gap-2 mt-4 mr-4">
                                 <label className="font-bold lg:text-l px-12 ">
                                     Patient Abha ID:
                                 </label>
-                                <input
+                                <input required
                                     type="abhaID"
                                     placeholder="Abha ID"
-                                    required
+                                    onChange = {(e)=>{ setPatientAbhaID(e.target.value) }}
                                     className="pl-4 bg-blue-100 lg:h-8 rounded px-3 ml-2 h-8"
+                                ></input>
+                            </div>
+                            <div className="lg:grid grid-cols-6 gap-2 mt-4 mr-4">
+                                <label className="font-bold lg:text-l px-12 ">
+                                    Description:
+                                </label>
+                                <input required
+                                    type="desc"
+                                    placeholder="Eg: Blood Test"
+                                    className="pl-4 bg-blue-100 lg:h-8 rounded px-3 ml-2 h-8"
+                                    onChange={(e) => {
+                                        let tempreport = { ...report };
+                                        tempreport.description = e.target.value;
+                                        setReport(tempreport);
+                                    }}
                                 ></input>
                             </div>
 
@@ -208,6 +243,11 @@ const LabDashboard = (props) => {
                                     type="date"
                                     className=" pl-4 bg-blue-100 lg:h-8 rounded px-3 ml-2 h-8"
                                     required
+                                    onChange={(e) => {
+                                        let tempreport = { ...report };
+                                        tempreport.date = convertDatetoString(e.target.value);
+                                        setReport(tempreport);
+                                    }}
                                 ></input>
                             </div>
                             <br />
@@ -217,15 +257,16 @@ const LabDashboard = (props) => {
                                         <Button icon={<UploadOutlined />}>Select File</Button>
                                     </Upload>
                                 </div>
-                                <Button
-                                    className="bg-primary hover:bg-bgsecondary"
-                                    onClick={handleUpload}
-                                    disabled={fileList.length === 0}
-                                    loading={uploading}
+                                <button>
+                                    <Button
+                                        className="bg-primary hover:bg-bgsecondary"
+                                        disabled={fileList.length === 0}
+                                        loading={uploading}
 
-                                >
-                                    {uploading ? 'Uploading' : 'Start Upload'}
-                                </Button>
+                                    >
+                                        {uploading ? 'Uploading' : 'Start Upload'}
+                                    </Button>
+                                </button>
                             </div>
                         </form>
                     </div>

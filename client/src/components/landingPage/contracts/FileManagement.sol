@@ -42,8 +42,7 @@ contract FileManagement {
 
     event FileAdded(address indexed user, string _typeofFile);
 
-    function addFile(string calldata _typeofFile, string memory _fileDetails) external {
-        address _user = msg.sender;
+    function addFile(address _user, string calldata _typeofFile, string memory _fileDetails) external {
         if(keccak256(abi.encodePacked(_typeofFile)) == keccak256(abi.encodePacked("LabReport")) ){
             LabList[_user].push(_fileDetails);
         }
@@ -51,9 +50,9 @@ contract FileManagement {
             DiagonsticsList[_user].push(_fileDetails);
         }
         else if(keccak256(abi.encodePacked(_typeofFile)) == keccak256(abi.encodePacked("DischargeReport"))){
-            DiagonsticsList[_user].push(_fileDetails);
+            DischargeList[_user].push(_fileDetails);
         }
-        else if(keccak256(abi.encodePacked(_typeofFile)) == keccak256(abi.encodePacked("vaccination"))){
+        else if(keccak256(abi.encodePacked(_typeofFile)) == keccak256(abi.encodePacked("PrescriptionReport"))){
             VaccniationList[_user].push(_fileDetails);
         }
 
@@ -104,9 +103,8 @@ contract FileManagement {
     //     }
     // }
 
-    function displayFiles(string memory _typeofFile) public view returns (string[] memory) {
-        address _user = msg.sender;
-         require(_user == msg.sender || ownership[_user][msg.sender][_typeofFile], "You do not have access to the files!");
+    function displayFiles(address _user, string memory _typeofFile) public view returns (string[] memory) {
+        require(_user == msg.sender || ownership[_user][msg.sender][_typeofFile], "You do not have access to the files!");
         // return fileList[_user];
         if(keccak256(abi.encodePacked(_typeofFile)) == keccak256(abi.encodePacked("LabReport"))){
             return LabList[_user];
@@ -115,9 +113,9 @@ contract FileManagement {
             return DiagonsticsList[_user];
         }
         else if(keccak256(abi.encodePacked(_typeofFile)) == keccak256(abi.encodePacked("DischargeReport"))){
-            return DiagonsticsList[_user];
+            return DischargeList[_user];
         }
-        else if(keccak256(abi.encodePacked(_typeofFile)) == keccak256(abi.encodePacked("Vaccination"))){
+        else if(keccak256(abi.encodePacked(_typeofFile)) == keccak256(abi.encodePacked("PrescriptionReport"))){
             return VaccniationList[_user];
         }
         else {
@@ -136,6 +134,5 @@ contract FileManagement {
 
             return allFileList;
         }
-
     }
 }
