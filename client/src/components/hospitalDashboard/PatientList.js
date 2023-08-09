@@ -27,7 +27,7 @@ const PatientList = (props) => {
   }, [patientList]);
 
   return (
-    <div className="m-4 mt-4 font-poppins col-span-10">
+    <div className="m-4 mt-4  col-span-10">
       <div>
         <h1 className="font-bold text-xl ml-16 mt-16">Patient List</h1>
       </div>

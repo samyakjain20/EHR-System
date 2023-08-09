@@ -12,7 +12,7 @@ const About = () => {
     <div className="body  lg:overflow-hidden lg:h-screen max-h-min flex flex-col h-screen">
       <Navbar></Navbar>
 
-      <div className=" bg-secoundry font-poppins over ">
+      <div className=" bg-secoundry  over ">
         <div className="  flex justify-center">
           <h1 className=" p-4 px-8 font-bold  text-3xl ">About us</h1>
         </div>

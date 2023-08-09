@@ -100,7 +100,7 @@ const PatientReportsDoctorView = (props) => {
       {props.healthID.length === 12 ? (
         <div className=" px-12">
           <div className="h-screen">
-            <div className="font-poppins   mainf">
+            <div className="   mainf">
               <Link to="/doctor/profile">
                 <div className="flex bg-white rounded shadow  px-4   ml-auto h-14 w-1/5 mr-8 mt-8">
                   <img
@@ -109,7 +109,7 @@ const PatientReportsDoctorView = (props) => {
                     alt="profile"
                   ></img>
                   <div className="grid grid-rows-2 ml-4 gap-2  mb-4">
-                    <div className="font-bold font-poppins text-base flex my-2">
+                    <div className="font-bold  text-base flex my-2">
                       <h1>Dr.</h1>
                       <h1 className="ml-2">
                         {`${doctor.name.firstName} ${doctor.name.surName}`}

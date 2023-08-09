@@ -146,7 +146,7 @@ const LabDashboard = (props) => {
                     <div className="">
                         <div className="flex  h-12 m-2 bg-bgprimary rounded mt-4 ">
                             <div>
-                                <h1 className="text-2xl font-poppins font-bold p-2 ">
+                                <h1 className="text-2xl  font-bold p-2 ">
                                     DashBoard Today
                                 </h1>
                             </div>
@@ -169,7 +169,7 @@ const LabDashboard = (props) => {
                                         alt="profile"
                                     ></img>
                                     <div className="grid grid-rows-2 ml-4 gap-2  mb-4">
-                                        <div className="font-bold font-poppins text-base">
+                                        <div className="font-bold  text-base">
                                             <h1 className="">
                                                 {`Field: ${doctor.name.firstName} ${doctor.name.lastName}`}
                                             </h1>

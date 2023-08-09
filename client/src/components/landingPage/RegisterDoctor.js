@@ -128,7 +128,7 @@ export default function RegisterDoctor(props) {
             {metaAccount}
             <div class="grid grid-cols-4 gap-2 mt-4 mr-4">
               
-              <label class="font-bold lg:text-xl  font-poppins px-4 my-4 ">
+              <label class="font-semibold lg:text-lg px-4 my-4 ">
                 
                 Doctor Name
               </label>
@@ -167,7 +167,7 @@ export default function RegisterDoctor(props) {
               ></input>
             </div>
             <div class="grid grid-cols-4 gap-2 mt-4 mr-4">
-              <label class="font-bold lg:text-xl  px-4 ">Birthdate</label>
+              <label class="font-semibold lg:text-lg  px-4 ">Birthdate</label>
               <input
                 type="date"
                 class=" bg-blue-100 h-10 rounded pl-4"
@@ -181,7 +181,7 @@ export default function RegisterDoctor(props) {
               ></input>
             </div>
             <div class="grid grid-cols-4 gap-2 mt-4 mr-4">
-              <label class="font-bold lg:text-xl  px-4 ">Mobile No. </label>
+              <label class="font-semibold lg:text-lg  px-4 ">Mobile No. </label>
 
               <input
                 type="tel"
@@ -198,7 +198,7 @@ export default function RegisterDoctor(props) {
             </div>
 
             <div class=" aadhar grid grid-cols-4 gap-2 mt-4 mr-4">
-              <label class="font-bold lg:text-xl  px-4 ">Aadhar Card No. </label>
+              <label class="font-semibold lg:text-lg  px-4 ">Aadhar Card No. </label>
 
               <input
                 type="tel"
@@ -214,7 +214,7 @@ export default function RegisterDoctor(props) {
               ></input>
             </div>
             <div class="grid grid-cols-4 gap-2 mt-4 mr-4">
-              <label class="  lg:text-xl  font-bold px-4">Email</label>
+              <label class="  lg:text-lg  font-semibold px-4">Email</label>
               <input
                 type="email"
                 id="email"
@@ -231,7 +231,7 @@ export default function RegisterDoctor(props) {
             </div>
 
             <div class="grid grid-cols-4 gap-2 mt-4 mr-4">
-              <label class="  lg:text-xl  font-bold px-4">Blood Group</label>
+              <label class="  lg:text-lg  font-semibold px-4">Blood Group</label>
               <div className="">
                 <select
                   className="pl-4 w-1/2 bg-blue-100 h-10  rounded "
@@ -257,7 +257,7 @@ export default function RegisterDoctor(props) {
             </div>
 
             <div class="grid grid-cols-4 gap-2 mt-4 mr-4 grid-flow-dense ">
-              <label class=" lg:text-xl  font-bold px-4 mb-8 col-span-1">
+              <label class=" lg:text-lg  font-semibold px-4 mb-8 col-span-1">
                 Address
               </label>
               <div className="grid grid-cols-2 gap-4 col-span-3 ">
@@ -336,7 +336,7 @@ export default function RegisterDoctor(props) {
             </div>
 
             <div class="grid grid-cols-4 mt-4 mr-4">
-              <label class="font-bold lg:text-xl  px-4">
+              <label class="font-semibold lg:text-lg  px-4">
                 Emergency Contact No.
               </label>
               <input
@@ -354,7 +354,7 @@ export default function RegisterDoctor(props) {
             </div>
 
             <div class="grid grid-cols-4 gap-2 mt-8 mr-4">
-              <label class=" lg:text-xl  font-bold px-4 grid col-start-1 col-span-1">
+              <label class=" lg:text-lg  font-semibold px-4 grid col-start-1 col-span-1">
                 Education
               </label>
               <div className=" ">
@@ -379,7 +379,7 @@ export default function RegisterDoctor(props) {
                     <div className="flex  ml-4">
                       {index === 0 ? (
                         <div
-                          className=" m-2 h-10 w-16 mt-0 ml-4  font-poppins font-semibold cursor-pointer "
+                          className=" m-2 h-10 w-16 mt-0 ml-4   font-semibold cursor-pointer "
                           onClick={handelEducationAdd}
                         >
                           <img
@@ -393,7 +393,7 @@ export default function RegisterDoctor(props) {
                       )}
 
                       <div
-                        className=" m-2 h-10 w-20 mt-0   font-poppins font-semibold cursor-pointer "
+                        className=" m-2 h-10 w-20 mt-0    font-semibold cursor-pointer "
                         onClick={() => {
                           if (EducationList.length > 1) {
                             let EducationList1 = [...EducationList];
@@ -417,7 +417,7 @@ export default function RegisterDoctor(props) {
               </div>
             </div>
             <div class="grid grid-cols-4 gap-2  mr-4">
-              <label class=" lg:text-xl  font-bold px-4 grid col-start-1 col-span-1">
+              <label class=" lg:text-lg  font-semibold px-4 grid col-start-1 col-span-1">
                 Specility
               </label>
               <div className=" ">
@@ -442,7 +442,7 @@ export default function RegisterDoctor(props) {
                     <div className="flex  ml-4">
                       {index === 0 ? (
                         <div
-                          className=" m-2 h-10 w-16 mt-0 ml-4  font-poppins font-semibold cursor-pointer "
+                          className=" m-2 h-10 w-16 mt-0 ml-4   font-semibold cursor-pointer "
                           onClick={handelSpecialityAdd}
                         >
                           <img
@@ -456,7 +456,7 @@ export default function RegisterDoctor(props) {
                       )}
 
                       <div
-                        className=" m-2 h-10 w-20 mt-0 font-poppins font-semibold cursor-pointer "
+                        className=" m-2 h-10 w-20 mt-0  font-semibold cursor-pointer "
                         onClick={() => {
                           if (SpecialityList.length > 1) {
                             let SpecialityList1 = [...SpecialityList];
@@ -481,7 +481,7 @@ export default function RegisterDoctor(props) {
             </div>
 
             <div className="grid grid-cols-4 gap-2 mt-4 mr-4">
-                <label className="  lg:text-xl font-bold px-4">
+                <label className="  lg:text-lg font-semibold px-4">
                   Select Hospital
                 </label>
                 <div className="">
@@ -506,7 +506,7 @@ export default function RegisterDoctor(props) {
               </div>
 
             <div class="grid grid-cols-4 gap-2 mt-4 mr-4">
-              <label type="password" class="  lg:text-xl  font-bold px-4">
+              <label type="password" class="  lg:text-lg  font-semibold px-4">
                 Password
               </label>
               <input
@@ -525,7 +525,7 @@ export default function RegisterDoctor(props) {
             </div>
 
             <div class="grid grid-cols-4 gap-2 mt-4 mr-4">
-              <label type="password" class=" lg:text-xl  font-bold px-4">
+              <label type="password" class=" lg:text-lg  font-semibold px-4">
                 Confirm Password
               </label>
               <input
@@ -549,7 +549,7 @@ export default function RegisterDoctor(props) {
                   width={"5%"}
                 />
               ) : (
-                <button className="bg-primary rounded p-2 px-8 font-bold text-xl hover:bg-bgsecondary mb-4 ">
+                <button className="bg-primary rounded p-2 px-8 font-semibold text-xl hover:bg-bgsecondary mb-4 ">
                   Submit
                 </button>
               )}

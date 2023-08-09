@@ -96,7 +96,7 @@ const LabProfile = (props) => {
   }, []);
 
   return (
-    <body className="font-poppins col-span-10 overflow-y-scroll">
+    <body className=" col-span-10 overflow-y-scroll">
       <div className="grid grid-cols-2 mt-16">
         <div className="p-4 m-8 bg-white shadow-md w-2/3 mx-auto rounded-md ">
           <div className="flex justify-center">

@@ -148,19 +148,19 @@ export default function Register(props) {
       <div className="bg-secoundry w-full">
         <div className="">
           <div className=" flex justify-center mt-4">
-            <h1 className="  p-2 px-8 rounded font-bold text-5xl">Register</h1>
+            <h1 className="  p-2 px-8 rounded font-bold text-3xl">Register</h1>
           </div>
 
           <div
-            className="font-poppins lg:ml-80  lg:px-8 lg:py-4 bg-white shadow-lg rounded max-w-screen-lg mt-8 mb-4 "
+            className=" lg:ml-80  lg:px-8 lg:py-4 bg-white shadow-lg rounded max-w-screen-lg mt-8 mb-4 "
           >        
-            <div className="flex   mt-2 bg-bgsecondary w-fit  justify-between rounded mx-auto">
+            <div className="flex  bg-bgsecondary w-fit  justify-between rounded mx-auto">
               <button
                 onClick={() => setToggle("Patient")}
                 className={
                   Toggle === "Patient"
-                    ? "py-2 px-8 text-lg font-poppins font-semibold cursor-pointer rounded bg-primary"
-                    : "py-2 px-8 text-lg font-poppins font-semibold cursor-pointer rounded bg-bgsecondary"
+                    ? "py-2 px-8 text-lg  font-semibold cursor-pointer rounded bg-primary"
+                    : "py-2 px-8 text-lg  font-semibold cursor-pointer rounded bg-bgsecondary"
                 }
               >
                 Patient
@@ -169,8 +169,8 @@ export default function Register(props) {
                 onClick={() => setToggle("Doctor")}
                 className={
                   Toggle === "Doctor"
-                    ? "py-2 px-8 text-lg font-poppins font-semibold cursor-pointer rounded bg-primary"
-                    : "py-2 px-8 text-lg font-poppins font-semibold cursor-pointer rounded bg-bgsecondary"
+                    ? "py-2 px-8 text-lg  font-semibold cursor-pointer rounded bg-primary"
+                    : "py-2 px-8 text-lg  font-semibold cursor-pointer rounded bg-bgsecondary"
                 }
               >
                 Doctor
@@ -179,8 +179,8 @@ export default function Register(props) {
                 onClick={() => setToggle("Lab")}
                 className={
                   Toggle === "Lab"
-                    ? "py-2 px-8 text-lg font-poppins font-semibold cursor-pointer rounded bg-primary"
-                    : "py-2 px-8 text-lg font-poppins font-semibold cursor-pointer rounded bg-bgsecondary"
+                    ? "py-2 px-8 text-lg  font-semibold cursor-pointer rounded bg-primary"
+                    : "py-2 px-8 text-lg  font-semibold cursor-pointer rounded bg-bgsecondary"
                 }
               >
                 Laboratory
@@ -190,8 +190,8 @@ export default function Register(props) {
                 onClick={() => setToggle("Hospital")}
                 className={
                   Toggle === "Hospital"
-                    ? "py-2 px-8 text-lg font-poppins font-semibold cursor-pointer rounded bg-primary"
-                    : "py-2 px-8 text-lg font-poppins font-semibold cursor-pointer rounded bg-bgsecondary"
+                    ? "py-2 px-8 text-lg  font-semibold cursor-pointer rounded bg-primary"
+                    : "py-2 px-8 text-lg  font-semibold cursor-pointer rounded bg-bgsecondary"
                 }
               >
                 Hospital
@@ -223,11 +223,11 @@ export default function Register(props) {
             >
             <div className={Toggle === "Patient" ? "" : "hidden"}>
             {metaAccount}
-              <div className="lg:grid lg:grid-cols-4 lg:gap-2 mt-4 mr-4 grid grid-cols-4 gap-2">
-                <label className="font-bold lg:text-xl font-poppins px-4 my-4 "> Name </label>
+              <div className="lg:grid lg:grid-cols-4 lg:gap-2 mt-4 mr-4 grid grid-cols-2 gap-1">
+                <label className="font-semibold lg:text-lg  px-4 my-4 "> Name </label>
                 <div>
                   <input
-                    className="bg-blue-100 rounded lg:h-10 lg:pl-4 mt-4 lg:text-md text-sm h-8 px-2"
+                    className="bg-blue-100 rounded h-10 pl-4 mt-4"
                     required
                     placeholder="first name"
                     value={patient.name.firstName}
@@ -239,7 +239,7 @@ export default function Register(props) {
                   ></input>
                 </div>
                 <input
-                  className="bg-blue-100 rounded lg:h-10 lg:pl-4 mt-4 lg:text-md text-sm h-8 px-2"
+                  className="bg-blue-100 rounded h-10 pl-4 mt-4"
                   required
                   placeholder="middle name"
                   value={patient.name.middleName}
@@ -250,7 +250,7 @@ export default function Register(props) {
                   }}
                 ></input>
                 <input
-                  className="bg-blue-100 rounded lg:h-10 lg:pl-4 mt-4 lg:text-md text-sm h-8 px-2"
+                  className="bg-blue-100 rounded h-10 pl-4 mt-4"
                   required
                   placeholder="last name"
                   value={patient.name.lastName}
@@ -262,7 +262,7 @@ export default function Register(props) {
                 ></input>
               </div>
               <div className="lg:grid grid-cols-4 gap-2 mt-4 mr-4">
-                <label className="font-bold lg:text-xl px-4 ">Birthdate</label>
+                <label className="font-semibold lg:text-lg px-4 ">Birthdate</label>
                 <input
                   type="date"
                   className=" bg-blue-100 lg:h-10 rounded pl-4 h-8"
@@ -276,7 +276,7 @@ export default function Register(props) {
                 ></input>
               </div>
               <div className="lg:grid grid-cols-4 gap-2 mt-4 mr-4">
-                <label className="font-bold lg:text-xl px-4 ">
+                <label className="font-semibold lg:text-lg px-4 ">
                   Mobile No.{" "}
                 </label>
 
@@ -295,7 +295,7 @@ export default function Register(props) {
               </div>
 
               <div className=" aadhar lg:grid grid-cols-4 gap-2 mt-4 mr-4">
-                <label className="font-bold lg:text-xl px-4 ">
+                <label className="font-semibold lg:text-lg px-4 ">
                   Aadhar Card No.{" "}
                 </label>
                 <div>
@@ -319,7 +319,7 @@ export default function Register(props) {
 
 
               <div className=" aadhar lg:grid grid-cols-4 gap-2 mt-4 mr-4">
-                <label className="font-bold lg:text-xl px-4 ">
+                <label className="font-semibold lg:text-lg px-4 ">
                   ABHA ID.{" "}
                 </label>
                 <div>
@@ -343,7 +343,7 @@ export default function Register(props) {
 
 
               <div className="grid grid-cols-4 gap-2 mt-4 mr-4">
-                <label className="  lg:text-xl font-bold px-4 ">Email</label>
+                <label className="  lg:text-lg font-semibold px-4 ">Email</label>
                 <input
                   type="email"
                   id="email"
@@ -361,7 +361,7 @@ export default function Register(props) {
 
 
               <div className="grid grid-cols-4 gap-2 mt-4 mr-4">
-                <label className="  lg:text-xl font-bold px-4">
+                <label className="  lg:text-lg font-semibold px-4">
                   Blood Group
                 </label>
                 <div className="">
@@ -389,10 +389,10 @@ export default function Register(props) {
               </div>
 
               <div className="grid grid-cols-4 gap-2 mt-4 mr-4 grid-flow-dense ">
-                <label className=" lg:text-xl font-bold px-4 mb-8 col-span-1">
+                <label className=" lg:text-lg font-semibold px-4 mb-8 col-span-1">
                   Address
                 </label>
-                <div className="grid grid-cols-2 lg:gap-8 gap-2 col-span-3 ">
+                <div className="grid grid-cols-2 lg:gap-4 gap-1 col-span-3 ">
                   <input
                     type="text"
                     className="bg-blue-100 lg:h-10  rounded pl-4 h-8 "
@@ -468,7 +468,7 @@ export default function Register(props) {
               </div>
 
               <div className="lg:grid grid-cols-4 gap-2 mt-4 mr-4">
-                <label type="password" className="  lg:text-xl font-bold px-4">
+                <label type="password" className="  lg:text-lg font-semibold px-4">
                   Password
                 </label>
                 <input
@@ -489,7 +489,7 @@ export default function Register(props) {
               </div>
 
               <div className="lg:grid lg:grid-cols-4 gap-2 mt-4 mr-4 flex">
-                <label type="password" className=" lg:text-xl font-bold px-4">
+                <label type="password" className=" lg:text-lg font-semibold px-4">
                   Confirm Password
                 </label>
                 <input
@@ -509,13 +509,13 @@ export default function Register(props) {
 
             <div className={Toggle === "Patient" ? "" : "hidden"}>
               <div className="flex justify-center">
-                <h1 className=" p-4 rounded font-bold lg:text-3xl text-xl mt-2">
+                <h1 className=" p-4 rounded font-bold lg:text-3xl text-xl mt-3">
                   Emergency Contact Details
                 </h1>
               </div>
 
-              <div className="lg:grid grid-cols-4 gap-2 mt-8 mr-4 flex">
-                <label className="font-bold lg:text-xl px-4 ">Name</label>
+              <div className="lg:grid grid-cols-4 gap-2 mt-6 mr-4 flex">
+                <label className="font-semibold lg:text-lg px-4 ">Name</label>
                 <input
                   className="bg-blue-100 rounded h-10 pl-4"
                   placeholder="first name"
@@ -548,7 +548,7 @@ export default function Register(props) {
                 ></input>
               </div>
               <div className="lg:grid grid-cols-4 gap-2 mt-4 mr-4">
-                <label className="font-bold lg:text-xl px-4 ">
+                <label className="font-semibold lg:text-lg px-4 ">
                   Mobile No.{" "}
                 </label>
 
@@ -567,7 +567,7 @@ export default function Register(props) {
               </div>
 
               <div className="lg:grid grid-cols-4 gap-2 mt-4 mr-4">
-                <label className="  lg:text-xl font-bold px-4">Email</label>
+                <label className="  lg:text-lg font-semibold px-4">Email</label>
                 <input
                   type="email"
                   id="contact-email"
@@ -583,11 +583,9 @@ export default function Register(props) {
               </div>
 
               <div className="mt-4">
-                <label className=" rounded p-2 lg:text-xl font-bold px-4">
-                  Relation with patient
-                </label>
+                <label className="lg:text-lg font-semibold px-4"> Relation with patient </label>
                 <input
-                  className="bg-blue-100 lg:h-10 ml-24 rounded pl-4 h-8 lg:mt-0 lg:ml-0 mt-2 "
+                  className="bg-blue-100 lg:h-10  rounded lg:pl-4 h-8 pl-2 ml-8"
                   placeholder="eg. father"
                   value={patient.contactPerson.relation}
                   onChange={(e) => {
@@ -599,7 +597,7 @@ export default function Register(props) {
               </div>
 
               <div className="grid grid-cols-4 gap-2 mt-4 mr-4 grid-flow-dense ">
-                <label className=" lg:text-xl font-bold px-4 mb-8 col-span-1">
+                <label className=" lg:text-lg font-semibold px-4 mb-8 col-span-1">
                   Address
                 </label>
                 <div className="grid grid-cols-2 gap-8 col-span-3 ">
@@ -688,7 +686,7 @@ export default function Register(props) {
                     width={"5%"}
                   />
                 ) : (
-                  <button className="bg-primary rounded p-2 px-8 font-bold text-xl hover:bg-bgsecondary mb-4 ">
+                  <button className="bg-primary rounded p-2 px-8 font-semibold text-xl hover:bg-bgsecondary mb-4 ">
                     Submit
                   </button>
                 )}

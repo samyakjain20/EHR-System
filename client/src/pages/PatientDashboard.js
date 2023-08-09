@@ -44,7 +44,7 @@ const PatientDashboard = (props) => {
           <div className="">
             <div className="flex  h-12 m-2 bg-bgprimary rounded mt-4  ">
               <div>
-                <h1 className="text-2xl font-poppins font-bold p-2 ">
+                <h1 className="text-2xl  font-bold p-2 ">
                   My Dashboard
                 </h1>
               </div>
@@ -66,7 +66,7 @@ const PatientDashboard = (props) => {
                     className="h-14 p-1 rounded-2xl"
                     alt="profile"
                   ></img>
-                  <div className="mt-4 ml-4  font-bold font-poppins">
+                  <div className="mt-4 ml-4  font-bold ">
                     <h1>{`${patient.name.firstName}  ${patient.name.lastName}`}</h1>
                   </div>
                 </button>
@@ -77,11 +77,11 @@ const PatientDashboard = (props) => {
           <div className="grid grid-cols-2">
             <div className="m-4 p-4">
               <div>
-                <h1 className="font-bold font-poppins text-xl ">
+                <h1 className="font-bold  text-xl ">
                   Patient Details
                 </h1>
               </div>
-              <div className="bg-white font-poppins p-4 mt-4 px-8 rounded-xl shadow">
+              <div className="bg-white  p-4 mt-4 px-8 rounded-xl shadow">
                 <div className="flex">
                   <div>
                     <h1>Name : </h1>
@@ -114,7 +114,7 @@ const PatientDashboard = (props) => {
             <div></div>
           </div>
 
-          <div className="font-poppins px-8">
+          <div className=" px-8">
             <div className="m-r">
               <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
 
@@ -180,7 +180,7 @@ const PatientDashboard = (props) => {
             </div>
           </div>
 
-          <div className="font-poppins m-4  ">
+          <div className=" m-4  ">
             <div className="flex justify-between ml-4">
               <div className="font-bold text-xl ">
                 <h1>Patient Dashboard</h1>
@@ -227,7 +227,7 @@ const PatientDashboard = (props) => {
                             props.setPrescriptionID(prescription._id)
                           }
                         >
-                          <div className=" flex  justify-center bg-primary py-1 px-3 rounded font-semibold font-poppins shadow-sm hover:bg-bgsecondary w-2/5   ">
+                          <div className=" flex  justify-center bg-primary py-1 px-3 rounded font-semibold  shadow-sm hover:bg-bgsecondary w-2/5   ">
                             <img
                               src={eye}
                               className="h-4 my-auto"

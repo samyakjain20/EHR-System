@@ -92,8 +92,8 @@ export default function RegisterHospital(props) {
     <div className="">
       <form onSubmit={handleRegisterHospital} class="">
             {metaAccount}
-            <div class="grid grid-cols-4 gap-2 mt-4 mr-4">
-              <label class="  lg:text-xl  font-bold px-4">Name</label>
+            <div class="grid grid-cols-4 gap-2 mt-7 mr-4">
+              <label class="  lg:text-lg  font-semibold px-4">Name</label>
               <input
                 type="text"
                 id="hospital-name"
@@ -110,7 +110,7 @@ export default function RegisterHospital(props) {
             </div>
             
             <div class="grid grid-cols-4 gap-2 mt-4 mr-4">
-              <label class="  lg:text-xl  font-bold px-4">Email</label>
+              <label class="  lg:text-lg  font-semibold px-4">Email</label>
               <input
                 type="text"
                 id="hospital-email"
@@ -127,7 +127,7 @@ export default function RegisterHospital(props) {
             </div>
 
             <div class="grid grid-cols-4 gap-2 mt-4 mr-4 grid-flow-dense ">
-              <label class=" lg:text-xl  font-bold px-4 mb-8 col-span-1">
+              <label class=" lg:text-lg  font-semibold px-4 mb-8 col-span-1">
                 Address
               </label>
               <div className="grid grid-cols-2 gap-4 col-span-3 ">
@@ -205,7 +205,7 @@ export default function RegisterHospital(props) {
               </div>
             </div>
             <div class="grid grid-cols-4 gap-2 mt-4 mr-4">
-              <label class="  lg:text-xl  font-bold px-4">
+              <label class="  lg:text-lg  font-semibold px-4">
                 Contact No.
               </label>
               <input
@@ -224,7 +224,7 @@ export default function RegisterHospital(props) {
             </div>
 
             <div class="grid grid-cols-4 gap-2 mt-4 mr-4">
-              <label type="password" class="  lg:text-xl  font-bold px-4">
+              <label type="password" class="  lg:text-lg  font-semibold px-4">
                 Password
               </label>
               <input
@@ -243,7 +243,7 @@ export default function RegisterHospital(props) {
             </div>
 
             <div class="grid grid-cols-4 gap-2 mt-4 mr-4">
-              <label type="password" class=" lg:text-xl  font-bold px-4">
+              <label type="password" class=" lg:text-lg  font-semibold px-4">
                 Confirm Password
               </label>
               <input
@@ -267,7 +267,7 @@ export default function RegisterHospital(props) {
                   width={"5%"}
                 />
               ) : (
-                <button className="bg-primary rounded p-2 px-8 font-bold text-xl hover:bg-bgsecondary mb-4 ">
+                <button className="bg-primary rounded p-2 px-8 font-semibold text-xl hover:bg-bgsecondary mb-4 ">
                   Submit
                 </button>
               )}
