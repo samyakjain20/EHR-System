@@ -9,53 +9,59 @@ import { useEffect, useState } from "react";
 import ReactLoading from "react-loading";
 import { Button, message, Upload } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
+import { UserContractObj, FileContractObj } from "../GlobalData/GlobalContext";
+const ethers = require("ethers")
 
 const LabDashboard = (props) => {
+    const {userMgmtContract, setUserMgmtContract} = UserContractObj();
+    const {fileMgmtContract, setFileMgmtContract} = FileContractObj();
     const [Loading, setLoading] = useState(false);
     const navigate = useNavigate();
-    const [dob, setDob] = useState("01/01/2006");
+    const [dob, setDob] = useState("");
     const [patient, setPatient] = useState({});
     const [prescriptions, setPrescriptions] = useState([{}]);
     const [lab, setLab] = useState({
         name: "",
-        labID: "",
-        associatedHospital: "",
+        mobile: "",
+        email: "",
+        address: {
+          building: "",
+          city: "",
+          taluka: "",
+          district: "",
+          state: "",
+          pincode: "",
+        },
+        specialization: {},
+        password: "",
+        username: ""
     })
+
     const [doctor, setDoctor] = useState({
         name: {
-            firstName: "",
-            middleName: "",
-            surName: "",
-        },
-        org: "",
-        orgAddress: {
-            building: "",
-            city: "",
-            taluka: "",
-            district: "",
-            state: "",
-            pincode: "",
+          firstName: "",
+          middleName: "",
+          lastName: "",
         },
         emergencyno: "",
-        orgNumber: "",
         dob: "",
         mobile: "",
         email: "",
         adharCard: "",
         bloodGroup: "",
-        education: [{ degree: "" }],
+        education: "",
         address: {
-            building: "",
-            city: "",
-            taluka: "",
-            district: "",
-            state: "",
-            pincode: "",
+          building: "",
+          city: "",
+          taluka: "",
+          district: "",
+          state: "",
+          pincode: "",
         },
-        specialization: [{ special: "" }],
+        specialization: {},
         password: "",
-        _id: "",
-    });
+        username: ""
+      });
 
     const convertDatetoString = (dateString) => {
         let date = new Date(dateString);
@@ -67,95 +73,28 @@ const LabDashboard = (props) => {
 
     useEffect(() => {
         async function getdoctor() {
-            const res = await fetch("/getdoctor");
-            const data = await res.json();
-            if (data.AuthError) {
-                props.settoastCondition({
-                    status: "info",
-                    message: "Please Login to Proceed!!!",
-                });
-                props.setToastShow(true);
-                navigate("/");
-            } else {
-                setDoctor(data.doctor);
-            }
+           
         }
-        async function getpatient() {
-            setLoading(true);
-            if (props.healthID.length === 12) {
-                const res = await fetch(`/searchpatient/${props.healthID}`);
-                const data = await res.json();
 
-                if (data.AuthError) {
-                    setLoading(false);
-                    props.settoastCondition({
-                        status: "info",
-                        message: "Please Login to proceed!!!",
-                    });
-                    props.setToastShow(true);
-                    navigate("/");
-                } else if (data.error) {
-                    setLoading(false);
-                    props.settoastCondition({
-                        status: "error",
-                        message: "This HealthID doesn't exist!!!",
-                    });
-                    props.setToastShow(true);
-                } else {
-                    setPatient(data.patient);
-                    if (data.patient.prescriptions) {
-                        setPrescriptions(data.patient.prescriptions.reverse());
-                    }
-                    setDob(convertDatetoString(patient.dob));
-                    setLoading(false);
-                }
-            } else if (props.healthID.length === 0) {
-                setLoading(false);
-                setPatient({});
-            }
-            setLoading(false);
+        async function getpatient() {
+            
         }
+
+        async function getLab() {
+            const data = await userMgmtContract.getLabInfo();
+            console.log(data);
+            var labObj = JSON.parse(data);
+            getLab(labObj);
+        }
+
         getdoctor();
         getpatient();
+        getLab();
+
     }, [dob]);
 
     const searchPatient = async (e) => {
-        e.preventDefault();
-        if (props.healthID.length === 12) {
-            setLoading(true);
-            const res = await fetch(`/searchpatient/${props.healthID}`);
-            const data = await res.json();
-
-            if (data.AuthError) {
-                setLoading(false);
-                props.settoastCondition({
-                    status: "info",
-                    message: "Please Login to proceed!!!",
-                });
-                props.setToastShow(true);
-                navigate("/");
-            } else if (data.error) {
-                setLoading(false);
-                props.settoastCondition({
-                    status: "error",
-                    message: "This HealthID doesn't exist!!!",
-                });
-                props.setToastShow(true);
-            } else {
-                setPatient(data.patient);
-                if (data.patient.prescriptions) {
-                    setPrescriptions(data.patient.prescriptions.reverse());
-                }
-                setDob(convertDatetoString(patient.dob));
-                setLoading(false);
-            }
-        } else {
-            props.settoastCondition({
-                status: "warning",
-                message: "Please Enter 12 Digit HealthID !!!",
-            });
-            props.setToastShow(true);
-        }
+        
     };
 
     const [fileList, setFileList] = useState([]);
@@ -183,6 +122,7 @@ const LabDashboard = (props) => {
                 setUploading(false);
             });
     };
+
     const propsFile = {
         onRemove: (file) => {
             const index = fileList.indexOf(file);
@@ -231,13 +171,11 @@ const LabDashboard = (props) => {
                                     <div className="grid grid-rows-2 ml-4 gap-2  mb-4">
                                         <div className="font-bold font-poppins text-base">
                                             <h1 className="">
-                                                {`Field: ${doctor.name.firstName} ${doctor.name.surName}`}
+                                                {`Field: ${doctor.name.firstName} ${doctor.name.lastName}`}
                                             </h1>
                                         </div>
                                         <div className="">
-                                            <h2 className="text-sm">
-                                                {doctor.specialization[0].special}
-                                            </h2>
+                                            
                                         </div>
                                     </div>
                                 </div>

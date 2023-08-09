@@ -7,36 +7,31 @@ import eye from "../assets/img/dashboard/eye.png";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import ReactLoading from "react-loading";
+import { UserContractObj, FileContractObj } from "../GlobalData/GlobalContext";
+const ethers = require("ethers")
 
 const DoctorDashboard = (props) => {
+  const {userMgmtContract, setUserMgmtContract} = UserContractObj();
+  const {fileMgmtContract, setFileMgmtContract} = FileContractObj();
   const [Loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const [dob, setDob] = useState("01/01/2006");
+  const [dob, setDob] = useState("");
+  const [metaAccount, setMetaAccount] = useState(''); // meta mask account
   const [patient, setPatient] = useState({});
   const [prescriptions, setPrescriptions] = useState([{}]);
   const [doctor, setDoctor] = useState({
     name: {
       firstName: "",
       middleName: "",
-      surName: "",
-    },
-    org: "",
-    orgAddress: {
-      building: "",
-      city: "",
-      taluka: "",
-      district: "",
-      state: "",
-      pincode: "",
+      lastName: "",
     },
     emergencyno: "",
-    orgNumber: "",
     dob: "",
     mobile: "",
     email: "",
     adharCard: "",
     bloodGroup: "",
-    education: [{ degree: "" }],
+    education: "",
     address: {
       building: "",
       city: "",
@@ -45,9 +40,9 @@ const DoctorDashboard = (props) => {
       state: "",
       pincode: "",
     },
-    specialization: [{ special: "" }],
+    specialization: {},
     password: "",
-    _id: "",
+    username: ""
   });
 
   const convertDatetoString = (dateString) => {
@@ -60,54 +55,15 @@ const DoctorDashboard = (props) => {
 
   useEffect(() => {
     async function getdoctor() {
-      const res = await fetch("/getdoctor");
-      const data = await res.json();
-      if (data.AuthError) {
-        props.settoastCondition({
-          status: "info",
-          message: "Please Login to Proceed!!!",
-        });
-        props.setToastShow(true);
-        navigate("/");
-      } else {
-        setDoctor(data.doctor);
-      }
+      const data = await userMgmtContract.getDoctorInfo();
+      console.log(data);
+      var doctortObj = JSON.parse(data);
+      setDoctor(doctortObj);
     }
-    async function getpatient() {
-      setLoading(true);
-      if (props.healthID.length === 12) {
-        const res = await fetch(`/searchpatient/${props.healthID}`);
-        const data = await res.json();
 
-        if (data.AuthError) {
-          setLoading(false);
-          props.settoastCondition({
-            status: "info",
-            message: "Please Login to proceed!!!",
-          });
-          props.setToastShow(true);
-          navigate("/");
-        } else if (data.error) {
-          setLoading(false);
-          props.settoastCondition({
-            status: "error",
-            message: "This HealthID doesn't exist!!!",
-          });
-          props.setToastShow(true);
-        } else {
-          setPatient(data.patient);
-          if (data.patient.prescriptions) {
-            setPrescriptions(data.patient.prescriptions.reverse());
-          }
-          setDob(convertDatetoString(patient.dob));
-          setLoading(false);
-        }
-      } else if (props.healthID.length === 0) {
-        setLoading(false);
-        setPatient({});
-      }
-      setLoading(false);
+    async function getpatient() {      
     }
+
     getdoctor();
     getpatient();
   }, [dob]);
@@ -160,7 +116,7 @@ const DoctorDashboard = (props) => {
             <div className="flex  h-12 m-2 bg-bgprimary rounded mt-4 ">
               <div>
                 <h1 className="text-2xl font-poppins font-bold p-2 ">
-                  DashBoard Today
+                  My Dashboard
                 </h1>
               </div>
 
@@ -184,13 +140,11 @@ const DoctorDashboard = (props) => {
                   <div className="grid grid-rows-2 ml-4 gap-2  mb-4">
                     <div className="font-bold font-poppins text-base">
                       <h1 className="">
-                        {`Dr. ${doctor.name.firstName} ${doctor.name.surName}`}
+                        {`Dr. ${doctor.name.firstName} ${doctor.name.lastName}`}
                       </h1>
                     </div>
                     <div className="">
-                      <h2 className="text-sm">
-                        {doctor.specialization[0].special}
-                      </h2>
+                    
                     </div>
                   </div>
                 </div>
@@ -268,7 +222,7 @@ const DoctorDashboard = (props) => {
                     <div className="flex justify-between">
                       <h1 className="pl-3">{`${patient.name.firstName} `}</h1>
                       <h1 className="pl-1">{`${patient.name.middleName} `}</h1>
-                      <h1 className="pl-1">{patient.name.surName}</h1>
+                      <h1 className="pl-1">{patient.name.lastName}</h1>
                     </div>
                   </div>
                   <div className="flex">

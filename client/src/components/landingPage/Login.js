@@ -67,7 +67,7 @@ export default function Login(props) {
         setLoading(false);
         props.settoastCondition({
           status: "success",
-          message: "Your Registration done Successfully!",
+          message: "Logged in Successfully!",
         });
         props.setToastShow(true);
         navigate("/patient/dashboard");
@@ -124,7 +124,7 @@ export default function Login(props) {
         setLoading(false);
         props.settoastCondition({
           status: "success",
-          message: "Your Registration done Successfully!",
+          message: "Logged in Successfully!",
         });
         props.setToastShow(true);
         navigate(path);
@@ -185,11 +185,10 @@ export default function Login(props) {
           await provider.send("eth_requestAccounts", []);
           const signer = provider.getSigner();
           const address = await signer.getAddress();
-          setMetaAccount(address);
 
           const fileAbi = require("../../components/landingPage/contracts/FileManagement.json");
           const userAbi = require("../../components/landingPage/contracts/UserManagement.json");
-          let userMgmtContractAddress = "0xF7D7eDA4AC98E9Ce76F3C537c8EC7AbA84CE1d72";
+          let userMgmtContractAddress = "0x874463720706a3C45a496FF14c79BDcdC62e3c8e";
           let fileMgmtContractAddress = "0x0dAFF696d6EEd9FD0f46999DF322Fd8b34277964";
 
           const userMgmtContract = new ethers.Contract(
@@ -207,6 +206,8 @@ export default function Login(props) {
           setFileMgmtContract(fileMgmtContract);
           setUserMgmtContract(userMgmtContract);
           setProvider(provider);
+          const res = await userMgmtContract.retrive();
+          setMetaAccount(res);
           console.log(address);
           console.log(userMgmtContract);
           console.log(fileMgmtContract);
@@ -356,6 +357,7 @@ export default function Login(props) {
               className="inline-block pl-[0.15rem] hover:cursor-pointer text-semibold"
               htmlFor="flexSwitchCheckDefault"
           >Connect to MetaMask Wallet</label>
+           {metaAccount}
       </div>
 
         {Loading ? (

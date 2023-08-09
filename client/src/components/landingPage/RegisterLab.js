@@ -9,6 +9,7 @@ const ethers = require("ethers")
 export default function RegisterLab(props) {
   const {userMgmtContract, setUserMgmtContract} = UserContractObj();
   const {fileMgmtContract, setFileMgmtContract} = FileContractObj();
+  const [metaAccount, setMetaAccount] = useState(''); // meta mask account
   const navigate = useNavigate();
   const [Loading, setLoading] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -48,20 +49,8 @@ export default function RegisterLab(props) {
 
   useEffect(() => {
     const auth = async () => {
-      const res = await fetch("/auth");
-      const data = await res.json();
-      if (data.msg === "lab Login Found") {
-        navigate("/lab/dashboard");
-      }
-      if (data.msg === "Hospital Login Found") {
-        navigate("/hospital/dashboard");
-      }
-      if (data.msg === "Admin Login Found") {
-        navigate("/admin/dashboard");
-      }
-      if (data.msg === "Patient Login Found") {
-        navigate("/patient/dashboard");
-      }
+      const acc = await userMgmtContract.retrive();
+      setMetaAccount(acc);
     };
     auth();
   });
@@ -113,6 +102,7 @@ export default function RegisterLab(props) {
     <div className="">
       <form onSubmit={handleRegisterLab} >
 
+            {metaAccount}
             <div class="grid grid-cols-4 gap-2 mt-4 mr-4">
               <label class="font-bold lg:text-xl  font-poppins px-4 my-4 ">
                 Lab Name

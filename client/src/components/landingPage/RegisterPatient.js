@@ -79,17 +79,8 @@ export default function Register(props) {
   
   useEffect(() => {
     const auth = async () => {
-      const res = await fetch("/auth");
-      const data = await res.json();
-      if (data.msg === "Doctor Login Found") {
-        navigate("/doctor/dashboard");
-      }
-      if (data.msg === "Admin Login Found") {
-        navigate("/hospital/dashboard");
-      }
-      if (data.msg === "Patient Login Found") {
-        navigate("/patient/dashboard");
-      }
+      const acc = await userMgmtContract.retrive();
+      setMetaAccount(acc);
     };
 
     console.log(userMgmtContract);
@@ -230,6 +221,7 @@ export default function Register(props) {
               onSubmit={handleRegisterPatient}
             >
             <div className={Toggle === "Patient" ? "" : "hidden"}>
+            {metaAccount}
               <div className="lg:grid lg:grid-cols-4 lg:gap-2 mt-4 mr-4 grid grid-cols-4 gap-2">
                 <label className="font-bold lg:text-xl font-poppins px-4 my-4 "> Name </label>
                 <div>

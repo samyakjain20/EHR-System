@@ -214,123 +214,39 @@
 		"type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_userAddress",
-				"type": "address"
-			}
-		],
+		"inputs": [],
 		"name": "getDoctorInfo",
 		"outputs": [
 			{
-				"components": [
-					{
-						"internalType": "string",
-						"name": "username",
-						"type": "string"
-					},
-					{
-						"internalType": "bytes32",
-						"name": "passwordHash",
-						"type": "bytes32"
-					},
-					{
-						"internalType": "bool",
-						"name": "isRegistered",
-						"type": "bool"
-					},
-					{
-						"internalType": "string",
-						"name": "doctorDetails",
-						"type": "string"
-					}
-				],
-				"internalType": "struct UserManagement.Doctor",
+				"internalType": "string",
 				"name": "doctorInfo",
-				"type": "tuple"
+				"type": "string"
 			}
 		],
 		"stateMutability": "view",
 		"type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_userAddress",
-				"type": "address"
-			}
-		],
+		"inputs": [],
 		"name": "getHospitalInfo",
 		"outputs": [
 			{
-				"components": [
-					{
-						"internalType": "string",
-						"name": "username",
-						"type": "string"
-					},
-					{
-						"internalType": "bytes32",
-						"name": "passwordHash",
-						"type": "bytes32"
-					},
-					{
-						"internalType": "bool",
-						"name": "isRegistered",
-						"type": "bool"
-					},
-					{
-						"internalType": "string",
-						"name": "hospitalDetails",
-						"type": "string"
-					}
-				],
-				"internalType": "struct UserManagement.Hospital",
+				"internalType": "string",
 				"name": "hospitalInfo",
-				"type": "tuple"
+				"type": "string"
 			}
 		],
 		"stateMutability": "view",
 		"type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_userAddress",
-				"type": "address"
-			}
-		],
+		"inputs": [],
 		"name": "getLabInfo",
 		"outputs": [
 			{
-				"components": [
-					{
-						"internalType": "string",
-						"name": "username",
-						"type": "string"
-					},
-					{
-						"internalType": "bytes32",
-						"name": "passwordHash",
-						"type": "bytes32"
-					},
-					{
-						"internalType": "bool",
-						"name": "isRegistered",
-						"type": "bool"
-					},
-					{
-						"internalType": "string",
-						"name": "labDetails",
-						"type": "string"
-					}
-				],
-				"internalType": "struct UserManagement.Lab",
+				"internalType": "string",
 				"name": "labInfo",
-				"type": "tuple"
+				"type": "string"
 			}
 		],
 		"stateMutability": "view",
