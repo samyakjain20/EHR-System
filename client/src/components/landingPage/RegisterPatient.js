@@ -129,6 +129,7 @@ export default function Register(props) {
     
     catch (error) {
       setLoading(false);
+      console.log(error);
       console.log(error.data.data.reason);
       window.alert(error.data.data.reason);
         if (

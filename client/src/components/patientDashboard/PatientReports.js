@@ -22,6 +22,7 @@ const PatientReports = (props) => {
   const [report, setReport] = useState({
     doctorName: "",
     date: "",
+    url : "",
     recordType: "",
     file: null
   });
@@ -68,44 +69,50 @@ const PatientReports = (props) => {
     },
   });
 
-
   const [fileList, setFileList] = useState([]);
   const [uploading, setUploading] = useState(false);
   const handleUpload = async (e) => {
     e.preventDefault();
+    setUploading(true);
 
     const pinataApiKey = "e3763b7d1d1a2919759b"
     const pinataSecretApiKey = "2175b03254e561d1c8b5d6efb80d06ffaf5408abbeb9e0493788c68e176d66e7"
     try {
       const formData = new FormData();
       formData.append("file", fileList[0]);
+      // console.log("form: ", formData);
 
       const resFile = await axios({
-          method: "post",
-          url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
-          data: formData,
-          headers: {
-              'pinata_api_key': `${pinataApiKey}`,
-              'pinata_secret_api_key': `${pinataSecretApiKey}`,
-              "Content-Type": "multipart/form-data"
-          },
+        method: "post",
+        url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
+        data: formData,
+        headers: {
+          'pinata_api_key': `${pinataApiKey}`,
+          'pinata_secret_api_key': `${pinataSecretApiKey}`,
+          "Content-Type": "multipart/form-data"
+        },
       });
 
       const fileUrl = `https://gateway.pinata.cloud/ipfs/${resFile.data.IpfsHash}`;
-
+      console.log(fileUrl);      
       const reportData = report;
       reportData.url = fileUrl;
-      const fileDetails = JSON.stringify(reportData);
-      const data = await fileMgmtContract.addFile(metaAccount, report.recordType, fileDetails);
+      let fileDetails = JSON.stringify(reportData);
+      const data = await fileMgmtContract.addFile(report.recordType, fileDetails);
+      console.log(data);
+      const retrieveFiles = await fileMgmtContract.displayFiles(report.recordType);
+      console.log("retrieve files: ", retrieveFiles.toString());
 
       if (data.errors) {
         setUploading(false);
+        console.log(data.errors);
         props.settoastCondition({
           status: "error",
           message: "Report Upload failed, check network!",
         });
+        console.log(data.errors)
         props.setToastShow(true);
-      } 
+      }
       else {
         setUploading(false);
         props.settoastCondition({
@@ -113,7 +120,7 @@ const PatientReports = (props) => {
           message: "Report uploaded Successfully!",
         });
         props.setToastShow(true);
-        navigate("/patient/reports");
+        navigate("/patient/dashboard");
       }
 
     } catch (error) {
@@ -123,7 +130,7 @@ const PatientReports = (props) => {
         message: "Report Upload failed, check network!",
       });
       props.setToastShow(true);
-  }
+    }
   };
 
   const propsFile = {
@@ -185,6 +192,7 @@ const PatientReports = (props) => {
                   <div className="mt-4 ml-4  font-bold font-poppins">
                     <h1 className="ml-2">
                       {`${patient.name.firstName} ${patient.name.lastName}`}
+                      {`${patient.name.firstName} ${patient.name.lastName}`}
                     </h1>
                   </div>
                 </div>
@@ -196,28 +204,29 @@ const PatientReports = (props) => {
               </div>
             </div>
 
-            <div className="lg:grid grid-cols-5 gap-2 mt-4 mr-4">
-                <label className="font-bold lg:text-xl px-12 ">
-                  Record Type:
-                </label>
+              <form onSubmit={handleUpload}>
+                <div className="lg:grid grid-cols-5 gap-2 mt-4 mr-4">
+                  <label className="font-bold lg:text-xl px-12 ">
+                    Record Type:
+                  </label>
 
-                <select value={report.recordType} 
-                  onChange={(e) => {
-                    let tempreport = { ...report };
-                    tempreport.recordType = e.target.value;
-                    setReport(tempreport);
-                  }
-                }  id="recordtype" 
-                className="pl-4 bg-blue-100 lg:h-8  rounded h-8"                
-                // className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                >
-                  <option selected>Choose Type</option>
-                  <option value="LabReport">Lab Report</option>
-                  <option value="DiagonsticsReport">Diagonsis Report</option>
-                  <option value="DischargeReport">Discharge Report</option>
-                  <option value="Vaccination">Vaccination Summary</option>
-                </select>
-              </div>
+                  <select  value={report.recordType} 
+                    onChange={(e) => {
+                      let tempreport = { ...report };
+                      tempreport.recordType = e.target.value;
+                      setReport(tempreport);
+                    }
+                  }  id="recordtype" 
+                  className="pl-4 bg-blue-100 lg:h-8  rounded h-8"                
+                  // className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  required>
+                    <option value="">Choose Type</option>
+                    <option value="LabReport">Lab Report</option>
+                    <option value="DiagonsticsReport">Diagonsis Report</option>
+                    <option value="DischargeReport">Discharge Report</option>
+                    <option value="Vaccination">Vaccination Summary</option>
+                  </select>
+                </div>
 
 
               <div className="lg:grid grid-cols-5 gap-2 mt-4 mr-4">
@@ -245,51 +254,49 @@ const PatientReports = (props) => {
                 </div>
               </div>
 
-              <div className="lg:grid grid-cols-5 gap-2 mt-4 mr-4">
-                <label className="font-bold lg:text-xl px-12 ">
-                  Diagnosis:
-                </label>
+                <div className="lg:grid grid-cols-5 gap-2 mt-4 mr-4">
+                  <label className="font-bold lg:text-xl px-12 ">
+                    Diagnosis:
+                  </label>
 
-                <input
-                  type="diagnosis"
-                  placeholder="Diagnosis"
-                  required
-                  className="pl-4 bg-blue-100 lg:h-8  rounded h-8"
-                ></input>
-              </div>
-
-              <div className="lg:grid grid-cols-5 gap-2 mt-4 mr-4">
-                <label className="font-bold lg:text-xl px-12 ">Date:</label>
-                <input required type="date" placeholder="Date of Record" 
-                  value={report.date}
-                  onChange={(e) => {
-                    let tempreport = { ...report };
-                    tempreport.date= e.target.value;
-                    setReport(tempreport);
-                  }}
-                  className="pl-4 bg-blue-100 lg:h-8  rounded h-8"
-                ></input>
-              </div>
-
-              <div className="lg:grid grid-cols-5 gap-2 mt-4 mr-4">
-                <div className="px-12 pt-3">
-                  <Upload {...propsFile} maxCount={1}>
-                    <Button icon={<UploadOutlined />}>Select File</Button>
-                  </Upload>
+                  <input
+                    type="diagnosis"
+                    placeholder="Diagnosis"
+                    required
+                    className="pl-4 bg-blue-100 lg:h-8  rounded h-8"
+                  ></input>
                 </div>
-                <Button
-                  className="bg-primary hover:bg-bgsecondary"
-                  onClick={handleUpload}
-                  disabled={fileList.length === 0}
-                  loading={uploading}
-                  style={{
-                    marginTop: 16,
-                  }}
-                  >
-                    {uploading ? 'Uploading' : 'Start Upload'}
-                </Button>
-              </div>
 
+                <div className="lg:grid grid-cols-5 gap-2 mt-4 mr-4">
+                  <label className="font-bold lg:text-xl px-12 ">Date:</label>
+                  <input required type="date" placeholder="Date of Record" 
+                    value={report.date}
+                    onChange={(e) => {
+                      let tempreport = { ...report };
+                      tempreport.date= e.target.value;
+                      setReport(tempreport);
+                    }}
+                    className="pl-4 bg-blue-100 lg:h-8  rounded h-8"
+                  ></input>
+                </div>
+
+                <div className="lg:grid grid-cols-4 mt-4">
+                  <div className="px-12 pt-3">
+                    <Upload {...propsFile} maxCount={1}>
+                      <Button icon={<UploadOutlined />}>Select File</Button>
+                    </Upload>
+                  </div>
+                  <button type="submit">
+                    <Button 
+                      className="bg-primary hover:bg-bgsecondary"
+                      disabled={fileList.length === 0}
+                      loading={uploading}
+                      >
+                        {uploading ? 'Uploading' : 'Start Upload'}
+                    </Button>
+                  </button>
+                </div>
+              </form>
           </div>
         </div>
       </div>
