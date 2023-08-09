@@ -187,6 +187,58 @@
 		"type": "function"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "_passwordHash",
+				"type": "bytes32"
+			}
+		],
+		"name": "loginDoctor",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "_passwordHash",
+				"type": "bytes32"
+			}
+		],
+		"name": "loginHospital",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "_passwordHash",
+				"type": "bytes32"
+			}
+		],
+		"name": "loginLab",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "_passwordHash",
+				"type": "bytes32"
+			}
+		],
+		"name": "loginPatient",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"anonymous": false,
 		"inputs": [
 			{
@@ -326,6 +378,98 @@
 	{
 		"inputs": [
 			{
+				"internalType": "string",
+				"name": "_username",
+				"type": "string"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "_password",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "string",
+				"name": "_doctorDetails",
+				"type": "string"
+			}
+		],
+		"name": "registerDoctor",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_username",
+				"type": "string"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "_password",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "string",
+				"name": "_hospitalDetails",
+				"type": "string"
+			}
+		],
+		"name": "registerHospital",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_username",
+				"type": "string"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "_password",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "string",
+				"name": "_labDetails",
+				"type": "string"
+			}
+		],
+		"name": "registerLab",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_username",
+				"type": "string"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "_password",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "string",
+				"name": "_patientDetails",
+				"type": "string"
+			}
+		],
+		"name": "registerPatient",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "uint256",
 				"name": "",
 				"type": "uint256"
@@ -336,6 +480,40 @@
 			{
 				"internalType": "string",
 				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "allDoctorObj",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "username",
+				"type": "string"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "passwordHash",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "bool",
+				"name": "isRegistered",
+				"type": "bool"
+			},
+			{
+				"internalType": "string",
+				"name": "doctorDetails",
 				"type": "string"
 			}
 		],
@@ -369,6 +547,40 @@
 				"type": "uint256"
 			}
 		],
+		"name": "allHospitalObj",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "username",
+				"type": "string"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "passwordHash",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "bool",
+				"name": "isRegistered",
+				"type": "bool"
+			},
+			{
+				"internalType": "string",
+				"name": "hospitalDetails",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
 		"name": "allLabArr",
 		"outputs": [
 			{
@@ -388,11 +600,84 @@
 				"type": "uint256"
 			}
 		],
+		"name": "allLabObj",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "username",
+				"type": "string"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "passwordHash",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "bool",
+				"name": "isRegistered",
+				"type": "bool"
+			},
+			{
+				"internalType": "string",
+				"name": "labDetails",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
 		"name": "allPatientArr",
 		"outputs": [
 			{
 				"internalType": "string",
 				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "allPatientObj",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "username",
+				"type": "string"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "passwordHash",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "bool",
+				"name": "isRegistered",
+				"type": "bool"
+			},
+			{
+				"internalType": "string",
+				"name": "abhaId",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "patientDetails",
 				"type": "string"
 			}
 		],
@@ -435,20 +720,7 @@
 	},
 	{
 		"inputs": [],
-		"name": "geDoctorIds",
-		"outputs": [
-			{
-				"internalType": "string[]",
-				"name": "",
-				"type": "string[]"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "geLabIds",
+		"name": "getDoctorIds",
 		"outputs": [
 			{
 				"internalType": "string[]",
@@ -467,6 +739,41 @@
 				"internalType": "string",
 				"name": "doctorInfo",
 				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getDoctorObjs",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "string",
+						"name": "username",
+						"type": "string"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "passwordHash",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "bool",
+						"name": "isRegistered",
+						"type": "bool"
+					},
+					{
+						"internalType": "string",
+						"name": "doctorDetails",
+						"type": "string"
+					}
+				],
+				"internalType": "struct UserManagement.Doctor[]",
+				"name": "",
+				"type": "tuple[]"
 			}
 		],
 		"stateMutability": "view",
@@ -500,12 +807,95 @@
 	},
 	{
 		"inputs": [],
+		"name": "getHospitalObjs",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "string",
+						"name": "username",
+						"type": "string"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "passwordHash",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "bool",
+						"name": "isRegistered",
+						"type": "bool"
+					},
+					{
+						"internalType": "string",
+						"name": "hospitalDetails",
+						"type": "string"
+					}
+				],
+				"internalType": "struct UserManagement.Hospital[]",
+				"name": "",
+				"type": "tuple[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getLabIds",
+		"outputs": [
+			{
+				"internalType": "string[]",
+				"name": "",
+				"type": "string[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
 		"name": "getLabInfo",
 		"outputs": [
 			{
 				"internalType": "string",
 				"name": "labInfo",
 				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getLabObjs",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "string",
+						"name": "username",
+						"type": "string"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "passwordHash",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "bool",
+						"name": "isRegistered",
+						"type": "bool"
+					},
+					{
+						"internalType": "string",
+						"name": "labDetails",
+						"type": "string"
+					}
+				],
+				"internalType": "struct UserManagement.Lab[]",
+				"name": "",
+				"type": "tuple[]"
 			}
 		],
 		"stateMutability": "view",
@@ -532,6 +922,46 @@
 				"internalType": "string",
 				"name": "patientInfo",
 				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getPatientObjs",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "string",
+						"name": "username",
+						"type": "string"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "passwordHash",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "bool",
+						"name": "isRegistered",
+						"type": "bool"
+					},
+					{
+						"internalType": "string",
+						"name": "abhaId",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "patientDetails",
+						"type": "string"
+					}
+				],
+				"internalType": "struct UserManagement.Patient[]",
+				"name": "",
+				"type": "tuple[]"
 			}
 		],
 		"stateMutability": "view",
