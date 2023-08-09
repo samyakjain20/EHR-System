@@ -7,6 +7,8 @@ import ReactLoading from "react-loading";
 // uploading report
 import { UploadOutlined } from '@ant-design/icons';
 import { Button, message, Upload } from 'antd';
+import { UserContractObj, FileContractObj, MetaAccountObj } from "../../GlobalData/GlobalContext";
+import axios from "axios";
 
 const AddNewDiagnosis = (props) => {
   const navigate = useNavigate();
@@ -25,14 +27,12 @@ const AddNewDiagnosis = (props) => {
       total: "",
     },
   ]);
-
   const [chiefComplaints, setChiefComplaints] = useState([
     { complaint: "", duration: "", finding: "" },
   ]);
   // const [clinicalFindings, setClinicalFindings] = useState([{ finding: "" }]);
   const [investigations, setInvestigations] = useState([{ investigation: "" }]);
   const [advices, setAdvices] = useState([{ advice: "" }]);
-
   const handleAddMedicine = () => {
     const tempmedicinelist = [...MedicineList];
     tempmedicinelist.push({
@@ -53,7 +53,6 @@ const AddNewDiagnosis = (props) => {
     tempChiefComplaint.push({ complaint: "", duration: "", finding: "" });
     setChiefComplaints(tempChiefComplaint);
   };
-
   // const handleAddClinicalFindings = () => {
   //   const tempClinicalFinding = [...clinicalFindings];
   //   tempClinicalFinding.push({ finding: "" });
@@ -148,31 +147,84 @@ const AddNewDiagnosis = (props) => {
     navigate("/doctor/dashboard");
   };
 
+  // const doctorName = "Dr. " + doctor.name.firstName + " " + doctor.name.lastName;
+  const doctorName = "{Dr Uday Shetty"
+  const [patientAbhaID, setPatientAbhaID] = useState("");
+  const [report, setReport] = useState({
+    hospitalName: doctor.org,
+    doctorName: doctorName,
+    recordType: "DiagnosticReport",
+    date: "",
+    url : "",
+    description: ""
+  });
+  const {userMgmtContract, setUserMgmtContract} = UserContractObj();  
+  const {fileMgmtContract, setFileMgmtContract} = FileContractObj();
+  const {metaAccount, setMetaAccount} = MetaAccountObj();
+  
   // uploading diagonstic report directtly 
   const [fileList, setFileList] = useState([]);
   const [uploading, setUploading] = useState(false);
-  const handleUpload = () => {
-    const formData = new FormData();
-    fileList.forEach((file) => {
-      formData.append('files[]', file);
-    });
+  const handleUpload = async (e) => {
+    e.preventDefault();
     setUploading(true);
-    // You can use any AJAX library you like
-    fetch('https://www.mocky.io/v2/5cc8019d300000980a055e76', {
-      method: 'POST',
-      body: formData,
-    })
-      .then((res) => res.json())
-      .then(() => {
-        setFileList([]);
-        message.success('upload successfully.');
-      })
-      .catch(() => {
-        message.error('upload failed.');
-      })
-      .finally(() => {
-        setUploading(false);
+
+    const pinataApiKey = "e3763b7d1d1a2919759b"
+    const pinataSecretApiKey = "2175b03254e561d1c8b5d6efb80d06ffaf5408abbeb9e0493788c68e176d66e7"
+    try {
+      const formData = new FormData();
+      formData.append("file", fileList[0]);
+
+      const resFile = await axios({
+          method: "post",
+          url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
+          data: formData,
+          headers: {
+              'pinata_api_key': `${pinataApiKey}`,
+              'pinata_secret_api_key': `${pinataSecretApiKey}`,
+              "Content-Type": "multipart/form-data"
+          },
       });
+
+      const fileUrl = `https://gateway.pinata.cloud/ipfs/${resFile.data.IpfsHash}`;
+      
+      const reportData = report;
+      reportData.url = fileUrl;
+      // get patientAddress from abha id entered by doc
+      const patientAddress = "0xd36058a1F3376126D6b9D8453d6EA3D4830BE0cD"
+      let fileDetails = JSON.stringify(reportData);
+      const data = await fileMgmtContract.addFile(patientAddress, report.recordType, fileDetails);
+      
+      // const retrieveFiles = await fileMgmtContract.displayFiles(metaAccount, report.recordType);
+      // console.log("retrieve files: ", retrieveFiles.toString());
+
+      if (data.errors) {
+        setUploading(false);
+        props.settoastCondition({
+          status: "error",
+          message: "Report Upload failed, check network!",
+        });
+        console.log(data.errors)
+        props.setToastShow(true);
+      } 
+      else {
+        setUploading(false);
+        props.settoastCondition({
+          status: "success",
+          message: "Report uploaded Successfully!",
+        });
+        props.setToastShow(true);
+        navigate("/doctor/dashboard");
+      }
+
+    } catch (error) {
+      setUploading(false);
+      props.settoastCondition({
+        status: "error",
+        message: "Report Upload failed, check network!",
+      });
+      props.setToastShow(true);
+  }
   };
   const propsFile = {
     onRemove: (file) => {
@@ -188,7 +240,13 @@ const AddNewDiagnosis = (props) => {
     fileList,
   };
 
-
+  const convertDatetoString = (dateString) => {
+    let date = new Date(dateString);
+    let day = date.getDate();
+    let month = date.getMonth() + 1;
+    let year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
   return (
     <div className="font-poppins col-span-10 overflow-y-scroll">
       <div className=" lg:min-h-screen lg:grid grid-cols-6  ">
@@ -200,35 +258,48 @@ const AddNewDiagnosis = (props) => {
           <div className="bg-white shadow p-6 m-2 ml-2 mt-8 lg:font-bold">
             <h1>Upload Diagnostics Report</h1>
 
-            <form
-              // className="bg-white shadow p-6 m-2 ml-2 mt-8 lg:font-bold  "
-              onSubmit={handleAddPrescription}
-            >
+            <form onSubmit={handleUpload}>
               <div className="grid grid-cols-6 mt-2">
-                <input
+                <input required
                   type="date"
-                  className=" bg-blue-100 lg:h-8 rounded px-3 ml-2 h-8"
-                  required
-                // value={}
-                // onChange={(e) => {
-                //   let temppatient = { ...patient };
-                //   temppatient.dob = e.target.value;
-                //   setPatient(temppatient);
-                // }}
+                  className=" bg-blue-100 lg:h-10 rounded px-3 ml-2 h-8"
+                  onChange={(e) => {
+                    let tempreport = { ...report };
+                    tempreport.date = convertDatetoString(e.target.value);
+                    setReport(tempreport);
+                  }}
                 ></input>
-                {/* <label>Date</label> */}
 
-                <div className="px-12">
+                <input required
+                  placeholder="Enter Abha ID"
+                  className=" bg-blue-100 rounded mx-2 px-2 py-1.5 outline-none col-span-1.5"
+                  // value={prescription.notes}
+                  value={patientAbhaID}
+                  onChange={(e) => { setPatientAbhaID(e.target.value);
+                  }}
+                ></input>
+                <input required
+                  placeholder="Enter Diagnostics"
+                  className=" bg-blue-100 rounded mr-2 px-2 py-1.5 outline-none col-span-1.5"
+                  // value={prescription.notes}
+                  value={report.description}
+                  onChange={(e) => {
+                    let tempreport = { ...report };
+                    tempreport.description = e.target.value;
+                    setReport(tempreport);
+                  }}
+                ></input>
+
+                <div>
                   <Upload {...propsFile}>
-                    <Button icon={<UploadOutlined />}>Select File</Button>
+                    <Button icon={<UploadOutlined />} className="px-16 lg:h-10 h-8">Select File</Button>
                   </Upload>
                 </div>
                 <Button
-                  className="bg-primary hover:bg-bgsecondary"
+                  className="bg-primary hover:bg-bgsecondary lg:h-10 h-8"
                   onClick={handleUpload}
                   disabled={fileList.length === 0}
                   loading={uploading}
-
                 >
                   {uploading ? 'Uploading' : 'Start Upload'}
                 </Button>

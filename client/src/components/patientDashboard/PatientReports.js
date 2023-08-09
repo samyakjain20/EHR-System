@@ -92,10 +92,10 @@ const PatientReports = (props) => {
       const reportData = report;
       reportData.url = fileUrl;
       let fileDetails = JSON.stringify(reportData);
-      const data = await fileMgmtContract.addFile(report.recordType, fileDetails);
+      const data = await fileMgmtContract.addFile(metaAccount, report.recordType, fileDetails);
 
-      const retrieveFiles = await fileMgmtContract.displayFiles(report.recordType);
-      console.log("retrieve files: ", retrieveFiles.toString());
+      // const retrieveFiles = await fileMgmtContract.displayFiles(metaAccount, report.recordType);
+      // console.log("retrieve files: ", retrieveFiles.toString());
 
       if (data.errors) {
         setUploading(false);
