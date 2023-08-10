@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import profile from "../../assets/img/landingPage/profile.png";
-import doctor from "../../assets/img/landingPage/doctor.jpg";
+import doctor from "../../assets/img/landingPage/doctor.png";
 import patient from "../../assets/img/landingPage/patient1.png";
 import ReactLoading from "react-loading";
 

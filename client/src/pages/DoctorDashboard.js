@@ -16,7 +16,7 @@ const DoctorDashboard = (props) => {
   const [Loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [dob, setDob] = useState("");
-  const [metaAccount, setMetaAccount] = MetaAccountObj(); // meta mask account
+  const {metaAccount, setMetaAccount} = MetaAccountObj(); // meta mask account
   const [patient, setPatient] = useState({});
   const [prescriptions, setPrescriptions] = useState([{}]);
   const [doctor, setDoctor] = useState({

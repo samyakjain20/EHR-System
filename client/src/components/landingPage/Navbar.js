@@ -6,7 +6,7 @@ import { Link, useLocation } from "react-router-dom";
 export default function Navbar() {
   const location = useLocation();
   return (
-    <nav className="lg:bg-pink-200 lg:w-screen lg:h-14 shadow-sm lg:px-16 lg:py-3 flex justify-items-center items-center  w-full ">
+    <nav className="lg:bg-white lg:w-screen lg:h-12 shadow-sm lg:px-16 lg:py-3 flex justify-items-center items-center  w-full ">
       <Link to="/">
         <img
           src={logo}
