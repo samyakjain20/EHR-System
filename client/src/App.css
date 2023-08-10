@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Vithkuqi:wght@700&display=swap');
+.navbarTitleFont{
+    /* font-family: 'Noto Serif Vithkuqi', serif; */
+    font-family: 'Noto Sans Vithkuqi', sans-serif;
+}
+
+.landing-page {
+    background-image: url('../src/assets/img/landingPage/videoLanding.gif');
+    background-size: cover; /* Adjust as needed */
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* Keep the background fixed while scrolling */
+    /* Other styles for positioning, padding, etc. */
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+
