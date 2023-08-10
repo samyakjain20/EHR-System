@@ -48,6 +48,12 @@ contract UserManagement {
     string[] public allHospitalArr;
     string[] public allLabArr;
 
+    // objects of all
+    Patient[] public allPatientObj;
+    Doctor[] public allDoctorObj;
+    Hospital[] public allHospitalObj;
+    Lab[] public allLabObj;
+
     // Events for all stakeholders
     event PatientRegistered(address indexed user, string username);
     event PatientLoggedIn(address indexed user);
@@ -105,10 +111,9 @@ contract UserManagement {
             patientDetails: _patientDetails
         });
 
-        patients[msg.sender] = patient;
-
-        string memory patientId = string(abi.encodePacked(msg.sender, " - ", _username));
-        allPatientArr.push(patientId);
+        patients[msg.sender] = patient; // update mapping
+        allPatientObj.push(patient); // update obj array
+        allPatientArr.push(_username); // update id array
 
         emit PatientRegistered(msg.sender, _username);
     }
@@ -130,6 +135,11 @@ contract UserManagement {
         return allPatientArr;
     }
 
+    // fetch array of all patient objects
+    function getPatientObjs() public view returns (Patient[] memory) {
+        return allPatientObj;
+    }
+
     // ------------------ Hospital functions ------------------
 
     // register hospitals
@@ -146,9 +156,8 @@ contract UserManagement {
         });
 
         hospitals[msg.sender] = hospital;
-
-        string memory hospitalId = string(abi.encodePacked(msg.sender, " - ", _username));
-        allHospitalArr.push(hospitalId);
+        allHospitalObj.push(hospital);
+        allHospitalArr.push(_username);
 
         emit HospitalRegistered(msg.sender, _username);
     }
@@ -170,9 +179,14 @@ contract UserManagement {
         return allHospitalArr;
     }
 
+    // fetch array of all hospital objects
+    function getHospitalObjs() public view returns (Hospital[] memory) {
+        return allHospitalObj;
+    }
+
     // ------------------ Lab functions ------------------
 
-    // register hospitals
+    // register labs
     function registerLab(string memory _username, bytes32 _password, string memory _labDetails) external {
 
         require(bytes(_username).length > 0, "Invalid username");
@@ -186,9 +200,8 @@ contract UserManagement {
         });
 
         labs[msg.sender] = lab;
-
-        string memory labId = string(abi.encodePacked(msg.sender, " - ", _username));
-        allLabArr.push(labId);
+        allLabObj.push(lab);
+        allLabArr.push(_username);
 
         emit LabRegistered(msg.sender, _username);
     }
@@ -207,8 +220,13 @@ contract UserManagement {
     }
 
     // fetch array of ids of all labs
-    function geLabIds() public view returns (string[] memory) {
+    function getLabIds() public view returns (string[] memory) {
         return allLabArr;
+    }
+
+    // fetch array of all lab objects
+    function getLabObjs() public view returns (Lab[] memory) {
+        return allLabObj;
     }
 
     // ------------------ Doctor functions ------------------
@@ -227,9 +245,8 @@ contract UserManagement {
         });
 
         doctors[msg.sender] = doctor;
-
-        string memory doctorId = string(abi.encodePacked(msg.sender, " - ", _username));
-        allDoctorArr.push(doctorId);
+        allDoctorObj.push(doctor);
+        allDoctorArr.push(_username);
 
         emit DoctorRegistered(msg.sender, _username);
     }
@@ -248,7 +265,12 @@ contract UserManagement {
     }
 
     // fetch array of ids of all doctors
-    function geDoctorIds() public view returns (string[] memory) {
+    function getDoctorIds() public view returns (string[] memory) {
         return allDoctorArr;
+    }
+
+    // fetch array of all doctor objects
+    function getDoctorObjs() public view returns (Doctor[] memory) {
+        return allDoctorObj;
     }
 }
