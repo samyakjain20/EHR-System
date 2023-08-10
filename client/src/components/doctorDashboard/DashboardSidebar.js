@@ -24,12 +24,10 @@ const DashboardSidebar = (props) => {
       <div className="side_bar bg-white shadow col-span-2">
         <div className="flex m-2 mt-4  ">
           <div className="logo m-2  ">
-            <img src={logo} className="w-16" alt="logo"></img>
-          </div>
-          <div className="heading  font-bold text-xl  ">
             <Link to="/">
-              <h1>Public health Record System</h1>
+              <img src={logo} className="w-32" alt="logo"></img>
             </Link>
+            
           </div>
         </div>
         <nav>
