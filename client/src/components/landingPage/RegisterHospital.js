@@ -117,7 +117,7 @@ export default function RegisterHospital(props) {
                 placeholder="e.g: saikrupa@gmail.com"
                 required
                 class="bg-blue-100 h-10 rounded pl-4 col-span-2 "
-                value={hospital.org}
+                value={hospital.orgEmail}
                 onChange={(e) => {
                   let temphospital = { ...hospital };
                   temphospital.orgEmail = e.target.value;
