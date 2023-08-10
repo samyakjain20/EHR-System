@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import ConsentManagerComp from "./consentManagerComp";
 import { UserContractObj, FileContractObj, MetaAccountObj, PatientDataObj } from "../../GlobalData/GlobalContext";
+import add_pre_logo from "../../assets/img/dashboard/add_prescription_logo.png";
+import { Table, Button} from 'antd';
 
 const ConsentManager = (props) => {
   const navigate = useNavigate();
@@ -48,6 +50,76 @@ const ConsentManager = (props) => {
       },
     },
   });
+  const [recordAccessList, setRecordAccessList] = useState([
+    {
+      hospitalName: "Max Hospitals",
+      doctorName: "Dr. Uday Shetty",
+      date: "04/08/2023",
+      recordType: "DischargeReport",
+      description: "Fever",
+      consent: "requested"
+    },
+    {
+      hospitalName: "RIP Hospitals",
+      doctorName: "Dr. Babu Rao",
+      date: "01/07/2023",
+      recordType: "DiagnosticReport",
+      description: "Blood Pressure",
+      consent: "granted"
+    }
+  ]);
+
+  const columns = [
+    {
+      title: 'Associated Hospital/Lab',
+      dataIndex: 'hospitalName',
+      key: 'hospitalName',
+    },
+    {
+      title: 'Associated Doctor',
+      dataIndex: 'doctorName',
+      key: 'doctorName',
+    },
+    {
+      title: 'Date',
+      dataIndex: 'date',
+      key: 'date',
+    },
+    {
+      title: 'Record Type',
+      dataIndex: 'recordType',
+      key: 'recordType',
+    },
+    {
+      title: 'Diagnosis',
+      dataIndex: 'description',
+      key: 'description',
+    },
+    {
+      title: 'Consent',
+      dataIndex: 'consent',
+      key: 'consent',
+      render: (text, record) => (
+        <div>
+          <Button className="bg-red-400 mx-1 hover:bg-white border border-red-400" onClick={() => handleAcceptAccessReq(record.key)}>Decline</Button>
+          <Button className="bg-blue-400 mx-1 hover:bg-white border border-blue-400" onClick={() => handleAcceptAccessReq(record.key)}>Accept</Button>
+        </div>
+      ),
+    },
+  ];
+
+  const handleAcceptAccessReq = async () => {
+
+  }
+  
+  const handleRejectAcessReq = async () => {
+    
+  }
+
+  const handleRcevokeAccess = async () => {
+
+  }
+
   const convertDatetoString = (dateString) => {
     let date = new Date(dateString);
     let day = date.getDate();
@@ -89,7 +161,7 @@ const ConsentManager = (props) => {
               </div>
             </Link>
 
-            <div className="flex justify-between m-8">
+            {/* <div className="flex justify-between m-8">
               <div className="font-bold text-xl ml-4">
                 <h1>Consent Requests</h1>
               </div>
@@ -132,7 +204,36 @@ const ConsentManager = (props) => {
                   </div>
                 )}
               </div>
+            </div> */}
+
+            <div className=" m-4  ">
+              <div className="flex justify-between m-8">
+                <div className="font-bold text-xl ml-4">
+                  <h1>Patient Dashboard</h1>
+                </div>
+                <Link to="/doctor/addDiagno">
+                  <div className=" flex  bg-blue-400 pl-0 pr-3 py-1 items-center justify-items-center  rounded font-semibold  shadow-sm hover:bg-blue-100   ">
+                    <img
+                      src={add_pre_logo}
+                      className="h-3 mx-3"
+                      alt="adddiagno"
+                    ></img>
+
+                    <button className="font-semibold">Add New Diagnosis</button>
+                  </div>
+                </Link>
+              </div>
+              <div>
+                <Table
+                  columns={columns}
+                  dataSource={recordAccessList}
+                  rowKey="id"
+                  bordered
+                  pagination={true} // Optional: If you want to disable pagination
+                />
+              </div>
             </div>
+
           </div>
         </div>
       </div>
