@@ -8,17 +8,59 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import ReactLoading from "react-loading";
 import { UserContractObj, FileContractObj, MetaAccountObj } from "../GlobalData/GlobalContext";
+import { Table, Input, Button, Select } from 'antd';
 const ethers = require("ethers")
+const { Option } = Select;
 
 const DoctorDashboard = (props) => {
-  const {userMgmtContract, setUserMgmtContract} = UserContractObj();
-  const {fileMgmtContract, setFileMgmtContract} = FileContractObj();
+  const { userMgmtContract, setUserMgmtContract } = UserContractObj();
+  const { fileMgmtContract, setFileMgmtContract } = FileContractObj();
   const [Loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [dob, setDob] = useState("");
-  const {metaAccount, setMetaAccount} = MetaAccountObj(); // meta mask account
-  const [patient, setPatient] = useState({});
+  const { metaAccount, setMetaAccount } = MetaAccountObj(); // meta mask account
   const [prescriptions, setPrescriptions] = useState([{}]);
+  const [patient, setPatient] = useState({
+    username: "tom",
+    passwordHash: "tom123",
+    name: {
+      firstName: "tom",
+      middleName: "Brady",
+      lastName: "Nolan",
+    },
+    dob: "05/03/1975",
+    mobile: "1234567890",
+    email: "sdks",
+    adharCard: "1676253",
+    abhaId: "7154121",
+    bloodGroup: "A+",
+    patAddress: {
+      building: "aksj",
+      city: "msknxjs",
+      taluka: "sndjs",
+      district: "sxjsx",
+      state: "snxjs",
+      pincode: "12345",
+    },
+    contactPerson: {
+      name: {
+        firstName: "djcnjd",
+        middleName: "dnjf",
+        lastName: "dmckcnj",
+      },
+      mobile: "9837919102",
+      email: "dif@gmail.com",
+      relation: "jndjs",
+      conAddress: {
+        building: "bhdbc",
+        city: "nhxbd",
+        taluka: "snhbdh",
+        district: "dncbd",
+        state: "dnjcnhd",
+        pincode: "dncdbh",
+      },
+    },
+  });
   const [doctor, setDoctor] = useState({
     name: {
       firstName: "",
@@ -44,6 +86,77 @@ const DoctorDashboard = (props) => {
     password: "",
     username: ""
   });
+
+  const columns = [
+    {
+      title: 'First Name',
+      dataIndex: 'firstName',
+      key: 'firstName',
+    },
+    {
+      title: 'Last Name',
+      dataIndex: 'lastName',
+      key: 'lastName',
+    },
+    {
+      title: 'Contact',
+      dataIndex: 'contact',
+      key: 'contact',
+    },
+    {
+      title: 'Blood Group',
+      dataIndex: 'bloodgroup',
+      key: 'bloodgroup',
+    },
+    {
+      title: 'Date Of Birth',
+      dataIndex: 'dob',
+      key: 'dob',
+    },
+    {
+      title: 'Record Type',
+      dataIndex: 'recordType',
+      key: 'recordType',
+      render: (text, record) => (
+        <Select
+          value={text}
+          style={{ width: 150 }}
+          onChange={(value) => handleStatusChange(record.key, value)}
+        >
+          <Option value="labReports">Lab Reports</Option>
+          <Option value="prescriptionReports">Diagnostics Reports</Option>
+          <Option value="dischargeReports">Discharge Reports</Option>
+          <Option value="prescriptionReports">Prescription Reports</Option>
+        </Select>
+      ),
+    },
+    {
+      title: 'Consent',
+      dataIndex: 'consent',
+      key: 'consent',
+      render: (text, record) => (
+        <Button className="bg-blue-400 hover:bg-white border border-blue-400" onClick={() => handleConsentClick(record.key)}>Request Consent</Button>
+      ),
+    },
+  ];
+
+  const patientData = [{
+    firstName:'abc',
+    lastName: 'def',
+    contact: '9378273527',
+    bloodgroup: 'O+',
+    dob: '05/04/1998'
+  },]
+
+  const handleConsentClick = (key) => {
+    // Do something with the clicked row's key
+    console.log(`Button clicked for row with key: ${key}`);
+  };
+
+  const handleStatusChange = (key, value) => {
+    // Do something with the selected status value
+    console.log(`Status changed to ${value} for row with key: ${key}`);
+  };
 
   const convertDatetoString = (dateString) => {
     let date = new Date(dateString);
@@ -109,17 +222,17 @@ const DoctorDashboard = (props) => {
       });
       props.setToastShow(true);
     }
-  };  
+  };
   const [typeOfFile, setTypeOfFile] = useState("");
   const [reqAccessDetails, setReqAccessDetails] = useState({
     doctor: metaAccount,
-    doctorName : "Dr. " + doctor.name.firstName + " " + doctor.name.lastName,
-    hospital : doctor.org,
-    speciality : doctor.specialization.special,
+    doctorName: "Dr. " + doctor.name.firstName + " " + doctor.name.lastName,
+    hospital: doctor.org,
+    speciality: doctor.specialization.special,
     typeofFile: "",
   });
 
-  const handleReqAcess = async (e) =>{
+  const handleReqAcess = async (e) => {
     e.preventDefault();
     try {
       const reqAcessDetailsData = reqAccessDetails;
@@ -134,7 +247,7 @@ const DoctorDashboard = (props) => {
         });
         console.log(data.errors)
         props.setToastShow(true);
-      } 
+      }
       else {
         props.settoastCondition({
           status: "success",
@@ -189,7 +302,7 @@ const DoctorDashboard = (props) => {
                       </h1>
                     </div>
                     <div className="">
-                    
+
                     </div>
                   </div>
                 </div>
@@ -251,132 +364,34 @@ const DoctorDashboard = (props) => {
             </div>
           </form>
 
-          {Object.keys(patient).length !== 0 ? (
-            <div className="grid grid-cols-2">
-              <div className="m-4 p-4">
-                <div>
-                  <h1 className="font-bold  text-xl ">
-                    Patient Details
-                  </h1>
-                </div>
-                <div className="bg-white  p-4 mt-4 px-8 rounded-xl shadow">
-                  <div className="flex">
-                    <div>
-                      <h1>Name : </h1>
-                    </div>
-                    <div className="flex justify-between">
-                      <h1 className="pl-3">{`${patient.name.firstName} `}</h1>
-                      <h1 className="pl-1">{`${patient.name.middleName} `}</h1>
-                      <h1 className="pl-1">{patient.name.lastName}</h1>
-                    </div>
-                  </div>
-                  <div className="flex">
-                    <div>
-                      <h1>Date : </h1>
-                    </div>
-                    <div className="ml-2">
-                      <h1>{dob}</h1>
-                    </div>
-                  </div>
-                  <div className="flex">
-                    <div>
-                      <h1>Blood group : </h1>
-                    </div>
-                    <div className="ml-2">
-                      <h1>{patient.bloodGroup}</h1>
-                    </div>
-                  </div>
-                  <div>
-                    <h1 className="font-bold mt-4">Past Health History</h1>
-                    <div>{`${patient.diseases[0].disease} (${patient.diseases[0].yrs} yrs.)`}</div>
-                  </div>
-                </div>
-              </div>
-              {/* recent health check up start */}
-              <div className="m-4 p-4 ">
-                <div>
-                  <h1 className="font-bold  text-xl ">
-                    Recent Health Checkup
-                  </h1>
-                </div>
-                {prescriptions.length > 0 ? (
-                  <div className="bg-white mt-4  p-4 rounded-xl shadow px-8">
-                    <div className="flex ">
-                      <div>
-                        <h1>Consultant Doctor :</h1>
-                      </div>
-                      <div className="ml-2">
-                        <h1>{`Dr. ${prescriptions[0].doctor}`}</h1>
-                      </div>
-                    </div>
-                    <div className="flex">
-                      <div>
-                        <h1>Date :</h1>
-                      </div>
-                      <div className="ml-2">
-                        <h1>
-                          {convertDatetoString(prescriptions[0].createdAt)}
-                        </h1>
-                      </div>
-                    </div>
-                    <div className="flex">
-                      <div>
-                        <h1>Diagnosis : </h1>
-                      </div>
-                      <div className="ml-2">
-                        <h1>{prescriptions[0].diagnosis}</h1>
-                      </div>
-                    </div>
-                    <Link
-                      to="/doctor/prescription"
-                      onClick={() => {
-                        props.setPrescriptionID(prescriptions[0]._id);
-                      }}
-                    >
-                      <div className=" mt-2 flex items-center justify-evenly text-base bg-blue-400 py-1 px-2 rounded font-semibold  shadow-sm hover:bg-blue-100 w-5/12  ">
-                        <img src={reports} className="h-4" alt="report"></img>
 
-                        <button className=" font-semibold pl-1">
-                          Preview Prescription
-                        </button>
-                      </div>
-                    </Link>
-                  </div>
-                ) : (
-                  <div className="bg-white mt-4  p-4 rounded-xl shadow px-8 flex justify-center font-bold">
-                    {" "}
-                    No Data Found...{" "}
-                  </div>
-                )}
-                {/* recent health check up end */}
+          <div className=" m-4  ">
+            <div className="flex justify-between m-8">
+              <div className="font-bold text-xl ml-4">
+                <h1>Patient Dashboard</h1>
               </div>
-              <div></div>
+              <Link to="/doctor/addDiagno">
+                <div className=" flex  bg-blue-400 pl-0 pr-3 py-1 items-center justify-items-center  rounded font-semibold  shadow-sm hover:bg-blue-100   ">
+                  <img
+                    src={add_pre_logo}
+                    className="h-3 mx-3"
+                    alt="adddiagno"
+                  ></img>
+
+                  <button className="font-semibold">Add New Diagnosis</button>
+                </div>
+              </Link>
             </div>
-          ) : (
-            <div className="text-xl flex justify-center items-center font-bold my-60">
-              Search Patient to Add Diagnosis
+            <div>
+              <Table
+                columns={columns}
+                dataSource={patientData}
+                rowKey="id"
+                bordered
+                pagination={true} // Optional: If you want to disable pagination
+              />
             </div>
-          )}
-
-          {Object.keys(patient).length !== 0 ? (
-            <div className=" m-4  ">
-              <div className="flex justify-between m-8">
-                <div className="font-bold text-xl ml-4">
-                  <h1>Patient Dashboard</h1>
-                </div>
-                <Link to="/doctor/addDiagno">
-                  <div className=" flex  bg-blue-400 pl-0 pr-3 py-1 items-center justify-items-center  rounded font-semibold  shadow-sm hover:bg-blue-100   ">
-                    <img
-                      src={add_pre_logo}
-                      className="h-3 mx-3"
-                      alt="adddiagno"
-                    ></img>
-
-                    <button className="font-semibold">Add New Diagnosis</button>
-                  </div>
-                </Link>
-              </div>
-              <div className="bg-white m-4 rounded-lg ">
+            {/*<div className="bg-white m-4 rounded-lg ">
                 <div className="grid grid-rows-2 p-6 gap-2 shadow">
                   <div className="grid grid-cols-4 font-bold  border-b-2">
                     <div>
@@ -434,15 +449,13 @@ const DoctorDashboard = (props) => {
                   )}
                 </div>
               </div>
-            </div>
-          ) : (
-            <div></div>
-          )}
+                  */}
+          </div>
         </div>
       </div>
-      <div className="mt-16 mb-0">
+      {/*<div className="mt-94 mb-0">
         <Footer></Footer>
-      </div>
+          </div>*/}
     </div>
   );
 };
