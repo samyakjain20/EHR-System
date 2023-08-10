@@ -82,7 +82,7 @@ export function GlobalProvider({ children }) {
                         console.log(metaAccount);
                         const fileAbi = require("../components/landingPage/contracts/FileManagement.json");
                         const userAbi = require("../components/landingPage/contracts/UserManagement.json");
-                        let userMgmtContractAddress = "0xa965156acBe036a71b169B438890ff497eD01874";
+                        let userMgmtContractAddress = "0xdf544111f90c242Ad6d75163454De435fE263653";
                         let fileMgmtContractAddress = "0x92307B195d537fb02883cFB82081e3201a911233";
 
                         const userMgmtContract = new ethers.Contract(

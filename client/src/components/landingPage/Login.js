@@ -147,10 +147,14 @@ export default function Login(props) {
   const handleAdminLogin = async (email, password, metaAccount, path, role) => {
     setLoading(true);
     setLoading(false);
+
+    const res = await userMgmtContract.adminLogin();
+
     props.settoastCondition({
       status: "success",
       message: "Logged in Successfully!",
     });
+
     props.setToastShow(true);
     navigate(path);
   };
@@ -202,7 +206,7 @@ export default function Login(props) {
 
           const fileAbi = require("../../components/landingPage/contracts/FileManagement.json");
           const userAbi = require("../../components/landingPage/contracts/UserManagement.json");
-          let userMgmtContractAddress = "0xa965156acBe036a71b169B438890ff497eD01874";
+          let userMgmtContractAddress = "0xdf544111f90c242Ad6d75163454De435fE263653";
           let fileMgmtContractAddress = "0x0dAFF696d6EEd9FD0f46999DF322Fd8b34277964";
 
           const userMgmtContract = new ethers.Contract(

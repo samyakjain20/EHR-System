@@ -35,8 +35,11 @@ const AdminDashboard = (props) => {
     useEffect(() => {
 
         async function getTotalCounts(){
-            const counts = [2,4,5,6];
-            setTotalCounts(counts);
+            //const counts = [2,4,5,6];
+            const counts = await userMgmtContract.allLen();
+            const integerArray = counts.map(bn => bn.toNumber());
+            console.log(integerArray);
+            setTotalCounts(integerArray);
         };
 
         getTotalCounts();
