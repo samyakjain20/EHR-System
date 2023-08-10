@@ -41,7 +41,7 @@ const DoctorListCompo = (props) => {
       <button
         data-bs-toggle="modal"
         data-bs-target="#removeDoctor"
-        className="flex items-center bg-primary w-28 h-8 rounded font-bold shadow hover:bg-bgsecondary"
+        className="flex items-center bg-blue-400 w-28 h-8 rounded font-bold shadow hover:bg-blue-100"
         onClick={removeDoctor}
       >
         <img src={delete_btn} className="h-4 mx-2"></img>Remove

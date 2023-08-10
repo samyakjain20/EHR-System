@@ -94,7 +94,7 @@ const LabList = (props) => {
               //   <button
               //     data-bs-toggle="modal"
               //     data-bs-target="#deleteDoctor"
-              //     className="flex items-center bg-primary w-24 h-8 rounded font-bold shadow hover:bg-bgsecondary"
+              //     className="flex items-center bg-blue-400 w-24 h-8 rounded font-bold shadow hover:bg-blue-100"
               //     onClick={deleteDoctor}
               //   >
               //     <img src={delete_btn} className="h-4 mx-2"></img>Delete

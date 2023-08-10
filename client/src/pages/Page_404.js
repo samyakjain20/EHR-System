@@ -9,7 +9,7 @@ const Page_404 = () => {
       <h1 className=" font-bold font flex justify-center py-3">
         Page you are searching for doesn't exist!!!
       </h1>
-      <div className="flex  bg-primary px-2 w-fit rounded h-10 items-center mx-auto hover:bg-bgprimary">
+      <div className="flex  bg-blue-400 px-2 w-fit rounded h-10 items-center mx-auto hover:bg-bgprimary">
         <Link to="/">
           <button className="font-bold px-2">Back to Home</button>
         </Link>

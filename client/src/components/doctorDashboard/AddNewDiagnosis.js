@@ -296,7 +296,7 @@ const AddNewDiagnosis = (props) => {
                   </Upload>
                 </div>
                 <Button
-                  className="bg-primary hover:bg-bgsecondary lg:h-10 h-8"
+                  className="bg-blue-400 hover:bg-blue-100 lg:h-10 h-8"
                   onClick={handleUpload}
                   disabled={fileList.length === 0}
                   loading={uploading}
@@ -800,7 +800,7 @@ const AddNewDiagnosis = (props) => {
                     width={"5%"}
                   />
                 ) : (
-                  <button className="bg-primary rounded p-2 px-8 font-bold text-xl hover:bg-bgsecondary mb-4 ">
+                  <button className="bg-blue-400 rounded p-2 px-8 font-bold text-xl hover:bg-blue-100 mb-4 ">
                     Submit
                   </button>
                 )}

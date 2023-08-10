@@ -170,7 +170,7 @@ const PatientHistoryDoctorView = (props) => {
           <div>Search Patient to see Reports</div>
           <Link
             to="/doctor/dashboard"
-            className="text-md py-1 px-4 bg-primary rounded mt-3"
+            className="text-md py-1 px-4 bg-blue-400 rounded mt-3"
           >
             Return to DashBoard
           </Link>
