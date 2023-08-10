@@ -117,7 +117,7 @@ export default function Manage(props) {
             <div className=" grid col-span-3">
               <input
                 placeholder="Wallet ID"
-                className="bg-bgsecondary rounded border-2 text-xl   pl-4  focus:outline-none"
+                className="bg-blue-100 rounded border-2 text-xl   pl-4  focus:outline-none"
                 type="number"
                 value={doctor.abhaID}
                 onChange={(e) => {
@@ -129,7 +129,7 @@ export default function Manage(props) {
             </div>
             
             
-            <div className="grid col-span-2 lg:mx-10 bg-primary rounded font-semibold  shadow-sm hover:bg-bgsecondary">
+            <div className="grid col-span-2 lg:mx-10 bg-blue-400 rounded font-semibold  shadow-sm hover:bg-blue-100">
               <button className="font-bold flex items-center px-2"> Add Doctor</button>
             </div>
           </form>
@@ -146,7 +146,7 @@ export default function Manage(props) {
             <div className=" grid col-span-3">
               <input
                 placeholder="Wallet ID"
-                className="bg-bgsecondary rounded border-2 text-xl   pl-4  focus:outline-none"
+                className="bg-blue-100 rounded border-2 text-xl   pl-4  focus:outline-none"
                 type="number"
                 value={lab.walletID}
                 onChange={(e) => {
@@ -158,7 +158,7 @@ export default function Manage(props) {
             </div>
             
             
-            <div className="grid col-span-2 lg:mx-10 bg-primary rounded font-semibold  shadow-sm hover:bg-bgsecondary">
+            <div className="grid col-span-2 lg:mx-10 bg-blue-400 rounded font-semibold  shadow-sm hover:bg-blue-100">
               <button className="font-bold flex items-center px-2"> Add Laboratory</button>
             </div>
           </form>
@@ -179,7 +179,7 @@ export default function Manage(props) {
             <div className=" grid col-span-3">
               <input
                 placeholder="Wallet ID"
-                className="bg-bgsecondary rounded border-2 text-xl   pl-4  focus:outline-none"
+                className="bg-blue-100 rounded border-2 text-xl   pl-4  focus:outline-none"
                 type="number"
                 value={doctor.abhaID}
                 onChange={(e) => {
@@ -191,7 +191,7 @@ export default function Manage(props) {
             </div>
             
             
-            <div className="grid col-span-2 lg:mx-10 bg-red-500 rounded font-semibold  shadow-sm hover:bg-bgsecondary">
+            <div className="grid col-span-2 lg:mx-10 bg-red-500 rounded font-semibold  shadow-sm hover:bg-blue-100">
               <button className="font-bold flex items-center px-2 text-white"> Remove Doctor</button>
             </div>
           </form>
@@ -208,7 +208,7 @@ export default function Manage(props) {
             <div className=" grid col-span-3">
               <input
                 placeholder="Wallet ID"
-                className="bg-bgsecondary rounded border-2 text-xl   pl-4  focus:outline-none"
+                className="bg-blue-100 rounded border-2 text-xl   pl-4  focus:outline-none"
                 type="number"
                 value={lab.walletID}
                 onChange={(e) => {
@@ -220,7 +220,7 @@ export default function Manage(props) {
             </div>
             
             
-            <div className="grid col-span-2 lg:mx-10 bg-red-500 rounded font-semibold  shadow-sm hover:bg-bgsecondary">
+            <div className="grid col-span-2 lg:mx-10 bg-red-500 rounded font-semibold  shadow-sm hover:bg-blue-100">
               <button className="font-bold flex items-center px-2 text-white"> Remove Laboratory</button>
             </div>
           </form>

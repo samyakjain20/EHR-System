@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import profile from "../../assets/img/landingPage/profile.png";
-import doctor from "../../assets/img/landingPage/doctor.jpg";
+import doctor from "../../assets/img/landingPage/doctor.png";
 import patient from "../../assets/img/landingPage/patient1.png";
 import ReactLoading from "react-loading";
 
@@ -80,7 +80,7 @@ export default function Login(props) {
 			if (
 				error.response &&
 				error.response.status >= 400 &&
-				error.response.status <= 500
+				error.response.status <= 400
 			) {
 				setError(error.response.data.message);
 			}
@@ -137,7 +137,7 @@ export default function Login(props) {
 			if (
 				error.response &&
 				error.response.status >= 400 &&
-				error.response.status <= 500
+				error.response.status <= 400
 			) {
 				setError(error.response.data.message);
 			}
@@ -233,11 +233,11 @@ export default function Login(props) {
       <h1 className="text-4xl font-bold text-primary py-1">
         Login
       </h1>
-      <div className="flex bg-bgsecondary w-fit justify-between rounded mt-4">
+      <div className="flex bg-blue-100 w-fit justify-between rounded mt-4">
         <button
           className={
             Toggle === "Patient"
-              ? "py-2 px-8 text-lg  font-semibold cursor-pointer rounded bg-primary"
+              ? "py-2 px-8 text-lg  font-semibold cursor-pointer rounded bg-blue-400"
               : "py-2 px-8 text-lg  font-medium text-primary cursor-pointer rounded"
           }
           onClick={() => {
@@ -260,7 +260,7 @@ export default function Login(props) {
           }}
           className={
             Toggle === "Doctor"
-              ? "py-2 px-8 text-lg  font-semibold cursor-pointer rounded bg-primary"
+              ? "py-2 px-8 text-lg  font-semibold cursor-pointer rounded bg-blue-400"
               : "py-2 px-8 text-lg  font-medium text-primary cursor-pointer rounded"
           }
         >
@@ -277,7 +277,7 @@ export default function Login(props) {
           }}
           className={
             Toggle === "Lab"
-              ? "py-2 px-8 text-lg  font-semibold cursor-pointer rounded bg-primary"
+              ? "py-2 px-8 text-lg  font-semibold cursor-pointer rounded bg-blue-400"
               : "py-2 px-8 text-lg  font-medium text-primary cursor-pointer rounded"
           }
         >
@@ -294,7 +294,7 @@ export default function Login(props) {
           }}
           className={
             Toggle === "Hospital"
-              ? "py-2 px-8 text-lg  font-semibold cursor-pointer rounded bg-primary"
+              ? "py-2 px-8 text-lg  font-semibold cursor-pointer rounded bg-blue-400"
               : "py-2 px-8 text-lg  font-medium text-primary cursor-pointer rounded"
           }
         >
@@ -321,12 +321,12 @@ export default function Login(props) {
           type = {Toggle === "Patient" ? "text" : "email"}
           name="username"
           id="username"
-          className=" px-3 py-2 bg-bgsecondary rounded outline-none"
+          className=" px-3 py-2 bg-blue-100 rounded outline-none"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           required
         />
-        <span className="text-sm text-red-500">{usernameError}</span>
+        <span className="text-sm text-red-400">{usernameError}</span>
         <label
           htmlFor="password"
           className=" pt-6 pb-1 text-lg font-bold"
@@ -337,17 +337,17 @@ export default function Login(props) {
           type="password"
           name="password"
           id="password"
-          className=" px-3 py-2 bg-bgsecondary rounded outline-none"
+          className=" px-3 py-2 bg-blue-100 rounded outline-none"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <span className="text-sm text-red-500">{passwordError}</span>
+        <span className="text-sm text-red-400">{passwordError}</span>
 
         <div className="pt-4">
           <input
             onClick={getAccount}
-              className="mr-2 mt-[0.3rem] h-3.5 w-8 appearance-none rounded-[0.4375rem] bg-neutral-300 before:pointer-events-none before:absolute before:h-3.5 before:w-3.5 before:rounded-full before:bg-transparent before:content-[''] after:absolute after:z-[2] after:-mt-[0.1875rem] after:h-5 after:w-5 after:rounded-full after:border-none after:bg-neutral-100 after:shadow-[0_0px_3px_0_rgb(0_0_0_/_7%),_0_2px_2px_0_rgb(0_0_0_/_4%)] after:transition-[background-color_0.2s,transform_0.2s] after:content-[''] checked:bg-primary checked:after:absolute checked:after:z-[2] checked:after:-mt-[3px] checked:after:ml-[1.0625rem] checked:after:h-5 checked:after:w-5 checked:after:rounded-full checked:after:border-none checked:after:bg-primary checked:after:shadow-[0_3px_1px_-2px_rgba(0,0,0,0.2),_0_2px_2px_0_rgba(0,0,0,0.14),_0_1px_5px_0_rgba(0,0,0,0.12)] checked:after:transition-[background-color_0.2s,transform_0.2s] checked:after:content-[''] hover:cursor-pointer focus:outline-none focus:ring-0 focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[3px_-1px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] focus:after:absolute focus:after:z-[1] focus:after:block focus:after:h-5 focus:after:w-5 focus:after:rounded-full focus:after:content-[''] checked:focus:border-primary checked:focus:bg-primary checked:focus:before:ml-[1.0625rem] checked:focus:before:scale-100 checked:focus:before:shadow-[3px_-1px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] dark:bg-neutral-600 dark:after:bg-neutral-400 dark:checked:bg-primary dark:checked:after:bg-primary dark:focus:before:shadow-[3px_-1px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:before:shadow-[3px_-1px_0px_13px_#3b71ca]"
+              className="mr-2 mt-[0.3rem] h-3.5 w-8 appearance-none rounded-[0.4375rem] bg-neutral-300 before:pointer-events-none before:absolute before:h-3.5 before:w-3.5 before:rounded-full before:bg-transparent before:content-[''] after:absolute after:z-[2] after:-mt-[0.1875rem] after:h-5 after:w-5 after:rounded-full after:border-none after:bg-neutral-100 after:shadow-[0_0px_3px_0_rgb(0_0_0_/_7%),_0_2px_2px_0_rgb(0_0_0_/_4%)] after:transition-[background-color_0.2s,transform_0.2s] after:content-[''] checked:bg-blue-400 checked:after:absolute checked:after:z-[2] checked:after:-mt-[3px] checked:after:ml-[1.0625rem] checked:after:h-5 checked:after:w-5 checked:after:rounded-full checked:after:border-none checked:after:bg-blue-400 checked:after:shadow-[0_3px_1px_-2px_rgba(0,0,0,0.2),_0_2px_2px_0_rgba(0,0,0,0.14),_0_1px_5px_0_rgba(0,0,0,0.12)] checked:after:transition-[background-color_0.2s,transform_0.2s] checked:after:content-[''] hover:cursor-pointer focus:outline-none focus:ring-0 focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[3px_-1px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] focus:after:absolute focus:after:z-[1] focus:after:block focus:after:h-5 focus:after:w-5 focus:after:rounded-full focus:after:content-[''] checked:focus:border-primary checked:focus:bg-blue-400 checked:focus:before:ml-[1.0625rem] checked:focus:before:scale-100 checked:focus:before:shadow-[3px_-1px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] dark:bg-neutral-600 dark:after:bg-neutral-400 dark:checked:bg-blue-400 dark:checked:after:bg-blue-400 dark:focus:before:shadow-[3px_-1px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:before:shadow-[3px_-1px_0px_13px_#3b71ca]"
               type="checkbox"
               role="switch"
               id="flexSwitchCheckDefault02"
@@ -372,14 +372,14 @@ export default function Login(props) {
         ) : (
           <button
             type="submit"
-            className="text-lg mt-3  bg-primary py-1 px-3 rounded font-semibold  shadow-sm hover:bg-bgsecondary"
+            className="text-lg mt-3  bg-blue-400 py-1 px-3 rounded font-semibold  shadow-sm hover:bg-blue-100"
           >
             Login
           </button>
         )}
       </form>
       <h1 className=" text-base pt-3">
-        New User? <Link to="/Register" className="text-green-500">Register here</Link>
+        New User? <Link to="/Register" className="text-green-400">Register here</Link>
       </h1>
     </div>
   );

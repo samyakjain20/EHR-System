@@ -1,12 +1,12 @@
 import React from "react";
-import logo from "../../assets/img/landingPage/logo1.jpeg";
+import logo from "../../assets/img/landingPage/logo1.png";
 
 import { Link, useLocation } from "react-router-dom";
 
 export default function Navbar() {
   const location = useLocation();
   return (
-    <nav className="lg:bg-white lg:w-screen lg:h-14 shadow-sm lg:px-16 lg:py-3 flex justify-items-center items-center  w-full ">
+    <nav className="lg:bg-white lg:w-screen lg:h-12 shadow-sm lg:px-16 lg:py-3 flex justify-items-center items-center  w-full ">
       <Link to="/">
         <img
           src={logo}
@@ -27,7 +27,7 @@ export default function Navbar() {
         
       </ul>
 
-      <button className="bg-black lg:py-2 lg:px-3 text-primary rounded font-semibold  shadow-sm hover:bg-white py-1 px-2 mr-2 mt-1 text-lg">
+      <button className="bg-blue-400 lg:px-3 text-white rounded font-semibold border border-blue-400 hover:text-blue-400  shadow-sm hover:bg-white py-1 px-2 mr-2 mt-1 text-lg">
         {location.pathname === "/register" ? (
           <Link to="/">Login</Link>
         ) : (

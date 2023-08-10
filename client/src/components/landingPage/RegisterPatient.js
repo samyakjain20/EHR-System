@@ -154,13 +154,13 @@ export default function Register(props) {
           <div
             className=" lg:ml-80  lg:px-8 lg:py-4 bg-white shadow-lg rounded max-w-screen-lg mt-8 mb-4 "
           >        
-            <div className="flex  bg-bgsecondary w-fit  justify-between rounded mx-auto">
+            <div className="flex  bg-blue-100 w-fit  justify-between rounded mx-auto">
               <button
                 onClick={() => setToggle("Patient")}
                 className={
                   Toggle === "Patient"
-                    ? "py-2 px-8 text-lg  font-semibold cursor-pointer rounded bg-primary"
-                    : "py-2 px-8 text-lg  font-semibold cursor-pointer rounded bg-bgsecondary"
+                    ? "py-2 px-8 text-lg  font-semibold cursor-pointer rounded bg-blue-400"
+                    : "py-2 px-8 text-lg  font-semibold cursor-pointer rounded bg-blue-100"
                 }
               >
                 Patient
@@ -169,8 +169,8 @@ export default function Register(props) {
                 onClick={() => setToggle("Doctor")}
                 className={
                   Toggle === "Doctor"
-                    ? "py-2 px-8 text-lg  font-semibold cursor-pointer rounded bg-primary"
-                    : "py-2 px-8 text-lg  font-semibold cursor-pointer rounded bg-bgsecondary"
+                    ? "py-2 px-8 text-lg  font-semibold cursor-pointer rounded bg-blue-400"
+                    : "py-2 px-8 text-lg  font-semibold cursor-pointer rounded bg-blue-100"
                 }
               >
                 Doctor
@@ -179,8 +179,8 @@ export default function Register(props) {
                 onClick={() => setToggle("Lab")}
                 className={
                   Toggle === "Lab"
-                    ? "py-2 px-8 text-lg  font-semibold cursor-pointer rounded bg-primary"
-                    : "py-2 px-8 text-lg  font-semibold cursor-pointer rounded bg-bgsecondary"
+                    ? "py-2 px-8 text-lg  font-semibold cursor-pointer rounded bg-blue-400"
+                    : "py-2 px-8 text-lg  font-semibold cursor-pointer rounded bg-blue-100"
                 }
               >
                 Laboratory
@@ -190,8 +190,8 @@ export default function Register(props) {
                 onClick={() => setToggle("Hospital")}
                 className={
                   Toggle === "Hospital"
-                    ? "py-2 px-8 text-lg  font-semibold cursor-pointer rounded bg-primary"
-                    : "py-2 px-8 text-lg  font-semibold cursor-pointer rounded bg-bgsecondary"
+                    ? "py-2 px-8 text-lg  font-semibold cursor-pointer rounded bg-blue-400"
+                    : "py-2 px-8 text-lg  font-semibold cursor-pointer rounded bg-blue-100"
                 }
               >
                 Hospital
@@ -686,7 +686,7 @@ export default function Register(props) {
                     width={"5%"}
                   />
                 ) : (
-                  <button className="bg-primary rounded p-2 px-8 font-semibold text-xl hover:bg-bgsecondary mb-4 ">
+                  <button className="bg-blue-400 rounded p-2 px-8 font-semibold text-xl hover:bg-blue-100 mb-4 ">
                     Submit
                   </button>
                 )}

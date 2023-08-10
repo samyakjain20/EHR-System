@@ -125,7 +125,7 @@ export default function RegisterLab(props) {
                 Lab Name
               </label>
               <input
-                class="bg-blue-100 rounded h-10 pl-4 mt-4"
+                className="bg-blue-100 rounded h-10 pl-4 mt-4"
                 required
                 placeholder="first name"
                 value={lab.name}
@@ -144,7 +144,7 @@ export default function RegisterLab(props) {
                 type="tel"
                 placeholder="mobile no."
                 required
-                class="pl-4 bg-blue-100 h-10  rounded"
+                className="pl-4 bg-blue-100 h-10  rounded"
                 value={lab.mobile}
                 onChange={(e) => {
                   let templab = { ...lab };
@@ -155,13 +155,13 @@ export default function RegisterLab(props) {
             </div>
 
             <div class="grid grid-cols-4 gap-2 mt-4 mr-4">
-              <label class="  lg:text-lg  font-semibold px-4">Contact Email</label>
+              <label class="  lg:text-xl  font-bold px-4">Contact Email</label>
               <input
                 type="email"
                 id="email"
                 placeholder="abcd@gmail.com"
                 required
-                class="bg-blue-100 h-10 rounded pl-4 col-span-2 "
+                className="bg-blue-100 h-10 rounded pl-4 col-span-2 "
                 value={lab.email}
                 onChange={(e) => {
                   let templab = { ...lab };
@@ -173,13 +173,13 @@ export default function RegisterLab(props) {
 
 
             <div class="grid grid-cols-4 gap-2 mt-4 mr-4 grid-flow-dense ">
-              <label class=" lg:text-lg  font-semibold px-4 mb-8 col-span-1">
+              <label class=" lg:text-xl  font-bold px-4 mb-8 col-span-1">
                 Address
               </label>
               <div className="grid grid-cols-2 gap-4 col-span-3 ">
                 <input
                   type="text"
-                  class="bg-blue-100 h-10  rounded pl-4  "
+                  className="bg-blue-100 h-10  rounded pl-4  "
                   required
                   placeholder="building/area"
                   value={lab.address.building}
@@ -191,7 +191,7 @@ export default function RegisterLab(props) {
                 ></input>
                 <input
                   type="text"
-                  class="bg-blue-100 h-10  rounded pl-4 "
+                  className="bg-blue-100 h-10  rounded pl-4 "
                   required
                   placeholder="village/city"
                   value={lab.address.city}
@@ -203,7 +203,7 @@ export default function RegisterLab(props) {
                 ></input>
                 <input
                   type="text"
-                  class="bg-blue-100 h-10  rounded pl-4"
+                  className="bg-blue-100 h-10  rounded pl-4"
                   required
                   placeholder="Taluka"
                   value={lab.address.taluka}
@@ -215,7 +215,7 @@ export default function RegisterLab(props) {
                 ></input>
                 <input
                   type="text"
-                  class="bg-blue-100 h-10  rounded  pl-4"
+                  className="bg-blue-100 h-10  rounded  pl-4"
                   required
                   placeholder="District"
                   value={lab.address.district}
@@ -252,7 +252,7 @@ export default function RegisterLab(props) {
             </div>
 
             <div class="grid grid-cols-4 gap-2  mr-4 mt-5">
-              <label class=" lg:text-lg  font-semibold px-4 grid col-start-1 col-span-1">
+              <label class=" lg:text-xl  font-bold px-4 grid col-start-1 col-span-1">
                 Specility
               </label>
               <div className=" ">
@@ -341,13 +341,13 @@ export default function RegisterLab(props) {
               </div>
 
             <div class="grid grid-cols-4 gap-2 mr-4">
-              <label type="password" class="  lg:text-lg  font-semibold px-4">
+              <label type="password" class="  lg:text-xl  font-bold px-4">
                 Password
               </label>
               <input
                 type="password"
                 id="password"
-                class="bg-blue-100 h-10  rounded pl-4 "
+                className="bg-blue-100 h-10  rounded pl-4 "
                 required
                 placeholder="password"
                 value={lab.password}
@@ -360,13 +360,13 @@ export default function RegisterLab(props) {
             </div>
 
             <div class="grid grid-cols-4 gap-2 mt-4 mr-4">
-              <label type="password" class=" lg:text-lg  font-semibold px-4">
+              <label type="password" class=" lg:text-xl  font-bold px-4">
                 Confirm Password
               </label>
               <input
                 type="password"
                 id="password"
-                class="bg-blue-100 h-10  rounded pl-4 "
+                className="bg-blue-100 h-10  rounded pl-4 "
                 required
                 placeholder="Confirm password"
                 value={confirmPassword}
@@ -375,7 +375,7 @@ export default function RegisterLab(props) {
               <span className="text-sm py-1 text-red-500">{passwordError}</span>
             </div>
 
-            <div class="flex justify-center mb-4 mt-8">
+            <div className="flex justify-center mb-4 mt-8">
               {Loading ? (
                 <ReactLoading
                   type={"bubbles"}
@@ -384,7 +384,7 @@ export default function RegisterLab(props) {
                   width={"5%"}
                 />
               ) : (
-                <button className="bg-primary rounded p-2 px-8 font-semibold text-xl hover:bg-bgsecondary mb-4 ">
+                <button className="bg-blue-400 rounded p-2 px-8 font-semibold text-xl hover:bg-blue-100 mb-4 ">
                   Submit
                 </button>
               )}

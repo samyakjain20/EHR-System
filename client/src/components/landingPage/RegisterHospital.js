@@ -117,7 +117,7 @@ export default function RegisterHospital(props) {
                 placeholder="e.g: saikrupa@gmail.com"
                 required
                 class="bg-blue-100 h-10 rounded pl-4 col-span-2 "
-                value={hospital.org}
+                value={hospital.orgEmail}
                 onChange={(e) => {
                   let temphospital = { ...hospital };
                   temphospital.orgEmail = e.target.value;
@@ -267,7 +267,7 @@ export default function RegisterHospital(props) {
                   width={"5%"}
                 />
               ) : (
-                <button className="bg-primary rounded p-2 px-8 font-semibold text-xl hover:bg-bgsecondary mb-4 ">
+                <button className="bg-blue-400 rounded p-2 px-8 font-semibold text-xl hover:bg-blue-100 mb-4 ">
                   Submit
                 </button>
               )}

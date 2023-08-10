@@ -259,7 +259,7 @@ const LabDashboard = (props) => {
                                 </div>
                                 <button>
                                     <Button
-                                        className="bg-primary hover:bg-bgsecondary"
+                                        className="bg-blue-400 hover:bg-blue-100"
                                         disabled={fileList.length === 0}
                                         loading={uploading}
 

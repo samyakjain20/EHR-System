@@ -210,7 +210,7 @@ const DoctorDashboard = (props) => {
             <div className=" grid col-span-3">
               <input
                 placeholder="Health ID"
-                className="bg-bgsecondary rounded border-2 text-xl   pl-4  focus:outline-none"
+                className="bg-blue-100 rounded border-2 text-xl   pl-4  focus:outline-none"
                 type="number"
                 value={props.healthID}
                 onChange={(e) => {
@@ -228,19 +228,19 @@ const DoctorDashboard = (props) => {
                 />
               </div>
             ) : (
-              <div className=" grid col-start-8  h-10 ml-4  bg-primary  rounded font-semibold  shadow-sm hover:bg-bgsecondary  ">
+              <div className=" grid col-start-8  h-10 ml-4  bg-blue-400  rounded font-semibold  shadow-sm hover:bg-blue-100  ">
                 <div className="flex py-2 px-4 items-center ">
                   <img src={search} className=" h-4  " alt="search"></img>
-                  <button className="ml-2 flex  rounded font-semibold  shadow-sm hover:bg-bgsecondary   ">
+                  <button className="ml-2 flex  rounded font-semibold  shadow-sm hover:bg-blue-100   ">
                     Search
                   </button>
                 </div>
               </div>
             )}
-            <div className="grid col-start-9  h-10 ml-4  bg-primary  rounded font-semibold  shadow-sm hover:bg-bgsecondary  ">
+            <div className="grid col-start-9  h-10 ml-4  bg-blue-400  rounded font-semibold  shadow-sm hover:bg-blue-100  ">
               <div className="flex py-2 px-4 items-center ">
                 <div
-                  className="ml-2 flex cursor-pointer rounded font-semibold  shadow-sm hover:bg-bgsecondary "
+                  className="ml-2 flex cursor-pointer rounded font-semibold  shadow-sm hover:bg-blue-100 "
                   onClick={() => {
                     props.setHealthID("");
                   }}
@@ -333,7 +333,7 @@ const DoctorDashboard = (props) => {
                         props.setPrescriptionID(prescriptions[0]._id);
                       }}
                     >
-                      <div className=" mt-2 flex items-center justify-evenly text-base bg-primary py-1 px-2 rounded font-semibold  shadow-sm hover:bg-bgsecondary w-5/12  ">
+                      <div className=" mt-2 flex items-center justify-evenly text-base bg-blue-400 py-1 px-2 rounded font-semibold  shadow-sm hover:bg-blue-100 w-5/12  ">
                         <img src={reports} className="h-4" alt="report"></img>
 
                         <button className=" font-semibold pl-1">
@@ -365,7 +365,7 @@ const DoctorDashboard = (props) => {
                   <h1>Patient Dashboard</h1>
                 </div>
                 <Link to="/doctor/addDiagno">
-                  <div className=" flex  bg-primary pl-0 pr-3 py-1 items-center justify-items-center  rounded font-semibold  shadow-sm hover:bg-bgsecondary   ">
+                  <div className=" flex  bg-blue-400 pl-0 pr-3 py-1 items-center justify-items-center  rounded font-semibold  shadow-sm hover:bg-blue-100   ">
                     <img
                       src={add_pre_logo}
                       className="h-3 mx-3"
@@ -415,7 +415,7 @@ const DoctorDashboard = (props) => {
                               props.setPrescriptionID(prescription._id)
                             }
                           >
-                            <div className=" flex  justify-center bg-primary py-1 px-3 rounded font-semibold  shadow-sm hover:bg-bgsecondary w-2/5   ">
+                            <div className=" flex  justify-center bg-blue-400 py-1 px-3 rounded font-semibold  shadow-sm hover:bg-blue-100 w-2/5   ">
                               <img
                                 src={eye}
                                 className="h-4 my-auto"
