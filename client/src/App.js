@@ -35,6 +35,8 @@ import Page404 from "./pages/Page_404";
 import Manage from "./components/hospitalDashboard/Manage";
 import LabList from "./components/hospitalDashboard/LabList";
 import { GlobalProvider } from "./GlobalData/GlobalContext";
+import AdminDashboard from "./pages/AdminDashboard";
+import AdminDashboardSidebar from "./components/adminDashboard/adminDashboardSidebar";
 
 function App() {
   const [healthID, setHealthID] = useState("");
@@ -67,6 +69,26 @@ function App() {
     <GlobalProvider>
       <div className="bg-bgprimary flex">
         <Routes>
+          <Route
+            path="admin"
+            element={
+              <AdminDashboardSidebar
+                setToastShow={setToastShow}
+                settoastCondition={settoastCondition}
+              />
+            }
+          >
+            <Route
+            path="dashboard"
+            element={
+              <AdminDashboard
+                setToastShow={setToastShow}
+                settoastCondition={settoastCondition}
+              />
+            }
+            ></Route>
+          </Route>
+
           <Route
             path="/"
             element={
