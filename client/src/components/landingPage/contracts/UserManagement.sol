@@ -117,6 +117,7 @@ contract UserManagement {
         patients[msg.sender] = patient; // update mapping
         allPatientObj.push(patient); // update obj array
         allPatientArr.push(_username); // update id array
+        arrLen[0]++;
         abhaIdToAddress[_username] = msg.sender;
         emit PatientRegistered(msg.sender, _username);
     }
@@ -167,6 +168,7 @@ contract UserManagement {
         hospitals[msg.sender] = hospital;
         allHospitalObj.push(hospital);
         allHospitalArr.push(_username);
+        arrLen[1]++;
 
         emit HospitalRegistered(msg.sender, _username);
     }
@@ -211,6 +213,7 @@ contract UserManagement {
         labs[msg.sender] = lab;
         allLabObj.push(lab);
         allLabArr.push(_username);
+        arrLen[2]++;
 
         emit LabRegistered(msg.sender, _username);
     }
@@ -256,6 +259,7 @@ contract UserManagement {
         doctors[msg.sender] = doctor;
         allDoctorObj.push(doctor);
         allDoctorArr.push(_username);
+        arrLen[3]++;
 
         emit DoctorRegistered(msg.sender, _username);
     }
