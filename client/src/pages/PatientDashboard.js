@@ -29,7 +29,7 @@ const PatientDashboard = (props) => {
   
   useEffect(() => {
     async function getpatient() {
-      const data = await userMgmtContract.getPatientInfo(metaAccount);
+      const data = await userMgmtContract.getPatientInfo();
       console.log(data);
       var patientObj = JSON.parse(data);
       setPatient(patientObj);
@@ -50,7 +50,7 @@ const PatientDashboard = (props) => {
                 </h1>
               </div>
 
-              <div className="flex ml-20  h-10   ">
+              <div className="flex ml-20  h-10 mt-2  ">
                 <input
                   placeholder="Search"
                   className="w-96 rounded ml-4 text-xl   pl-4 border focus:outline-none "
@@ -61,7 +61,7 @@ const PatientDashboard = (props) => {
               </div>
 
               <Link to="/patient/profile">
-                <button className="flex bg-white rounded shadow  px-4  ml-60 h-14 ">
+                <button className="flex bg-white rounded shadow  px-4  ml-80 h-14 ">
                   <img
                     src={patient_profile}
                     className="h-14 p-1 rounded-2xl"

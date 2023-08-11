@@ -206,7 +206,7 @@ export default function Login(props) {
 
           const fileAbi = require("../../components/landingPage/contracts/FileManagement.json");
           const userAbi = require("../../components/landingPage/contracts/UserManagement.json");
-          let userMgmtContractAddress = "0x5B18dA686E1C600d37E7A77556dB36EBaA7DA059";
+          let userMgmtContractAddress = "0xab2D857d5AFE556f60eb4b49adc98d3139Da578a";
           let fileMgmtContractAddress = "0x523D43e43C87eCDDf2b7FE22A78031CcfdDd5dE1";
 
           const userMgmtContract = new ethers.Contract(
@@ -247,7 +247,7 @@ export default function Login(props) {
   };
 
   return (
-    <div className="bg-white flex flex-col justify-items-center items-center py-1 px-4 rounded shadow-xl lg:w-3/4 w-full my-7 ml-auto ">
+    <div className="bg-white flex flex-col justify-items-center items-center py-1 px-4 rounded shadow-md lg:w-3/4 w-full my-7 ml-auto ">
       <h1 className="text-4xl font-bold text-primary py-1">
         Login
       </h1>
