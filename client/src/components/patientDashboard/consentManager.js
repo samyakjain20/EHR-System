@@ -3,7 +3,6 @@ import patient_profile from "../../assets/img/dashboard/patient2_pbl.png";
 import PatientHistoryCompo from "./PatientHistoryCompo";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import ConsentManagerComp from "./consentManagerComp";
 import { UserContractObj, FileContractObj, MetaAccountObj, PatientDataObj } from "../../GlobalData/GlobalContext";
 import add_pre_logo from "../../assets/img/dashboard/add_prescription_logo.png";
 import { Table, Button} from 'antd';
@@ -50,30 +49,14 @@ const ConsentManager = (props) => {
       },
     },
   });
-  const [recordAccessList, setRecordAccessList] = useState([
-    {
-      hospitalName: "Max Hospitals",
-      doctorName: "Dr. Uday Shetty",
-      date: "04/08/2023",
-      recordType: "DischargeReport",
-      description: "Fever",
-      consent: "requested"
-    },
-    {
-      hospitalName: "RIP Hospitals",
-      doctorName: "Dr. Babu Rao",
-      date: "01/07/2023",
-      recordType: "DiagnosticReport",
-      description: "Blood Pressure",
-      consent: "granted"
-    }
-  ]);
+  const [ recordAcessRequests, setRecordAcessRequests] = useState([]);
+  const [ acceptedRequests, setAcceptedRequests] = useState([]);
 
   const columns = [
     {
       title: 'Associated Hospital/Lab',
-      dataIndex: 'hospitalName',
-      key: 'hospitalName',
+      dataIndex: 'orgName',
+      key: 'orgName',
     },
     {
       title: 'Associated Doctor',
@@ -81,7 +64,7 @@ const ConsentManager = (props) => {
       key: 'doctorName',
     },
     {
-      title: 'Date',
+      title: 'Requested On',
       dataIndex: 'date',
       key: 'date',
     },
@@ -91,33 +74,66 @@ const ConsentManager = (props) => {
       key: 'recordType',
     },
     {
-      title: 'Diagnosis',
-      dataIndex: 'description',
-      key: 'description',
-    },
-    {
-      title: 'Consent',
+      title: 'Access',
       dataIndex: 'consent',
       key: 'consent',
-      render: (text, record) => (
+      render: (text, record, rowIndex) => (
         <div>
-          <Button className="bg-red-400 mx-1 hover:bg-white border border-red-400" onClick={() => handleAcceptAccessReq(record.key)}>Decline</Button>
-          <Button className="bg-blue-400 mx-1 hover:bg-white border border-blue-400" onClick={() => handleAcceptAccessReq(record.key)}>Accept</Button>
+          <Button className="bg-red-400 mx-1 hover:bg-white border border-red-400" onClick={() => handleRejectAcessReq(recordAcessRequests[rowIndex])}>Decline</Button>
+          <Button className="bg-blue-400 mx-1 hover:bg-white border border-blue-400" onClick={() => handleAcceptAccessReq(recordAcessRequests[rowIndex])}>Accept</Button>
+        </div>
+      ),
+    },
+  ];
+  const columns2 = [
+    {
+      title: 'Associated Hospital/Lab',
+      dataIndex: 'orgName',
+      key: 'orgName',
+    },
+    {
+      title: 'Associated Doctor',
+      dataIndex: 'doctorName',
+      key: 'doctorName',
+    },
+    {
+      title: 'Requested On',
+      dataIndex: 'date',
+      key: 'date',
+    },
+    {
+      title: 'Record Type',
+      dataIndex: 'recordType',
+      key: 'recordType',
+    },
+    {
+      title: 'Access',
+      dataIndex: 'consent',
+      key: 'consent',
+      render: (text, record, rowIndex) => (
+        <div>
+          <Button className="bg-red-400 mx-1 hover:bg-white border border-red-400" onClick={() => handleRevokeAccess(acceptedRequests[rowIndex])}>Revoke</Button>
         </div>
       ),
     },
   ];
 
-  const handleAcceptAccessReq = async () => {
-
+  const handleAcceptAccessReq = async (data) => {
+    console.log(data.doctorAddress, data.recordType);
+    const response = await fileMgmtContract.acceptReq(data.doctorAddress, data.recordType);
+    console.log(response);
   }
   
-  const handleRejectAcessReq = async () => {
-    
+  const handleRejectAcessReq = async (data) => {
+    console.log(data.doctorAddress, data.recordType);
+    const response = await fileMgmtContract.rejectReq(data.doctorAddress, data.recordType);
+    console.log(response);
   }
 
-  const handleRcevokeAccess = async () => {
-
+  const handleRevokeAccess = async (data) => {
+    console.log(data.doctorAddress, data.recordType);
+    const response = await fileMgmtContract.revokeReq(data.doctorAddress, data.recordType);
+    console.log(response);
   }
 
   const convertDatetoString = (dateString) => {
@@ -132,11 +148,41 @@ const ConsentManager = (props) => {
   const { metaAccount, setMetaAccount } = MetaAccountObj();
   
   useEffect(() => {
-    async function getAllConsents() {
-      
+    async function getPendingRequests() {
+      const tempRecordAcessRequests = [];
+      const pendingRequests = await fileMgmtContract.displayPendingToPatient();
+      for(let i = 0; i < pendingRequests.length; i++){
+        tempRecordAcessRequests.push({
+          doctorAddress: pendingRequests[i][0],
+          orgName: pendingRequests[i][3], 
+          doctorName: pendingRequests[i][4],
+          date: pendingRequests[i][2],
+          recordType: pendingRequests[i][1]
+        });
+      }
+      console.log(tempRecordAcessRequests);
+      setRecordAcessRequests(tempRecordAcessRequests);
     }
 
-    getAllConsents();
+    async function getAcceptedRequests(){
+      const tempAcceptedRequests = [];
+      const _acceptedRequests = await fileMgmtContract.displayAcceptedToPatient();
+      for(let i = 0; i < _acceptedRequests.length; i++){
+        tempAcceptedRequests.push({
+          doctorAddress: _acceptedRequests[i][0],
+          orgName: _acceptedRequests[i][3], 
+          doctorName: _acceptedRequests[i][4],
+          date: _acceptedRequests[i][2],
+          recordType: _acceptedRequests[i][1]
+        });
+      }
+      // console.log(_acceptedRequests[0]);
+      setAcceptedRequests(tempAcceptedRequests);
+      console.log("accepted: ", tempAcceptedRequests);
+    }
+
+    getPendingRequests();
+    getAcceptedRequests();
   }, []);
 
   return (
@@ -209,7 +255,7 @@ const ConsentManager = (props) => {
             <div className=" m-4  ">
               <div className="flex justify-between m-8">
                 <div className="font-bold text-xl ml-4">
-                  <h1>Patient Dashboard</h1>
+                  <h1>Records Requested</h1>
                 </div>
                 <Link to="/doctor/addDiagno">
                   <div className=" flex  bg-blue-400 pl-0 pr-3 py-1 items-center justify-items-center  rounded font-semibold  shadow-sm hover:bg-blue-100   ">
@@ -226,13 +272,27 @@ const ConsentManager = (props) => {
               <div>
                 <Table
                   columns={columns}
-                  dataSource={recordAccessList}
+                  dataSource={recordAcessRequests}
+                  rowKey="id"
+                  bordered
+                  pagination={true} // Optional: If you want to disable pagination
+                />
+              </div>
+              
+              <div className="font-bold text-xl ml-4 my-4">
+                <h1>Accepted Requests</h1>
+              </div>
+              <div>
+                <Table
+                  columns={columns2}
+                  dataSource={acceptedRequests}
                   rowKey="id"
                   bordered
                   pagination={true} // Optional: If you want to disable pagination
                 />
               </div>
             </div>
+            
 
           </div>
         </div>

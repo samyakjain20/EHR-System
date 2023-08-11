@@ -18,10 +18,7 @@ import { Routes, Route } from "react-router-dom";
 import PatientList from "./components/hospitalDashboard/PatientList";
 import DoctorList from "./components/hospitalDashboard/DoctorList";
 import PatientProfileSideBar from "./components/patientDashboard/PatientProfileSideBar";
-import PrescriptionReports from "./components/patientDashboard/PrescriptionReports";
-import DiagnosticsReports from "./components/patientDashboard/DiagnosticsReports";
-import DischargeReports from "./components/patientDashboard/DischargeReports";
-import LabReports from "./components/patientDashboard/LabReports";
+import PreviousRecords from "./components/patientDashboard/PreviousRecords";
 import DoctorDashboardSidebar from "./components/doctorDashboard/DashboardSidebar";
 import PreviewPrescription from "./components/patientDashboard/PreviewPrescription";
 import PatientReportsDoctorView from "./components/doctorDashboard/PatientReportsDoctorView";
@@ -147,39 +144,9 @@ function App() {
               }
             />
             <Route
-              path="prescriptions"
+              path="prevRecords"
               element={
-                <PrescriptionReports
-                  setPrescriptionID={setPrescriptionID}
-                  settoastCondition={settoastCondition}
-                  setToastShow={setToastShow}
-                />
-              }
-            />
-            <Route
-              path="diagnostics"
-              element={
-                <DiagnosticsReports
-                  setPrescriptionID={setPrescriptionID}
-                  settoastCondition={settoastCondition}
-                  setToastShow={setToastShow}
-                />
-              }
-            />
-            <Route
-              path="discharge"
-              element={
-                <DischargeReports
-                  setPrescriptionID={setPrescriptionID}
-                  settoastCondition={settoastCondition}
-                  setToastShow={setToastShow}
-                />
-              }
-            />
-            <Route
-              path="labreports"
-              element={
-                <LabReports
+                <PreviousRecords
                   setPrescriptionID={setPrescriptionID}
                   settoastCondition={settoastCondition}
                   setToastShow={setToastShow}
