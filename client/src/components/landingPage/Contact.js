@@ -114,7 +114,7 @@ const Contact = (props) => {
                       width={"9%"}
                     />
                   ) : (
-                    <button className="text-lg mt-2 bg-blue-400 py-1 px-3 rounded font-semibold  shadow-sm hover:bg-blue-100">
+                    <button className="text-lg mt-2 bg-blue-500 py-1 px-3 rounded font-semibold  shadow-sm hover:bg-blue-100">
                       Submit
                     </button>
                   )}

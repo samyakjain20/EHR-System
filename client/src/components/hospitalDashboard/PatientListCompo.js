@@ -45,7 +45,7 @@ const PatientListCompo = (props) => {
       </div>
       <div>
         <button
-          className="flex items-center bg-blue-400 w-24 h-8 rounded font-bold shadow hover:bg-blue-100"
+          className="flex items-center bg-blue-500 w-24 h-8 rounded font-bold shadow hover:bg-blue-100"
           onClick={deletePatient}
         >
           <img src={delete_btn} className="h-4 mx-2"></img>Delete

@@ -80,7 +80,7 @@ const ConsentManager = (props) => {
       render: (text, record, rowIndex) => (
         <div>
           <Button className="bg-red-400 mx-1 hover:bg-white border border-red-400" onClick={() => handleRejectAcessReq(recordAcessRequests[rowIndex])}>Decline</Button>
-          <Button className="bg-blue-400 mx-1 hover:bg-white border border-blue-400" onClick={() => handleAcceptAccessReq(recordAcessRequests[rowIndex])}>Accept</Button>
+          <Button className="bg-blue-500 mx-1 hover:bg-white border border-blue-500" onClick={() => handleAcceptAccessReq(recordAcessRequests[rowIndex])}>Accept</Button>
         </div>
       ),
     },
@@ -258,7 +258,7 @@ const ConsentManager = (props) => {
                   <h1>Records Requested</h1>
                 </div>
                 <Link to="/doctor/addDiagno">
-                  <div className=" flex  bg-blue-400 pl-0 pr-3 py-1 items-center justify-items-center  rounded font-semibold  shadow-sm hover:bg-blue-100   ">
+                  <div className=" flex  bg-blue-500 pl-0 pr-3 py-1 items-center justify-items-center  rounded font-semibold  shadow-sm hover:bg-blue-100   ">
                     <img
                       src={add_pre_logo}
                       className="h-3 mx-3"

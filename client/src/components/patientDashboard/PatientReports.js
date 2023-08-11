@@ -286,7 +286,7 @@ const PatientReports = (props) => {
                   </div>
                   <button type="submit">
                     <Button 
-                      className="bg-blue-400 hover:bg-blue-100"
+                      className="bg-blue-500 hover:bg-blue-100"
                       disabled={fileList.length === 0}
                       loading={uploading}
                       >

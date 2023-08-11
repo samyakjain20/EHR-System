@@ -159,7 +159,7 @@ export default function Register(props) {
                 onClick={() => setToggle("Patient")}
                 className={
                   Toggle === "Patient"
-                    ? "py-2 px-8 text-lg text-white font-semibold cursor-pointer rounded bg-blue-400"
+                    ? "py-2 px-8 text-lg text-white font-semibold cursor-pointer rounded bg-blue-500"
                     : "py-2 px-8 text-lg  font-semibold cursor-pointer rounded bg-blue-100"
                 }
               >
@@ -169,7 +169,7 @@ export default function Register(props) {
                 onClick={() => setToggle("Doctor")}
                 className={
                   Toggle === "Doctor"
-                    ? "py-2 px-8 text-lg text-white font-semibold cursor-pointer rounded bg-blue-400"
+                    ? "py-2 px-8 text-lg text-white font-semibold cursor-pointer rounded bg-blue-500"
                     : "py-2 px-8 text-lg  font-semibold cursor-pointer rounded bg-blue-100"
                 }
               >
@@ -179,7 +179,7 @@ export default function Register(props) {
                 onClick={() => setToggle("Lab")}
                 className={
                   Toggle === "Lab"
-                    ? "py-2 px-8 text-lg text-white font-semibold cursor-pointer rounded bg-blue-400"
+                    ? "py-2 px-8 text-lg text-white font-semibold cursor-pointer rounded bg-blue-500"
                     : "py-2 px-8 text-lg  font-semibold cursor-pointer rounded bg-blue-100"
                 }
               >
@@ -190,7 +190,7 @@ export default function Register(props) {
                 onClick={() => setToggle("Hospital")}
                 className={
                   Toggle === "Hospital"
-                    ? "py-2 px-8 text-lg text-white font-semibold cursor-pointer rounded bg-blue-400"
+                    ? "py-2 px-8 text-lg text-white font-semibold cursor-pointer rounded bg-blue-500"
                     : "py-2 px-8 text-lg  font-semibold cursor-pointer rounded bg-blue-100"
                 }
               >
@@ -691,7 +691,7 @@ export default function Register(props) {
                     width={"5%"}
                   />
                 ) : (
-                  <button className="bg-blue-400 rounded p-2 px-8 font-semibold text-xl hover:bg-blue-100 mb-4 mt-3">
+                  <button className="bg-blue-500 rounded p-2 px-8 font-semibold text-xl hover:bg-blue-100 mb-4 mt-3">
                     Submit
                   </button>
                 )}

@@ -61,9 +61,9 @@ const DoctorDashboard = (props) => {
       render: (text, record, rowIndex) => (
         <span>
           {text === "GRANTED" ? (
-            <Button type="bg-blue-400 hover:bg-white border border-blue-400" onClick={() => handleRecordsView(recordTypes[rowIndex])}>View Records</Button>
+            <Button type="bg-blue-500 hover:bg-white border border-blue-500" onClick={() => handleRecordsView(recordTypes[rowIndex])}>View Records</Button>
           ) : text === "REQUESTED" ? (
-            <Button type="bg-blue-400 hover:bg-white border border-blue-400" >Requested</Button>
+            <Button type="bg-blue-500 hover:bg-white border border-blue-500" >Requested</Button>
           ) : text === "NOACCESS"? (
             <Button type="bg-green-400 hover:bg-white border border-green-400" onClick={() => handleRecordAccessReq(recordTypes[rowIndex])}>Request Access</Button>
           )  : (
@@ -71,7 +71,7 @@ const DoctorDashboard = (props) => {
           )}
       </span>
 
-        // <Button className="bg-blue-400 hover:bg-white border border-blue-400" onClick={() => handleRecordAccessReq(recordTypes[rowIndex])}>Request Consent</Button>
+        // <Button className="bg-blue-500 hover:bg-white border border-blue-500" onClick={() => handleRecordAccessReq(recordTypes[rowIndex])}>Request Consent</Button>
       ),
     },
   ];
@@ -286,7 +286,7 @@ const DoctorDashboard = (props) => {
                 />
               </div>
             ) : (
-              <div className=" grid col-start-8  h-10 ml-4  bg-blue-400  rounded font-semibold  shadow-sm hover:bg-blue-100  ">
+              <div className=" grid col-start-8  h-10 ml-4  bg-blue-500  rounded font-semibold  shadow-sm hover:bg-blue-100  ">
                 <div className="flex py-2 px-4 items-center ">
                   <img src={search} className=" h-4  " alt="search"></img>
                   <button className="ml-2 flex  rounded font-semibold  shadow-sm hover:bg-blue-100   ">
@@ -295,7 +295,7 @@ const DoctorDashboard = (props) => {
                 </div>
               </div>
             )}
-            <div className="grid col-start-9  h-10 ml-4  bg-blue-400  rounded font-semibold  shadow-sm hover:bg-blue-100  ">
+            <div className="grid col-start-9  h-10 ml-4  bg-blue-500  rounded font-semibold  shadow-sm hover:bg-blue-100  ">
               <div className="flex py-2 px-4 items-center ">
                 <div
                   className="ml-2 flex cursor-pointer rounded font-semibold  shadow-sm hover:bg-blue-100 "
@@ -316,7 +316,7 @@ const DoctorDashboard = (props) => {
                 <h1>Patient Dashboard</h1>
               </div>
               <Link to="/doctor/addDiagno">
-                <div className=" flex  bg-blue-400 pl-0 pr-3 py-1 items-center justify-items-center  rounded font-semibold  shadow-sm hover:bg-blue-100   ">
+                <div className=" flex  bg-blue-500 pl-0 pr-3 py-1 items-center justify-items-center  rounded font-semibold  shadow-sm hover:bg-blue-100   ">
                   <img
                     src={add_pre_logo}
                     className="h-3 mx-3"

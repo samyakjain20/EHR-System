@@ -129,7 +129,7 @@ export default function Manage(props) {
             </div>
             
             
-            <div className="grid col-span-2 lg:mx-10 bg-blue-400 rounded font-semibold  shadow-sm hover:bg-blue-100">
+            <div className="grid col-span-2 lg:mx-10 bg-blue-500 rounded font-semibold  shadow-sm hover:bg-blue-100">
               <button className="font-bold flex items-center px-2"> Add Doctor</button>
             </div>
           </form>
@@ -158,7 +158,7 @@ export default function Manage(props) {
             </div>
             
             
-            <div className="grid col-span-2 lg:mx-10 bg-blue-400 rounded font-semibold  shadow-sm hover:bg-blue-100">
+            <div className="grid col-span-2 lg:mx-10 bg-blue-500 rounded font-semibold  shadow-sm hover:bg-blue-100">
               <button className="font-bold flex items-center px-2"> Add Laboratory</button>
             </div>
           </form>
