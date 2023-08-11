@@ -159,7 +159,7 @@ export default function Register(props) {
                 onClick={() => setToggle("Patient")}
                 className={
                   Toggle === "Patient"
-                    ? "py-2 px-8 text-lg  font-semibold cursor-pointer rounded bg-blue-400"
+                    ? "py-2 px-8 text-lg text-white font-semibold cursor-pointer rounded bg-blue-500"
                     : "py-2 px-8 text-lg  font-semibold cursor-pointer rounded bg-blue-100"
                 }
               >
@@ -169,7 +169,7 @@ export default function Register(props) {
                 onClick={() => setToggle("Doctor")}
                 className={
                   Toggle === "Doctor"
-                    ? "py-2 px-8 text-lg  font-semibold cursor-pointer rounded bg-blue-400"
+                    ? "py-2 px-8 text-lg text-white font-semibold cursor-pointer rounded bg-blue-500"
                     : "py-2 px-8 text-lg  font-semibold cursor-pointer rounded bg-blue-100"
                 }
               >
@@ -179,7 +179,7 @@ export default function Register(props) {
                 onClick={() => setToggle("Lab")}
                 className={
                   Toggle === "Lab"
-                    ? "py-2 px-8 text-lg  font-semibold cursor-pointer rounded bg-blue-400"
+                    ? "py-2 px-8 text-lg text-white font-semibold cursor-pointer rounded bg-blue-500"
                     : "py-2 px-8 text-lg  font-semibold cursor-pointer rounded bg-blue-100"
                 }
               >
@@ -190,7 +190,7 @@ export default function Register(props) {
                 onClick={() => setToggle("Hospital")}
                 className={
                   Toggle === "Hospital"
-                    ? "py-2 px-8 text-lg  font-semibold cursor-pointer rounded bg-blue-400"
+                    ? "py-2 px-8 text-lg text-white font-semibold cursor-pointer rounded bg-blue-500"
                     : "py-2 px-8 text-lg  font-semibold cursor-pointer rounded bg-blue-100"
                 }
               >
@@ -222,22 +222,27 @@ export default function Register(props) {
               onSubmit={handleRegisterPatient}
             >
             <div className={Toggle === "Patient" ? "" : "hidden"}>
-            {metaAccount}
-              <div className="lg:grid lg:grid-cols-4 lg:gap-2 mt-4 mr-4 grid grid-cols-2 gap-1">
+            
+            <div className="lg:grid lg:grid-cols-4 lg:gap-2 mt-4 mr-4 grid grid-cols-2 gap-1">
+              <label className="font-semibold lg:text-lg  px-4 my-4 "> MetaMask Account </label>
+              <div className="mt-5">
+                {metaAccount ? metaAccount : "Not Connected"}
+              </div>
+            </div>
+
+              <div className="lg:grid lg:grid-cols-4 lg:gap-2 mr-4 grid grid-cols-2 gap-1">
                 <label className="font-semibold lg:text-lg  px-4 my-4 "> Name </label>
-                <div>
-                  <input
-                    className="bg-blue-100 rounded h-10 pl-4 mt-4"
-                    required
-                    placeholder="first name"
-                    value={patient.name.firstName}
-                    onChange={(e) => {
-                      let temppatient = { ...patient };
-                      temppatient.name.firstName = e.target.value;
-                      setPatient(temppatient);
-                    }}
-                  ></input>
-                </div>
+                <input
+                  className="bg-blue-100 rounded h-10 pl-4 mt-4"
+                  required
+                  placeholder="first name"
+                  value={patient.name.firstName}
+                  onChange={(e) => {
+                    let temppatient = { ...patient };
+                    temppatient.name.firstName = e.target.value;
+                    setPatient(temppatient);
+                  }}
+                ></input>
                 <input
                   className="bg-blue-100 rounded h-10 pl-4 mt-4"
                   required
@@ -265,7 +270,7 @@ export default function Register(props) {
                 <label className="font-semibold lg:text-lg px-4 ">Birthdate</label>
                 <input
                   type="date"
-                  className=" bg-blue-100 lg:h-10 rounded pl-4 h-8"
+                  className=" bg-blue-100 lg:h-10 rounded pl-4 h-8 pr-3"
                   required
                   value={patient.dob}
                   onChange={(e) => {
@@ -320,7 +325,7 @@ export default function Register(props) {
 
               <div className=" aadhar lg:grid grid-cols-4 gap-2 mt-4 mr-4">
                 <label className="font-semibold lg:text-lg px-4 ">
-                  ABHA ID.{" "}
+                  ABHA ID{" "}
                 </label>
                 <div>
                   <input
@@ -476,7 +481,7 @@ export default function Register(props) {
                   id="password"
                   className="bg-blue-100 lg:h-10  rounded pl-4 h-8"
                   required
-                  placeholder="password"
+                  placeholder="Password"
                   
                   // value={patient.password}
                   value={patient.passwordHash}
@@ -497,7 +502,7 @@ export default function Register(props) {
                   id="password"
                   className="bg-blue-100 lg:h-10  rounded lg:pl-4 h-8 pl-2"
                   required
-                  placeholder="Confirm password"
+                  placeholder="Confirm Password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                 ></input>
@@ -600,10 +605,10 @@ export default function Register(props) {
                 <label className=" lg:text-lg font-semibold px-4 mb-8 col-span-1">
                   Address
                 </label>
-                <div className="grid grid-cols-2 gap-8 col-span-3 ">
+                <div className="grid grid-cols-2 lg:gap-4 gap-1 col-span-3 ">
                   <input
                     type="text"
-                    className="bg-blue-100 h-10  rounded pl-4 "
+                    className="bg-blue-100 lg:h-10  rounded pl-4 h-8"
                     required
                     placeholder="building/area"
                     value={patient.contactPerson.conAddress.building}
@@ -616,7 +621,7 @@ export default function Register(props) {
                   ></input>
                   <input
                     type="text"
-                    className="bg-blue-100 h-10  rounded pl-4 "
+                    className="bg-blue-100 lg:h-10  rounded pl-4 h-8"
                     required
                     placeholder="village/city"
                     value={patient.contactPerson.conAddress.city}
@@ -628,7 +633,7 @@ export default function Register(props) {
                   ></input>
                   <input
                     type="text"
-                    className="bg-blue-100 h-10  rounded  pl-4"
+                    className="bg-blue-100 lg:h-10  rounded pl-4 h-8"
                     required
                     placeholder="Taluka"
                     value={patient.contactPerson.conAddress.taluka}
@@ -640,7 +645,7 @@ export default function Register(props) {
                   ></input>
                   <input
                     type="text"
-                    className="bg-blue-100 h-10  rounded  pl-4"
+                    className="bg-blue-100 lg:h-10  rounded pl-4 h-8"
                     required
                     placeholder="District"
                     value={patient.contactPerson.conAddress.district}
@@ -653,7 +658,7 @@ export default function Register(props) {
                   ></input>
                   <input
                     type="number"
-                    className="bg-blue-100 h-10  rounded  pl-4"
+                    className="bg-blue-100 lg:h-10  rounded pl-4 h-8"
                     required
                     placeholder="Pin-code"
                     value={patient.contactPerson.conAddress.pincode}
@@ -666,7 +671,7 @@ export default function Register(props) {
                   ></input>
                   <input
                     type="text"
-                    className="bg-blue-100 h-10  rounded  pl-4"
+                    className="bg-blue-100 lg:h-10  rounded pl-4 h-8"
                     placeholder="State"
                     value={patient.contactPerson.conAddress.state}
                     onChange={(e) => {
@@ -686,7 +691,7 @@ export default function Register(props) {
                     width={"5%"}
                   />
                 ) : (
-                  <button className="bg-blue-400 rounded p-2 px-8 font-semibold text-xl hover:bg-blue-100 mb-4 ">
+                  <button className="bg-blue-500 rounded p-2 px-8 font-semibold text-xl hover:bg-blue-100 mb-4 mt-3">
                     Submit
                   </button>
                 )}

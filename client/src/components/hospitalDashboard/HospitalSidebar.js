@@ -127,7 +127,7 @@ const HospitalSideBar = (props) => {
           </div>
         </nav>
 
-        <div className=" mx-auto mt-56 py-1    bg-blue-400  rounded font-semibold  shadow-sm hover:bg-blue-100 w-2/5  ">
+        <div className=" mx-auto mt-56 py-1    bg-blue-500  rounded font-semibold  shadow-sm hover:bg-blue-100 w-2/5  ">
           <button className="font-bold  flex items-center" onClick={logout}>
             <img src={logoutimg} className="h-4 px-2 " alt="logout"></img>
             logout

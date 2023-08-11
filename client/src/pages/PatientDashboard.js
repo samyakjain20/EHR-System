@@ -228,7 +228,7 @@ const PatientDashboard = (props) => {
                             props.setPrescriptionID(prescription._id)
                           }
                         >
-                          <div className=" flex  justify-center bg-blue-400 py-1 px-3 rounded font-semibold  shadow-sm hover:bg-blue-100 w-2/5   ">
+                          <div className=" flex  justify-center bg-blue-500 py-1 px-3 rounded font-semibold  shadow-sm hover:bg-blue-100 w-2/5   ">
                             <img
                               src={eye}
                               className="h-4 my-auto"

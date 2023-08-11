@@ -27,7 +27,7 @@ export default function Navbar() {
         
       </ul>
 
-      <button className="bg-blue-400 lg:px-3 text-white rounded font-semibold border border-blue-400 hover:text-blue-400  shadow-sm hover:bg-white py-1 px-2 mr-2 mt-1 text-lg">
+      <button className="bg-blue-500 lg:px-3 text-white rounded font-semibold border border-blue-500 hover:text-blue-500  shadow-sm hover:bg-white py-1 px-2 mr-2 mt-1 text-lg">
         {location.pathname === "/register" ? (
           <Link to="/">Login</Link>
         ) : (

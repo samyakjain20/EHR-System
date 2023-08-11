@@ -68,11 +68,12 @@ export function GlobalProvider({ children }) {
                     else {
 
                         window.ethereum.on("chainChanged", () => {
+                            window.location.replace("http://localhost:3000");
                             window.location.reload();
                         });
 
                         window.ethereum.on("accountsChanged", () => {
-                            window.location.reload();
+                            window.location.replace("http://localhost:3000");
                         });
 
                         await provider.send("eth_requestAccounts", []);
@@ -100,6 +101,7 @@ export function GlobalProvider({ children }) {
                         setFileMgmtContract(fileMgmtContract);
                         setUserMgmtContract(userMgmtContract);
                         setProvider(provider);
+                        console.log("jello");
                         console.log(address);
                         console.log(userMgmtContract);
                         console.log(fileMgmtContract);

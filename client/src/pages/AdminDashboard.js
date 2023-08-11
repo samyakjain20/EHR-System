@@ -1,4 +1,5 @@
 import doctor_profile from "../assets/img/dashboard/doctor2.png";
+import admin_profile from "../assets/img/dashboard/admin_profile.png";
 import reports from "../assets/img/dashboard/report2_pbl.png";
 import search from "../assets/img/dashboard/search2.png";
 import lab_logo from "../assets/img/dashboard/lab.svg";
@@ -69,25 +70,23 @@ const AdminDashboard = (props) => {
                                 </div>
                             </div>
 
-                            <Link to="/lab/profile">
-                                <div className="flex bg-white rounded shadow  px-4  ml-60 h-14 ">
-                                    <img
-                                        src={lab_logo}
-                                        className="w-12 p-1 rounded-2xl"
-                                        alt="profile"
-                                    ></img>
-                                    <div className="grid grid-rows-2 ml-4 gap-2  mb-4">
-                                        <div className="font-bold  text-base">
-                                            <h1 className="">
-                                                Admin
-                                            </h1>
-                                        </div>
-                                        <div className="">
-                                            
-                                        </div>
+                            <div className="flex bg-white rounded shadow  px-4  ml-60 h-14 ">
+                                <img
+                                    src={admin_profile}
+                                    className="w-12 p-1 rounded-2xl"
+                                    alt="profile"
+                                ></img>
+                                <div className="grid grid-rows-2 ml-4 gap-2  mb-4">
+                                    <div className="font-bold  text-base">
+                                        <h1 className="">
+                                            Admin
+                                        </h1>
+                                    </div>
+                                    <div className="">
+                                        
                                     </div>
                                 </div>
-                            </Link>
+                            </div>
                         </div>
                     </div>
                     {/* dashboard today end */}
