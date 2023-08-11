@@ -167,6 +167,7 @@ const DoctorDashboard = (props) => {
   };
 
   useEffect(() => {
+
     async function getdoctor() {
       const data = await userMgmtContract.getDoctorInfo();
       console.log(data);
@@ -183,6 +184,7 @@ const DoctorDashboard = (props) => {
 
     getdoctor();
     getpatient();
+
   }, [dob]);
 
   const searchPatient = async (e) => {
@@ -300,9 +302,6 @@ const DoctorDashboard = (props) => {
                       <h1 className="">
                         {`Dr. ${doctor.name.firstName} ${doctor.name.lastName}`}
                       </h1>
-                    </div>
-                    <div className="">
-
                     </div>
                   </div>
                 </div>

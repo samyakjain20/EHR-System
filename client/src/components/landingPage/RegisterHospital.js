@@ -71,7 +71,7 @@ export default function RegisterHospital(props) {
             message: "Hospital Registration done Successfully!",
           });
           props.setToastShow(true);
-          navigate("/hospital/dashboard");
+          navigate("/");
         }
       } else {
         setPasswordError("Password Doesn't Matches");
@@ -91,8 +91,13 @@ export default function RegisterHospital(props) {
     // <div className="lg:grid lg:grid-cols-4 lg:gap-2 mt-4 mr-4 grid grid-cols-4 gap-2">
     <div className="">
       <form onSubmit={handleRegisterHospital} class="">
-            {metaAccount}
-            <div class="grid grid-cols-4 gap-2 mt-7 mr-4">
+            <div className="lg:grid lg:grid-cols-4 lg:gap-2 mt-4 mr-4 grid grid-cols-2 gap-1">
+              <label className="font-semibold lg:text-lg  px-4 my-4 "> MetaMask Account </label>
+              <div className="mt-5">
+                {metaAccount ? metaAccount : "Not Connected"}
+              </div>
+            </div>
+            <div class="grid grid-cols-4 gap-2 mt-2 mr-4">
               <label class="  lg:text-lg  font-semibold px-4">Name</label>
               <input
                 type="text"

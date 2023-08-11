@@ -5,6 +5,7 @@ import PatientList from "../components/hospitalDashboard/PatientList";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { UserContractObj, FileContractObj } from "../GlobalData/GlobalContext";
+import hospitalImg from "../assets/img/dashboard/doctor-profile-hospital.png";
 const ethers = require("ethers")
 
 const HospitalDashboard = (props) => {
@@ -12,21 +13,32 @@ const HospitalDashboard = (props) => {
   const {fileMgmtContract, setFileMgmtContract} = FileContractObj();
   const [adminEmail, setAdminEmail] = useState("");
   const navigate = useNavigate();
+
+  const [hospital, setHospital] = useState({
+    org: "",
+    orgEmail: "",
+    orgAddress: {
+      building: "",
+      city: "",
+      taluka: "",
+      district: "",
+      state: "",
+      pincode: "",
+    },
+    orgContactNumber: "",
+    password: "",
+    username: ""
+  })
+
   useEffect(() => {
-    async function fetchAdmin() {
-      const res = await fetch("/getadmin");
-      const data = await res.json();
-      if (data.AuthError) {
-        props.settoastCondition({
-          status: "info",
-          message: "Please Login to proceed!!!",
-        });
-        props.setToastShow(true);
-        navigate("/");
-      }
-      setAdminEmail(data.admin.email);
+    async function getHospital() {
+      const data = await userMgmtContract.getHospitalInfo();
+      console.log(data);
+      var hospitalObj = JSON.parse(data);
+      setHospital(hospitalObj);
     }
-    fetchAdmin();
+    
+    getHospital();
   }, []);
 
   return (
@@ -36,10 +48,10 @@ const HospitalDashboard = (props) => {
           {/* dashboard today start */}
           <div className="">
             <div className="flex  h-12 m-2 bg-bgprimary rounded ml-6 ">
-              <Link to="/AdminDash">
+              <Link to="/hospital/dashboard">
                 <div>
                   <h1 className="text-2xl  font-bold p-2 ">
-                    DashBoard Today
+                    Hospital Dashboard
                   </h1>
                 </div>
               </Link>
@@ -58,16 +70,22 @@ const HospitalDashboard = (props) => {
                 </div>
               </div>
 
-              <div className="flex bg-white rounded shadow   px-4  ml-60 h-14 ">
-                <img
-                  src={admin_profile}
-                  className="h-12 my-1  p-1 rounded-2xl"
-                  alt="profile"
-                ></img>
-                <div className="flex items-center ml-4  font-bold ">
-                  <h1>{adminEmail} </h1>
+              <Link to="/hospital/profile">
+                <div className="flex bg-white rounded shadow  px-4  ml-60 h-14 ">
+                  <img
+                    src={hospitalImg}
+                    className="w-12 p-1 rounded-2xl"
+                    alt="profile"
+                  ></img>
+                  <div className="grid grid-rows-2 ml-4 gap-2  mb-4">
+                    <div className="font-bold  text-base">
+                      <h1 className="">
+                        {hospital.org}
+                      </h1>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              </Link>
             </div>
             <div>
               <PatientList></PatientList>

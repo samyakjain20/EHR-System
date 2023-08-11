@@ -37,6 +37,7 @@ import LabList from "./components/hospitalDashboard/LabList";
 import { GlobalProvider } from "./GlobalData/GlobalContext";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminDashboardSidebar from "./components/adminDashboard/adminDashboardSidebar";
+import HospitalProfile from "./components/hospitalDashboard/HospitalProfile";
 
 function App() {
   const [healthID, setHealthID] = useState("");
@@ -342,12 +343,23 @@ function App() {
             <Route
               path="dashboard"
               element={
-                <hospitalDashboard
+                <HospitalDashboard
                   settoastCondition={settoastCondition}
                   setToastShow={setToastShow}
                 />
               }
             />
+
+            <Route
+              path="profile"
+              element={
+                <HospitalProfile
+                  settoastCondition={settoastCondition}
+                  setToastShow={setToastShow}
+                />
+              }
+            />
+
             <Route
               path="lablist"
               element={

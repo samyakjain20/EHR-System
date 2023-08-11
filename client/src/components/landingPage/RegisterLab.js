@@ -97,7 +97,7 @@ export default function RegisterLab(props) {
             message: "Your Registration done Successfully!",
           });
           props.setToastShow(true);
-          navigate("/lab/dashboard");
+          navigate("/");
         }
       } else {
         setPasswordError("Password Doesn't Matches");
@@ -119,8 +119,14 @@ export default function RegisterLab(props) {
     <div className="">
       <form onSubmit={handleRegisterLab} >
 
-            {metaAccount}
-            <div class="grid grid-cols-4 gap-2 mt-4 mr-4">
+            <div className="lg:grid lg:grid-cols-4 lg:gap-2 mt-4 mr-4 grid grid-cols-2 gap-1">
+              <label className="font-semibold lg:text-lg  px-4 my-4 "> MetaMask Account </label>
+              <div className="mt-5">
+                {metaAccount ? metaAccount : "Not Connected"}
+              </div>
+            </div>
+
+            <div class="grid grid-cols-4 gap-2 mr-4">
               <label class="font-semibold lg:text-lg   px-4 my-4 ">
                 Lab Name
               </label>
@@ -155,7 +161,7 @@ export default function RegisterLab(props) {
             </div>
 
             <div class="grid grid-cols-4 gap-2 mt-4 mr-4">
-              <label class="  lg:text-xl  font-bold px-4">Contact Email</label>
+              <label class="  lg:text-lg  font-semibold px-4">Contact Email</label>
               <input
                 type="email"
                 id="email"
@@ -173,7 +179,7 @@ export default function RegisterLab(props) {
 
 
             <div class="grid grid-cols-4 gap-2 mt-4 mr-4 grid-flow-dense ">
-              <label class=" lg:text-xl  font-bold px-4 mb-8 col-span-1">
+              <label class=" lg:text-lg  font-semibold px-4 mb-8 col-span-1">
                 Address
               </label>
               <div className="grid grid-cols-2 gap-4 col-span-3 ">
@@ -252,7 +258,7 @@ export default function RegisterLab(props) {
             </div>
 
             <div class="grid grid-cols-4 gap-2  mr-4 mt-5">
-              <label class=" lg:text-xl  font-bold px-4 grid col-start-1 col-span-1">
+              <label class=" lg:text-lg  font-semibold px-4 grid col-start-1 col-span-1">
                 Specility
               </label>
               <div className=" ">
@@ -321,7 +327,7 @@ export default function RegisterLab(props) {
                 </label>
                 <div className="">
                   <select
-                    className="pl-4 lg:w-1/2 bg-blue-100 lg:h-10  rounded  h-8"
+                    className="pl-4 lg:w-5/6 bg-blue-100 lg:h-10  rounded  h-8"
                     id="blood-group"
                     value={lab.hospitalSelected}
                     onChange={(e) => {
@@ -341,7 +347,7 @@ export default function RegisterLab(props) {
               </div>
 
             <div class="grid grid-cols-4 gap-2 mr-4">
-              <label type="password" class="  lg:text-xl  font-bold px-4">
+              <label type="password" class="  lg:text-lg  font-semibold px-4">
                 Password
               </label>
               <input
@@ -349,7 +355,7 @@ export default function RegisterLab(props) {
                 id="password"
                 className="bg-blue-100 h-10  rounded pl-4 "
                 required
-                placeholder="password"
+                placeholder="Password"
                 value={lab.password}
                 onChange={(e) => {
                   let templab = { ...lab };
@@ -360,7 +366,7 @@ export default function RegisterLab(props) {
             </div>
 
             <div class="grid grid-cols-4 gap-2 mt-4 mr-4">
-              <label type="password" class=" lg:text-xl  font-bold px-4">
+              <label type="password" class=" lg:text-lg  font-semibold px-4">
                 Confirm Password
               </label>
               <input
@@ -368,7 +374,7 @@ export default function RegisterLab(props) {
                 id="password"
                 className="bg-blue-100 h-10  rounded pl-4 "
                 required
-                placeholder="Confirm password"
+                placeholder="Confirm Password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
               ></input>

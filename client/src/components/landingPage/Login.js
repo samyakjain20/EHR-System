@@ -255,7 +255,7 @@ export default function Login(props) {
         <button
           className={
             Toggle === "Patient"
-              ? "py-2 px-6 text-lg  font-semibold cursor-pointer rounded bg-blue-400"
+              ? "py-2 px-6 text-lg text-white  font-semibold cursor-pointer rounded bg-blue-400"
               : "py-2 px-6 text-lg  font-medium text-primary cursor-pointer rounded"
           }
           onClick={() => {
@@ -278,7 +278,7 @@ export default function Login(props) {
           }}
           className={
             Toggle === "Doctor"
-              ? "py-2 px-6 text-lg  font-semibold cursor-pointer rounded bg-blue-400"
+              ? "py-2 px-6 text-lg text-white  font-semibold cursor-pointer rounded bg-blue-400"
               : "py-2 px-6 text-lg  font-medium text-primary cursor-pointer rounded"
           }
         >
@@ -295,7 +295,7 @@ export default function Login(props) {
           }}
           className={
             Toggle === "Lab"
-              ? "py-2 px-6 text-lg  font-semibold cursor-pointer rounded bg-blue-400"
+              ? "py-2 px-6 text-lg text-white font-semibold cursor-pointer rounded bg-blue-400"
               : "py-2 px-6 text-lg  font-medium text-primary cursor-pointer rounded"
           }
         >
@@ -312,7 +312,7 @@ export default function Login(props) {
           }}
           className={
             Toggle === "Hospital"
-              ? "py-2 px-6 text-lg  font-semibold cursor-pointer rounded bg-blue-400"
+              ? "py-2 px-6 text-lg text-white font-semibold cursor-pointer rounded bg-blue-400"
               : "py-2 px-6 text-lg  font-medium text-primary cursor-pointer rounded"
           }
         >
@@ -329,7 +329,7 @@ export default function Login(props) {
           }}
           className={
             Toggle === "Admin"
-              ? "py-2 px-6 text-lg  font-semibold cursor-pointer rounded bg-blue-400"
+              ? "py-2 px-6 text-lg text-white font-semibold cursor-pointer rounded bg-blue-400"
               : "py-2 px-6 text-lg  font-medium text-primary cursor-pointer rounded"
           }
         >
@@ -349,7 +349,7 @@ export default function Login(props) {
       </div>
 
       <form className="flex flex-col w-full px-8" onSubmit={handleLogin}>
-        <label htmlFor="email" className=" pt-1 pb-1 text-lg font-bold">
+        <label htmlFor="email" className=" pt-1 pb-1 text-lg font-semibold">
           {Toggle === "Patient" ? "Abha ID" : "Email"}
         </label>
         <input
@@ -364,7 +364,7 @@ export default function Login(props) {
         <span className="text-sm text-red-400">{usernameError}</span>
         <label
           htmlFor="password"
-          className=" pt-6 pb-1 text-lg font-bold"
+          className=" pt-6 pb-1 text-lg font-semibold"
         >
           Password
         </label>
@@ -407,7 +407,7 @@ export default function Login(props) {
         ) : (
           <button
             type="submit"
-            className="text-lg mt-3  bg-blue-400 py-1 px-3 rounded font-semibold  shadow-sm hover:bg-blue-100"
+            className="text-lg mt-3 text-white border border-blue-400  bg-blue-400 py-1 px-3 rounded font-semibold  shadow-sm hover:text-blue-400  shadow-sm hover:bg-white"
           >
             Login
           </button>

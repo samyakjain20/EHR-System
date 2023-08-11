@@ -107,7 +107,7 @@ export default function RegisterDoctor(props) {
             message: "Your Registration done Successfully!",
           });
           props.setToastShow(true);
-          navigate("/doctor/dashboard");
+          navigate("/");
         }
       } else {
         setPasswordError("Password Doesn't Matches");
@@ -125,8 +125,14 @@ export default function RegisterDoctor(props) {
     <div className="">
       <form onSubmit={handleRegisterDoctor} >
 
-            {metaAccount}
-            <div class="grid grid-cols-4 gap-2 mt-4 mr-4">
+            <div className="lg:grid lg:grid-cols-4 lg:gap-2 mt-4 mr-4 grid grid-cols-2 gap-1">
+              <label className="font-semibold lg:text-lg  px-4 my-4 "> MetaMask Account </label>
+              <div className="mt-5">
+                {metaAccount ? metaAccount : "Not Connected"}
+              </div>
+            </div>
+
+            <div class="grid grid-cols-4 gap-2 mr-4">
               
               <label class="font-semibold lg:text-lg px-4 my-4 ">
                 
@@ -170,7 +176,7 @@ export default function RegisterDoctor(props) {
               <label class="font-semibold lg:text-lg  px-4 ">Birthdate</label>
               <input
                 type="date"
-                class=" bg-blue-100 h-10 rounded pl-4"
+                class=" bg-blue-100 h-10 rounded pl-4 pr-3"
                 required
                 value={doctor.dob}
                 onChange={(e) => {
@@ -353,7 +359,7 @@ export default function RegisterDoctor(props) {
               ></input>
             </div>
 
-            <div class="grid grid-cols-4 gap-2 mt-8 mr-4">
+            <div class="grid grid-cols-4 gap-2 mt-4 mr-4">
               <label class=" lg:text-lg  font-semibold px-4 grid col-start-1 col-span-1">
                 Education
               </label>
@@ -416,7 +422,8 @@ export default function RegisterDoctor(props) {
                 ))}
               </div>
             </div>
-            <div class="grid grid-cols-4 gap-2  mr-4">
+
+            <div class="grid grid-cols-4 gap-2 mr-4">
               <label class=" lg:text-lg  font-semibold px-4 grid col-start-1 col-span-1">
                 Specility
               </label>
@@ -480,13 +487,13 @@ export default function RegisterDoctor(props) {
               </div>
             </div>
 
-            <div className="grid grid-cols-4 gap-2 mt-4 mr-4">
+            <div className="grid grid-cols-4 gap-2 mr-4">
                 <label className="  lg:text-lg font-semibold px-4">
                   Select Hospital
                 </label>
                 <div className="">
                   <select
-                    className="pl-4 lg:w-1/2 bg-blue-100 lg:h-10  rounded  h-8"
+                    className="pl-4 lg:w-5/6 bg-blue-100 lg:h-10  rounded  h-8"
                     id="blood-group"
                     value={doctor.hospitalSelected}
                     onChange={(e) => {
@@ -514,7 +521,7 @@ export default function RegisterDoctor(props) {
                 id="password"
                 class="bg-blue-100 h-10  rounded pl-4 "
                 required
-                placeholder="password"
+                placeholder="Password"
                 value={doctor.password}
                 onChange={(e) => {
                   let tempdoctor = { ...doctor };
@@ -533,7 +540,7 @@ export default function RegisterDoctor(props) {
                 id="password"
                 class="bg-blue-100 h-10  rounded pl-4 "
                 required
-                placeholder="Confirm password"
+                placeholder="Confirm Password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
               ></input>
