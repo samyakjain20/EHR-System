@@ -54,6 +54,8 @@ contract UserManagement {
     Doctor[] public allDoctorObj;
     Hospital[] public allHospitalObj;
     Lab[] public allLabObj;
+    uint[] public arrLen = [0,0,0,0];
+
 
     // Events for all stakeholders
     event PatientRegistered(address indexed user, string username);
@@ -115,6 +117,7 @@ contract UserManagement {
         patients[msg.sender] = patient; // update mapping
         allPatientObj.push(patient); // update obj array
         allPatientArr.push(_username); // update id array
+        arrLen[0]++;
         abhaIdToAddress[_username] = msg.sender;
         emit PatientRegistered(msg.sender, _username);
     }
@@ -165,6 +168,7 @@ contract UserManagement {
         hospitals[msg.sender] = hospital;
         allHospitalObj.push(hospital);
         allHospitalArr.push(_username);
+        arrLen[1]++;
 
         emit HospitalRegistered(msg.sender, _username);
     }
@@ -209,6 +213,7 @@ contract UserManagement {
         labs[msg.sender] = lab;
         allLabObj.push(lab);
         allLabArr.push(_username);
+        arrLen[2]++;
 
         emit LabRegistered(msg.sender, _username);
     }
@@ -254,6 +259,7 @@ contract UserManagement {
         doctors[msg.sender] = doctor;
         allDoctorObj.push(doctor);
         allDoctorArr.push(_username);
+        arrLen[3]++;
 
         emit DoctorRegistered(msg.sender, _username);
     }
@@ -279,5 +285,18 @@ contract UserManagement {
     // fetch array of all doctor objects
     function getDoctorObjs() public view returns (Doctor[] memory) {
         return allDoctorObj;
+    }
+
+    // -------------------------- Admin functions -------------------------------
+
+    // admin login
+    function adminLogin() pure external returns (uint32[] memory) {
+        uint32[] memory arr;
+        return arr;
+    }
+
+    // all counts
+    function allLen() public view returns (uint[] memory) {
+        return arrLen;
     }
 }

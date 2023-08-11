@@ -24,7 +24,7 @@ const PatientProfileSideBar = (props) => {
   return (
     <div className="h-screen overflow-y-hidden w-screen grid grid-cols-12">
       <div className="side_bar bg-white shadow col-span-2">
-        <div className="flex m-2 mt-4  ">
+        <div className="flex m-2 mt-1  ">
           <div className="logo m-2  ">
             <Link to="/">
               <img src={logo} className="w-32" alt="logo"></img>

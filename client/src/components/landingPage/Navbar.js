@@ -11,7 +11,7 @@ export default function Navbar() {
         <img
           src={logo}
           alt="logo"
-          className="lg:h-20 lg:pr-3 h-10 pr-4 pl-2 mt-5 w-48"
+          className="lg:h-20 lg:pr-3 h-10 pr-4 pl-2 mt-5 w-45"
         />
         </Link>
       <h1 className=" font-bold text-sm lg:text-2xl mt-6 mb-2 ml-20 justify-items-center">
