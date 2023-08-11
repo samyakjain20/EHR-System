@@ -69,24 +69,6 @@ const HospitalSideBar = (props) => {
             <h1 className=" font-bold text-xl mt-4">Main menu</h1>
             <div className="grid grid-rows-2  font-bold  mt-4">
               <Link
-                to="/hospital/patientslist"
-                onClick={() => setToggle("Patient_history")}
-                className={
-                  Toggle === "Patient_history"
-                    ? "text-gray-900 "
-                    : "text-gray-400"
-                }
-              >
-                <div className="flex m-2 mt-2  ">
-                  <div className="w-6 ml-4  ">
-                    <img src={patient_list} alt="patient-list"></img>
-                  </div>
-                  <div className=" font-bold ml-4">
-                    <h1>Patient List</h1>
-                  </div>
-                </div>
-              </Link>
-              <Link
                 to="/hospital/doctorslist"
                 onClick={() => setToggle("Doctor_profile")}
                 className={

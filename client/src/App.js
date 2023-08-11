@@ -15,7 +15,6 @@ import DoctorProfile from "./components/doctorDashboard/DoctorProfile";
 import PatientReports from "./components/patientDashboard/PatientReports";
 import AddNewDiagnosis from "./components/doctorDashboard/AddNewDiagnosis";
 import { Routes, Route } from "react-router-dom";
-import PatientList from "./components/hospitalDashboard/PatientList";
 import DoctorList from "./components/hospitalDashboard/DoctorList";
 import PatientProfileSideBar from "./components/patientDashboard/PatientProfileSideBar";
 import PreviousRecords from "./components/patientDashboard/PreviousRecords";
@@ -340,15 +339,6 @@ function App() {
               path="doctorslist"
               element={
                 <DoctorList
-                  settoastCondition={settoastCondition}
-                  setToastShow={setToastShow}
-                />
-              }
-            />
-            <Route
-              path="patientslist"
-              element={
-                <PatientList
                   settoastCondition={settoastCondition}
                   setToastShow={setToastShow}
                 />
