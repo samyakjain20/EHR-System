@@ -54,6 +54,8 @@ contract UserManagement {
     Doctor[] public allDoctorObj;
     Hospital[] public allHospitalObj;
     Lab[] public allLabObj;
+    uint[] public arrLen = [0,0,0,0];
+
 
     // Events for all stakeholders
     event PatientRegistered(address indexed user, string username);
@@ -279,5 +281,18 @@ contract UserManagement {
     // fetch array of all doctor objects
     function getDoctorObjs() public view returns (Doctor[] memory) {
         return allDoctorObj;
+    }
+
+    // -------------------------- Admin functions -------------------------------
+
+    // admin login
+    function adminLogin() pure external returns (uint32[] memory) {
+        uint32[] memory arr;
+        return arr;
+    }
+
+    // all counts
+    function allLen() public view returns (uint[] memory) {
+        return arrLen;
     }
 }
