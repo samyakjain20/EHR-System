@@ -5,7 +5,7 @@ import Footer from "../components/landingPage/Footer";
 import eye from "../assets/img/dashboard/eye.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { UserContractObj, FileContractObj, PatientDataObj } from "../GlobalData/GlobalContext";
+import { UserContractObj, FileContractObj, PatientDataObj, MetaAccountObj } from "../GlobalData/GlobalContext";
 const ethers = require("ethers")
 
 
@@ -14,6 +14,7 @@ const PatientDashboard = (props) => {
 
   const {userMgmtContract, setUserMgmtContract} = UserContractObj();
   const {fileMgmtContract, setFileMgmtContract} = FileContractObj();
+  const {metaAccount, setMetaAccount} = MetaAccountObj();
   const [dob, setDob] = useState("");
   const {patient, setPatient} = PatientDataObj();
   const [prescriptions, setPrescriptions] = useState([{}]);
@@ -28,7 +29,7 @@ const PatientDashboard = (props) => {
   
   useEffect(() => {
     async function getpatient() {
-      const data = await userMgmtContract.getPatientInfo();
+      const data = await userMgmtContract.getPatientInfo(metaAccount);
       console.log(data);
       var patientObj = JSON.parse(data);
       setPatient(patientObj);

@@ -135,6 +135,58 @@
 		"type": "event"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "_passwordHash",
+				"type": "bytes32"
+			}
+		],
+		"name": "loginDoctor",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "_passwordHash",
+				"type": "bytes32"
+			}
+		],
+		"name": "loginHospital",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "_passwordHash",
+				"type": "bytes32"
+			}
+		],
+		"name": "loginLab",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "_passwordHash",
+				"type": "bytes32"
+			}
+		],
+		"name": "loginPatient",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"anonymous": false,
 		"inputs": [
 			{
@@ -190,6 +242,136 @@
 			}
 		],
 		"stateMutability": "pure",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"name": "abhaIdToAddress",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_username",
+				"type": "string"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "_password",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "string",
+				"name": "_doctorDetails",
+				"type": "string"
+			}
+		],
+		"name": "registerDoctor",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_username",
+				"type": "string"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "_password",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "string",
+				"name": "_hospitalDetails",
+				"type": "string"
+			}
+		],
+		"name": "registerHospital",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_username",
+				"type": "string"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "_password",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "string",
+				"name": "_labDetails",
+				"type": "string"
+			}
+		],
+		"name": "registerLab",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_username",
+				"type": "string"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "_password",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "string",
+				"name": "_patientDetails",
+				"type": "string"
+			}
+		],
+		"name": "registerPatient",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"name": "abhaIdToAddress",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -489,7 +671,13 @@
 		"type": "function"
 	},
 	{
-		"inputs": [],
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_user",
+				"type": "address"
+			}
+		],
 		"name": "getDoctorInfo",
 		"outputs": [
 			{
@@ -659,6 +847,25 @@
 		"type": "function"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "abhaID",
+				"type": "string"
+			}
+		],
+		"name": "getPatientAddress",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [],
 		"name": "getPatientIds",
 		"outputs": [
@@ -672,7 +879,13 @@
 		"type": "function"
 	},
 	{
-		"inputs": [],
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_user",
+				"type": "address"
+			}
+		],
 		"name": "getPatientInfo",
 		"outputs": [
 			{
@@ -795,58 +1008,6 @@
 	{
 		"inputs": [
 			{
-				"internalType": "bytes32",
-				"name": "_passwordHash",
-				"type": "bytes32"
-			}
-		],
-		"name": "loginDoctor",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "bytes32",
-				"name": "_passwordHash",
-				"type": "bytes32"
-			}
-		],
-		"name": "loginHospital",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "bytes32",
-				"name": "_passwordHash",
-				"type": "bytes32"
-			}
-		],
-		"name": "loginLab",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "bytes32",
-				"name": "_passwordHash",
-				"type": "bytes32"
-			}
-		],
-		"name": "loginPatient",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
 				"internalType": "address",
 				"name": "",
 				"type": "address"
@@ -881,98 +1042,6 @@
 			}
 		],
 		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "_username",
-				"type": "string"
-			},
-			{
-				"internalType": "bytes32",
-				"name": "_password",
-				"type": "bytes32"
-			},
-			{
-				"internalType": "string",
-				"name": "_doctorDetails",
-				"type": "string"
-			}
-		],
-		"name": "registerDoctor",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "_username",
-				"type": "string"
-			},
-			{
-				"internalType": "bytes32",
-				"name": "_password",
-				"type": "bytes32"
-			},
-			{
-				"internalType": "string",
-				"name": "_hospitalDetails",
-				"type": "string"
-			}
-		],
-		"name": "registerHospital",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "_username",
-				"type": "string"
-			},
-			{
-				"internalType": "bytes32",
-				"name": "_password",
-				"type": "bytes32"
-			},
-			{
-				"internalType": "string",
-				"name": "_labDetails",
-				"type": "string"
-			}
-		],
-		"name": "registerLab",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "_username",
-				"type": "string"
-			},
-			{
-				"internalType": "bytes32",
-				"name": "_password",
-				"type": "bytes32"
-			},
-			{
-				"internalType": "string",
-				"name": "_patientDetails",
-				"type": "string"
-			}
-		],
-		"name": "registerPatient",
-		"outputs": [],
-		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{

@@ -1,12 +1,13 @@
 import Footer from "../landingPage/Footer";
 import patient_profile from "../../assets/img/dashboard/patient2_pbl.png";
 import PatientHistoryCompo from "./PatientHistoryCompo";
-import { Table, Input } from 'antd';
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContractObj, FileContractObj, MetaAccountObj, PatientDataObj } from "../../GlobalData/GlobalContext";
+import { Table, Input, Select } from 'antd';
 
-const PrescriptionReports = (props) => {
+const { Option } = Select;
+const PreviousRecords = (props) => {
   const navigate = useNavigate();
   const [dob, setDob] = useState("01/01/2006");
   const { fileMgmtContract, setFileMgmtContract } = FileContractObj();
@@ -52,8 +53,12 @@ const PrescriptionReports = (props) => {
   // const healthReports = [
   //   // Add more health reports here
   // ];
-
-  const [searchText, setSearchText] = useState('');
+  const [ recordType, setRecordType] = useState("DiagnosticReport");
+  const handleSelectChange = value => {
+    setRecordType(value);
+    console.log('Selected type:', value);
+  };
+  const [ searchText, setSearchText] = useState('');
   const filteredReports = healthReports.filter((report) => {
     return Object.values(report).some((value) =>
       value.toString().toLowerCase().includes(searchText.toLowerCase())
@@ -78,7 +83,7 @@ const PrescriptionReports = (props) => {
 
   useEffect(() => {
     const getLabreports = async () => {
-      const acc = await fileMgmtContract.displayFiles(metaAccount, "PrescriptionReport");
+      const acc = await fileMgmtContract.displayFilesPatient(metaAccount, recordType);
       console.log(acc);
       const jsonArray = acc.map(jsonString => JSON.parse(jsonString));
       setHealthReports(jsonArray);
@@ -87,7 +92,7 @@ const PrescriptionReports = (props) => {
 
     // console.log(userMgmtContract);
     getLabreports();
-  }, []);
+  }, [recordType]);
   return (
     <div className="col-span-10" style={{ overflow: 'auto' }}>
       <div className=" px-12">
@@ -111,12 +116,22 @@ const PrescriptionReports = (props) => {
             </Link>
             <div className="flex justify-between m-8">
               <div className="font-bold text-xl -ml-8">
-                <h1>Patient Prescription Reports</h1>
+                <h1>Patient Diagonstics Report</h1>
               </div>
             </div>
             <div>
+              <Select 
+                value={recordType}
+                style={{ width: 200 }}
+                onChange={handleSelectChange}
+              >
+                <Option value="DiagnosticReport">Diagnostic Report</Option>
+                <Option value="DischargeReport">Discharge Report</Option>
+                <Option value="PrescriptionReports">Prescription Report</Option>
+                <Option value="LabReport">Lab Report</Option>
+              </Select>
               <Input
-                className="pl-4 w-52 bg-blue-100 lg:h-8  rounded h-8"
+                className="ml-4 pl-4 w-52 bg-blue-100 lg:h-8  rounded h-8"
                 placeholder="Search..."
                 value={searchText}
                 onChange={handleSearch}
@@ -140,4 +155,4 @@ const PrescriptionReports = (props) => {
   );
 };
 
-export default PrescriptionReports;
+export default PreviousRecords;

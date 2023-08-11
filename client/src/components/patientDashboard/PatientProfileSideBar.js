@@ -68,7 +68,7 @@ const PatientProfileSideBar = (props) => {
           <div className="p-4">
             <h1 className=" font-bold text-xl mt-4">Main menu</h1>
             <div className="grid grid-rows-2 gap-4 font-bold  mt-4">
-              <Link
+              {/* <Link
                 to="/patient/prescriptions"
                 onClick={() => setToggle("Patient_Prescriptions")}
                 className={
@@ -85,10 +85,10 @@ const PatientProfileSideBar = (props) => {
                   ></img>
                   <h1 className="ml-4">Prescription Reports</h1>
                 </div>
-              </Link>
+              </Link> */}
 
               <Link
-                to="/patient/diagnostics"
+                to="/patient/prevRecords"
                 onClick={() => setToggle("Patient_Diagnostics")}
                 className={
                   Toggle === "Patient_Diagnostics"
@@ -102,11 +102,11 @@ const PatientProfileSideBar = (props) => {
                     className="w-6"
                     alt="history"
                   ></img>
-                  <h1 className="ml-4">Diagnostics Reports</h1>
+                  <h1 className="ml-4">Previous Records</h1>
                 </div>
               </Link>
 
-              <Link
+              {/* <Link
                 to="/patient/discharge"
                 onClick={() => setToggle("Patient_Discharge")}
                 className={
@@ -123,26 +123,7 @@ const PatientProfileSideBar = (props) => {
                   ></img>
                   <h1 className="ml-4">Discharge Reports</h1>
                 </div>
-              </Link>
-
-              <Link
-                to="/patient/labreports"
-                onClick={() => setToggle("Patient_Lab")}
-                className={
-                  Toggle === "Patient_Lab"
-                    ? "text-gray-900 "
-                    : "text-gray-400"
-                }
-              >
-                <div className="flex p-2">
-                  <img
-                    src={patient_history}
-                    className="w-6"
-                    alt="history"
-                  ></img>
-                  <h1 className="ml-4">Lab Reports</h1>
-                </div>
-              </Link>
+              </Link> */}
 
               <Link
                 to="/patient/consentManagment"

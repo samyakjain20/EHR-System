@@ -41,6 +41,8 @@ contract UserManagement {
     mapping(address => Hospital) public hospitals;
     mapping(address => Lab) public labs;
     mapping(address => Doctor) public doctors;
+    // AbhaID to patient adderss
+    mapping (string => address) public abhaIdToAddress;
 
     // ids and usernames of all
     string[] public allPatientArr;
@@ -114,8 +116,19 @@ contract UserManagement {
         patients[msg.sender] = patient; // update mapping
         allPatientObj.push(patient); // update obj array
         allPatientArr.push(_username); // update id array
-
+        abhaIdToAddress[_username] = msg.sender;
         emit PatientRegistered(msg.sender, _username);
+    }
+
+    function getPatientInfo(address _user) external view returns (string memory patientInfo) {
+        string memory patientInfoStr = patients[_user].patientDetails;
+        return patientInfoStr;
+    }
+
+
+    //get patient address from Abha ID
+    function getPatientAddress(string memory abhaID) public view returns (address) {
+        return abhaIdToAddress[abhaID];
     }
 
     // login patients
@@ -124,11 +137,11 @@ contract UserManagement {
         emit PatientLoggedIn(msg.sender);
     } 
 
-    // fetch details of patients
-    function getPatientInfo() external view returns (string memory patientInfo) {
-        string memory patientInfoStr = patients[msg.sender].patientDetails;
-        return patientInfoStr;
-    }
+    // // fetch details of patients
+    // function getPatientInfo(address patient) external view returns (string memory) {
+    //     string memory patientInfoStr = patients[patient].patientDetails;
+    //     return patientInfoStr;
+    // }
 
     // fetch array of ids of all patients
     function getPatientIds() public view returns (string[] memory) {
