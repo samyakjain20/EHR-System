@@ -1,14 +1,15 @@
 import doctor_profile from "../assets/img/dashboard/doctor2.png";
 import reports from "../assets/img/dashboard/report2_pbl.png";
 import search from "../assets/img/dashboard/search2.png";
-import add_pre_logo from "../assets/img/dashboard/add_prescription_logo.png";
 import Footer from "../components/landingPage/Footer";
 import eye from "../assets/img/dashboard/eye.png";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import ReactLoading from "react-loading";
 import { UserContractObj, FileContractObj, MetaAccountObj } from "../GlobalData/GlobalContext";
+import add_pre_logo from "../assets/img/dashboard/add_prescription_logo.png";
 import { Table, Input, Button, Select } from 'antd';
+import { recoverAddress } from "ethers/lib/utils";
 const ethers = require("ethers")
 const { Option } = Select;
 
@@ -20,47 +21,7 @@ const DoctorDashboard = (props) => {
   const [dob, setDob] = useState("");
   const { metaAccount, setMetaAccount } = MetaAccountObj(); // meta mask account
   const [prescriptions, setPrescriptions] = useState([{}]);
-  const [patient, setPatient] = useState({
-    username: "tom",
-    passwordHash: "tom123",
-    name: {
-      firstName: "tom",
-      middleName: "Brady",
-      lastName: "Nolan",
-    },
-    dob: "05/03/1975",
-    mobile: "1234567890",
-    email: "sdks",
-    adharCard: "1676253",
-    abhaId: "7154121",
-    bloodGroup: "A+",
-    patAddress: {
-      building: "aksj",
-      city: "msknxjs",
-      taluka: "sndjs",
-      district: "sxjsx",
-      state: "snxjs",
-      pincode: "12345",
-    },
-    contactPerson: {
-      name: {
-        firstName: "djcnjd",
-        middleName: "dnjf",
-        lastName: "dmckcnj",
-      },
-      mobile: "9837919102",
-      email: "dif@gmail.com",
-      relation: "jndjs",
-      conAddress: {
-        building: "bhdbc",
-        city: "nhxbd",
-        taluka: "snhbdh",
-        district: "dncbd",
-        state: "dnjcnhd",
-        pincode: "dncdbh",
-      },
-    },
-  });
+  const [patient, setPatient] = useState({});
   const [doctor, setDoctor] = useState({
     name: {
       firstName: "",
@@ -89,49 +50,84 @@ const DoctorDashboard = (props) => {
 
   const columns = [
     {
-      title: 'First Name',
-      dataIndex: 'firstName',
-      key: 'firstName',
+      title: 'Record Type',
+      dataIndex: 'recordType',
+      key: 'recordType',
     },
     {
-      title: 'Last Name',
-      dataIndex: 'lastName',
-      key: 'lastName',
+      title: 'Req Access',
+      dataIndex: 'status',
+      key: 'status',
+      render: (text, record, rowIndex) => (
+        <span>
+          {text === "GRANTED" ? (
+            <Button type="bg-blue-400 hover:bg-white border border-blue-400" onClick={() => handleRecordsView(recordTypes[rowIndex])}>View Records</Button>
+          ) : text === "REQUESTED" ? (
+            <Button type="bg-blue-400 hover:bg-white border border-blue-400" >Requested</Button>
+          ) : text === "NOACCESS"? (
+            <Button type="bg-green-400 hover:bg-white border border-green-400" onClick={() => handleRecordAccessReq(recordTypes[rowIndex])}>Request Access</Button>
+          )  : (
+            <Button type="bg-red-300 hover:bg-white border border-red-300" disabled>No Records</Button>
+          )}
+      </span>
+
+        // <Button className="bg-blue-400 hover:bg-white border border-blue-400" onClick={() => handleRecordAccessReq(recordTypes[rowIndex])}>Request Consent</Button>
+      ),
+    },
+  ];
+  
+  const columns2 = [
+    {
+      title: 'Associated Hospital/Lab',
+      dataIndex: 'hospitalName',
+      key: 'hospitalName',
     },
     {
-      title: 'Email',
-      dataIndex: 'email',
-      key: 'email',
+      title: 'Associated Doctor',
+      dataIndex: 'doctorName',
+      key: 'doctorName',
     },
     {
-      title: 'Contact',
-      dataIndex: 'contact',
-      key: 'contact',
+      title: 'Date',
+      dataIndex: 'date',
+      key: 'date',
     },
     {
-      title: 'Blood Group',
-      dataIndex: 'bloodgroup',
-      key: 'bloodgroup',
+      title: 'File',
+      dataIndex: 'url',
+      key: 'url',
+      render: (text, record) => <a href={text} style={{color:'blue'}} target="_blank" rel="noopener noreferrer">Click to View</a>
     },
     {
-      title: 'Date Of Birth',
-      dataIndex: 'dob',
-      key: 'dob',
+      title: 'Record Type',
+      dataIndex: 'recordType',
+      key: 'recordType',
+    },
+    {
+      title: 'Diagnosis',
+      dataIndex: 'description',
+      key: 'description',
     },
   ];
 
-  const [patientData, setPatientData] = useState([{
-    firstName: '',
-    lastName: '',
-    email: '',
-    contact: '',
-    bloodgroup: '',
-    dob: ''
-  }]);
+  const [patientAddress, setPatientAddress] = useState("");
+  const [recordTypes, setRecordTypes] = useState([]);
+  const [recordVisible, setRecordVisible] = useState([]);
+  const handleRecordAccessReq = async (recordType) =>{
+    console.log(recordType["recordType"]);
+    const today = convertDatetoString(new Date());
+    const response = await fileMgmtContract.reqRecord(patientAddress, recordType["recordType"], today, doctor.hospitalSelected, "Dr. " + doctor.name.firstName + " " + doctor.name.lastName);
+  }
 
-  const handleConsentClick = (key) => {
-    // Do something with the clicked row's key
-    console.log(`Button clicked for row with key: ${key}`);
+  const handleRecordsView = async (recordType) => {
+    const response = await fileMgmtContract.displayRecordsToDoctor(patientAddress, recordType["recordType"]);
+    const tempRecordVisible = [];
+    for(let i = 0; i < response.length; i++){
+      tempRecordVisible.push(JSON.parse(response[i]));
+      console.log(JSON.parse(response[i]))
+    }
+    setRecordVisible(tempRecordVisible);
+    console.log(recordVisible);
   };
 
   const handleStatusChange = (key, value) => {
@@ -149,94 +145,63 @@ const DoctorDashboard = (props) => {
 
   useEffect(() => {
     async function getdoctor() {
-      const data = await userMgmtContract.getDoctorInfo(metaAccount);
+      const data = await userMgmtContract.getDoctorInfo();
       console.log(data);
       var doctortObj = JSON.parse(data);
       setDoctor(doctortObj);
     }
-
-    async function getpatient() {
-      const data = await userMgmtContract.getPatientObjs();
-      console.log(data);
-      var patientObj = JSON.parse(data);
-      setPatient(patientObj);
-    }
-
     getdoctor();
-    // getpatient();
-  }, [dob]);
+  }, []);
 
+  const [abhaID, setAbhaID] = useState('');
   const searchPatient = async (e) => {
     e.preventDefault();
-    const patientAddress = await userMgmtContract.getPatientAddress(props.healthID);
-    console.log(patientAddress);
-    const patientInfo = await userMgmtContract.getPatientInfo(patientAddress);
-    console.log(patientInfo);
-    const jsonObject = JSON.parse(patientInfo);
-    console.log(jsonObject);
-    console.log(jsonObject.name.firstName);
-    const newData = patientData.map(item => ({
-      ...item,
-      firstName: jsonObject.name.firstName,
-      lastName: jsonObject.name.lastName,
-      email: jsonObject.email,
-      contact: jsonObject.mobile,
-      bloodgroup: jsonObject.bloodGroup,
-      dob: jsonObject.dob
-      // ... update other fields as needed
-    }));
-    setPatientData(newData);
-    // let tempData = { ...patientData };
-    // tempData.firstName = jsonObject.name.firstName;
-    // tempData.lastName = jsonObject.name.lastName;
-    // tempData.contact = jsonObject.contact;
-    // tempData.email = jsonObject.email;
-    // tempData.bloodgroup = jsonObject.bloodGroup;
-    // tempData.dob = jsonObject.dob;
-    // setPatientData(tempData);
-    console.log(patientData);
+    if (abhaID.length === 8) {
+      setLoading(true);
+      
+      const acc = await userMgmtContract.getPatientAddress(abhaID);
+      console.log(acc);
+      setPatientAddress(acc);
+      const patientProfile = await userMgmtContract.getPatientInfo(acc);
+      console.log("patient Profile", patientProfile);
+      setPatient(patientProfile);
+      const recordTypesData = await fileMgmtContract.displayFilesDoctor(acc);      
+      const tempRecordTypes = [];
+      for(let i = 0; i < 4; i++){
+        tempRecordTypes.push({recordType: recordTypesData[0][i], status: recordTypesData[1][i] });
+      }
+      setRecordTypes(tempRecordTypes);
+      console.log("recordTypes: ", recordTypes);
 
-    // const labList = await fileMgmtContract.displayFiles(patientAddress, "LabReport");
-    // const diagnosList = await fileMgmtContract.displayFiles(patientAddress, "DiagonsticsReport");
-    // const prescriptionList = await fileMgmtContract.displayFiles(patientAddress, "PrescriptionReport");
-    // const dischargeList = await fileMgmtContract.displayFiles(patientAddress, "DischargeReport");
-    // console.log(labList);
-    // console.log(prescriptionList);
-    // if (props.healthID.length === 12) {
-    //   setLoading(true);
-    //   const res = await fetch(`/searchpatient/${props.healthID}`);
-    //   const data = await res.json();
-
-    //   if (data.AuthError) {
-    //     setLoading(false);
-    //     props.settoastCondition({
-    //       status: "info",
-    //       message: "Please Login to proceed!!!",
-    //     });
-    //     props.setToastShow(true);
-    //     navigate("/");
-    //   } else if (data.error) {
-    //     setLoading(false);
-    //     props.settoastCondition({
-    //       status: "error",
-    //       message: "This HealthID doesn't exits!!!",
-    //     });
-    //     props.setToastShow(true);
-    //   } else {
-    //     setPatient(data.patient);
-    //     if (data.patient.prescriptions) {
-    //       setPrescriptions(data.patient.prescriptions.reverse());
-    //     }
-    //     setDob(convertDatetoString(patient.dob));
-    //     setLoading(false);
-    //   }
-    // } else {
-    //   props.settoastCondition({
-    //     status: "warning",
-    //     message: "Please Enter 12 Digit HealthID !!!",
-    //   });
-    //   props.setToastShow(true);
-    // }
+      if (acc.error) {
+        setLoading(false);
+        props.settoastCondition({
+          status: "error",
+          message: "Could not search, check after some time",
+        });
+        props.setToastShow(true);
+        navigate("/doctor/dashboard");
+      } 
+      else if (recordTypes.error) {
+        setLoading(false);
+        props.settoastCondition({
+          status: "error",
+          message: "Could not fetch records, check after some time",
+        });
+        props.setToastShow(true);
+        navigate("/doctor/dashboard");
+      } 
+      else{
+        setLoading(false);
+        setAbhaID("");
+      }
+    } else {
+      props.settoastCondition({
+        status: "warning",
+        message: "Please Enter 12 Digit AbhaID !!!",
+      });
+      props.setToastShow(true);
+    }
   };
   const [typeOfFile, setTypeOfFile] = useState("");
   const [reqAccessDetails, setReqAccessDetails] = useState({
@@ -246,39 +211,6 @@ const DoctorDashboard = (props) => {
     speciality: doctor.specialization.special,
     typeofFile: "",
   });
-
-  const handleReqAcess = async (e) => {
-    e.preventDefault();
-    try {
-      const reqAcessDetailsData = reqAccessDetails;
-      reqAcessDetailsData.typeofFile = typeOfFile;
-      const reqData = JSON.stringify(reqAcessDetailsData);
-      console.log("reqAcess data sent: ", reqData)
-      const data = await fileMgmtContract.reqAccess(metaAccount, reqData);
-      if (data.errors) {
-        props.settoastCondition({
-          status: "error",
-          message: "Failed to send Access Request., check network!",
-        });
-        console.log(data.errors)
-        props.setToastShow(true);
-      }
-      else {
-        props.settoastCondition({
-          status: "success",
-          message: "Request Acess Sent Successfully!",
-        });
-        props.setToastShow(true);
-        navigate("/doctor/dashboard");
-      }
-    } catch (error) {
-      props.settoastCondition({
-        status: "error",
-        message: "Failed to send Access Request.",
-      });
-      props.setToastShow(true);
-    }
-  }
 
   return (
     <div className="full-body col-span-10 h-screen">
@@ -328,26 +260,26 @@ const DoctorDashboard = (props) => {
 
           <form
             onSubmit={searchPatient}
-            className="grid grid-cols-10 bg-white rounded p-4 ml-12 mr-2 mt-4 shadow"
+            className="grid grid-cols-9 bg-white rounded p-4 ml-12 mr-8 mt-4 shadow"
           >
-            <div className="grid col-start-1 col-span-2">
-              <h1 className="text-l  font-bold p-2 ">
+            <div className="grid col-start-1 col-span-3">
+              <h1 className="text-xl  font-bold p-2 ">
                 Search Patient By Health Id :
               </h1>
             </div>
-            <div className=" grid col-span-1">
+            <div className=" grid col-span-3">
               <input
                 placeholder="Health ID"
-                className="bg-blue-100 rounded border-2 pl-4  focus:outline-none"
+                className="bg-blue-100 rounded border-2 text-xl   pl-4  focus:outline-none"
                 type="number"
-                value={props.healthID}
+                value={abhaID}
                 onChange={(e) => {
-                  props.setHealthID(e.target.value);
+                  setAbhaID(e.target.value);
                 }}
               ></input>
             </div>
             {Loading ? (
-              <div className="grid col-start-3  h-10 ml-4">
+              <div className="grid col-start-8  h-10 ml-4">
                 <ReactLoading
                   type={"bubbles"}
                   color={""}
@@ -356,49 +288,25 @@ const DoctorDashboard = (props) => {
                 />
               </div>
             ) : (
-              <div className=" grid col-start-6  h-10 ml-4  bg-blue-400  rounded font-semibold  shadow-sm hover:bg-blue-100  ">
+              <div className=" grid col-start-8  h-10 ml-4  bg-blue-400  rounded font-semibold  shadow-sm hover:bg-blue-100  ">
                 <div className="flex py-2 px-4 items-center ">
                   <img src={search} className=" h-4  " alt="search"></img>
-                  <button className="ml-2 flex  rounded font-semibold  shadow-sm hover:bg-blue-100">
+                  <button className="ml-2 flex  rounded font-semibold  shadow-sm hover:bg-blue-100   ">
                     Search
                   </button>
                 </div>
               </div>
             )}
-            <div className="grid col-start-7  h-10 ml-4  bg-blue-400  rounded font-semibold  shadow-sm hover:bg-blue-100  ">
+            <div className="grid col-start-9  h-10 ml-4  bg-blue-400  rounded font-semibold  shadow-sm hover:bg-blue-100  ">
               <div className="flex py-2 px-4 items-center ">
                 <div
                   className="ml-2 flex cursor-pointer rounded font-semibold  shadow-sm hover:bg-blue-100 "
                   onClick={() => {
-                    const clearedData = patientData.map(item => ({
-                      ...item,
-                      firstName: '',
-                      lastName: '',
-                      email: '',
-                      contact: '',
-                      bloodgroup: '',
-                      dob: ''
-                      // ... clear other fields as needed
-                    }));
-                    setPatientData(clearedData);
-                    props.setHealthID("");
+                    setAbhaID("");
                   }}
                 >
                   Remove
                 </div>
-              </div>
-            </div>
-
-            <select className="grid col-start-8 ml-6 lg:w-3/4 bg-blue-100 lg:h-10 rounded h-8 w-24">
-              <option>Lab Reports</option>
-            </select>
-
-
-            <div className=" grid col-start-9  h-10 ml-4  bg-blue-400  rounded font-semibold  shadow-sm hover:bg-blue-100  ">
-              <div className="flex py-2 px-4 items-center ">
-                <button className="ml-2 flex  rounded font-semibold  shadow-sm hover:bg-blue-100">
-                  Request
-                </button>
               </div>
             </div>
           </form>
@@ -424,71 +332,23 @@ const DoctorDashboard = (props) => {
             <div>
               <Table
                 columns={columns}
-                dataSource={patientData}
+                dataSource={recordTypes}
                 rowKey="id"
                 bordered
                 pagination={true} // Optional: If you want to disable pagination
               />
             </div>
-            {/*<div className="bg-white m-4 rounded-lg ">
-                <div className="grid grid-rows-2 p-6 gap-2 shadow">
-                  <div className="grid grid-cols-4 font-bold  border-b-2">
-                    <div>
-                      <h1>Date</h1>
-                    </div>
-                    <div>
-                      <h1>Doctor Name</h1>
-                    </div>
-                    <div>
-                      <h1>Diagnosis</h1>
-                    </div>
-                    <div>
-                      <h1>Prescription</h1>
-                    </div>
-                  </div>
-
-                  {prescriptions.length > 0 ? (
-                    prescriptions.slice(1, 3).map((prescription) => {
-                      return (
-                        <div className="grid grid-cols-4">
-                          <div>
-                            <h1>
-                              {convertDatetoString(prescription.createdAt)}
-                            </h1>
-                          </div>
-                          <div className="flex">
-                            <h1>Dr. </h1>
-                            <h1>{prescription.doctor}</h1>
-                          </div>
-                          <div>
-                            <h1>{prescription.diagnosis}</h1>
-                          </div>
-                          <Link
-                            to="/doctor/prescription"
-                            onClick={() =>
-                              props.setPrescriptionID(prescription._id)
-                            }
-                          >
-                            <div className=" flex  justify-center bg-blue-400 py-1 px-3 rounded font-semibold  shadow-sm hover:bg-blue-100 w-2/5   ">
-                              <img
-                                src={eye}
-                                className="h-4 my-auto"
-                                alt="preview"
-                              ></img>
-                              <button className="font-bold ml-2">
-                                Preview{" "}
-                              </button>
-                            </div>
-                          </Link>
-                        </div>
-                      );
-                    })
-                  ) : (
-                    <div className="mx-auto mt-3">No Records Found...</div>
-                  )}
-                </div>
-              </div>
-                  */}
+            
+            <div style={{ border: '1px solid #d9d9d9', padding: '8px' }}>
+              <Table
+                columns={columns2}
+                dataSource={recordVisible}
+                rowKey="id"
+                bordered
+                pagination={true} // Optional: If you want to disable pagination
+              />
+            </div>
+                 
           </div>
         </div>
       </div>

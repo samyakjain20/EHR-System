@@ -144,6 +144,21 @@ export default function Login(props) {
 		}
   };
 
+  const handleAdminLogin = async (email, password, metaAccount, path, role) => {
+    setLoading(true);
+    setLoading(false);
+
+    const res = await userMgmtContract.adminLogin();
+
+    props.settoastCondition({
+      status: "success",
+      message: "Logged in Successfully!",
+    });
+
+    props.setToastShow(true);
+    navigate(path);
+  };
+
   const handleLogin = async (e) => {
     e.preventDefault();
     switch (Toggle) {
@@ -158,6 +173,9 @@ export default function Login(props) {
         break;
       case "Lab":
         handleDoctorLabHospitalLogin(username, password, metaAccount, "/lab/dashboard", Toggle);
+        break;
+      case "Admin":
+        handleAdminLogin(username, password, metaAccount, "/admin/dashboard", Toggle);
         break;
       default:
         break;
@@ -237,8 +255,8 @@ export default function Login(props) {
         <button
           className={
             Toggle === "Patient"
-              ? "py-2 px-8 text-lg  font-semibold cursor-pointer rounded bg-blue-400"
-              : "py-2 px-8 text-lg  font-medium text-primary cursor-pointer rounded"
+              ? "py-2 px-6 text-lg  font-semibold cursor-pointer rounded bg-blue-400"
+              : "py-2 px-6 text-lg  font-medium text-primary cursor-pointer rounded"
           }
           onClick={() => {
             setToggle("Patient");
@@ -260,8 +278,8 @@ export default function Login(props) {
           }}
           className={
             Toggle === "Doctor"
-              ? "py-2 px-8 text-lg  font-semibold cursor-pointer rounded bg-blue-400"
-              : "py-2 px-8 text-lg  font-medium text-primary cursor-pointer rounded"
+              ? "py-2 px-6 text-lg  font-semibold cursor-pointer rounded bg-blue-400"
+              : "py-2 px-6 text-lg  font-medium text-primary cursor-pointer rounded"
           }
         >
           Doctor
@@ -277,8 +295,8 @@ export default function Login(props) {
           }}
           className={
             Toggle === "Lab"
-              ? "py-2 px-8 text-lg  font-semibold cursor-pointer rounded bg-blue-400"
-              : "py-2 px-8 text-lg  font-medium text-primary cursor-pointer rounded"
+              ? "py-2 px-6 text-lg  font-semibold cursor-pointer rounded bg-blue-400"
+              : "py-2 px-6 text-lg  font-medium text-primary cursor-pointer rounded"
           }
         >
           Lab
@@ -294,11 +312,28 @@ export default function Login(props) {
           }}
           className={
             Toggle === "Hospital"
-              ? "py-2 px-8 text-lg  font-semibold cursor-pointer rounded bg-blue-400"
-              : "py-2 px-8 text-lg  font-medium text-primary cursor-pointer rounded"
+              ? "py-2 px-6 text-lg  font-semibold cursor-pointer rounded bg-blue-400"
+              : "py-2 px-6 text-lg  font-medium text-primary cursor-pointer rounded"
           }
         >
           Hospital
+        </button>
+
+        <button
+          onClick={() => {
+            setToggle("Admin");
+            setUsername("");
+            setPassword("");
+            setUsernameError("");
+            setPasswordError("");
+          }}
+          className={
+            Toggle === "Admin"
+              ? "py-2 px-6 text-lg  font-semibold cursor-pointer rounded bg-blue-400"
+              : "py-2 px-6 text-lg  font-medium text-primary cursor-pointer rounded"
+          }
+        >
+          Admin
         </button>
 
       </div>

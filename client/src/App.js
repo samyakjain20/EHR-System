@@ -18,10 +18,7 @@ import { Routes, Route } from "react-router-dom";
 import PatientList from "./components/hospitalDashboard/PatientList";
 import DoctorList from "./components/hospitalDashboard/DoctorList";
 import PatientProfileSideBar from "./components/patientDashboard/PatientProfileSideBar";
-import PrescriptionReports from "./components/patientDashboard/PrescriptionReports";
-import DiagnosticsReports from "./components/patientDashboard/DiagnosticsReports";
-import DischargeReports from "./components/patientDashboard/DischargeReports";
-import LabReports from "./components/patientDashboard/LabReports";
+import PreviousRecords from "./components/patientDashboard/PreviousRecords";
 import DoctorDashboardSidebar from "./components/doctorDashboard/DashboardSidebar";
 import PreviewPrescription from "./components/patientDashboard/PreviewPrescription";
 import PatientReportsDoctorView from "./components/doctorDashboard/PatientReportsDoctorView";
@@ -35,6 +32,8 @@ import Page404 from "./pages/Page_404";
 import Manage from "./components/hospitalDashboard/Manage";
 import LabList from "./components/hospitalDashboard/LabList";
 import { GlobalProvider } from "./GlobalData/GlobalContext";
+import AdminDashboard from "./pages/AdminDashboard";
+import AdminDashboardSidebar from "./components/adminDashboard/adminDashboardSidebar";
 
 function App() {
   const [healthID, setHealthID] = useState("");
@@ -67,6 +66,26 @@ function App() {
     <GlobalProvider>
       <div className="bg-bgprimary flex">
         <Routes>
+          <Route
+            path="admin"
+            element={
+              <AdminDashboardSidebar
+                setToastShow={setToastShow}
+                settoastCondition={settoastCondition}
+              />
+            }
+          >
+            <Route
+            path="dashboard"
+            element={
+              <AdminDashboard
+                setToastShow={setToastShow}
+                settoastCondition={settoastCondition}
+              />
+            }
+            ></Route>
+          </Route>
+
           <Route
             path="/"
             element={
@@ -125,39 +144,9 @@ function App() {
               }
             />
             <Route
-              path="prescriptions"
+              path="prevRecords"
               element={
-                <PrescriptionReports
-                  setPrescriptionID={setPrescriptionID}
-                  settoastCondition={settoastCondition}
-                  setToastShow={setToastShow}
-                />
-              }
-            />
-            <Route
-              path="diagnostics"
-              element={
-                <DiagnosticsReports
-                  setPrescriptionID={setPrescriptionID}
-                  settoastCondition={settoastCondition}
-                  setToastShow={setToastShow}
-                />
-              }
-            />
-            <Route
-              path="discharge"
-              element={
-                <DischargeReports
-                  setPrescriptionID={setPrescriptionID}
-                  settoastCondition={settoastCondition}
-                  setToastShow={setToastShow}
-                />
-              }
-            />
-            <Route
-              path="labreports"
-              element={
-                <LabReports
+                <PreviousRecords
                   setPrescriptionID={setPrescriptionID}
                   settoastCondition={settoastCondition}
                   setToastShow={setToastShow}
