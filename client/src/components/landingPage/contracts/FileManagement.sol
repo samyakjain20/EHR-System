@@ -1,339 +1,3 @@
-// pragma solidity >= 0.6.0 <0.9.0;
-
-// contract FileManagement {
-    
-//     struct FileAccess {
-//         address user;
-//         string typeOfFile;
-//         bool hasAccess;
-//     }
-
-//     // not using anywhere, storing as string, just for our reference
-//     struct ReqAccessDocDetails {
-//         address doctor;
-//         string doctorName;
-//         string hospital;
-//         string speciality;
-//         string typeOfFile;
-//     }
-
-//     // not using anywhere, storing as string, just for our reference
-//     struct FileDetails {
-//         string url;
-//         string typeOfFile;
-//         string hospitalName;
-//         string doctorName;
-//         string uploadDate;
-//         string description;
-//     }
-//     // mapping(string=>string) allFiles; // fileUrl => fileData
-//     // address to filedetails(string) mappings
-//     mapping(address=>string[]) LabList; // owner => files
-//     mapping(address=>string[]) DiagonsticsList; // owner => files
-//     mapping(address=>string[]) DischargeList; // owner => files
-//     mapping(address=>string[]) VaccniationList; // owner => files
-
-//     mapping(address=>FileAccess[]) fileAccessList;
-//     mapping(address=>mapping(address=>mapping(string=>bool))) ownership; // owner1 given access to owner2 of "xyz" type of files
-//     mapping(address=>mapping(address=>mapping(string=>bool))) previousData;
-
-//     mapping(address=>string[]) ReqAccessList; // [owner] => [...ReqAccessDocDetails]
-
-
-
-//     mapping(address=>mapping(address=>mapping(string=>uint))) patientDoctorRelation;
-//     mapping(address=>mapping(address=>mapping(string=>uint))) doctorPatientRelation;
-//     mapping(address=>mapping(address=>mapping(string=>string))) patientDoctorDataRelation;
-
-//     event FileAdded(address indexed user, string _typeofFile);
-
-
-//     function requestPatientRecords(address _patient, string memory recordType) external {
-//         patientDoctorRelation[_patient][msg.sender][recordType] = 2;
-//         doctorPatientRelation[msg.sender][_patient][recordType] = 2;
-//     }
-
-//     function grantPatientRecords(address _doctor, string memory recordType, string memory patientRecords) external {
-//         patientDoctorRelation[msg.sender][_doctor][recordType] = 1;
-//         doctorPatientRelation[_doctor][msg.sender][recordType] = 1;
-//         patientDoctorDataRelation[msg.sender][_doctor][recordType] = patientRecords;
-//     }
-
-//     function patientRevokeAccess(address _doctor, string memory recordType) external {
-//         doctorPatientRelation[_doctor][msg.sender][recordType] = 0;
-//         patientDoctorRelation[msg.sender][_doctor][recordType] = 0;
-//     }
-
-//     function accessPatientRecords(address _patient, string memory recordType) public view returns (string memory) {
-//         string memory allData = "";
-//         if(doctorPatientRelation[msg.sender][_patient][recordType] == 1)
-//             return patientDoctorDataRelation[_patient][msg.sender][recordType];
-//         else return allData;
-//     }
-
-//     function addFile(address _user, string calldata _typeofFile, string memory _fileDetails) external {
-//         if(keccak256(abi.encodePacked(_typeofFile)) == keccak256(abi.encodePacked("LabReport")) ){
-//             LabList[_user].push(_fileDetails);
-//         }
-//         else if(keccak256(abi.encodePacked(_typeofFile)) == keccak256(abi.encodePacked("DiagonsticsReport"))){
-//             DiagonsticsList[_user].push(_fileDetails);
-//         }
-//         else if(keccak256(abi.encodePacked(_typeofFile)) == keccak256(abi.encodePacked("DischargeReport"))){
-//             DischargeList[_user].push(_fileDetails);
-//         }
-//         else if(keccak256(abi.encodePacked(_typeofFile)) == keccak256(abi.encodePacked("PrescriptionReport"))){
-//             VaccniationList[_user].push(_fileDetails);
-//         }
-
-//         // allFiles[url] = fileDetails;
-//         FileAccess memory file = FileAccess({
-//             user: _user,
-//             typeOfFile: _typeofFile, 
-//             hasAccess: true
-//         });
-//         fileAccessList[_user].push(file);
-//         ownership[_user][_user][_typeofFile] = true;
-        
-//         emit FileAdded(_user, _typeofFile);
-//     }
-    
-//     function giveAccess(address _user, string memory _typeofFile) external {
-//         ownership[msg.sender][_user][_typeofFile] = true;
-        
-//         if(previousData[msg.sender][_user][_typeofFile] == true) {
-//             for(uint i=0; i<fileAccessList[msg.sender].length; i++) {
-//                 if(fileAccessList[msg.sender][i].user == _user && 
-//                     keccak256(abi.encodePacked(fileAccessList[msg.sender][i].typeOfFile)) == keccak256(abi.encodePacked(_typeofFile))) {
-//                     fileAccessList[msg.sender][i].hasAccess = true;
-//                 }
-//             }
-//         }
-//         else {
-//             fileAccessList[msg.sender].push(FileAccess(_user, _typeofFile, true));
-//             previousData[msg.sender][_user][_typeofFile] = true;
-//         }
-//     }
-
-//     function reqAccess(address _user, string memory reqAccessDocDetails ) external {
-//         ReqAccessList[_user].push(reqAccessDocDetails);
-//     }
-
-//     function displayReqAcess(address _user) external view returns (string[] memory) {
-//         return ReqAccessList[_user];
-//     }
-
-//     // function revokeAccess(address _user) external {
-//     //     ownership[msg.sender][_user] = false;
-
-//     //     for(uint i=0; i<fileAccessList[msg.sender].length; i++) {
-//     //         if(fileAccessList[msg.sender][i].user == _user) {
-//     //             fileAccessList[msg.sender][i].hasAccess = false;
-//     //         }
-//     //     }
-//     // }
-
-//     function displayFiles(address _user, string memory _typeofFile) public view returns (string[] memory) {
-//         // require(_user == msg.sender || ownership[_user][msg.sender][_typeofFile], "You do not have access to the files!");
-//         // return fileList[_user];
-//         if(keccak256(abi.encodePacked(_typeofFile)) == keccak256(abi.encodePacked("LabReport"))){
-//             return LabList[_user];
-//         }
-//         else if(keccak256(abi.encodePacked(_typeofFile)) == keccak256(abi.encodePacked("DiagonsticsReport"))){
-//             return DiagonsticsList[_user];
-//         }
-//         else if(keccak256(abi.encodePacked(_typeofFile)) == keccak256(abi.encodePacked("DischargeReport"))){
-//             return DischargeList[_user];
-//         }
-//         else if(keccak256(abi.encodePacked(_typeofFile)) == keccak256(abi.encodePacked("PrescriptionReport"))){
-//             return VaccniationList[_user];
-//         }
-//         else {
-//             // string[] storage allFileList = VaccniationList[_user];
-//             uint256 len = VaccniationList[_user].length + LabList[_user].length + DischargeList[_user].length + DiagonsticsList[_user].length;
-//             string[] memory allFileList = new string[](len);
-//             uint256 index = 0;
-//             for(uint i=0; i < LabList[_user].length; i++)
-//                 allFileList[index++] = LabList[_user][i];
-
-//             for(uint i=0; i < DischargeList[_user].length; i++)
-//                 allFileList[index++] = DischargeList[_user][i];
-
-//             for(uint i=0; i < DiagonsticsList[_user].length; i++)
-//                 allFileList[index++] = DiagonsticsList[_user][i];
-
-//             return allFileList;
-//         }
-//     }
-// }
-
-// pragma solidity >= 0.6.0 <0.9.0;
-
-// contract FileManagement {
-    
-//     struct FileAccess {
-//         address user;
-//         string typeOfFile;
-//         bool hasAccess;
-//     }
-
-//     // not using anywhere, storing as string, just for our reference
-//     struct ReqAccessDocDetails {
-//         address doctor;
-//         string doctorName;
-//         string hospital;
-//         string speciality;
-//         string typeOfFile;
-//     }
-
-//     // not using anywhere, storing as string, just for our reference
-//     struct FileDetails {
-//         string url;
-//         string typeOfFile;
-//         string hospitalName;
-//         string doctorName;
-//         string uploadDate;
-//         string description;
-//     }
-//     // mapping(string=>string) allFiles; // fileUrl => fileData
-//     // address to filedetails(string) mappings
-//     mapping(address=>string[]) LabList; // owner => files
-//     mapping(address=>string[]) DiagonsticsList; // owner => files
-//     mapping(address=>string[]) DischargeList; // owner => files
-//     mapping(address=>string[]) VaccniationList; // owner => files
-
-//     mapping(address=>FileAccess[]) fileAccessList;
-//     mapping(address=>mapping(address=>mapping(string=>bool))) ownership; // owner1 given access to owner2 of "xyz" type of files
-//     mapping(address=>mapping(address=>mapping(string=>bool))) previousData;
-
-//     mapping(address=>string[]) ReqAccessList; // [owner] => [...ReqAccessDocDetails]
-
-
-
-//     mapping(address=>mapping(address=>mapping(string=>uint))) patientDoctorRelation;
-//     mapping(address=>mapping(address=>mapping(string=>uint))) doctorPatientRelation;
-//     mapping(address=>mapping(address=>mapping(string=>string))) patientDoctorDataRelation;
-
-//     event FileAdded(address indexed user, string _typeofFile);
-
-
-//     function requestPatientRecords(address _patient, string memory recordType) external {
-//         patientDoctorRelation[_patient][msg.sender][recordType] = 2;
-//         doctorPatientRelation[msg.sender][_patient][recordType] = 2;
-//     }
-
-//     function grantPatientRecords(address _doctor, string memory recordType, string memory patientRecords) external {
-//         patientDoctorRelation[msg.sender][_doctor][recordType] = 1;
-//         doctorPatientRelation[_doctor][msg.sender][recordType] = 1;
-//         patientDoctorDataRelation[msg.sender][_doctor][recordType] = patientRecords;
-//     }
-
-//     function patientRevokeAccess(address _doctor, string memory recordType) external {
-//         doctorPatientRelation[_doctor][msg.sender][recordType] = 0;
-//         patientDoctorRelation[msg.sender][_doctor][recordType] = 0;
-//     }
-
-//     function accessPatientRecords(address _patient, string memory recordType) public view returns (string memory) {
-//         string memory allData = "";
-//         if(doctorPatientRelation[msg.sender][_patient][recordType] == 1)
-//             return patientDoctorDataRelation[_patient][msg.sender][recordType];
-//         else return allData;
-//     }
-
-//     function addFile(address _user, string calldata _typeofFile, string memory _fileDetails) external {
-//         if(keccak256(abi.encodePacked(_typeofFile)) == keccak256(abi.encodePacked("LabReport")) ){
-//             LabList[_user].push(_fileDetails);
-//         }
-//         else if(keccak256(abi.encodePacked(_typeofFile)) == keccak256(abi.encodePacked("DiagonsticsReport"))){
-//             DiagonsticsList[_user].push(_fileDetails);
-//         }
-//         else if(keccak256(abi.encodePacked(_typeofFile)) == keccak256(abi.encodePacked("DischargeReport"))){
-//             DischargeList[_user].push(_fileDetails);
-//         }
-//         else if(keccak256(abi.encodePacked(_typeofFile)) == keccak256(abi.encodePacked("PrescriptionReport"))){
-//             VaccniationList[_user].push(_fileDetails);
-//         }
-
-//         // allFiles[url] = fileDetails;
-//         FileAccess memory file = FileAccess({
-//             user: _user,
-//             typeOfFile: _typeofFile, 
-//             hasAccess: true
-//         });
-//         fileAccessList[_user].push(file);
-//         ownership[_user][_user][_typeofFile] = true;
-        
-//         emit FileAdded(_user, _typeofFile);
-//     }
-    
-//     function giveAccess(address _user, string memory _typeofFile) external {
-//         ownership[msg.sender][_user][_typeofFile] = true;
-        
-//         if(previousData[msg.sender][_user][_typeofFile] == true) {
-//             for(uint i=0; i<fileAccessList[msg.sender].length; i++) {
-//                 if(fileAccessList[msg.sender][i].user == _user && 
-//                     keccak256(abi.encodePacked(fileAccessList[msg.sender][i].typeOfFile)) == keccak256(abi.encodePacked(_typeofFile))) {
-//                     fileAccessList[msg.sender][i].hasAccess = true;
-//                 }
-//             }
-//         }
-//         else {
-//             fileAccessList[msg.sender].push(FileAccess(_user, _typeofFile, true));
-//             previousData[msg.sender][_user][_typeofFile] = true;
-//         }
-//     }
-
-//     function reqAccess(address _user, string memory reqAccessDocDetails ) external {
-//         ReqAccessList[_user].push(reqAccessDocDetails);
-//     }
-
-//     function displayReqAcess(address _user) external view returns (string[] memory) {
-//         return ReqAccessList[_user];
-//     }
-
-//     // function revokeAccess(address _user) external {
-//     //     ownership[msg.sender][_user] = false;
-
-//     //     for(uint i=0; i<fileAccessList[msg.sender].length; i++) {
-//     //         if(fileAccessList[msg.sender][i].user == _user) {
-//     //             fileAccessList[msg.sender][i].hasAccess = false;
-//     //         }
-//     //     }
-//     // }
-
-//     function displayFiles(address _user, string memory _typeofFile) public view returns (string[] memory) {
-//         // require(_user == msg.sender || ownership[_user][msg.sender][_typeofFile], "You do not have access to the files!");
-//         // return fileList[_user];
-//         if(keccak256(abi.encodePacked(_typeofFile)) == keccak256(abi.encodePacked("LabReport"))){
-//             return LabList[_user];
-//         }
-//         else if(keccak256(abi.encodePacked(_typeofFile)) == keccak256(abi.encodePacked("DiagonsticsReport"))){
-//             return DiagonsticsList[_user];
-//         }
-//         else if(keccak256(abi.encodePacked(_typeofFile)) == keccak256(abi.encodePacked("DischargeReport"))){
-//             return DischargeList[_user];
-//         }
-//         else if(keccak256(abi.encodePacked(_typeofFile)) == keccak256(abi.encodePacked("PrescriptionReport"))){
-//             return VaccniationList[_user];
-//         }
-//         else {
-//             // string[] storage allFileList = VaccniationList[_user];
-//             uint256 len = VaccniationList[_user].length + LabList[_user].length + DischargeList[_user].length + DiagonsticsList[_user].length;
-//             string[] memory allFileList = new string[](len);
-//             uint256 index = 0;
-//             for(uint i=0; i < LabList[_user].length; i++)
-//                 allFileList[index++] = LabList[_user][i];
-
-//             for(uint i=0; i < DischargeList[_user].length; i++)
-//                 allFileList[index++] = DischargeList[_user][i];
-
-//             for(uint i=0; i < DiagonsticsList[_user].length; i++)
-//                 allFileList[index++] = DiagonsticsList[_user][i];
-
-//             return allFileList;
-//         }
-//     }
-// }
-
 // SPDX-License-Identifier: MIT
 pragma solidity >= 0.6.0 <0.9.0;
 
@@ -347,15 +11,6 @@ contract FileManagement {
         string recordType;
         string currentStatus; // "NOACCESS", "REQUEStED", "GRANTED", "NORECORDS"
     }
-
-    // not using anywhere, storing as string, just for our reference
-    // struct ReqAccessDocDetails {
-    //     address doctor;
-    //     string doctorName;
-    //     string hospital;
-    //     string speciality;
-    //     string typeOfRecord;
-    // }
 
     struct RequestPatientDetails{
         address patient;
@@ -375,13 +30,17 @@ contract FileManagement {
         string uploadDate;
         string description;
     }
-    // mapping(string=>string) allFiles; // fileUrl => fileData
-    // address to filedetails(string) mappings
+    
     mapping(address=>string[]) LabList; // owner => files
     mapping(address=>string[]) DiagonsticsList; // owner => files
     mapping(address=>string[]) DischargeList; // owner => files
     mapping(address=>string[]) PrescriptionList; // owner => files
-
+    mapping(address=>mapping (string=>uint)) noOfReports;
+    uint labReportsCnt = 0;
+    uint diagnosticsReportsCnt = 0;
+    uint dischargeReportsCnt = 0;
+    uint prescriptionReportsCnt = 0;
+    
     mapping(address=>FileAccess[]) fileAccessList;
     mapping(address=>mapping(address=>mapping(string=>bool))) ownership; // owner1 given access to owner2 of "xyz" type of files
     mapping(address=>mapping(address=>mapping(string=>bool))) previousData;
@@ -391,15 +50,23 @@ contract FileManagement {
     event FileAdded(address indexed user, string _recordType);
     function addFile(address _user, string calldata _recordType, string memory _fileDetails) external {
         if(keccak256(abi.encodePacked(_recordType)) == keccak256(abi.encodePacked("LabReport")) ){
+            labReportsCnt++;
+            noOfReports[_user]["LabReport"]++;
             LabList[_user].push(_fileDetails);
         }
-        else if(keccak256(abi.encodePacked(_recordType)) == keccak256(abi.encodePacked("DiagonsticsReport"))){
+        else if(keccak256(abi.encodePacked(_recordType)) == keccak256(abi.encodePacked("DiagnosticsReport"))){
+            diagnosticsReportsCnt++;
+            noOfReports[_user]["DiagnosticsReport"]++;
             DiagonsticsList[_user].push(_fileDetails);
         }
         else if(keccak256(abi.encodePacked(_recordType)) == keccak256(abi.encodePacked("DischargeReport"))){
+            dischargeReportsCnt++;
+            noOfReports[_user]["DischargeReports"]++;
             DischargeList[_user].push(_fileDetails);
         }
         else if(keccak256(abi.encodePacked(_recordType)) == keccak256(abi.encodePacked("PrescriptionReport"))){
+            prescriptionReportsCnt++;
+            noOfReports[_user]["PrescriptionReport"]++;
             PrescriptionList[_user].push(_fileDetails);
         }
     }
@@ -432,7 +99,6 @@ contract FileManagement {
     }
     
     mapping(address => ReqDocDetails[]) acceptedPatientDashboard;
-    // 
     mapping (address => mapping(address => mapping(string => uint))) acceptedReqIndexes;
     function acceptReq(address _doctor, string memory _recordType) external{
         address _patient = msg.sender;
@@ -482,7 +148,7 @@ contract FileManagement {
             if(keccak256(abi.encodePacked(_recordType)) == keccak256(abi.encodePacked("LabReport")) ){
                 return LabList[_patient];
             }
-            else if(keccak256(abi.encodePacked(_recordType)) == keccak256(abi.encodePacked("DiagonsticsReport"))){
+            else if(keccak256(abi.encodePacked(_recordType)) == keccak256(abi.encodePacked("DiagnosticsReport"))){
                 return DiagonsticsList[_patient];
             }
             else if(keccak256(abi.encodePacked(_recordType)) == keccak256(abi.encodePacked("DischargeReport"))){
@@ -520,7 +186,7 @@ contract FileManagement {
         recordTypes[0] = "PrescriptionReport";
         recordTypes[1] = "DischargeReport";
         recordTypes[2] = "LabReport";
-        recordTypes[3] = "DiagonsticsReport";
+        recordTypes[3] = "DiagnosticsReport";
         accessStatus[0] = accessStatus[1] = accessStatus[2] = accessStatus[3] = "NORECORDS";
 
         if(PrescriptionList[_patient].length > 0){
@@ -557,10 +223,10 @@ contract FileManagement {
             }
         }
         if(DiagonsticsList[_patient].length > 0){
-            if(requestStatus[_patient][_doctor]["DiagonsticsReport"] == 2){
+            if(requestStatus[_patient][_doctor]["DiagnosticsReport"] == 2){
                 accessStatus[3] = "GRANTED";
             }
-            else if(requestStatus[_patient][_doctor]["DiagonsticsReport"] == 1){
+            else if(requestStatus[_patient][_doctor]["DiagnosticsReport"] == 1){
                 accessStatus[3] = "REQUESTED";
             }
             else{
@@ -569,7 +235,22 @@ contract FileManagement {
         }
         return (recordTypes, accessStatus);
     }
-
+    function getAnalyticsForPatient(address _patient) public view returns (uint[] memory) {
+        uint[] memory noOfReportsCnt = new uint[](4);
+        noOfReportsCnt[0] = PrescriptionList[_patient].length;
+        noOfReportsCnt[1] = DischargeList[_patient].length;
+        noOfReportsCnt[2] = LabList[_patient].length;
+        noOfReportsCnt[3] = DiagonsticsList[_patient].length;
+        return noOfReportsCnt;
+    }
+    function getAnalyticsForAdmin() public view returns (uint[] memory){
+        uint[] memory noOfReportsCnt = new uint[](4);
+        noOfReportsCnt[0] = prescriptionReportsCnt;
+        noOfReportsCnt[1] = dischargeReportsCnt;
+        noOfReportsCnt[2] = labReportsCnt;
+        noOfReportsCnt[3] = diagnosticsReportsCnt;
+        return noOfReportsCnt;
+    }
     function displayFilesPatient(address _user, string memory _recordType) public view returns (string[] memory) {
         require(_user == msg.sender, "You do not have access to the files!");
         if(keccak256(abi.encodePacked(_recordType)) == keccak256(abi.encodePacked("LabReport"))){
