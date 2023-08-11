@@ -152,7 +152,6 @@ const DoctorDashboard = (props) => {
       setDoctor(doctortObj);
     }
     getdoctor();
-    getpatient();
   }, [dob]);
 
   const [abhaID, setAbhaID] = useState('');
