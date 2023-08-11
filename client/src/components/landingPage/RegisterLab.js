@@ -97,7 +97,7 @@ export default function RegisterLab(props) {
             message: "Your Registration done Successfully!",
           });
           props.setToastShow(true);
-          navigate("/lab/dashboard");
+          navigate("/");
         }
       } else {
         setPasswordError("Password Doesn't Matches");

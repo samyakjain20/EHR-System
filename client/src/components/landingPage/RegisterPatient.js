@@ -118,7 +118,7 @@ export default function Register(props) {
             message: "Your Registration done Successfully!",
           });
           props.setToastShow(true);
-          navigate("/patient/dashboard");
+          navigate("/");
         }
       } 
       

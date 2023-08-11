@@ -13,39 +13,38 @@ import axios from "axios";
 const ethers = require("ethers")
 
 const LabDashboard = (props) => {
-    const {userMgmtContract, setUserMgmtContract} = UserContractObj();
-    const {fileMgmtContract, setFileMgmtContract} = FileContractObj();
-    const {metaAccount, setMetaAccount} = MetaAccountObj();
+    const { userMgmtContract, setUserMgmtContract } = UserContractObj();
+    const { fileMgmtContract, setFileMgmtContract } = FileContractObj();
+    const { metaAccount, setMetaAccount } = MetaAccountObj();
     const [Loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const [dob, setDob] = useState("");
+    const [doctor, setDoctor] = useState("");
     const [patient, setPatient] = useState({});
     const [prescriptions, setPrescriptions] = useState([{}]);
     const [lab, setLab] = useState({
-        name: "Raju Labs",
+        name: "",
         mobile: "",
         email: "",
         address: {
-          building: "",
-          city: "",
-          taluka: "",
-          district: "",
-          state: "",
-          pincode: "",
+            building: "",
+            city: "",
+            taluka: "",
+            district: "",
+            state: "",
+            pincode: "",
         },
         org: "",
-        specialization: {},
-        password: "",
-        username: ""
+        specialization: {}
     })
-        
+
     // uploading diagonstic report directtly 
     const [report, setReport] = useState({
-        hospitalName: lab.org,
-        doctorName: lab.name,
-        recordType: "DiagnosticReport",
+        hospitalName: "",
+        doctorName: "",
         date: "",
-        url : "",
+        url: "",
+        recordType: "LabReport",
         description: ""
     });
     const [fileList, setFileList] = useState([]);
@@ -58,60 +57,68 @@ const LabDashboard = (props) => {
         const pinataApiKey = "e3763b7d1d1a2919759b"
         const pinataSecretApiKey = "2175b03254e561d1c8b5d6efb80d06ffaf5408abbeb9e0493788c68e176d66e7"
         try {
-        const formData = new FormData();
-        formData.append("file", fileList[0]);
-
-        const resFile = await axios({
-            method: "post",
-            url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
-            data: formData,
-            headers: {
-                'pinata_api_key': `${pinataApiKey}`,
-                'pinata_secret_api_key': `${pinataSecretApiKey}`,
-                "Content-Type": "multipart/form-data"
-            },
-        });
-
-        const fileUrl = `https://gateway.pinata.cloud/ipfs/${resFile.data.IpfsHash}`;
-        
-        const reportData = report;
-        reportData.url = fileUrl;
-        console.log(reportData);
-        // get patientAddress from abha id entered by doc
-        const patientAddress = "0xd36058a1F3376126D6b9D8453d6EA3D4830BE0cD"
-        let fileDetails = JSON.stringify(reportData);
-        const data = await fileMgmtContract.addFile(patientAddress, report.recordType, fileDetails);
-        
-        // const retrieveFiles = await fileMgmtContract.displayFiles(metaAccount, report.recordType);
-        // console.log("retrieve files: ", retrieveFiles.toString());
-
-        if (data.errors) {
-            setUploading(false);
-            props.settoastCondition({
-            status: "error",
-            message: "Report Upload failed, check network!",
+            const userAddress = await userMgmtContract.getPatientAddress(patientAbhaID);
+            console.log(userAddress);
+            if(userAddress === "0x0000000000000000000000000000000000000000") {
+                throw new Error("Invalid User Address!!");
+            }
+            const formData = new FormData();
+            formData.append("file", fileList[0]);
+            const resFile = await axios({
+                method: "post",
+                url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
+                data: formData,
+                headers: {
+                    'pinata_api_key': `${pinataApiKey}`,
+                    'pinata_secret_api_key': `${pinataSecretApiKey}`,
+                    "Content-Type": "multipart/form-data"
+                },
             });
-            console.log(data.errors)
-            props.setToastShow(true);
-        } 
-        else {
-            setUploading(false);
-            props.settoastCondition({
-            status: "success",
-            message: "Report uploaded Successfully!",
-            });
-            props.setToastShow(true);
-            navigate("/lab/dashboard");
-        }
+
+            const fileUrl = `https://gateway.pinata.cloud/ipfs/${resFile.data.IpfsHash}`;
+
+            // console.log(lab.);
+            report.hospitalName = lab.org;
+            report.url = fileUrl;
+            const reportData = report;
+            console.log(reportData);
+            // get patientAddress from abha id entered by doc
+            const patientAddress = userAddress;
+            let fileDetails = JSON.stringify(reportData);
+            console.log(fileDetails);
+
+            const data = await fileMgmtContract.addFile(patientAddress, report.recordType, fileDetails);
+
+            // const retrieveFiles = await fileMgmtContract.displayFiles(metaAccount, report.recordType);
+            // console.log("retrieve files: ", retrieveFiles.toString());
+
+            if (data.errors) {
+                setUploading(false);
+                props.settoastCondition({
+                    status: "error",
+                    message: "Report Upload failed, check network!",
+                });
+                console.log(data.errors)
+                props.setToastShow(true);
+            }
+            else {
+                setUploading(false);
+                props.settoastCondition({
+                    status: "success",
+                    message: "Report uploaded Successfully!",
+                });
+                props.setToastShow(true);
+                navigate("/lab/dashboard");
+            }
 
         } catch (error) {
-        setUploading(false);
-        props.settoastCondition({
-            status: "error",
-            message: "Report Upload failed, check network!",
-        });
-        props.setToastShow(true);
-    }
+            setUploading(false);
+            props.settoastCondition({
+                status: "error",
+                message: "Report Upload failed, Enter Correct Abha ID!",
+            });
+            props.setToastShow(true);
+        }
     };
     const convertDatetoString = (dateString) => {
         let date = new Date(dateString);
@@ -123,28 +130,36 @@ const LabDashboard = (props) => {
 
     useEffect(() => {
         async function getdoctor() {
-           
+
         }
 
         async function getpatient() {
-            
+
         }
 
         async function getLab() {
-            const data = await userMgmtContract.getLabInfo();
+            const data = await userMgmtContract.getLabInfo(metaAccount);
             console.log(data);
             var labObj = JSON.parse(data);
-            getLab(labObj);
+            const updatedJSON = { ...lab };
+
+            for (const key in labObj) {
+                if (updatedJSON.hasOwnProperty(key)) {
+                    updatedJSON[key] = labObj[key];
+                }
+            }
+            updatedJSON.org = labObj.hospitalSelected;
+            setLab(updatedJSON);
         }
 
         getdoctor();
         getpatient();
         getLab();
 
-    }, [dob]);
+    }, []);
 
     const searchPatient = async (e) => {
-        
+
     };
 
     const propsFile = {
@@ -190,14 +205,14 @@ const LabDashboard = (props) => {
                                         className="w-12 p-1 rounded-2xl"
                                         alt="profile"
                                     ></img>
-                                    <div className="grid grid-rows-2 ml-4 gap-2  mb-4">
-                                        <div className="font-bold  text-base">
+                                    <div className="grid grid-rows-2 ml-2 gap-2  mb-4">
+                                        <div className="font-bold mr-4 mt-4 text-base">
                                             <h1 className="">
-                                                {`Field: ${lab.name}`}
+                                                {`${lab.name}`}
                                             </h1>
                                         </div>
                                         <div className="">
-                                            
+
                                         </div>
                                     </div>
                                 </div>
@@ -215,8 +230,23 @@ const LabDashboard = (props) => {
                                 <input required
                                     type="abhaID"
                                     placeholder="Abha ID"
-                                    onChange = {(e)=>{ setPatientAbhaID(e.target.value) }}
+                                    onChange={(e) => { setPatientAbhaID(e.target.value) }}
                                     className="pl-4 bg-blue-100 lg:h-8 rounded px-3 ml-2 h-8"
+                                ></input>
+                            </div>
+                            <div className="lg:grid grid-cols-6 gap-2 mt-4 mr-4">
+                                <label className="font-bold lg:text-l px-12 ">
+                                    Doctor:
+                                </label>
+                                <input required
+                                    type="desc"
+                                    placeholder="Lab Doctor"
+                                    className="pl-4 bg-blue-100 lg:h-8 rounded px-3 ml-2 h-8"
+                                    onChange={(e) => {
+                                        let tempreport = { ...report };
+                                        tempreport.doctorName = e.target.value;
+                                        setReport(tempreport);
+                                    }}
                                 ></input>
                             </div>
                             <div className="lg:grid grid-cols-6 gap-2 mt-4 mr-4">

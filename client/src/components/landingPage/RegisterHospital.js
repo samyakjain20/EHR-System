@@ -71,7 +71,7 @@ export default function RegisterHospital(props) {
             message: "Hospital Registration done Successfully!",
           });
           props.setToastShow(true);
-          navigate("/hospital/dashboard");
+          navigate("/");
         }
       } else {
         setPasswordError("Password Doesn't Matches");

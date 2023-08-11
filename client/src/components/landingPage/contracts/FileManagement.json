@@ -1,24 +1,5 @@
 [
 	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "user",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"internalType": "string",
-				"name": "_recordType",
-				"type": "string"
-			}
-		],
-		"name": "FileAdded",
-		"type": "event"
-	},
-	{
 		"inputs": [
 			{
 				"internalType": "address",
@@ -55,6 +36,94 @@
 			}
 		],
 		"name": "addFile",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "user",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "_recordType",
+				"type": "string"
+			}
+		],
+		"name": "FileAdded",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_doctor",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "_recordType",
+				"type": "string"
+			}
+		],
+		"name": "rejectReq",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_patient",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "_recordType",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_reqDate",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_orgName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_doctorName",
+				"type": "string"
+			}
+		],
+		"name": "reqRecord",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_doctor",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "_recordType",
+				"type": "string"
+			}
+		],
+		"name": "revokeReq",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -247,75 +316,6 @@
 			}
 		],
 		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_doctor",
-				"type": "address"
-			},
-			{
-				"internalType": "string",
-				"name": "_recordType",
-				"type": "string"
-			}
-		],
-		"name": "rejectReq",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_patient",
-				"type": "address"
-			},
-			{
-				"internalType": "string",
-				"name": "_recordType",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "_reqDate",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "_orgName",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "_doctorName",
-				"type": "string"
-			}
-		],
-		"name": "reqRecord",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_doctor",
-				"type": "address"
-			},
-			{
-				"internalType": "string",
-				"name": "_recordType",
-				"type": "string"
-			}
-		],
-		"name": "revokeReq",
-		"outputs": [],
-		"stateMutability": "nonpayable",
 		"type": "function"
 	}
 ]

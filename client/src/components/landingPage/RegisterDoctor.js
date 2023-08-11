@@ -107,7 +107,7 @@ export default function RegisterDoctor(props) {
             message: "Your Registration done Successfully!",
           });
           props.setToastShow(true);
-          navigate("/doctor/dashboard");
+          navigate("/login");
         }
       } else {
         setPasswordError("Password Doesn't Matches");
