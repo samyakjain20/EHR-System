@@ -146,7 +146,7 @@ const DoctorDashboard = (props) => {
   useEffect(() => {
 
     async function getdoctor() {
-      const data = await userMgmtContract.getDoctorInfo();
+      const data = await userMgmtContract.getDoctorInfo(metaAccount);
       console.log(data);
       var doctortObj = JSON.parse(data);
       setDoctor(doctortObj);
@@ -157,7 +157,7 @@ const DoctorDashboard = (props) => {
   const [abhaID, setAbhaID] = useState('');
   const searchPatient = async (e) => {
     e.preventDefault();
-    if (abhaID.length === 8) {
+    if (abhaID.length <= 8) {
       setLoading(true);
       
       const acc = await userMgmtContract.getPatientAddress(abhaID);

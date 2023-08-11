@@ -53,7 +53,7 @@ const PreviousRecords = (props) => {
   // const healthReports = [
   //   // Add more health reports here
   // ];
-  const [ recordType, setRecordType] = useState("DiagnosticReport");
+  const [ recordType, setRecordType] = useState("DiagonsticsReport");
   const handleSelectChange = value => {
     setRecordType(value);
     console.log('Selected type:', value);
@@ -125,7 +125,7 @@ const PreviousRecords = (props) => {
                 style={{ width: 200 }}
                 onChange={handleSelectChange}
               >
-                <Option value="DiagnosticReport">Diagnostic Report</Option>
+                <Option value="DiagonsticsReport">Diagnostics Report</Option>
                 <Option value="DischargeReport">Discharge Report</Option>
                 <Option value="PrescriptionReports">Prescription Report</Option>
                 <Option value="LabReport">Lab Report</Option>

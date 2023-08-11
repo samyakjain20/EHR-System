@@ -88,9 +88,9 @@ const HospitalSideBar = (props) => {
               </Link>
               <Link
                 to="/hospital/doctorslist"
-                onClick={() => setToggle("Patient_profile")}
+                onClick={() => setToggle("Doctor_profile")}
                 className={
-                  Toggle === "Patient_profile"
+                  Toggle === "Doctor_profile"
                     ? "text-gray-900"
                     : "text-gray-400"
                 }
@@ -107,9 +107,9 @@ const HospitalSideBar = (props) => {
               
               <Link
                 to="/hospital/lablist"
-                onClick={() => setToggle("Patient_profile")}
+                onClick={() => setToggle("Lab_profile")}
                 className={
-                  Toggle === "Patient_profile"
+                  Toggle === "Lab_profile"
                     ? "text-gray-900"
                     : "text-gray-400"
                 }

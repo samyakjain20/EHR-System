@@ -41,8 +41,7 @@ contract UserManagement {
     mapping(address => Hospital) public hospitals;
     mapping(address => Lab) public labs;
     mapping(address => Doctor) public doctors;
-    // AbhaID to patient adderss
-    mapping (string => address) public abhaIdToAddress;
+    mapping(string => address) public abhaIdToAddress;
 
     // ids and usernames of all
     string[] public allPatientArr;
@@ -120,11 +119,6 @@ contract UserManagement {
         emit PatientRegistered(msg.sender, _username);
     }
 
-    function getPatientInfo(address _user) external view returns (string memory patientInfo) {
-        string memory patientInfoStr = patients[_user].patientDetails;
-        return patientInfoStr;
-    }
-
 
     //get patient address from Abha ID
     function getPatientAddress(string memory abhaID) public view returns (address) {
@@ -137,11 +131,11 @@ contract UserManagement {
         emit PatientLoggedIn(msg.sender);
     } 
 
-    // // fetch details of patients
-    // function getPatientInfo(address patient) external view returns (string memory) {
-    //     string memory patientInfoStr = patients[patient].patientDetails;
-    //     return patientInfoStr;
-    // }
+    // fetch details of patients
+    function getPatientInfo(address _user) external view returns (string memory patientInfo) {
+        string memory patientInfoStr = patients[_user].patientDetails;
+        return patientInfoStr;
+    }
 
     // fetch array of ids of all patients
     function getPatientIds() public view returns (string[] memory) {
@@ -182,8 +176,8 @@ contract UserManagement {
     }
 
     // fetch details of hospitals
-    function getHospitalInfo() external view returns (string memory hospitalInfo) {
-        string memory hospitalInfoStr = hospitals[msg.sender].hospitalDetails;
+    function getHospitalInfo(address _hospital) external view returns (string memory hospitalInfo) {
+        string memory hospitalInfoStr = hospitals[_hospital].hospitalDetails;
         return hospitalInfoStr;
     }
 
@@ -227,8 +221,8 @@ contract UserManagement {
     }
 
     // fetch details of labs
-    function getLabInfo() external view returns (string memory labInfo) {
-        string memory labInfoStr = labs[msg.sender].labDetails;
+    function getLabInfo(address _lab) external view returns (string memory labInfo) {
+        string memory labInfoStr = labs[_lab].labDetails;
         return labInfoStr;
     }
 
@@ -272,8 +266,8 @@ contract UserManagement {
     }
 
     // fetch details of hospitals
-    function getDoctorInfo() external view returns (string memory doctorInfo) {
-        string memory doctorInfoStr = doctors[msg.sender].doctorDetails;
+    function getDoctorInfo(address _user) external view returns (string memory doctorInfo) {
+        string memory doctorInfoStr = doctors[_user].doctorDetails;
         return doctorInfoStr;
     }
 

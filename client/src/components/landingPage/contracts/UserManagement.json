@@ -352,19 +352,6 @@
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "allLen",
-		"outputs": [
-			{
-				"internalType": "uint256[]",
-				"name": "",
-				"type": "uint256[]"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
 		"inputs": [
 			{
 				"internalType": "uint256",
@@ -417,25 +404,6 @@
 				"internalType": "string",
 				"name": "patientDetails",
 				"type": "string"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"name": "arrLen",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",
@@ -550,7 +518,13 @@
 		"type": "function"
 	},
 	{
-		"inputs": [],
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_hospital",
+				"type": "address"
+			}
+		],
 		"name": "getHospitalInfo",
 		"outputs": [
 			{
@@ -611,7 +585,13 @@
 		"type": "function"
 	},
 	{
-		"inputs": [],
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_lab",
+				"type": "address"
+			}
+		],
 		"name": "getLabInfo",
 		"outputs": [
 			{

@@ -3,10 +3,13 @@ import { useNavigate } from "react-router-dom";
 import DoctorListCompo from "./DoctorListCompo";
 import delete_btn from "../../assets/img/dashboard/delete.png";
 import { UserContractObj, FileContractObj, MetaAccountObj } from "../../GlobalData/GlobalContext";
+import { Table, Input, Button, Select } from 'antd';
+
 const ethers = require("ethers");
 
 const DoctorList = (props) => {
   const navigate = useNavigate();
+  const [ searchText, setSearchText] = useState('');
   const columns = [
     {
       title: 'First Name',
@@ -39,18 +42,21 @@ const DoctorList = (props) => {
       key: 'email',
     },
   ];
-  const [doctorList, setDoctorList] = useState([{
-    firstName: "",
-    lastName: "",
-    degree: "",
-    specialization: "",
-    mobile: "",
-    email: ""
-  }]);
+  const [doctorList, setDoctorList] = useState([]);
 
   const { userMgmtContract, setUserMgmtContract } = UserContractObj();
   const { fileMgmtContract, setFileMgmtContract } = FileContractObj();
   const { metaAccount, setMetaAccount } = MetaAccountObj();
+
+  const handleSearch = (e) => {
+    setSearchText(e.target.value);
+  };
+
+  const filteredData = doctorList.filter((doctorRow) => {
+    return Object.values(doctorRow).some((value) =>
+      value.toString().toLowerCase().includes(searchText.toLowerCase())
+    );
+  });
 
   const deleteDoctor = async () => {
     const res = await fetch(`/removedoctor/`, {
@@ -79,30 +85,58 @@ const DoctorList = (props) => {
     async function getDoctors() {
       const doctorData = await userMgmtContract.getDoctorObjs();
       console.log(doctorData);
-      const hospitalData = await userMgmtContract.getHospitalInfo();
+      let hospitalData = await userMgmtContract.getHospitalInfo(metaAccount);
+      hospitalData = JSON.parse(hospitalData);
       console.log(hospitalData);
-
-      // doctorData.for
+      const newResultArray = []
+      doctorData.forEach(item => {
+        // let doctorVals = JSON.parse(item);
+        const result = {
+          firstName: "",
+          lastName: "",
+          degree: "",
+          specialization: "",
+          mobile: "",
+          email: ""
+        };
+        const data = JSON.parse(item[3]);
+        if (data.hospitalSelected === hospitalData.orgEmail) {
+          result.firstName = data.name.firstName;
+          result.lastName = data.name.lastName;
+          result.degree = data.education[0].degree;
+          result.specialization = data.specialization[0].special;
+          result.mobile = data.emergencyno;
+          result.email = data.email;
+          console.log(result);
+          newResultArray.push(result);
+        }
+      });
+      console.log(newResultArray);
+      setDoctorList(newResultArray);
     }
     getDoctors();
   }, []);
 
   return (
-    <div className="m-4 mt-4  col-span-10">
+    <div className="col-span-10">
       <div>
-        <h1 className="font-bold text-xl ml-16 mt-16">Doctors Associated</h1>
+        <h1 className="font-bold text-xl ml-7 mt-16">Doctors Associated</h1>
       </div>
-      <div className="grid grid-rows-2 mt-8 m-14 mr-12  bg-white rounded shadow p-6 gap-4">
-        <div className="grid grid-cols-9 font-bold">
-          <h1>Sr.No.</h1>
-          <h1 className="col-span-2">Doctor Name</h1>
-          <h1 className="col-span-1">Speciality</h1>
-          <h1 className="col-span-2">Email</h1>
-          <h1 className="col-span-1">Contact No</h1>
-          <h1>Action</h1>
-        </div>
-        <hr></hr>
-        
+      <div className="ml-6 mr-6 grid grid-rows-1 bg-white rounded shadow p-3 gap-4">
+        <Input
+          className="ml-1 pl-4 w-52 bg-blue-100 lg:h-8  rounded h-8"
+          placeholder="Search..."
+          value={searchText}
+          onChange={handleSearch}
+          style={{ marginBottom: 16 }}
+        />
+        <Table
+          columns={columns}
+          dataSource={filteredData}
+          rowKey="id"
+          bordered
+          pagination={true} // Optional: If you want to disable pagination
+        />
       </div>
     </div>
   );
