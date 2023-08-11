@@ -14,12 +14,13 @@ import degree from "../../assets/img/dashboard/doctor-profile-degree.png";
 import home from "../../assets/img/dashboard/doctor-profile-home.png";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { UserContractObj, FileContractObj } from "../../GlobalData/GlobalContext";
+import { UserContractObj, FileContractObj, MetaAccountObj } from "../../GlobalData/GlobalContext";
 const ethers = require("ethers")
 
 const DoctorProfile = (props) => {
   const {userMgmtContract, setUserMgmtContract} = UserContractObj();
   const {fileMgmtContract, setFileMgmtContract} = FileContractObj();
+  const {metaAccount, setMetaAccount} = MetaAccountObj();
   const navigate = useNavigate();
   const [doctor, setDoctor] = useState({
     name: {
@@ -57,7 +58,7 @@ const DoctorProfile = (props) => {
 
   useEffect(() => {
     async function getdoctor() {
-      const data = await userMgmtContract.getDoctorInfo();
+      const data = await userMgmtContract.getDoctorInfo(metaAccount);
       console.log(data);
       var DoctorObj = JSON.parse(data);
       setDoctor(DoctorObj);

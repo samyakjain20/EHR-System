@@ -11,7 +11,7 @@
 			{
 				"indexed": false,
 				"internalType": "string",
-				"name": "_typeofFile",
+				"name": "_recordType",
 				"type": "string"
 			}
 		],
@@ -22,12 +22,30 @@
 		"inputs": [
 			{
 				"internalType": "address",
+				"name": "_doctor",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "_recordType",
+				"type": "string"
+			}
+		],
+		"name": "acceptReq",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
 				"name": "_user",
 				"type": "address"
 			},
 			{
 				"internalType": "string",
-				"name": "_typeofFile",
+				"name": "_recordType",
 				"type": "string"
 			},
 			{
@@ -42,6 +60,70 @@
 		"type": "function"
 	},
 	{
+		"inputs": [],
+		"name": "displayAcceptedToPatient",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "address",
+						"name": "doctor",
+						"type": "address"
+					},
+					{
+						"internalType": "string",
+						"name": "recordType",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "reqDate",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "orgName",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "doctorName",
+						"type": "string"
+					}
+				],
+				"internalType": "struct FileManagement.ReqDocDetails[]",
+				"name": "",
+				"type": "tuple[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_patient",
+				"type": "address"
+			}
+		],
+		"name": "displayFilesDoctor",
+		"outputs": [
+			{
+				"internalType": "string[]",
+				"name": "",
+				"type": "string[]"
+			},
+			{
+				"internalType": "string[]",
+				"name": "",
+				"type": "string[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [
 			{
 				"internalType": "address",
@@ -50,11 +132,75 @@
 			},
 			{
 				"internalType": "string",
-				"name": "_typeofFile",
+				"name": "_recordType",
 				"type": "string"
 			}
 		],
-		"name": "displayFiles",
+		"name": "displayFilesPatient",
+		"outputs": [
+			{
+				"internalType": "string[]",
+				"name": "",
+				"type": "string[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "displayPendingToPatient",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "address",
+						"name": "doctor",
+						"type": "address"
+					},
+					{
+						"internalType": "string",
+						"name": "recordType",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "reqDate",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "orgName",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "doctorName",
+						"type": "string"
+					}
+				],
+				"internalType": "struct FileManagement.ReqDocDetails[]",
+				"name": "",
+				"type": "tuple[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_patient",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "_recordType",
+				"type": "string"
+			}
+		],
+		"name": "displayRecordsToDoctor",
 		"outputs": [
 			{
 				"internalType": "string[]",
@@ -87,17 +233,36 @@
 	{
 		"inputs": [
 			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "emptyStringArray",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "address",
-				"name": "_user",
+				"name": "_doctor",
 				"type": "address"
 			},
 			{
 				"internalType": "string",
-				"name": "_typeofFile",
+				"name": "_recordType",
 				"type": "string"
 			}
 		],
-		"name": "giveAccess",
+		"name": "rejectReq",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -106,16 +271,49 @@
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "_user",
+				"name": "_patient",
 				"type": "address"
 			},
 			{
 				"internalType": "string",
-				"name": "reqAccessDocDetails",
+				"name": "_recordType",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_reqDate",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_orgName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_doctorName",
 				"type": "string"
 			}
 		],
-		"name": "reqAccess",
+		"name": "reqRecord",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_doctor",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "_recordType",
+				"type": "string"
+			}
+		],
+		"name": "revokeReq",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"

@@ -41,6 +41,7 @@ contract UserManagement {
     mapping(address => Hospital) public hospitals;
     mapping(address => Lab) public labs;
     mapping(address => Doctor) public doctors;
+    mapping(string => address) public abhaIdToAddress;
 
     // ids and usernames of all
     string[] public allPatientArr;
@@ -114,8 +115,14 @@ contract UserManagement {
         patients[msg.sender] = patient; // update mapping
         allPatientObj.push(patient); // update obj array
         allPatientArr.push(_username); // update id array
-
+        abhaIdToAddress[_username] = msg.sender;
         emit PatientRegistered(msg.sender, _username);
+    }
+
+
+    //get patient address from Abha ID
+    function getPatientAddress(string memory abhaID) public view returns (address) {
+        return abhaIdToAddress[abhaID];
     }
 
     // login patients

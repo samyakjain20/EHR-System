@@ -158,7 +158,7 @@ const PatientReports = (props) => {
 
   useEffect(() => {
     async function getpatient() {
-      const data = await userMgmtContract.getPatientInfo();
+      const data = await userMgmtContract.getPatientInfo(metaAccount);
       console.log(data);
       var patientObj = JSON.parse(data);
       setPatient(patientObj);
@@ -191,7 +191,6 @@ const PatientReports = (props) => {
                 <div className="grid grid-rows-2 ml-4 gap-2  mb-4">
                   <div className="mt-4 ml-4  font-bold ">
                     <h1 className="ml-2">
-                      {`${patient.name.firstName} ${patient.name.lastName}`}
                       {`${patient.name.firstName} ${patient.name.lastName}`}
                     </h1>
                   </div>
@@ -233,25 +232,18 @@ const PatientReports = (props) => {
                 <label className="font-bold lg:text-xl px-12 ">
                   Select Doctor
                 </label>
-                <div className="">
-                  <select
-                    className="pl-4 lg:w-1/2 bg-blue-100 lg:h-10  rounded  h-8"
-                    id="blood-group"
+                <input
+                    type="text"
+                    placeholder="Doctor"
+                    required
                     value={report.doctorName}
                     onChange={(e) => {
                       let tempreport = { ...report };
                       tempreport.doctorName = e.target.value;
                       setReport(tempreport);
                     }}
-                  >
-                    <option value="">Select an option</option>
-                      {doctorList.map((item, index) => (
-                        <option key={index} value={item}>
-                          {item}
-                        </option>
-                      ))}
-                  </select>
-                </div>
+                    className="pl-4 bg-blue-100 lg:h-8  rounded h-8"
+                  ></input>
               </div>
 
                 <div className="lg:grid grid-cols-5 gap-2 mt-4 mr-4">

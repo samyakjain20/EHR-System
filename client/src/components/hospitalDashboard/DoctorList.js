@@ -2,20 +2,55 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import DoctorListCompo from "./DoctorListCompo";
 import delete_btn from "../../assets/img/dashboard/delete.png";
+import { UserContractObj, FileContractObj, MetaAccountObj } from "../../GlobalData/GlobalContext";
+const ethers = require("ethers");
 
 const DoctorList = (props) => {
   const navigate = useNavigate();
-  const [doctorList, setDoctorList] = useState([{
-    name: {
-      firstName: "Dheeraj",
-      middleName: "",
-      surName: "Patil",
+  const columns = [
+    {
+      title: 'First Name',
+      dataIndex: 'firstName',
+      key: 'firstName',
     },
-    org: "All in One",
-    specialization: [{ special: "ORTHO" }],
-    mobile: "8527419635",
-    email: "dheeraj@gmail.com"
+    {
+      title: 'Last Name',
+      dataIndex: 'lastName',
+      key: 'lastName',
+    },
+    {
+      title: 'Degree',
+      dataIndex: 'degree',
+      key: 'degree',
+    },
+    {
+      title: 'Specialization',
+      dataIndex: 'specialization',
+      key: 'specialization',
+    },
+    {
+      title: 'Mobile',
+      dataIndex: 'mobile',
+      key: 'mobile',
+    },
+    {
+      title: 'Email',
+      dataIndex: 'email',
+      key: 'email',
+    },
+  ];
+  const [doctorList, setDoctorList] = useState([{
+    firstName: "",
+    lastName: "",
+    degree: "",
+    specialization: "",
+    mobile: "",
+    email: ""
   }]);
+
+  const { userMgmtContract, setUserMgmtContract } = UserContractObj();
+  const { fileMgmtContract, setFileMgmtContract } = FileContractObj();
+  const { metaAccount, setMetaAccount } = MetaAccountObj();
 
   const deleteDoctor = async () => {
     const res = await fetch(`/removedoctor/`, {
@@ -41,24 +76,16 @@ const DoctorList = (props) => {
   };
 
   useEffect(() => {
-    async function fetchDoctorList() {
-      const res = await fetch("/doctorlist", {
-        credentials: "include",
-      });
-      const data = await res.json();
-      if (data.AuthError) {
-        props.settoastCondition({
-          status: "info",
-          message: "Please Login to proceed!!!",
-        });
-        props.setToastShow(true);
-        navigate("/");
-      } else {
-        setDoctorList(data.doctorlist);
-      }
+    async function getDoctors() {
+      const doctorData = await userMgmtContract.getDoctorObjs();
+      console.log(doctorData);
+      const hospitalData = await userMgmtContract.getHospitalInfo();
+      console.log(hospitalData);
+
+      // doctorData.for
     }
-    fetchDoctorList();
-  }, [doctorList]);
+    getDoctors();
+  }, []);
 
   return (
     <div className="m-4 mt-4  col-span-10">
@@ -75,46 +102,7 @@ const DoctorList = (props) => {
           <h1>Action</h1>
         </div>
         <hr></hr>
-        {doctorList.length > 0 ? (
-          doctorList.map((doctor, index) => {
-            return (
-              // <div className="grid grid-cols-9">
-              //   <h1 className="col-start-1">{index + 1}</h1>
-              //   <div className="col-span-2 flex">
-              //     <h1>Dr.</h1>
-              //     <h1 className="ml-1">{`${doctor.name.firstName} ${props.doctor.name.middleName} ${props.doctor.name.surName}`}</h1>
-              //   </div>
-              //   <h1 className="col-span-2">{doctor.org}</h1>
-              //   <h1 className="col-span-1">{doctor.specialization[0].special}</h1>
-              //   <div className="col-span-2 pr-2">
-              //     <h1 className="text-lg ">{doctor.mobile}</h1>
-              //     <h1 className="text-sm"> {doctor.email} </h1>
-              //   </div>
-
-              //   <button
-              //     data-bs-toggle="modal"
-              //     data-bs-target="#deleteDoctor"
-              //     className="flex items-center bg-blue-400 w-24 h-8 rounded font-bold shadow hover:bg-blue-100"
-              //     onClick={deleteDoctor}
-              //   >
-              //     <img src={delete_btn} className="h-4 mx-2"></img>Delete
-              //   </button>
-              // </div>
-              <DoctorListCompo
-                key={doctor._id}
-                doctor={doctor}
-                index={index}
-                id={doctor._id}
-                settoastCondition={props.settoastCondition}
-                setToastShow={props.setToastShow}
-              />
-            );
-          })
-        ) : (
-          <div className="flex justify-center items-center">
-            No Doctors are Found on System
-          </div>
-        )}
+        
       </div>
     </div>
   );

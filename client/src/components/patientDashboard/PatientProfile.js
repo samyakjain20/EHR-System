@@ -9,14 +9,14 @@ import blood from "../../assets/img/dashboard/patient-profile-blood.png";
 import healthid from "../../assets/img/dashboard/patient-profile-healthid.png";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { UserContractObj, FileContractObj } from "../../GlobalData/GlobalContext";
+import { UserContractObj, FileContractObj, MetaAccountObj } from "../../GlobalData/GlobalContext";
 const ethers = require("ethers")
 
 const PatientProfile = (props) => {
   const navigate = useNavigate();
   const {userMgmtContract, setUserMgmtContract} = UserContractObj();
   const {fileMgmtContract, setFileMgmtContract} = FileContractObj();
-
+  const {metaAccount, setMetaAccount} = MetaAccountObj();
   const [patient, setPatient] = useState({
     username: "",
     passwordHash: "",
@@ -62,7 +62,7 @@ const PatientProfile = (props) => {
   useEffect(() => {
     async function getpatient() {
 
-      const data = await userMgmtContract.getPatientInfo();
+      const data = await userMgmtContract.getPatientInfo(metaAccount);
       console.log(data);
       var patientObj = JSON.parse(data);
       setPatient(patientObj);
@@ -138,7 +138,6 @@ const PatientProfile = (props) => {
             <div className="flex mt-4 ">
               <img src={name} className="h-8 w-8" />
               <h1 className="mx-2"> {patient.contactPerson.name.firstName}</h1>
-              <h1 className="mx-2">{patient.contactPerson.name.lastName}</h1>
             </div>
 
             <div className="flex mt-3">

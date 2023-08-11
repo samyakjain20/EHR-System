@@ -99,7 +99,7 @@ export default function Register(props) {
         console.log(patient.passwordHash);
         let userStr = JSON.stringify(patient);
         patient.username = patient.abhaId;
-        const data = await userMgmtContract.registerPatient(patient.username, patient.passwordHash, userStr);
+        const data = await userMgmtContract.registerPatient(patient.abhaId, patient.passwordHash, userStr);
         console.log(data);
 
         if (data.errors) {
