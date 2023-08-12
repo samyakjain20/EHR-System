@@ -151,9 +151,7 @@ export default function Register(props) {
             <h1 className="  p-2 px-8 rounded font-bold text-3xl">Register</h1>
           </div>
 
-          <div
-            className=" lg:ml-80  lg:px-8 lg:py-4 bg-white shadow-lg rounded max-w-screen-lg mt-8 mb-4 "
-          >        
+          <div className=" lg:ml-80  lg:px-8 lg:py-4 bg-white shadow-lg rounded max-w-screen-lg mt-8 mb-4 ">        
             <div className="flex  bg-blue-100 w-fit  justify-between rounded mx-auto">
               <button
                 onClick={() => setToggle("Patient")}

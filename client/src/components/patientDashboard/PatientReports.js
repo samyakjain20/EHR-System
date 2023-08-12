@@ -197,15 +197,17 @@ const PatientReports = (props) => {
                 </div>
               </div>
             </Link>
-            <div className="flex justify-between m-8">
-              <div className="font-bold text-xl ml-4">
-                <h1>Add Report</h1>
+
+            <div className=" lg:ml-20 lg:px-5 lg:py-8 bg-white shadow-lg rounded max-w-screen-lg mt-8 mb-4 ">        
+              <div className="flex  w-fit  justify-between rounded mx-auto">
+                <div className="font-bold text-2xl ml-4 mb-3">
+                  <h1>Add Report</h1>
+                </div>
               </div>
-            </div>
 
               <form onSubmit={handleUpload}>
                 <div className="lg:grid grid-cols-5 gap-2 mt-4 mr-4">
-                  <label className="font-bold lg:text-xl px-12 ">
+                  <label className="font-semibold lg:text-lg px-4 mt-1">
                     Record Type:
                   </label>
 
@@ -216,7 +218,7 @@ const PatientReports = (props) => {
                       setReport(tempreport);
                     }
                   }  id="recordtype" 
-                  className="pl-4 bg-blue-100 lg:h-8  rounded h-8"                
+                  className="pl-4 bg-blue-100 lg:h-10  rounded h-8"                
                   // className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   required>
                     <option value="">Choose Type</option>
@@ -229,8 +231,8 @@ const PatientReports = (props) => {
 
 
               <div className="lg:grid grid-cols-5 gap-2 mt-4 mr-4">
-                <label className="font-bold lg:text-xl px-12 ">
-                  Select Doctor
+                <label className="font-semibold lg:text-lg px-4 mt-1">
+                  Select Doctor:
                 </label>
                 <input
                     type="text"
@@ -242,12 +244,12 @@ const PatientReports = (props) => {
                       tempreport.doctorName = e.target.value;
                       setReport(tempreport);
                     }}
-                    className="pl-4 bg-blue-100 lg:h-8  rounded h-8"
+                    className="pl-4 bg-blue-100 lg:h-10  rounded h-8"
                   ></input>
-              </div>
+                </div>
 
                 <div className="lg:grid grid-cols-5 gap-2 mt-4 mr-4">
-                  <label className="font-bold lg:text-xl px-12 ">
+                  <label className="font-semibold lg:text-lg px-4 mt-1">
                     Diagnosis:
                   </label>
 
@@ -261,12 +263,12 @@ const PatientReports = (props) => {
                       tempreport.description = e.target.value;
                       setReport(tempreport);
                     }}
-                    className="pl-4 bg-blue-100 lg:h-8  rounded h-8"
+                    className="pl-4 bg-blue-100 lg:h-10  rounded h-8"
                   ></input>
                 </div>
 
                 <div className="lg:grid grid-cols-5 gap-2 mt-4 mr-4">
-                  <label className="font-bold lg:text-xl px-12 ">Date:</label>
+                  <label className="font-semibold lg:text-lg px-4 mt-1">Date:</label>
                   <input required type="date" placeholder="Date of Record" 
                     value={report.date}
                     onChange={(e) => {
@@ -274,19 +276,21 @@ const PatientReports = (props) => {
                       tempreport.date= e.target.value;
                       setReport(tempreport);
                     }}
-                    className="pl-4 bg-blue-100 lg:h-8  rounded h-8"
+                    className="bg-blue-100 lg:h-10 rounded pl-4 h-8 pr-3"
                   ></input>
                 </div>
 
-                <div className="lg:grid grid-cols-4 mt-4">
-                  <div className="px-12 pt-3">
+                <div className="lg:grid grid-cols-5 gap-2 mt-4 mr-4">
+                  <label className="font-semibold lg:text-lg px-4 mt-1">Upload Report:</label>
                     <Upload {...propsFile} maxCount={1}>
-                      <Button icon={<UploadOutlined />}>Select File</Button>
+                      <Button className="lg:h-10 rounded pl-4 h-8 pr-3" icon={<UploadOutlined />}>Select File</Button>
                     </Upload>
-                  </div>
+                </div>
+
+                <div className="flex justify-center mb-4 mt-8">
                   <button type="submit">
                     <Button 
-                      className="bg-blue-500 hover:bg-blue-100"
+                      className="bg-blue-500 text-white rounded p-2 pb-4 h-12 px-8 font-semibold text-xl hover:bg-blue-100"
                       disabled={fileList.length === 0}
                       loading={uploading}
                       >
@@ -295,6 +299,8 @@ const PatientReports = (props) => {
                   </button>
                 </div>
               </form>
+            </div>
+            
           </div>
         </div>
       </div>

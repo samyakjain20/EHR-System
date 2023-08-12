@@ -102,7 +102,7 @@ export default function RegisterHospital(props) {
               <input
                 type="text"
                 id="hospital-name"
-                placeholder="e.g: saikrupa hospital"
+                placeholder="e.g: lord hospital"
                 required
                 class="bg-blue-100 h-10 rounded pl-4 col-span-2 "
                 value={hospital.org}
@@ -119,7 +119,7 @@ export default function RegisterHospital(props) {
               <input
                 type="text"
                 id="hospital-email"
-                placeholder="e.g: saikrupa@gmail.com"
+                placeholder="e.g: hospital@gmail.com"
                 required
                 class="bg-blue-100 h-10 rounded pl-4 col-span-2 "
                 value={hospital.orgEmail}
@@ -237,7 +237,7 @@ export default function RegisterHospital(props) {
                 id="password"
                 class="bg-blue-100 h-10  rounded pl-4 "
                 required
-                placeholder="password"
+                placeholder="Password"
                 value={hospital.password}
                 onChange={(e) => {
                   let temphospital = { ...hospital };
@@ -256,7 +256,7 @@ export default function RegisterHospital(props) {
                 id="password"
                 class="bg-blue-100 h-10  rounded pl-4 "
                 required
-                placeholder="Confirm password"
+                placeholder="Confirm Password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
               ></input>

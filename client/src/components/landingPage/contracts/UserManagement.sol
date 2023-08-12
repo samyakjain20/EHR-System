@@ -42,6 +42,8 @@ contract UserManagement {
     mapping(address => Lab) public labs;
     mapping(address => Doctor) public doctors;
     mapping(string => address) public abhaIdToAddress;
+    mapping(address => bool) public metaAddress;
+    mapping(string => bool) public isAbhaIdPresent;
 
     // ids and usernames of all
     string[] public allPatientArr;
@@ -103,6 +105,8 @@ contract UserManagement {
 
     // register patients
     function registerPatient(string memory _username, bytes32 _password, string memory _patientDetails) external {
+        require(!isAbhaIdPresent[_username], "ABHA ID already registered");
+        require(!metaAddress[msg.sender], "Address already used");
         require(bytes(_username).length > 0, "Invalid username");
         require(!patients[msg.sender].isRegistered, "Patient already registered");
 
@@ -119,6 +123,9 @@ contract UserManagement {
         allPatientArr.push(_username); // update id array
         arrLen[0]++;
         abhaIdToAddress[_username] = msg.sender;
+        metaAddress[msg.sender] = true;
+        isAbhaIdPresent[_username] = true;
+
         emit PatientRegistered(msg.sender, _username);
     }
 
@@ -154,7 +161,7 @@ contract UserManagement {
 
     // register hospitals
     function registerHospital(string memory _username, bytes32 _password, string memory _hospitalDetails) external {
-
+        require(!metaAddress[msg.sender], "Address already used");
         require(bytes(_username).length > 0, "Invalid username");
         require(!hospitals[msg.sender].isRegistered, "Hospital already registered");
 
@@ -169,6 +176,7 @@ contract UserManagement {
         allHospitalObj.push(hospital);
         allHospitalArr.push(_username);
         arrLen[1]++;
+        metaAddress[msg.sender] = true;
 
         emit HospitalRegistered(msg.sender, _username);
     }
@@ -199,7 +207,7 @@ contract UserManagement {
 
     // register labs
     function registerLab(string memory _username, bytes32 _password, string memory _labDetails) external {
-
+        require(!metaAddress[msg.sender], "Address already used");
         require(bytes(_username).length > 0, "Invalid username");
         require(!labs[msg.sender].isRegistered, "Lab already registered");
 
@@ -214,6 +222,7 @@ contract UserManagement {
         allLabObj.push(lab);
         allLabArr.push(_username);
         arrLen[2]++;
+        metaAddress[msg.sender] = true;
 
         emit LabRegistered(msg.sender, _username);
     }
@@ -245,7 +254,7 @@ contract UserManagement {
 
     // register doctors
     function registerDoctor(string memory _username, bytes32 _password, string memory _doctorDetails) external {
-
+        require(!metaAddress[msg.sender], "Address already used");
         require(bytes(_username).length > 0, "Invalid username");
         require(!hospitals[msg.sender].isRegistered, "Doctor already registered");
 
@@ -260,6 +269,7 @@ contract UserManagement {
         allDoctorObj.push(doctor);
         allDoctorArr.push(_username);
         arrLen[3]++;
+        metaAddress[msg.sender] = true;
 
         emit DoctorRegistered(msg.sender, _username);
     }
