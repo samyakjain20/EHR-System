@@ -88,7 +88,7 @@ const DoctorList = (props) => {
       let hospitalData = await userMgmtContract.getHospitalInfo(metaAccount);
       hospitalData = JSON.parse(hospitalData);
       console.log(hospitalData);
-      const newResultArray = []
+      const newResultArray = [];
       doctorData.forEach(item => {
         // let doctorVals = JSON.parse(item);
         const result = {
