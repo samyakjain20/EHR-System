@@ -34,6 +34,15 @@ export default function Navbar() {
           <Link to="/register">Register</Link>
         )}
       </button>
+
+      <button className="bg-blue-500 ml-5 lg:px-3 text-white rounded font-semibold border border-blue-500 hover:text-blue-500  shadow-sm hover:bg-white py-1 px-2 mr-2 mt-1 text-lg">
+        {location.pathname === "/admin/dashboard" ? (
+          <Link to="/admin/dashboard">Login</Link>
+        ) : (
+          <Link to="/admin/dashboard">Admin</Link>
+        )}
+      </button>
+
     </nav>
   );
 }

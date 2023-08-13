@@ -8,7 +8,7 @@ import ReactLoading from "react-loading";
 import { UserContractObj, FileContractObj } from "../../GlobalData/GlobalContext";
 const ethers = require("ethers")
 
-export default function RegisterHospital(props) {
+export default function RegisterInsurer(props) {
   const navigate = useNavigate();
   const {userMgmtContract, setUserMgmtContract} = UserContractObj();
   const {fileMgmtContract, setFileMgmtContract} = FileContractObj();
@@ -18,9 +18,9 @@ export default function RegisterHospital(props) {
   const [passwordError, setPasswordError] = useState("");
   const [errors, setErrors] = useState({});
 
-  const [hospital, setHospital] = useState({
-    org: "Apollo",
-    orgEmail: "apollo@hospital.com",
+  const [insurer, setInsurer] = useState({
+    org: "Bharti AXA",
+    orgEmail: "bharti@insurer.com",
     orgAddress: {
       building: "21",
       city: "Hyderabad",
@@ -42,18 +42,18 @@ export default function RegisterHospital(props) {
     auth();
   });
 
-  const handleRegisterHospital = async (e) => {
+  const handleRegisterInsurer = async (e) => {
     try{
       e.preventDefault();
       setPasswordError("");
-      if (hospital.password === confirmPassword) {
+      if (insurer.password === confirmPassword) {
         setLoading(true);
         e.preventDefault();
 
-        const passwordHash = ethers.utils.formatBytes32String(hospital.password);
-        let hospitalStr = JSON.stringify(hospital);
-        hospital.username = hospital.orgEmail;
-        const data = await userMgmtContract.registerHospital(hospital.username, passwordHash, hospitalStr);
+        const passwordHash = ethers.utils.formatBytes32String(insurer.password);
+        let hospitalStr = JSON.stringify(insurer);
+        insurer.username = insurer.orgEmail;
+        const data = await userMgmtContract.registerInsurer(insurer.username, passwordHash, hospitalStr);
         console.log(data);
 
         if (data.errors) {
@@ -68,7 +68,7 @@ export default function RegisterHospital(props) {
           setLoading(false);
           props.settoastCondition({
             status: "success",
-            message: "Hospital Registration done Successfully!",
+            message: "insurer Registration done Successfully!",
           });
           props.setToastShow(true);
           navigate("/");
@@ -90,7 +90,7 @@ export default function RegisterHospital(props) {
   return (
     // <div className="lg:grid lg:grid-cols-4 lg:gap-2 mt-4 mr-4 grid grid-cols-4 gap-2">
     <div className="">
-      <form onSubmit={handleRegisterHospital} class="">
+      <form onSubmit={handleRegisterInsurer} class="">
             <div className="lg:grid lg:grid-cols-4 lg:gap-2 mt-4 mr-4 grid grid-cols-2 gap-1">
               <label className="font-semibold lg:text-lg  px-4 my-4 "> MetaMask Account </label>
               <div className="mt-5">
@@ -101,15 +101,15 @@ export default function RegisterHospital(props) {
               <label class="  lg:text-lg  font-semibold px-4">Name</label>
               <input
                 type="text"
-                id="hospital-name"
-                placeholder="e.g: lord hospital"
+                id="insurer-name"
+                placeholder="e.g: lord insurer"
                 required
                 class="bg-blue-100 h-10 rounded pl-4 col-span-2 "
-                value={hospital.org}
+                value={insurer.org}
                 onChange={(e) => {
-                  let temphospital = { ...hospital };
+                  let temphospital = { ...insurer };
                   temphospital.org = e.target.value;
-                  setHospital(temphospital);
+                  setInsurer(temphospital);
                 }}
               ></input>
             </div>
@@ -118,15 +118,15 @@ export default function RegisterHospital(props) {
               <label class="  lg:text-lg  font-semibold px-4">Email</label>
               <input
                 type="text"
-                id="hospital-email"
-                placeholder="e.g: hospital@gmail.com"
+                id="insurer-email"
+                placeholder="e.g: insurer@gmail.com"
                 required
                 class="bg-blue-100 h-10 rounded pl-4 col-span-2 "
-                value={hospital.orgEmail}
+                value={insurer.orgEmail}
                 onChange={(e) => {
-                  let temphospital = { ...hospital };
+                  let temphospital = { ...insurer };
                   temphospital.orgEmail = e.target.value;
-                  setHospital(temphospital);
+                  setInsurer(temphospital);
                 }}
               ></input>
             </div>
@@ -141,11 +141,11 @@ export default function RegisterHospital(props) {
                   class="bg-blue-100 h-10  rounded pl-4 "
                   required
                   placeholder="building/area"
-                  value={hospital.orgAddress.building}
+                  value={insurer.orgAddress.building}
                   onChange={(e) => {
-                    let temphospital = { ...hospital };
+                    let temphospital = { ...insurer };
                     temphospital.orgAddress.building = e.target.value;
-                    setHospital(temphospital);
+                    setInsurer(temphospital);
                   }}
                 ></input>
                 <input
@@ -153,11 +153,11 @@ export default function RegisterHospital(props) {
                   class="bg-blue-100 h-10  rounded pl-4 "
                   required
                   placeholder="village/city"
-                  value={hospital.orgAddress.city}
+                  value={insurer.orgAddress.city}
                   onChange={(e) => {
-                    let temphospital = { ...hospital };
+                    let temphospital = { ...insurer };
                     temphospital.orgAddress.city = e.target.value;
-                    setHospital(temphospital);
+                    setInsurer(temphospital);
                   }}
                 ></input>
                 <input
@@ -165,11 +165,11 @@ export default function RegisterHospital(props) {
                   class="bg-blue-100 h-10  rounded pl-4"
                   required
                   placeholder="Taluka"
-                  value={hospital.orgAddress.taluka}
+                  value={insurer.orgAddress.taluka}
                   onChange={(e) => {
-                    let temphospital = { ...hospital };
+                    let temphospital = { ...insurer };
                     temphospital.orgAddress.taluka = e.target.value;
-                    setHospital(temphospital);
+                    setInsurer(temphospital);
                   }}
                 ></input>
                 <input
@@ -177,11 +177,11 @@ export default function RegisterHospital(props) {
                   class="bg-blue-100 h-10  rounded  pl-4"
                   required
                   placeholder="District"
-                  value={hospital.orgAddress.district}
+                  value={insurer.orgAddress.district}
                   onChange={(e) => {
-                    let temphospital = { ...hospital };
+                    let temphospital = { ...insurer };
                     temphospital.orgAddress.district = e.target.value;
-                    setHospital(temphospital);
+                    setInsurer(temphospital);
                   }}
                 ></input>
                 <input
@@ -189,22 +189,22 @@ export default function RegisterHospital(props) {
                   className="bg-blue-100 h-10  rounded  pl-4"
                   required
                   placeholder="Pin-code"
-                  value={hospital.orgAddress.pincode}
+                  value={insurer.orgAddress.pincode}
                   onChange={(e) => {
-                    let temphospital = { ...hospital };
+                    let temphospital = { ...insurer };
                     temphospital.orgAddress.pincode = e.target.value;
-                    setHospital(temphospital);
+                    setInsurer(temphospital);
                   }}
                 ></input>
                 <input
                   type="text"
                   className="bg-blue-100 h-10  rounded  pl-4"
                   placeholder="State"
-                  value={hospital.orgAddress.state}
+                  value={insurer.orgAddress.state}
                   onChange={(e) => {
-                    let temphospital = { ...hospital };
+                    let temphospital = { ...insurer };
                     temphospital.orgAddress.state = e.target.value;
-                    setHospital(temphospital);
+                    setInsurer(temphospital);
                   }}
                 ></input>
               </div>
@@ -215,15 +215,15 @@ export default function RegisterHospital(props) {
               </label>
               <input
                 type="tel"
-                id="hospital-contact-no"
+                id="insurer-contact-no"
                 placeholder="1234567890"
                 required
                 class="bg-blue-100 h-10 rounded pl-4 col-span-2 "
-                value={hospital.orgContactNumber}
+                value={insurer.orgContactNumber}
                 onChange={(e) => {
-                  let temphospital = { ...hospital };
+                  let temphospital = { ...insurer };
                   temphospital.orgContactNumber = e.target.value;
-                  setHospital(temphospital);
+                  setInsurer(temphospital);
                 }}
               ></input>
             </div>
@@ -238,11 +238,11 @@ export default function RegisterHospital(props) {
                 class="bg-blue-100 h-10  rounded pl-4 "
                 required
                 placeholder="Password"
-                value={hospital.password}
+                value={insurer.password}
                 onChange={(e) => {
-                  let temphospital = { ...hospital };
+                  let temphospital = { ...insurer };
                   temphospital.password = e.target.value;
-                  setHospital(temphospital);
+                  setInsurer(temphospital);
                 }}
               ></input>
             </div>
@@ -273,7 +273,7 @@ export default function RegisterHospital(props) {
                 />
               ) : (
                 <button className="text-lg mt-3 text-white border border-blue-500  bg-blue-500 py-1 px-3 rounded font-semibold  shadow-sm hover:text-blue-500  shadow-sm hover:bg-white">
-                  Submit
+                    Submit
                 </button>
               )}
             </div>

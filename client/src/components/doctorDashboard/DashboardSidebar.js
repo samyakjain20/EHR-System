@@ -1,5 +1,5 @@
 import logo from "../../assets/img/landingPage/logo1.jpeg";
-import dashboard from "../../assets/img/dashboard/dashboard.jpeg";
+import dashboard from "../../assets/img/dashboard/home.png";
 import reports from "../../assets/img/dashboard/report2_pbl.png";
 import patient_history from "../../assets/img/dashboard/patient_history.jpeg";
 import patient_profile from "../../assets/img/dashboard/patient2_pbl.png";
@@ -43,7 +43,7 @@ const DashboardSidebar = (props) => {
                 <img src={dashboard} alt="dashbord"></img>
               </div>
               <div className=" font-bold ml-4">
-                <h1>Dashboard</h1>
+                <h1>Home</h1>
               </div>
             </div>
           </Link>

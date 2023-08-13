@@ -1,5 +1,5 @@
 import logo from "../../assets/img/landingPage/logo1.jpeg";
-import dashboard from "../../assets/img/dashboard/dashboard.jpeg";
+import dashboard from "../../assets/img/dashboard/home.png";
 import reports from "../../assets/img/dashboard/report2_pbl.png";
 import patient_history from "../../assets/img/dashboard/patient_history.jpeg";
 import consent_manager from "../../assets/img/dashboard/i-icon.jpg";
@@ -44,8 +44,8 @@ const PatientProfileSideBar = (props) => {
               <div className="w-6 ml-4  ">
                 <img src={dashboard} alt="dashboard"></img>
               </div>
-              <div className=" font-bold ml-4">
-                <h1>Dashboard</h1>
+              <div className="text-lg font-bold ml-4">
+                <h1>Home</h1>
               </div>
             </div>
           </Link>
@@ -59,7 +59,7 @@ const PatientProfileSideBar = (props) => {
               <div className="w-6 ml-4  ">
                 <img src={reports} alt="reports"></img>
               </div>
-              <div className=" font-bold ml-4">
+              <div className="text-lg font-bold ml-4">
                 <h1>Add Report</h1>
               </div>
             </div>
@@ -102,7 +102,7 @@ const PatientProfileSideBar = (props) => {
                     className="w-6"
                     alt="history"
                   ></img>
-                  <h1 className="ml-4">Previous Records</h1>
+                  <h1 className="text-lg ml-4">Previous Records</h1>
                 </div>
               </Link>
 
@@ -140,16 +140,16 @@ const PatientProfileSideBar = (props) => {
                     className="w-6"
                     alt="Consent Manager"
                   ></img>
-                  <h1 className="ml-4">Consent Manager</h1>
+                  <h1 className="text-lg ml-4">Consent Manager</h1>
                 </div>
               </Link>
             </div>
           </div>
         </nav>
 
-        <div className=" mx-auto py-1  mt-24  bg-blue-500  rounded font-semibold  shadow-sm hover:bg-blue-100 w-2/5  ">
-          <button className="font-bold  flex items-center" onClick={logout}>
-            <img src={logoutimg} className="h-4 px-2 " alt="logout"></img>logout
+        <div className=" mx-auto py-1  mt-60 p-2 bg-blue-500  rounded font-semibold  shadow-sm hover:bg-blue-100 w-2/5  ">
+          <button className="text-white border border-blue-500 shadow-sm hover:text-blue-500  shadow-sm hover:bg-white font-bold  flex items-center" onClick={logout}>
+            <img src={logoutimg} className="h-4 px-2 " alt="logout"></img>Logout
           </button>
         </div>
       </div>

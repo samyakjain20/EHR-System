@@ -98,6 +98,9 @@ export default function Login(props) {
         case "Lab":
           res = await userMgmtContract.loginLab(data.password);
           break;
+        case "Insurer":
+          res = await userMgmtContract.loginInsurer(data.password);
+          break;
       }
 
       console.log(res);
@@ -164,8 +167,10 @@ export default function Login(props) {
       case "Lab":
         handleDoctorLabHospitalLogin(username, password, metaAccount, "/lab/dashboard", Toggle);
         break;
-      case "Admin":
-        handleAdminLogin(username, password, metaAccount, "/admin/dashboard", Toggle);
+      case "Insurer":
+        handleDoctorLabHospitalLogin(username, password, metaAccount, "/insurer/dashboard", Toggle);
+        break;
+      
         break;
       default:
         break;
@@ -196,8 +201,8 @@ export default function Login(props) {
 
           const fileAbi = require("../../components/landingPage/contracts/FileManagement.json");
           const userAbi = require("../../components/landingPage/contracts/UserManagement.json");
-          let userMgmtContractAddress = "0x7D97a2E19A645317f3c325C0e226f5B55082f7C0";
-          let fileMgmtContractAddress = "0x0CE3941d7893dEA7F22FC6c87DFf7c34f01aD63d";
+          let userMgmtContractAddress = "0xEE0C8f50B3c9475007d6E92eE562359a0109aB03";
+          let fileMgmtContractAddress = "0x77d58Bf35a817338E4a1d6B89313a59C85737699";
 
           const userMgmtContract = new ethers.Contract(
             userMgmtContractAddress,
@@ -220,7 +225,7 @@ export default function Login(props) {
           console.log(userMgmtContract);
           console.log(fileMgmtContract);
         }
-        
+
       } catch (err) {
         if (err.code === 5001) {
           // EIP-1193 userRejectedRequest error
@@ -311,19 +316,19 @@ export default function Login(props) {
 
         <button
           onClick={() => {
-            setToggle("Admin");
+            setToggle("Insurer");
             setUsername("");
             setPassword("");
             setUsernameError("");
             setPasswordError("");
           }}
           className={
-            Toggle === "Admin"
+            Toggle === "Insurer"
               ? "py-2 px-6 text-lg text-white font-semibold cursor-pointer rounded bg-blue-500"
               : "py-2 px-6 text-lg  font-medium text-primary cursor-pointer rounded"
           }
         >
-          Admin
+          Insurer
         </button>
 
       </div>

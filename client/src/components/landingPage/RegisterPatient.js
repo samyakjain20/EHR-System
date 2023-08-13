@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import ReactLoading from "react-loading";
 import RegisterDoctor from "./RegisterDoctor";
 import RegisterHospital from "./RegisterHospital";
+import RegisterInsurer from "./RegisterInsurer";
 import { UserContractObj, FileContractObj } from "../../GlobalData/GlobalContext";
 import RegisterLab from "./RegisterLab";
 
@@ -194,6 +195,18 @@ export default function Register(props) {
               >
                 Hospital
               </button>
+
+              <button
+                onClick={() => setToggle("Insurer")}
+                className={
+                  Toggle === "Insurer"
+                    ? "py-2 px-8 text-lg text-white font-semibold cursor-pointer rounded bg-blue-500"
+                    : "py-2 px-8 text-lg  font-semibold cursor-pointer rounded bg-blue-100"
+                }
+              >
+                Insurer
+              </button>
+
             </div>
             <div className={Toggle === "Doctor" ? "" : "hidden" }>
               <RegisterDoctor
@@ -211,6 +224,13 @@ export default function Register(props) {
 
             <div className={ Toggle === "Hospital" ? "" : "hidden" }>
               <RegisterHospital
+                setToastShow={props.setToastShow}
+                settoastCondition={props.settoastCondition}
+              />
+            </div>
+
+            <div className={ Toggle === "Insurer" ? "" : "hidden" }>
+              <RegisterInsurer
                 setToastShow={props.setToastShow}
                 settoastCondition={props.settoastCondition}
               />
@@ -689,7 +709,7 @@ export default function Register(props) {
                     width={"5%"}
                   />
                 ) : (
-                  <button className="bg-blue-500 rounded p-2 px-8 font-semibold text-xl hover:bg-blue-100 mb-4 mt-3">
+                  <button className="text-lg mt-3 text-white border border-blue-500  bg-blue-500 py-1 px-3 rounded font-semibold  shadow-sm hover:text-blue-500  shadow-sm hover:bg-white">
                     Submit
                   </button>
                 )}

@@ -5,7 +5,7 @@ import doctor_list from "../../assets/img/dashboard/doctor_list.png";
 import logoutimg from "../../assets/img/dashboard/logout.png";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import dashboard from "../../assets/img/dashboard/dashboard.jpeg";
+import dashboard from "../../assets/img/dashboard/home.png";
 
 const HospitalSideBar = (props) => {
   const navigate = useNavigate();
@@ -45,7 +45,7 @@ const HospitalSideBar = (props) => {
                 <img src={dashboard} alt="dashboard"></img>
               </div>
               <div className=" font-bold ml-4">
-                <h1>Dashboard</h1>
+                <h1>Home</h1>
               </div>
             </div>
           </Link>

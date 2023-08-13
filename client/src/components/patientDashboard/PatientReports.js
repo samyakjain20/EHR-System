@@ -4,6 +4,7 @@ import PatientReportCompo from "./PatientReportCompo";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { UploadOutlined } from '@ant-design/icons';
+import search from "../../assets/img/dashboard/search2.png";
 import { Button, message, Upload } from 'antd';
 import axios from 'axios';
 import { UserContractObj, FileContractObj, MetaAccountObj } from "../../GlobalData/GlobalContext";
@@ -181,22 +182,38 @@ const PatientReports = (props) => {
       <div className=" px-12">
         <div className="h-screen">
           <div className="   mainf">
-            <Link to="/patient/profile">
-              <div className="flex bg-white rounded shadow  px-4   ml-auto h-14 w-1/5 mr-8 mt-8">
-                <img
-                  src={patient_profile}
-                  className="w-12 p-1 rounded-2xl"
-                  alt="profile"
-                ></img>
-                <div className="grid grid-rows-2 ml-4 gap-2  mb-4">
-                  <div className="mt-4 ml-4  font-bold ">
-                    <h1 className="ml-2">
-                      {`${patient.name.firstName} ${patient.name.lastName}`}
-                    </h1>
+            <div className="">
+              <div className="flex  h-12 m-2 bg-bgprimary rounded mt-4">
+                <div>
+                  <h1 className="text-2xl  font-bold p-2 ">
+                    My Dashboard
+                  </h1>
+                </div>
+
+                <div className="flex ml-20  h-10 mt-2  ">
+                  <input
+                    placeholder="Search"
+                    className="w-96 rounded ml-4 text-xl   pl-4 border focus:outline-none "
+                  ></input>
+                  <div className="bg-white pl-2 rounded ">
+                    <img src={search} className=" h-6 mt-2  " alt="search"></img>
                   </div>
                 </div>
+
+                <Link to="/patient/profile">
+                  <button className="flex bg-white rounded shadow  px-4  ml-80 h-14 ">
+                    <img
+                      src={patient_profile}
+                      className="mt-1 mr-1 h-12 p-1 mb-4 rounded-2xl"
+                      alt="profile"
+                    ></img>
+                    <div className="mt-4 ml-2  font-bold ">
+                      <h1>{`${patient.name.firstName}  ${patient.name.lastName}`}</h1>
+                    </div>
+                  </button>
+                </Link>
               </div>
-            </Link>
+            </div>
 
             <div className=" lg:ml-20 lg:px-5 lg:py-8 bg-white shadow-lg rounded max-w-screen-lg mt-8 mb-4 ">        
               <div className="flex  w-fit  justify-between rounded mx-auto">

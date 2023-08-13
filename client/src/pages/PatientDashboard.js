@@ -64,10 +64,10 @@ const PatientDashboard = (props) => {
                 <button className="flex bg-white rounded shadow  px-4  ml-80 h-14 ">
                   <img
                     src={patient_profile}
-                    className="h-14 p-1 rounded-2xl"
+                    className="mt-1 mr-1 h-12 p-1 rounded-2xl"
                     alt="profile"
                   ></img>
-                  <div className="mt-4 ml-4  font-bold ">
+                  <div className="mt-4 ml-2  font-bold ">
                     <h1>{`${patient.name.firstName}  ${patient.name.lastName}`}</h1>
                   </div>
                 </button>
