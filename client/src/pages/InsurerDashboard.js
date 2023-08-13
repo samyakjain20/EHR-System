@@ -11,7 +11,7 @@ import { UserContractObj, FileContractObj, MetaAccountObj } from "../GlobalData/
 import axios from "axios";
 const ethers = require("ethers")
 
-const AdminDashboard = (props) => {
+const InsurerDashboard = (props) => {
     const {userMgmtContract, setUserMgmtContract} = UserContractObj();
     const {fileMgmtContract, setFileMgmtContract} = FileContractObj();
     const {metaAccount, setMetaAccount} = MetaAccountObj();
@@ -224,4 +224,4 @@ const AdminDashboard = (props) => {
     );
 };
 
-export default AdminDashboard;
+export default InsurerDashboard;

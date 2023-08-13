@@ -34,6 +34,10 @@ import { GlobalProvider } from "./GlobalData/GlobalContext";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminDashboardSidebar from "./components/adminDashboard/adminDashboardSidebar";
 import HospitalProfile from "./components/hospitalDashboard/HospitalProfile";
+import PatientPayment from "./components/patientDashboard/PatientPayment";
+import PatientPaymentHistory from "./components/patientDashboard/PatientPaymentHistory";
+import InsurerProfileSideBar from "./components/InsurerDashboard/insurerDashboardSidebar";
+import InsurerDashboard from "./pages/InsurerDashboard";
 
 function App() {
   const [healthID, setHealthID] = useState("");
@@ -183,6 +187,26 @@ function App() {
                 />
               }
             />
+            <Route
+              path="payment"
+              element={
+                <PatientPayment
+                  prescriptionID={prescriptionID}
+                  settoastCondition={settoastCondition}
+                  setToastShow={setToastShow}
+                />
+              }
+            />
+            <Route
+              path="paymenthistory"
+              element={
+                <PatientPaymentHistory
+                  prescriptionID={prescriptionID}
+                  settoastCondition={settoastCondition}
+                  setToastShow={setToastShow}
+                />
+              }
+            />
           </Route>
 
           <Route
@@ -274,6 +298,41 @@ function App() {
               path="dashboard"
               element={
                 <LabDashboard
+                  healthID={healthID}
+                  setHealthID={setHealthID}
+                  setPrescriptionID={setPrescriptionID}
+                  setToastShow={setToastShow}
+                  settoastCondition={settoastCondition}
+                />
+              }
+            />
+            <Route
+              path="profile"
+              element={
+                <LabProfile
+                  healthID={healthID}
+                  setHealthID={setHealthID}
+                  setPrescriptionID={setPrescriptionID}
+                  setToastShow={setToastShow}
+                  settoastCondition={settoastCondition}
+                />
+              }
+            />
+          </Route>
+
+          <Route
+            path="insurer"
+            element={
+              <InsurerProfileSideBar
+                setToastShow={setToastShow}
+                settoastCondition={settoastCondition}
+              />
+            }
+          >
+            <Route
+              path="dashboard"
+              element={
+                <InsurerDashboard
                   healthID={healthID}
                   setHealthID={setHealthID}
                   setPrescriptionID={setPrescriptionID}

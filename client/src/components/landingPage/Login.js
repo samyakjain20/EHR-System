@@ -224,6 +224,8 @@ export default function Login(props) {
           console.log(address);
           console.log(userMgmtContract);
           console.log(fileMgmtContract);
+
+          
         }
 
       } catch (err) {

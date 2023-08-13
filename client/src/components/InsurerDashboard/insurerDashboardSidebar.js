@@ -10,7 +10,7 @@ import { useState } from "react";
 import payment from "../../assets/img/dashboard/payment.png";
 import payment_history from "../../assets/img/dashboard/history.png";
 
-const PatientProfileSideBar = (props) => {
+const InsurerProfileSideBar = (props) => {
   const navigate = useNavigate();
   const logout = async () => {
     const res = await fetch("/logout");
@@ -36,7 +36,7 @@ const PatientProfileSideBar = (props) => {
         </div>
         <nav>
           <Link
-            to="/patient/dashboard"
+            to="/insurer/dashboard"
             onClick={() => setToggle("Dashboard")}
             className={
               Toggle === "Dashboard" ? "text-gray-900" : "text-gray-400"
@@ -62,13 +62,13 @@ const PatientProfileSideBar = (props) => {
                 <img src={reports} alt="reports"></img>
               </div>
               <div className="text-lg font-bold ml-4">
-                <h1>Add Report</h1>
+                <h1>View Report</h1>
               </div>
             </div>
           </Link>
 
           <Link
-                to="/patient/prevRecords"
+                to="/patient/viewRequests"
                 onClick={() => setToggle("Patient_Diagnostics")}
                 className={
                   Toggle === "Patient_Diagnostics"
@@ -81,67 +81,10 @@ const PatientProfileSideBar = (props) => {
                     <img src={patient_history} alt="reports"></img>
                   </div>
                   <div className="text-lg font-bold ml-4">
-                    <h1>My Reports</h1>
+                    <h1>View Claim Requests</h1>
                   </div>
                 </div>
             </Link>
-
-              <Link
-                to="/patient/consentManagment"
-                onClick={() => setToggle("consent_manager")}
-                className={
-                  Toggle === "consent_manager"
-                    ? "text-gray-900 "
-                    : "text-gray-400"
-                }
-              >
-                <div className="flex m-2 mt-6  ">
-                  <div className="w-6 ml-4  ">
-                    <img src={consent_manager} alt="reports"></img>
-                  </div>
-                  <div className="text-lg font-bold ml-4">
-                    <h1>Consent Manager</h1>
-                  </div>
-                </div>
-              </Link>
-
-          <div className="p-4">
-            <h1 className=" font-bold text-xl mt-3 ml-4">Payment Menu</h1>
-            <div className="grid grid-rows-2 gap-4 font-bold  mt-4">
-              
-            <Link
-              to="/patient/payment"
-              onClick={() => setToggle("payment")}
-              className={Toggle === "payment" ? "text-gray-900" : "text-gray-400"}
-            >
-              <div className="flex m-2 mt-4  ">
-                <div className="w-6 ml-2  ">
-                  <img src={payment} alt="payment"></img>
-                </div>
-                <div className="text-lg font-bold ml-4">
-                  <h1>Pay</h1>
-                </div>
-              </div>
-            </Link>
-
-            <Link
-              to="/patient/paymenthistory"
-              onClick={() => setToggle("paymenthistory")}
-              className={Toggle === "paymenthistory" ? "text-gray-900" : "text-gray-400"}
-            >
-              <div className="flex m-2 mt-1  ">
-                <div className="w-6 ml-2  ">
-                  <img src={payment_history} alt="paymenthistory"></img>
-                </div>
-                <div className="text-lg font-bold ml-4">
-                  <h1>Transaction History</h1>
-                </div>
-              </div>
-            </Link>
-
-              
-            </div>
-          </div>
         </nav>
 
         <div className=" mx-auto py-1  mt-60 p-2 bg-blue-500  rounded font-semibold  shadow-sm hover:bg-blue-100 w-2/5  ">
@@ -155,4 +98,4 @@ const PatientProfileSideBar = (props) => {
   );
 };
 
-export default PatientProfileSideBar;
+export default InsurerProfileSideBar;
