@@ -27,17 +27,7 @@ export default function Login(props) {
 
   useEffect(() => {
     const auth = async () => {
-      const res = await fetch("/auth");
-      const data = await res.json();
-      if (data.msg === "Doctor Login Found") {
-        navigate("/doctor/dashboard");
-      }
-      if (data.msg === "Hospital Login Found") {
-        navigate("/admin/dashboard");
-      }
-      if (data.msg === "Patient Login Found") {
-        navigate("/patient/dashboard");
-      }
+      
     };
     auth();
   }, []);
@@ -229,8 +219,8 @@ export default function Login(props) {
           console.log(address);
           console.log(userMgmtContract);
           console.log(fileMgmtContract);
-
         }
+        
       } catch (err) {
         if (err.code === 5001) {
           // EIP-1193 userRejectedRequest error
