@@ -1,6 +1,5 @@
 import Footer from "../landingPage/Footer";
 import patient_profile from "../../assets/img/dashboard/patient2_pbl.png";
-import PatientReportCompo from "./PatientReportCompo";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { UploadOutlined } from '@ant-design/icons';

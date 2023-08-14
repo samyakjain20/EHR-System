@@ -1,5 +1,4 @@
 import "./App.css";
-import Contact from "./components/landingPage/Contact";
 import RegisterPatient from "./components/landingPage/RegisterPatient";
 import LandingPage from "./pages/LandingPage";
 import About from "./components/landingPage/About";
@@ -19,7 +18,6 @@ import DoctorList from "./components/hospitalDashboard/DoctorList";
 import PatientProfileSideBar from "./components/patientDashboard/PatientProfileSideBar";
 import PreviousRecords from "./components/patientDashboard/PreviousRecords";
 import DoctorDashboardSidebar from "./components/doctorDashboard/DashboardSidebar";
-import PreviewPrescription from "./components/patientDashboard/PreviewPrescription";
 import PatientReportsDoctorView from "./components/doctorDashboard/PatientReportsDoctorView";
 import PatientHistoryDoctorView from "./components/doctorDashboard/PatientHistoryDoctorView";
 import PreviewPrescriptionDoctorView from "./components/doctorDashboard/PreviewPrescriptionDoctorView";
@@ -100,15 +98,7 @@ function App() {
             }
           />
           <Route path="about" element={<About />} />
-          <Route
-            path="contact"
-            element={
-              <Contact
-                settoastCondition={settoastCondition}
-                setToastShow={setToastShow}
-              />
-            }
-          />
+          
           <Route
             path="Register"
             element={
@@ -177,16 +167,7 @@ function App() {
                 />
               }
             />
-            <Route
-              path="prescription"
-              element={
-                <PreviewPrescription
-                  prescriptionID={prescriptionID}
-                  settoastCondition={settoastCondition}
-                  setToastShow={setToastShow}
-                />
-              }
-            />
+            
             <Route
               path="payment"
               element={

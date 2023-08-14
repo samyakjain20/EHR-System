@@ -1,6 +1,5 @@
 import Footer from "../landingPage/Footer";
 import patient_profile from "../../assets/img/dashboard/patient2_pbl.png";
-import PatientHistoryCompo from "./PatientHistoryCompo";
 import { useEffect, useState } from "react";
 import search from "../../assets/img/dashboard/search2.png";
 import { Link, useNavigate } from "react-router-dom";
@@ -94,7 +93,7 @@ const PreviousRecords = (props) => {
     // console.log(userMgmtContract);
     getLabreports();
   }, [recordType]);
-  
+
   return (
     <div className="col-span-10" style={{ overflow: 'auto' }}>
       <div className=" px-12">

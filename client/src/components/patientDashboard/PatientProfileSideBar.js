@@ -4,6 +4,7 @@ import reports from "../../assets/img/dashboard/report2_pbl.png";
 import patient_history from "../../assets/img/dashboard/patient_history.jpeg";
 import consent_manager from "../../assets/img/dashboard/i-icon.jpg";
 import patient_profile from "../../assets/img/dashboard/patient2_pbl.png";
+import claim_img from "../../assets/img/dashboard/claim.png";
 import logoutimg from "../../assets/img/dashboard/logout.png";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -148,7 +149,7 @@ const PatientProfileSideBar = (props) => {
               onClick={() => setToggle("paymenthistory")}
               className={Toggle === "paymenthistory" ? "text-gray-900" : "text-gray-400"}
             >
-              <div className="flex m-2 mt-1  ">
+              <div className="flex m-2 ">
                 <div className="w-6 ml-2  ">
                   <img src={payment_history} alt="paymenthistory"></img>
                 </div>
@@ -158,12 +159,27 @@ const PatientProfileSideBar = (props) => {
               </div>
             </Link>
 
+            <Link
+              to="/patient/paymenthistory"
+              onClick={() => setToggle("claim")}
+              className={Toggle === "claim" ? "text-gray-900" : "text-gray-400"}
+            >
+              <div className="flex ml-2">
+                <div className="w-6 ml-2  ">
+                  <img src={claim_img} alt="claim"></img>
+                </div>
+                <div className="text-lg font-bold ml-4">
+                  <h1>Request Claims</h1>
+                </div>
+              </div>
+            </Link>
+
               
             </div>
           </div>
         </nav>
 
-        <div className=" mx-auto py-1  mt-20 p-2 bg-blue-500  rounded font-semibold  shadow-sm hover:bg-blue-100 w-2/5  ">
+        <div className=" mx-auto py-1  mt-10 p-2 bg-blue-500  rounded font-semibold  shadow-sm hover:bg-blue-100 w-2/5  ">
           <button className="text-white border border-blue-500 shadow-sm hover:text-blue-500  shadow-sm hover:bg-white font-bold  flex items-center" onClick={logout}>
             <img src={logoutimg} className="h-4 px-2 " alt="logout"></img>Logout
           </button>

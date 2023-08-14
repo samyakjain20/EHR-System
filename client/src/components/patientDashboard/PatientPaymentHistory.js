@@ -1,6 +1,5 @@
 import Footer from "../landingPage/Footer";
 import patient_profile from "../../assets/img/dashboard/patient2_pbl.png";
-import PatientHistoryCompo from "./PatientHistoryCompo";
 import { useEffect, useState } from "react";
 import search from "../../assets/img/dashboard/search2.png";
 import { Link, useNavigate } from "react-router-dom";
