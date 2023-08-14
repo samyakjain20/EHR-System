@@ -6,6 +6,7 @@ import search from "../../assets/img/dashboard/search2.png";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContractObj, FileContractObj, MetaAccountObj, PatientDataObj, PaymentContractObj } from "../../GlobalData/GlobalContext";
 import { Table, Input, Select } from 'antd';
+import { ethers } from "ethers";
 
 const { Option } = Select;
 const PatientPaymentHistory = (props) => {
@@ -15,21 +16,51 @@ const PatientPaymentHistory = (props) => {
   const { metaAccount, setMetaAccount } = MetaAccountObj();
   const { patient, setPatient } = PatientDataObj();
   const [healthReports, setHealthReports] = useState([{}]);
-  const [ recordType, setRecordType] = useState("DiagonsticsReport");
+  const [ recordType, setRecordType] = useState("");
   const [sendPayment, setSendPayment] = useState([{}]);
   const [recievePayment, setRecievePayment] = useState([{}]);
+
+  const columns = [
+    {
+      title: 'Sender',
+      dataIndex: 'sender',
+      key: 'sender',
+    },
+    {
+      title: 'Reciever',
+      dataIndex: 'reciever',
+      key: 'reciever',
+    },
+    {
+      title: 'Date',
+      dataIndex: 'date',
+      key: 'date',
+    },
+    {
+      title: 'Amount',
+      dataIndex: 'amount',
+      key: 'amount',
+    },
+    {
+      title: 'Transaction ID',
+      dataIndex: 'txHash',
+      key: 'txHash',
+    }
+  ];
 
   const handleSelectChange = value => {
     setRecordType(value);
     console.log('Selected type:', value);
   };
 
-  const [ searchText, setSearchText] = useState('');
-  const filteredReports = healthReports.filter((report) => {
+  const [searchText, setSearchText] = useState('');
+
+  const filteredReports = sendPayment.filter((report) => {
     return Object.values(report).some((value) =>
       value.toString().toLowerCase().includes(searchText.toLowerCase())
     );
   });
+  
 
   const handleSearch = (e) => {
     setSearchText(e.target.value);
@@ -44,27 +75,55 @@ const PatientPaymentHistory = (props) => {
     let day = date.getDate();
     let month = date.getMonth() + 1;
     let year = date.getFullYear();
-    return `${day}/${month}/${year}`;
+    let hours = date.getHours();
+    let minutes = date.getMinutes();
+    let seconds = date.getSeconds();
+    return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
   };
 
   useEffect(() => {
 
     const getSendPaymentJ = async () => {
       const data = await paymentMgmtContract.getSendPayment();
-      console.log(data);
-      setSendPayment(data);
+
+      const pays = data.map(item => {
+        return {
+          sender: item[0],
+          reciever: item[1],
+          amount: ethers.utils.formatEther(item[2]),
+          txHash: item[3],
+          date: convertDatetoString(new Date())
+        };
+      });
+      console.log(pays);
+
+      setSendPayment(pays);
     };
 
     const getRecievePaymentJ = async () => {
-        const data = await paymentMgmtContract.getRecievePayment();
-        console.log(data);
-        setSendPayment(data);
-      };
+      const data = await paymentMgmtContract.getRecievePayment();
+      
+      const pays = data.map(item => {
+        return {
+          sender: item[0],
+          reciever: item[1],
+          amount: parseInt(item[2].hex, 16),
+          txHash: item[3]
+        };
+      });
+      console.log(pays);
 
-    getSendPaymentJ();
-    getRecievePaymentJ();
+      setSendPayment(pays);
+    };
 
-  }, []);
+    if(recordType === "sent"){
+      getSendPaymentJ();
+    }
+    else{
+      getRecievePaymentJ();
+    }
+    
+  }, [recordType]);
 
   
   return (
@@ -75,7 +134,7 @@ const PatientPaymentHistory = (props) => {
             <div className="">
                 <div className="flex  h-12 m-2 bg-bgprimary rounded mt-4">
                   <div>
-                    <h1 className="text-2xl  font-bold p-2 ">
+                    <h1 className="text-3xl text-primary font-bold p-2 ">
                       My Dashboard
                     </h1>
                   </div>
@@ -91,7 +150,7 @@ const PatientPaymentHistory = (props) => {
                   </div>
 
                   <Link to="/patient/profile">
-                    <button className="flex bg-white rounded shadow  px-4  ml-80 h-14 ">
+                    <button className="flex bg-white rounded shadow  px-4  ml-60 h-14 ">
                       <img
                         src={patient_profile}
                         className="mt-1 mr-1 h-12 p-1 mb-4 rounded-2xl"
@@ -109,6 +168,35 @@ const PatientPaymentHistory = (props) => {
               <div className="font-bold text-xl -ml-8">
                 <h1>Patient Payment History</h1>
               </div>
+            </div>
+
+            <div className="text-lg">
+              <Select 
+                value={recordType}
+                style={{ width: 200 }}
+                onChange={handleSelectChange}
+              >
+                <Option value="sent">Sent</Option>
+                <Option value="recieved">Recieved</Option>
+                
+              </Select>
+              <Input
+                className="ml-4 pl-4 w-52 bg-blue-100 lg:h-8  rounded h-8"
+                placeholder="Search..."
+                value={searchText}
+                onChange={handleSearch}
+                style={{ marginBottom: 16 }}
+              />
+            </div>
+            <div style={{ border: '1px solid #d9d9d9', padding: '8px', overflow: 'auto'}}>
+              <Table
+                columns={columns}
+                dataSource={filteredReports}
+                rowKey="id"
+                bordered
+                rowClassName={rowClassName}
+                pagination={true} // Optional: If you want to disable pagination
+              />
             </div>
            
           </div>

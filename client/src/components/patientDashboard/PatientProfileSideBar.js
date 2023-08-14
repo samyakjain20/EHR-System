@@ -105,9 +105,28 @@ const PatientProfileSideBar = (props) => {
                 </div>
               </Link>
 
+              <Link
+                to="/patient/profile"
+                onClick={() => setToggle("my_profile")}
+                className={
+                  Toggle === "my_profile"
+                    ? "text-gray-900 "
+                    : "text-gray-400"
+                }
+              >
+                <div className="flex m-2 mt-6  ">
+                  <div className="w-6 ml-4  ">
+                    <img src={patient_profile} alt="reports"></img>
+                  </div>
+                  <div className="text-lg font-bold ml-4">
+                    <h1>My Profile</h1>
+                  </div>
+                </div>
+              </Link>
+
           <div className="p-4">
-            <h1 className=" font-bold text-xl mt-3 ml-4">Payment Menu</h1>
-            <div className="grid grid-rows-2 gap-4 font-bold  mt-4">
+            <h1 className=" font-bold text-xl mt-2 ml-4">Payment Menu</h1>
+            <div className="grid grid-rows-2 gap-4 font-bold  mt-3">
               
             <Link
               to="/patient/payment"
@@ -144,7 +163,7 @@ const PatientProfileSideBar = (props) => {
           </div>
         </nav>
 
-        <div className=" mx-auto py-1  mt-60 p-2 bg-blue-500  rounded font-semibold  shadow-sm hover:bg-blue-100 w-2/5  ">
+        <div className=" mx-auto py-1  mt-20 p-2 bg-blue-500  rounded font-semibold  shadow-sm hover:bg-blue-100 w-2/5  ">
           <button className="text-white border border-blue-500 shadow-sm hover:text-blue-500  shadow-sm hover:bg-white font-bold  flex items-center" onClick={logout}>
             <img src={logoutimg} className="h-4 px-2 " alt="logout"></img>Logout
           </button>

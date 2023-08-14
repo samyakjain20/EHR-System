@@ -221,7 +221,7 @@ const DoctorDashboard = (props) => {
           <div className="">
             <div className="flex  h-12 m-2 bg-bgprimary rounded mt-4 ">
               <div>
-                <h1 className="text-2xl  font-bold p-2 ">
+                <h1 className="text-3xl text-primary font-bold p-2 ">
                   My Dashboard
                 </h1>
               </div>

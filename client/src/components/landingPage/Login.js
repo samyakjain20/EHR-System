@@ -137,21 +137,6 @@ export default function Login(props) {
 		}
   };
 
-  const handleAdminLogin = async (email, password, metaAccount, path, role) => {
-    setLoading(true);
-    setLoading(false);
-
-    const res = await userMgmtContract.adminLogin();
-
-    props.settoastCondition({
-      status: "success",
-      message: "Logged in Successfully!",
-    });
-
-    props.setToastShow(true);
-    navigate(path);
-  };
-
   const handleLogin = async (e) => {
     e.preventDefault();
     switch (Toggle) {
@@ -171,7 +156,6 @@ export default function Login(props) {
         handleDoctorLabHospitalLogin(username, password, metaAccount, "/insurer/dashboard", Toggle);
         break;
       
-        break;
       default:
         break;
     }

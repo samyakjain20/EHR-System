@@ -107,9 +107,9 @@ export default function RegisterInsurer(props) {
                 class="bg-blue-100 h-10 rounded pl-4 col-span-2 "
                 value={insurer.org}
                 onChange={(e) => {
-                  let temphospital = { ...insurer };
-                  temphospital.org = e.target.value;
-                  setInsurer(temphospital);
+                  let tempinsurer = { ...insurer };
+                  tempinsurer.org = e.target.value;
+                  setInsurer(tempinsurer);
                 }}
               ></input>
             </div>
@@ -124,9 +124,9 @@ export default function RegisterInsurer(props) {
                 class="bg-blue-100 h-10 rounded pl-4 col-span-2 "
                 value={insurer.orgEmail}
                 onChange={(e) => {
-                  let temphospital = { ...insurer };
-                  temphospital.orgEmail = e.target.value;
-                  setInsurer(temphospital);
+                  let tempinsurer = { ...insurer };
+                  tempinsurer.orgEmail = e.target.value;
+                  setInsurer(tempinsurer);
                 }}
               ></input>
             </div>
@@ -143,9 +143,9 @@ export default function RegisterInsurer(props) {
                   placeholder="building/area"
                   value={insurer.orgAddress.building}
                   onChange={(e) => {
-                    let temphospital = { ...insurer };
-                    temphospital.orgAddress.building = e.target.value;
-                    setInsurer(temphospital);
+                    let tempinsurer = { ...insurer };
+                    tempinsurer.orgAddress.building = e.target.value;
+                    setInsurer(tempinsurer);
                   }}
                 ></input>
                 <input
@@ -155,9 +155,9 @@ export default function RegisterInsurer(props) {
                   placeholder="village/city"
                   value={insurer.orgAddress.city}
                   onChange={(e) => {
-                    let temphospital = { ...insurer };
-                    temphospital.orgAddress.city = e.target.value;
-                    setInsurer(temphospital);
+                    let tempinsurer = { ...insurer };
+                    tempinsurer.orgAddress.city = e.target.value;
+                    setInsurer(tempinsurer);
                   }}
                 ></input>
                 <input
@@ -167,9 +167,9 @@ export default function RegisterInsurer(props) {
                   placeholder="Taluka"
                   value={insurer.orgAddress.taluka}
                   onChange={(e) => {
-                    let temphospital = { ...insurer };
-                    temphospital.orgAddress.taluka = e.target.value;
-                    setInsurer(temphospital);
+                    let tempinsurer = { ...insurer };
+                    tempinsurer.orgAddress.taluka = e.target.value;
+                    setInsurer(tempinsurer);
                   }}
                 ></input>
                 <input
@@ -179,9 +179,9 @@ export default function RegisterInsurer(props) {
                   placeholder="District"
                   value={insurer.orgAddress.district}
                   onChange={(e) => {
-                    let temphospital = { ...insurer };
-                    temphospital.orgAddress.district = e.target.value;
-                    setInsurer(temphospital);
+                    let tempinsurer = { ...insurer };
+                    tempinsurer.orgAddress.district = e.target.value;
+                    setInsurer(tempinsurer);
                   }}
                 ></input>
                 <input
@@ -191,9 +191,9 @@ export default function RegisterInsurer(props) {
                   placeholder="Pin-code"
                   value={insurer.orgAddress.pincode}
                   onChange={(e) => {
-                    let temphospital = { ...insurer };
-                    temphospital.orgAddress.pincode = e.target.value;
-                    setInsurer(temphospital);
+                    let tempinsurer = { ...insurer };
+                    tempinsurer.orgAddress.pincode = e.target.value;
+                    setInsurer(tempinsurer);
                   }}
                 ></input>
                 <input
@@ -202,9 +202,9 @@ export default function RegisterInsurer(props) {
                   placeholder="State"
                   value={insurer.orgAddress.state}
                   onChange={(e) => {
-                    let temphospital = { ...insurer };
-                    temphospital.orgAddress.state = e.target.value;
-                    setInsurer(temphospital);
+                    let tempinsurer = { ...insurer };
+                    tempinsurer.orgAddress.state = e.target.value;
+                    setInsurer(tempinsurer);
                   }}
                 ></input>
               </div>
@@ -221,9 +221,9 @@ export default function RegisterInsurer(props) {
                 class="bg-blue-100 h-10 rounded pl-4 col-span-2 "
                 value={insurer.orgContactNumber}
                 onChange={(e) => {
-                  let temphospital = { ...insurer };
-                  temphospital.orgContactNumber = e.target.value;
-                  setInsurer(temphospital);
+                  let tempinsurer = { ...insurer };
+                  tempinsurer.orgContactNumber = e.target.value;
+                  setInsurer(tempinsurer);
                 }}
               ></input>
             </div>
@@ -240,9 +240,9 @@ export default function RegisterInsurer(props) {
                 placeholder="Password"
                 value={insurer.password}
                 onChange={(e) => {
-                  let temphospital = { ...insurer };
-                  temphospital.password = e.target.value;
-                  setInsurer(temphospital);
+                  let tempinsurer = { ...insurer };
+                  tempinsurer.password = e.target.value;
+                  setInsurer(tempinsurer);
                 }}
               ></input>
             </div>
