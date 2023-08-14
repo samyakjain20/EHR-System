@@ -283,17 +283,6 @@ const ConsentManager = (props) => {
                   <div className="font-bold text-xl">
                     <h1>Records Requested</h1>
                   </div>
-                  <Link to="/doctor/addDiagno">
-                    <div className=" flex  bg-blue-500 pl-0 pr-3 py-1 items-center justify-items-center  rounded font-semibold shadow-sm hover:bg-blue-100">
-                      <img
-                        src={add_pre_logo}
-                        className="h-3 mx-3"
-                        alt="adddiagno"
-                      ></img>
-
-                      <button className="text-white bg-blue-500 hover:border-blue-500 shadow-sm hover:text-blue-500  shadow-sm hover:bg-white font-semibold">Add New Diagnosis</button>
-                    </div>
-                  </Link>
                 </div>
                 <div>
                   <Table

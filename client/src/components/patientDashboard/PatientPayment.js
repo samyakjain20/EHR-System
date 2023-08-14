@@ -40,36 +40,62 @@ const PatientPayment = (props) => {
   };
 
   const handlePayment = async (e) => {
+    e.preventDefault();
     setLoading(true);
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    await provider.send("eth_requestAccounts", []);
-    const signer = provider.getSigner();
-    const senderAddress = await signer.getAddress();
 
-    const receiverAddress = payment.receiverAddress;
-    const amountToSend = ethers.utils.parseEther(payment.amount); // Amount in Ether
+    try {
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        await provider.send("eth_requestAccounts", []);
+        const signer = provider.getSigner();
+        const senderAddress = await signer.getAddress();
+    
+        const receiverAddress = payment.receiverAddress;
+        const amountToSend = ethers.utils.parseEther(payment.amount); // Amount in Ether
+    
+        const nonce = await provider.getTransactionCount(senderAddress);
+        const gasPrice = await provider.getGasPrice();
+    
+        const transaction = {
+            nonce: nonce,
+            gasLimit: ethers.utils.hexlify(21000), // Gas limit for a simple Ether transfer
+            gasPrice: gasPrice.toHexString(),
+            to: receiverAddress,
+            value: amountToSend.toHexString(),
+        };
+        
+        const tx = await signer.sendTransaction(transaction);
+        await tx.wait();
+        payment.transactionHash = tx.hash;
+        setPayment(payment);
 
-    const nonce = await provider.getTransactionCount(senderAddress);
-    const gasPrice = await provider.getGasPrice();
+      if (tx.errors) {
+        setLoading(false);
+        console.log(tx.errors);
+        props.settoastCondition({
+          status: "error",
+          message: "Payment failed, check network!",
+        });
+        console.log(tx.errors)
+        props.setToastShow(true);
+      }
+      else {
+        setLoading(false);
+        props.settoastCondition({
+          status: "success",
+          message: "Payment is successful!",
+        });
+        props.setToastShow(true);
+        navigate("/patient/dashboard");
+      }
 
-    const transaction = {
-        nonce: nonce,
-        gasLimit: ethers.utils.hexlify(21000), // Gas limit for a simple Ether transfer
-        gasPrice: gasPrice.toHexString(),
-        to: receiverAddress,
-        value: amountToSend.toHexString(),
-    };
-
-    console.log("Called");
-
-    const tx = await signer.sendTransaction(transaction);
-    await tx.wait();
-    payment.transactionHash = tx.hash;
-    console.log('Transaction Hash:', tx.hash);
-    setPayment(payment);
-    setLoading(false);
-    navigate("/patient/dashboard");
-
+    } catch (error) {
+      setLoading(false);
+      props.settoastCondition({
+        status: "error",
+        message: "Payment failed, check network!",
+      });
+      props.setToastShow(true);
+    }
   };
 
 
@@ -157,23 +183,14 @@ const PatientPayment = (props) => {
                     </div>
 
                 <div className="flex justify-center mb-4 mt-8">
-                {Loading ? (
-                    <div className="flex justify-center items-center py-3">
-                        <ReactLoading
-                        type={"bubbles"}
-                        color={"color"}
-                        height={"10%"}
-                        width={"10%"}
-                        />
-                    </div>
-                    ) : (
-                    <button
-                        type="submit"
-                        className="text-lg mt-3 text-white border border-blue-500  bg-blue-500 py-1 px-3 rounded font-semibold  shadow-sm hover:text-blue-500  shadow-sm hover:bg-white"
-                    >
-                        Pay
+                    <button type="submit">
+                        <Button 
+                        className="bg-blue-500 text-white rounded p-2 pb-4 h-12 px-8 font-semibold text-xl hover:bg-blue-100"
+                        loading={Loading}
+                        >
+                            {Loading ? 'Paying' : 'Pay'}
+                        </Button>
                     </button>
-                    )}
                 </div>
               </form>
             </div>

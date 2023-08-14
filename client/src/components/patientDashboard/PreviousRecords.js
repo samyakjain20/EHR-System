@@ -137,7 +137,7 @@ const PreviousRecords = (props) => {
                 <h1>Patient Diagonstics Report</h1>
               </div>
             </div>
-            <div>
+            <div className="text-lg">
               <Select 
                 value={recordType}
                 style={{ width: 200 }}
