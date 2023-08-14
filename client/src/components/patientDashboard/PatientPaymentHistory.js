@@ -4,19 +4,20 @@ import PatientHistoryCompo from "./PatientHistoryCompo";
 import { useEffect, useState } from "react";
 import search from "../../assets/img/dashboard/search2.png";
 import { Link, useNavigate } from "react-router-dom";
-import { UserContractObj, FileContractObj, MetaAccountObj, PatientDataObj } from "../../GlobalData/GlobalContext";
+import { UserContractObj, FileContractObj, MetaAccountObj, PatientDataObj, PaymentContractObj } from "../../GlobalData/GlobalContext";
 import { Table, Input, Select } from 'antd';
 
 const { Option } = Select;
 const PatientPaymentHistory = (props) => {
   const navigate = useNavigate();
   const [dob, setDob] = useState("01/01/2006");
-  const { fileMgmtContract, setFileMgmtContract } = FileContractObj();
+  const { paymentMgmtContract, setPaymentMgmtContract } = PaymentContractObj();
   const { metaAccount, setMetaAccount } = MetaAccountObj();
   const { patient, setPatient } = PatientDataObj();
-  const [prescriptions, setPrescriptions] = useState([{}]);
   const [healthReports, setHealthReports] = useState([{}]);
   const [ recordType, setRecordType] = useState("DiagonsticsReport");
+  const [sendPayment, setSendPayment] = useState([{}]);
+  const [recievePayment, setRecievePayment] = useState([{}]);
 
   const handleSelectChange = value => {
     setRecordType(value);
@@ -47,18 +48,23 @@ const PatientPaymentHistory = (props) => {
   };
 
   useEffect(() => {
-    const getLabreports = async () => {
-      const acc = await fileMgmtContract.displayFilesPatient(metaAccount, recordType);
-      console.log(acc);
-      const jsonArray = acc.map(jsonString => JSON.parse(jsonString));
-      setHealthReports(jsonArray);
-      console.log(jsonArray);
+
+    const getSendPaymentJ = async () => {
+      const data = await paymentMgmtContract.getSendPayment();
+      console.log(data);
+      setSendPayment(data);
     };
 
-    // console.log(userMgmtContract);
-    getLabreports();
+    const getRecievePaymentJ = async () => {
+        const data = await paymentMgmtContract.getRecievePayment();
+        console.log(data);
+        setSendPayment(data);
+      };
 
-  }, [recordType]);
+    getSendPaymentJ();
+    getRecievePaymentJ();
+
+  }, []);
 
   
   return (

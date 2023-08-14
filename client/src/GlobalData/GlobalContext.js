@@ -4,6 +4,7 @@ const ethers = require("ethers")
 
 const UserContract = createContext();
 const FileContract = createContext();
+const PaymentContract = createContext();
 const MetaAccount = createContext();
 const PatientData = createContext();
 
@@ -12,6 +13,7 @@ export function GlobalProvider({ children }) {
     const [metaAccount, setMetaAccount] = useState(''); // meta mask account
     const [userMgmtContract, setUserMgmtContract] = useState(null);
     const [fileMgmtContract, setFileMgmtContract] = useState(null);
+    const [paymentMgmtContract, setPaymentMgmtContract] = useState(null);
     const [provider, setProvider] = useState(null);
     const [modalOpen, setModalOpen] = useState(false);
     const [patient, setPatient] = useState({
@@ -83,11 +85,10 @@ export function GlobalProvider({ children }) {
                         console.log(metaAccount);
                         const fileAbi = require(process.env.REACT_APP_FILE_MGMT_ABI_PATH);
                         const userAbi = require(process.env.REACT_APP_USER_MGMT_ABI_PATH);
+                        const paymentAbi = require(process.env.REACT_APP_PAYMENT_MGMT_ABI_PATH);
                         let userMgmtContractAddress = process.env.REACT_APP_USER_MGMT_CONTRACT_ADDRESS;
                         let fileMgmtContractAddress = process.env.REACT_APP_FILE_MGMT_CONTRACT_ADDRESS;
-
-                        console.log(fileAbi);
-                        console.log(userMgmtContractAddress);
+                        let paymentMgmtContractAddress = process.env.REACT_APP_PAYMENT_MGMT_CONTRACT_ADDRESS;
 
                         const userMgmtContract = new ethers.Contract(
                             userMgmtContractAddress,
@@ -101,13 +102,16 @@ export function GlobalProvider({ children }) {
                             signer
                         );
 
+                        const paymentMgmtContract = new ethers.Contract(
+                            paymentMgmtContractAddress,
+                            paymentAbi,
+                            signer
+                        );
+
                         setFileMgmtContract(fileMgmtContract);
                         setUserMgmtContract(userMgmtContract);
+                        setPaymentMgmtContract(paymentMgmtContract);
                         setProvider(provider);
-                        console.log("jello");
-                        console.log(address);
-                        console.log(userMgmtContract);
-                        console.log(fileMgmtContract);
 
                     }
                 } catch (err) {
@@ -132,9 +136,11 @@ export function GlobalProvider({ children }) {
         <MetaAccount.Provider value={{ metaAccount, setMetaAccount }}>
             <UserContract.Provider value={{ userMgmtContract, setUserMgmtContract }}>
                 <FileContract.Provider value={{ fileMgmtContract, setFileMgmtContract }}>
-                    <PatientData.Provider value={{ patient, setPatient }}>
-                        {children}
-                    </PatientData.Provider>
+                    <PaymentContract.Provider value={{ paymentMgmtContract, setPaymentMgmtContract }}>
+                        <PatientData.Provider value={{ patient, setPatient }}>
+                            {children}
+                        </PatientData.Provider>
+                    </PaymentContract.Provider>
                 </FileContract.Provider>
             </UserContract.Provider>
         </MetaAccount.Provider>
@@ -151,6 +157,10 @@ export function UserContractObj() {
 
 export function FileContractObj() {
     return useContext(FileContract);
+}
+
+export function PaymentContractObj() {
+    return useContext(PaymentContract);
 }
 
 export function MetaAccountObj() {

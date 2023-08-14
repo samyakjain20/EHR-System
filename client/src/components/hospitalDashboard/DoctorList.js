@@ -118,11 +118,11 @@ const DoctorList = (props) => {
   }, []);
 
   return (
-    <div className="col-span-10">
+    <div className="col-span-10 mt-2 ml-2">
       <div>
         <h1 className="font-bold text-xl ml-7 mt-16">Doctors Associated</h1>
       </div>
-      <div className="ml-6 mr-6 grid grid-rows-1 bg-white rounded shadow p-3 gap-4">
+      <div className="ml-6 mr-6 grid grid-rows-1 bg-white rounded shadow p-3 gap-4 mt-4">
         <Input
           className="ml-1 pl-4 w-52 bg-blue-100 lg:h-8  rounded h-8"
           placeholder="Search..."

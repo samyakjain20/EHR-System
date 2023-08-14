@@ -42,14 +42,14 @@ const DashboardSidebar = (props) => {
               <div className="w-6 ml-4  ">
                 <img src={dashboard} alt="dashbord"></img>
               </div>
-              <div className=" font-bold ml-4">
+              <div className="text-lg font-bold ml-4">
                 <h1>Home</h1>
               </div>
             </div>
           </Link>
 
           <Link
-            to="/doctor/reports"
+            to="/doctor/addDiagno"
             onClick={() => setToggle("Reports")}
             className={Toggle === "Reports" ? "text-gray-900" : "text-gray-400"}
           >
@@ -57,8 +57,8 @@ const DashboardSidebar = (props) => {
               <div className="w-6 ml-4  ">
                 <img src={reports} alt="report"></img>
               </div>
-              <div className=" font-bold ml-4">
-                <h1>Reports</h1>
+              <div className="text-lg font-bold ml-4">
+                <h1>Add New Diagnosis</h1>
               </div>
             </div>
           </Link>
@@ -66,24 +66,6 @@ const DashboardSidebar = (props) => {
           <div className="p-4">
             <h1 className=" font-bold text-xl mt-4">Main menu</h1>
             <div className="grid grid-rows-2 gap-4 font-bold  mt-4">
-              <Link
-                to="/doctor/history"
-                onClick={() => setToggle("Patient_history")}
-                className={
-                  Toggle === "Patient_history"
-                    ? "text-gray-900 "
-                    : "text-gray-400"
-                }
-              >
-                <div className="flex p-2">
-                  <img
-                    src={patient_history}
-                    className="w-6"
-                    alt="pat-history"
-                  ></img>
-                  <h1 className="ml-4">Prescription Reports</h1>
-                </div>
-              </Link>
               <Link
                 to="/doctor/profile"
                 onClick={() => setToggle("Patient_profile")}
@@ -99,7 +81,7 @@ const DashboardSidebar = (props) => {
                     className="w-6"
                     alt="profile"
                   ></img>
-                  <h1 className="ml-4">Doctor Profile</h1>
+                  <h1 className="text-lg ml-4">My Profile</h1>
                 </div>
               </Link>
             </div>
@@ -107,8 +89,8 @@ const DashboardSidebar = (props) => {
         </nav>
 
         <div className=" mx-auto mt-56 py-1    bg-blue-500  rounded font-semibold  shadow-sm hover:bg-blue-100 w-2/5  ">
-          <button className="font-bold  flex items-center" onClick={logout}>
-            <img src={logoutimg} className="h-4 px-2 " alt="logout"></img>logout
+          <button className="text-white border border-blue-500 shadow-sm hover:text-blue-500  shadow-sm hover:bg-white font-bold  flex items-center" onClick={logout}>
+            <img src={logoutimg} className="h-4 px-2 " alt="logout"></img>Logout
           </button>
         </div>
       </div>

@@ -40,35 +40,17 @@ const HospitalSideBar = (props) => {
               Toggle === "Dashboard" ? "text-gray-900" : "text-gray-400"
             }
           >
-            <div className="flex m-2 mt-8 ">
+            <div className="flex m-2 mt-8 ml-2">
               <div className="w-6 ml-4  ">
                 <img src={dashboard} alt="dashboard"></img>
               </div>
-              <div className=" font-bold ml-4">
+              <div className="text-lg font-bold ml-4">
                 <h1>Home</h1>
               </div>
             </div>
           </Link>
 
           <Link
-            to="/hospital/manage"
-            onClick={() => setToggle("Reports")}
-            className={Toggle === "Reports" ? "text-gray-900" : "text-gray-400"}
-          >
-            <div className="flex m-2 mt-4 ">
-              <div className="w-6 ml-4  ">
-                <img src={add_doctor} alt="add-doctor"></img>
-              </div>
-              <div className=" font-bold ml-4">
-                <h1>Add a Doctor</h1>
-              </div>
-            </div>
-          </Link>
-
-          <div className="p-4">
-            <h1 className=" font-bold text-xl mt-4">Main menu</h1>
-            <div className="grid grid-rows-2  font-bold  mt-4">
-              <Link
                 to="/hospital/doctorslist"
                 onClick={() => setToggle("Doctor_profile")}
                 className={
@@ -77,11 +59,11 @@ const HospitalSideBar = (props) => {
                     : "text-gray-400"
                 }
               >
-                <div className="flex m-2 mt-2 ">
+                <div className="flex m-2 mt-5 ">
                   <div className="w-6 ml-4  ">
                     <img src={doctor_list} alt="doctor-list"></img>
                   </div>
-                  <div className=" font-bold ml-4">
+                  <div className="text-lg font-bold ml-4">
                     <h1>Doctor List</h1>
                   </div>
                 </div>
@@ -96,17 +78,15 @@ const HospitalSideBar = (props) => {
                     : "text-gray-400"
                 }
               >
-                <div className="flex m-2 mt-2 ">
+                <div className="flex m-2 mt-5 ">
                   <div className="w-6 ml-4  ">
                     <img src={doctor_list} alt="doctor-list"></img>
                   </div>
-                  <div className=" font-bold ml-4">
+                  <div className="text-lg font-bold ml-4">
                     <h1>Lab List</h1>
                   </div>
                 </div>
               </Link>
-            </div>
-          </div>
         </nav>
 
         <div className=" mx-auto mt-56 py-1    bg-blue-500  rounded font-semibold  shadow-sm hover:bg-blue-100 w-2/5  ">

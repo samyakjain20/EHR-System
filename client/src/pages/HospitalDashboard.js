@@ -49,13 +49,13 @@ const HospitalDashboard = (props) => {
             <div className="flex  h-12 m-2 bg-bgprimary rounded ml-6 ">
               <Link to="/hospital/dashboard">
                 <div>
-                  <h1 className="text-2xl  font-bold p-2 ">
+                  <h1 className="text-2xl mt-2 font-bold p-2 ">
                     Hospital Dashboard
                   </h1>
                 </div>
               </Link>
 
-              <div className="flex ml-20  h-10   ">
+              <div className="flex ml-20 mt-3 h-10   ">
                 <input
                   placeholder="Search"
                   className="w-96 rounded ml-4 text-xl   pl-4 border focus:outline-none "
@@ -70,7 +70,7 @@ const HospitalDashboard = (props) => {
               </div>
 
               <Link to="/hospital/profile">
-                <div className="flex bg-white rounded shadow  px-4  ml-60 h-14 ">
+                <div className="flex bg-white rounded shadow mt-2 px-4  ml-60 h-14 ">
                   <img
                     src={hospitalImg}
                     className="w-12 p-1 rounded-2xl"
@@ -87,6 +87,7 @@ const HospitalDashboard = (props) => {
               </Link>
             </div>
           </div>
+          
         </div>
       </div>
 

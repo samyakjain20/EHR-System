@@ -184,11 +184,11 @@ const LabDashboard = (props) => {
                         <div className="flex  h-12 m-2 bg-bgprimary rounded mt-4 ">
                             <div>
                                 <h1 className="text-2xl  font-bold p-2 ">
-                                    DashBoard Today
+                                    Lab Dashboard
                                 </h1>
                             </div>
 
-                            <div className="flex ml-20  h-10   ">
+                            <div className="flex ml-20  h-10  mt-2 ">
                                 <input
                                     placeholder="Search"
                                     className="w-96 rounded ml-4 text-xl   pl-4 border focus:outline-none "
@@ -220,28 +220,33 @@ const LabDashboard = (props) => {
                         </div>
                     </div>
                     {/* dashboard today end */}
-                    <div className="bg-white shadow p-6 m-2 ml-2 mt-8 lg:font-bold">
-                        <h1 className="text-xl">Upload Diagnostics Report</h1>
+                    <div className="bg-white shadow shadow-lg p-6 m-2 ml-2 mt-8 lg:font-bold">
+                        <div className="flex w-fit justify-between rounded mx-auto">
+                            <div className="font-bold text-2xl ml-4 mb-3 mt-2">
+                                <h1>Upload Lab Report</h1>
+                            </div>
+                        </div>
+
                         <form onSubmit={handleUpload} >
-                            <div className="lg:grid grid-cols-6 gap-2 mt-4 mr-4">
-                                <label className="font-bold lg:text-l px-12 ">
+                            <div className="lg:grid grid-cols-5 gap-2 mt-4 mr-4">
+                                <label className="font-semibold lg:text-lg px-4 mt-1">
                                     Patient Abha ID:
                                 </label>
                                 <input required
                                     type="abhaID"
                                     placeholder="Abha ID"
                                     onChange={(e) => { setPatientAbhaID(e.target.value) }}
-                                    className="pl-4 bg-blue-100 lg:h-8 rounded px-3 ml-2 h-8"
+                                    className="pl-4 bg-blue-100 lg:h-10  rounded h-8"
                                 ></input>
                             </div>
-                            <div className="lg:grid grid-cols-6 gap-2 mt-4 mr-4">
-                                <label className="font-bold lg:text-l px-12 ">
+                            <div className="lg:grid grid-cols-5 gap-2 mt-4 mr-4">
+                                <label className="font-semibold lg:text-lg px-4 mt-1">
                                     Doctor:
                                 </label>
                                 <input required
                                     type="desc"
                                     placeholder="Lab Doctor"
-                                    className="pl-4 bg-blue-100 lg:h-8 rounded px-3 ml-2 h-8"
+                                    className="pl-4 bg-blue-100 lg:h-10  rounded h-8"
                                     onChange={(e) => {
                                         let tempreport = { ...report };
                                         tempreport.doctorName = e.target.value;
@@ -249,14 +254,14 @@ const LabDashboard = (props) => {
                                     }}
                                 ></input>
                             </div>
-                            <div className="lg:grid grid-cols-6 gap-2 mt-4 mr-4">
-                                <label className="font-bold lg:text-l px-12 ">
+                            <div className="lg:grid grid-cols-5 gap-2 mt-4 mr-4">
+                                <label className="font-semibold lg:text-lg px-4 mt-1">
                                     Description:
                                 </label>
                                 <input required
                                     type="desc"
                                     placeholder="Eg: Blood Test"
-                                    className="pl-4 bg-blue-100 lg:h-8 rounded px-3 ml-2 h-8"
+                                    className="pl-4 bg-blue-100 lg:h-10 rounded h-8"
                                     onChange={(e) => {
                                         let tempreport = { ...report };
                                         tempreport.description = e.target.value;
@@ -265,13 +270,13 @@ const LabDashboard = (props) => {
                                 ></input>
                             </div>
 
-                            <div className="lg:grid grid-cols-6 gap-2 mt-4 mr-4">
-                                <label className="font-bold lg:text-l px-12 ">
+                            <div className="lg:grid grid-cols-5 gap-2 mt-4 mr-4">
+                                <label className="font-semibold lg:text-lg px-4 mt-1">
                                     Date:
                                 </label>
                                 <input
                                     type="date"
-                                    className=" pl-4 bg-blue-100 lg:h-8 rounded px-3 ml-2 h-8"
+                                    className="pl-4 bg-blue-100 lg:h-10  rounded h-8 pr-3 "
                                     required
                                     onChange={(e) => {
                                         let tempreport = { ...report };
@@ -281,18 +286,20 @@ const LabDashboard = (props) => {
                                 ></input>
                             </div>
                             <br />
-                            <div className="grid grid-cols-6 mt-2">
-                                <div className="px-12">
-                                    <Upload {...propsFile}>
-                                        <Button icon={<UploadOutlined />}>Select File</Button>
-                                    </Upload>
-                                </div>
-                                <button>
-                                    <Button
-                                        className="bg-blue-500 hover:bg-blue-100"
-                                        disabled={fileList.length === 0}
-                                        loading={uploading}
 
+                            <div className="lg:grid grid-cols-5 gap-2 mr-4">
+                                <label className="font-semibold lg:text-lg px-4 mt-1">Upload Report:</label>
+                                    <Upload {...propsFile} maxCount={1}>
+                                        <Button className="lg:h-10 rounded pl-4 h-8 pr-3" icon={<UploadOutlined />}>Select File</Button>
+                                    </Upload>
+                            </div>
+
+                            <div className="flex justify-center mb-4 mt-8">
+                                <button type="submit">
+                                    <Button 
+                                    className="bg-blue-500 text-white rounded p-2 pb-4 h-12 px-8 font-semibold text-xl hover:bg-blue-100"
+                                    disabled={fileList.length === 0}
+                                    loading={uploading}
                                     >
                                         {uploading ? 'Uploading' : 'Start Upload'}
                                     </Button>
@@ -302,9 +309,6 @@ const LabDashboard = (props) => {
                     </div>
 
                 </div>
-            </div>
-            <div className="mt-96 mb-0">
-                <Footer></Footer>
             </div>
         </div>
     );

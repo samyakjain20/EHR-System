@@ -3,7 +3,7 @@ import patient_profile from "../../assets/img/dashboard/patient2_pbl.png";
 import { useEffect, useState } from "react";
 import search from "../../assets/img/dashboard/search2.png";
 import { Link, useNavigate } from "react-router-dom";
-import { UserContractObj, FileContractObj, MetaAccountObj, PatientDataObj } from "../../GlobalData/GlobalContext";
+import { UserContractObj, FileContractObj, MetaAccountObj, PatientDataObj, PaymentContractObj } from "../../GlobalData/GlobalContext";
 import { Table, Input, Select } from 'antd';
 import { Button, message, Upload } from 'antd';
 import ReactLoading from "react-loading";
@@ -15,6 +15,7 @@ const PatientPayment = (props) => {
   const navigate = useNavigate();
   const [Loading, setLoading] = useState(false);
   const { fileMgmtContract, setFileMgmtContract } = FileContractObj();
+  const { paymentMgmtContract, setPaymentMgmtContract } = PaymentContractObj();
   const { metaAccount, setMetaAccount } = MetaAccountObj();
   const { patient, setPatient } = PatientDataObj();
 
@@ -67,6 +68,9 @@ const PatientPayment = (props) => {
         await tx.wait();
         payment.transactionHash = tx.hash;
         setPayment(payment);
+
+        const data = await paymentMgmtContract.storePayment(receiverAddress, amountToSend, tx.hash);
+        console.log(data);
 
       if (tx.errors) {
         setLoading(false);

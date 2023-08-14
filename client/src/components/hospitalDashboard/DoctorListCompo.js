@@ -29,6 +29,7 @@ const DoctorListCompo = (props) => {
 
   return (
     <div className="grid grid-cols-9">
+      
       <h1 className="col-start-1">{props.index + 1}</h1>
       <div className="col-span-2 flex">
         <h1>Dr.</h1>

@@ -34,7 +34,9 @@ const PatientListCompo = (props) => {
   };
 
   return (
+    
     <div className="grid grid-cols-9">
+      
       <h1 className="col-start-1">{props.index + 1}</h1>
       <h1 className="col-span-2">{props.patient.healthID}</h1>
       <h1 className="col-span-2">{`${props.patient.name.firstName} ${props.patient.name.middleName} ${props.patient.name.surName}`}</h1>
