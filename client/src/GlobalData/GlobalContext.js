@@ -81,10 +81,13 @@ export function GlobalProvider({ children }) {
                         const address = await signer.getAddress();
                         setMetaAccount(address);
                         console.log(metaAccount);
-                        const fileAbi = require("../components/landingPage/contracts/FileManagement.json");
-                        const userAbi = require("../components/landingPage/contracts/UserManagement.json");
-                        let userMgmtContractAddress = "0xEE0C8f50B3c9475007d6E92eE562359a0109aB03";
-                        let fileMgmtContractAddress = "0x77d58Bf35a817338E4a1d6B89313a59C85737699";
+                        const fileAbi = require(process.env.REACT_APP_FILE_MGMT_ABI_PATH);
+                        const userAbi = require(process.env.REACT_APP_USER_MGMT_ABI_PATH);
+                        let userMgmtContractAddress = process.env.REACT_APP_USER_MGMT_CONTRACT_ADDRESS;
+                        let fileMgmtContractAddress = process.env.REACT_APP_FILE_MGMT_CONTRACT_ADDRESS;
+
+                        console.log(fileAbi);
+                        console.log(userMgmtContractAddress);
 
                         const userMgmtContract = new ethers.Contract(
                             userMgmtContractAddress,
