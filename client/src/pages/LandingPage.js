@@ -16,11 +16,11 @@ export default function LandingPage(props) {
             settoastCondition={props.settoastCondition}
           ></Login>
         </div>
-        <img
+        {/* <img
           src={Vector}
           alt="Graphics"
           className="lg:w-1/2 h-full lg:my-auto lg:mx-auto mt-10 pt-5"
-        />
+        /> */}
         
       </div>
       <div className="mt-auto relative -bottom-0">

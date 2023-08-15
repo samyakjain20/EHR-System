@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import profile from "../../assets/img/landingPage/profile.png";
+import hospital from "../../assets/img/landingPage/hospital.png";
 import doctor from "../../assets/img/landingPage/doctor.png";
 import patient from "../../assets/img/landingPage/patient1.png";
+import lab from "../../assets/img/landingPage/laboratory.png";
+import admin from "../../assets/img/landingPage/admin.png";
 import ReactLoading from "react-loading";
 
 const ethers = require("ethers")
@@ -206,8 +208,8 @@ export default function Login(props) {
 
           const fileAbi = require("../../components/landingPage/contracts/FileManagement.json");
           const userAbi = require("../../components/landingPage/contracts/UserManagement.json");
-          let userMgmtContractAddress = "0xd514D8f62e85583cBd859E4Fe3f031BfDE7d6637";
-          let fileMgmtContractAddress = "0x4dCfE7F35Ccd48886EEaD185a15d916E848143D3";
+          let userMgmtContractAddress = "0x5A833f8c34eAe8f9A4b24dBf1a7FFe7F3FD2C848";
+          let fileMgmtContractAddress = "0x06C8F8d9D8d4F0c6D5C910C3AbeDaC48FF4ad51B";
 
           const userMgmtContract = new ethers.Contract(
             userMgmtContractAddress,
@@ -340,11 +342,15 @@ export default function Login(props) {
 
       <div>
         {Toggle === "Patient" ? (
-          <img className="h-20 my-6 border-2" src={patient} alt="Patient Image" />
+          <img className="h-28 my-6 p-1 rounded-full border border-1 border-blue-500 " src={patient} alt="Patient Image" />
         ) : Toggle === "Doctor" ? (
-          <img className="h-20 my-6 border-2" src={doctor} alt="Doctor Image" />
+          <img className="h-28 my-6 p-1 rounded-full border border-1 border-blue-500 " src={doctor} alt="Patient Image" />
+        ) : Toggle === "Hospital" ? (
+          <img className="h-28 my-6 p-1 rounded-full border border-1 border-blue-500 " src={hospital} alt="Patient Image" />
+        ) : Toggle === "Lab" ? (
+          <img className="h-28 my-6 p-1 rounded-full border border-1 border-blue-500 " src={lab} alt="Patient Image" />
         ) : (
-          <img className="h-20 my-6 border-2" src={profile} alt="Default Image" />
+          <img className="h-28 my-6 p-1 rounded-full border border-1 border-blue-500 " src={admin} alt="Patient Image" />
         )}
       </div>
 
