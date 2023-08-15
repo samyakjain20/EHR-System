@@ -29,17 +29,7 @@ export default function Login(props) {
 
   useEffect(() => {
     const auth = async () => {
-      const res = await fetch("/auth");
-      const data = await res.json();
-      if (data.msg === "Doctor Login Found") {
-        navigate("/doctor/dashboard");
-      }
-      if (data.msg === "Hospital Login Found") {
-        navigate("/admin/dashboard");
-      }
-      if (data.msg === "Patient Login Found") {
-        navigate("/patient/dashboard");
-      }
+      
     };
     auth();
   }, []);
@@ -110,6 +100,9 @@ export default function Login(props) {
         case "Lab":
           res = await userMgmtContract.loginLab(data.password);
           break;
+        case "Insurer":
+          res = await userMgmtContract.loginInsurer(data.password);
+          break;
       }
 
       console.log(res);
@@ -146,21 +139,6 @@ export default function Login(props) {
 		}
   };
 
-  const handleAdminLogin = async (email, password, metaAccount, path, role) => {
-    setLoading(true);
-    setLoading(false);
-
-    const res = await userMgmtContract.adminLogin();
-
-    props.settoastCondition({
-      status: "success",
-      message: "Logged in Successfully!",
-    });
-
-    props.setToastShow(true);
-    navigate(path);
-  };
-
   const handleLogin = async (e) => {
     e.preventDefault();
     switch (Toggle) {
@@ -176,9 +154,10 @@ export default function Login(props) {
       case "Lab":
         handleDoctorLabHospitalLogin(username, password, metaAccount, "/lab/dashboard", Toggle);
         break;
-      case "Admin":
-        handleAdminLogin(username, password, metaAccount, "/admin/dashboard", Toggle);
+      case "Insurer":
+        handleDoctorLabHospitalLogin(username, password, metaAccount, "/insurer/dashboard", Toggle);
         break;
+      
       default:
         break;
     }
@@ -206,6 +185,10 @@ export default function Login(props) {
           const signer = provider.getSigner();
           const address = await signer.getAddress();
 
+          // const fileAbi = require(process.env.REACT_APP_FILE_MGMT_ABI_PATH);
+          // const userAbi = require(process.env.REACT_APP_USER_MGMT_ABI_PATH);
+          // let userMgmtContractAddress = process.env.REACT_APP_USER_MGMT_CONTRACT_ADDRESS;
+          // let fileMgmtContractAddress = process.env.REACT_APP_FILE_MGMT_CONTRACT_ADDRESS;
           const fileAbi = require("../../components/landingPage/contracts/FileManagement.json");
           const userAbi = require("../../components/landingPage/contracts/UserManagement.json");
           let userMgmtContractAddress = "0x5A833f8c34eAe8f9A4b24dBf1a7FFe7F3FD2C848";
@@ -232,7 +215,9 @@ export default function Login(props) {
           console.log(userMgmtContract);
           console.log(fileMgmtContract);
 
+          
         }
+
       } catch (err) {
         if (err.code === 5001) {
           // EIP-1193 userRejectedRequest error
@@ -323,19 +308,19 @@ export default function Login(props) {
 
         <button
           onClick={() => {
-            setToggle("Admin");
+            setToggle("Insurer");
             setUsername("");
             setPassword("");
             setUsernameError("");
             setPasswordError("");
           }}
           className={
-            Toggle === "Admin"
+            Toggle === "Insurer"
               ? "py-2 px-6 text-lg text-white font-semibold cursor-pointer rounded bg-blue-500"
               : "py-2 px-6 text-lg  font-medium text-primary cursor-pointer rounded"
           }
         >
-          Admin
+          Insurer
         </button>
 
       </div>

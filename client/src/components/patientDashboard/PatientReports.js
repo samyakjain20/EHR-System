@@ -1,9 +1,9 @@
 import Footer from "../landingPage/Footer";
 import patient_profile from "../../assets/img/dashboard/patient2_pbl.png";
-import PatientReportCompo from "./PatientReportCompo";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { UploadOutlined } from '@ant-design/icons';
+import search from "../../assets/img/dashboard/search2.png";
 import { Button, message, Upload } from 'antd';
 import axios from 'axios';
 import { UserContractObj, FileContractObj, MetaAccountObj } from "../../GlobalData/GlobalContext";
@@ -181,31 +181,49 @@ const PatientReports = (props) => {
       <div className=" px-12">
         <div className="h-screen">
           <div className="   mainf">
-            <Link to="/patient/profile">
-              <div className="flex bg-white rounded shadow  px-4   ml-auto h-14 w-1/5 mr-8 mt-8">
-                <img
-                  src={patient_profile}
-                  className="w-12 p-1 rounded-2xl"
-                  alt="profile"
-                ></img>
-                <div className="grid grid-rows-2 ml-4 gap-2  mb-4">
-                  <div className="mt-4 ml-4  font-bold ">
-                    <h1 className="ml-2">
-                      {`${patient.name.firstName} ${patient.name.lastName}`}
-                    </h1>
+            <div className="">
+              <div className="flex  h-12 m-2 bg-bgprimary rounded mt-4">
+                <div>
+                  <h1 className="text-3xl text-primary font-bold p-2 ">
+                    My Dashboard
+                  </h1>
+                </div>
+
+                <div className="flex ml-20  h-10 mt-2  ">
+                  <input
+                    placeholder="Search"
+                    className="w-96 rounded ml-4 text-xl   pl-4 border focus:outline-none "
+                  ></input>
+                  <div className="bg-white pl-2 rounded ">
+                    <img src={search} className=" h-6 mt-2  " alt="search"></img>
                   </div>
                 </div>
-              </div>
-            </Link>
-            <div className="flex justify-between m-8">
-              <div className="font-bold text-xl ml-4">
-                <h1>Add Report</h1>
+
+                <Link to="/patient/profile">
+                  <button className="flex bg-white rounded shadow  px-4  ml-60 h-14 ">
+                    <img
+                      src={patient_profile}
+                      className="mt-1 mr-1 h-12 p-1 mb-4 rounded-2xl"
+                      alt="profile"
+                    ></img>
+                    <div className="mt-4 ml-2  font-bold ">
+                      <h1>{`${patient.name.firstName}  ${patient.name.lastName}`}</h1>
+                    </div>
+                  </button>
+                </Link>
               </div>
             </div>
 
+            <div className=" lg:ml-20 lg:px-5 lg:py-8 bg-white shadow-lg rounded max-w-screen-lg mt-8 mb-4 ">        
+              <div className="flex  w-fit  justify-between rounded mx-auto">
+                <div className="font-bold text-2xl ml-4 mb-3">
+                  <h1>Add Report</h1>
+                </div>
+              </div>
+
               <form onSubmit={handleUpload}>
                 <div className="lg:grid grid-cols-5 gap-2 mt-4 mr-4">
-                  <label className="font-bold lg:text-xl px-12 ">
+                  <label className="font-semibold lg:text-lg px-4 mt-1">
                     Record Type:
                   </label>
 
@@ -216,7 +234,7 @@ const PatientReports = (props) => {
                       setReport(tempreport);
                     }
                   }  id="recordtype" 
-                  className="pl-4 bg-blue-100 lg:h-8  rounded h-8"                
+                  className="pl-4 bg-blue-100 lg:h-10  rounded h-8"                
                   // className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   required>
                     <option value="">Choose Type</option>
@@ -229,8 +247,8 @@ const PatientReports = (props) => {
 
 
               <div className="lg:grid grid-cols-5 gap-2 mt-4 mr-4">
-                <label className="font-bold lg:text-xl px-12 ">
-                  Select Doctor
+                <label className="font-semibold lg:text-lg px-4 mt-1">
+                  Select Doctor:
                 </label>
                 <input
                     type="text"
@@ -242,12 +260,12 @@ const PatientReports = (props) => {
                       tempreport.doctorName = e.target.value;
                       setReport(tempreport);
                     }}
-                    className="pl-4 bg-blue-100 lg:h-8  rounded h-8"
+                    className="pl-4 bg-blue-100 lg:h-10  rounded h-8"
                   ></input>
-              </div>
+                </div>
 
                 <div className="lg:grid grid-cols-5 gap-2 mt-4 mr-4">
-                  <label className="font-bold lg:text-xl px-12 ">
+                  <label className="font-semibold lg:text-lg px-4 mt-1">
                     Diagnosis:
                   </label>
 
@@ -261,12 +279,12 @@ const PatientReports = (props) => {
                       tempreport.description = e.target.value;
                       setReport(tempreport);
                     }}
-                    className="pl-4 bg-blue-100 lg:h-8  rounded h-8"
+                    className="pl-4 bg-blue-100 lg:h-10  rounded h-8"
                   ></input>
                 </div>
 
                 <div className="lg:grid grid-cols-5 gap-2 mt-4 mr-4">
-                  <label className="font-bold lg:text-xl px-12 ">Date:</label>
+                  <label className="font-semibold lg:text-lg px-4 mt-1">Date:</label>
                   <input required type="date" placeholder="Date of Record" 
                     value={report.date}
                     onChange={(e) => {
@@ -274,19 +292,21 @@ const PatientReports = (props) => {
                       tempreport.date= e.target.value;
                       setReport(tempreport);
                     }}
-                    className="pl-4 bg-blue-100 lg:h-8  rounded h-8"
+                    className="bg-blue-100 lg:h-10 rounded pl-4 h-8 pr-3"
                   ></input>
                 </div>
 
-                <div className="lg:grid grid-cols-4 mt-4">
-                  <div className="px-12 pt-3">
+                <div className="lg:grid grid-cols-5 gap-2 mt-4 mr-4">
+                  <label className="font-semibold lg:text-lg px-4 mt-1">Upload Report:</label>
                     <Upload {...propsFile} maxCount={1}>
-                      <Button icon={<UploadOutlined />}>Select File</Button>
+                      <Button className="lg:h-10 rounded pl-4 h-8 pr-3" icon={<UploadOutlined />}>Select File</Button>
                     </Upload>
-                  </div>
+                </div>
+
+                <div className="flex justify-center mb-4 mt-8">
                   <button type="submit">
                     <Button 
-                      className="bg-blue-500 hover:bg-blue-100"
+                      className="bg-blue-500 text-white rounded p-2 pb-4 h-12 px-8 font-semibold text-xl hover:bg-blue-100"
                       disabled={fileList.length === 0}
                       loading={uploading}
                       >
@@ -295,6 +315,8 @@ const PatientReports = (props) => {
                   </button>
                 </div>
               </form>
+            </div>
+            
           </div>
         </div>
       </div>

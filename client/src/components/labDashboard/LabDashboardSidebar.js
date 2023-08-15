@@ -1,5 +1,5 @@
 import logo from "../../assets/img/landingPage/logo1.jpeg";
-import dashboard from "../../assets/img/dashboard/dashboard.jpeg";
+import dashboard from "../../assets/img/dashboard/home.png";
 import reports from "../../assets/img/dashboard/report2_pbl.png";
 import patient_history from "../../assets/img/dashboard/patient_history.jpeg";
 import patient_profile from "../../assets/img/dashboard/patient2_pbl.png";
@@ -43,8 +43,8 @@ const LabDashboardSidebar = (props) => {
               <div className="w-6 ml-4  ">
                 <img src={dashboard} alt="dashbord"></img>
               </div>
-              <div className=" font-bold ml-4">
-                <h1>Dashboard</h1>
+              <div className="text-lg font-bold ml-4">
+                <h1>Home</h1>
               </div>
             </div>
           </Link>
@@ -58,16 +58,16 @@ const LabDashboardSidebar = (props) => {
               <div className="w-6 ml-4  ">
                 <img src={reports} alt="report"></img>
               </div>
-              <div className=" font-bold ml-4">
+              <div className="text-lg font-bold ml-4">
                 <h1>Profile</h1>
               </div>
             </div>
           </Link>
         </nav>
 
-        <div className=" mx-auto mt-56 py-1    bg-blue-500  rounded font-semibold  shadow-sm hover:bg-blue-100 w-2/5  ">
+        <div className=" mx-auto mt-80 py-1  border border-blue-500 hover:text-blue-500 text-white  bg-blue-500  rounded font-semibold  shadow-sm hover:bg-white w-2/5  ">
           <button className="font-bold  flex items-center" onClick={logout}>
-            <img src={logoutimg} className="h-4 px-2 " alt="logout"></img>logout
+            <img src={logoutimg} className="h-4 px-2 " alt="logout"></img>Logout
           </button>
         </div>
       </div>

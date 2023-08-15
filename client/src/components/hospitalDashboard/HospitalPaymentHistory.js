@@ -2,30 +2,27 @@ import Footer from "../landingPage/Footer";
 import patient_profile from "../../assets/img/dashboard/patient2_pbl.png";
 import { useEffect, useState } from "react";
 import search from "../../assets/img/dashboard/search2.png";
-import { Link, useNavigate } from "react-router-dom";
-import { UserContractObj, FileContractObj, MetaAccountObj, PatientDataObj } from "../../GlobalData/GlobalContext";
-import { Table, Input, Select } from 'antd';
+import { Link } from "react-router-dom";
+import { UserContractObj, MetaAccountObj, PatientDataObj, PaymentContractObj } from "../../GlobalData/GlobalContext";
+import { Table, Input } from 'antd';
+import { ethers } from "ethers";
 
-const { Option } = Select;
-const PreviousRecords = (props) => {
-  const navigate = useNavigate();
-  const [dob, setDob] = useState("01/01/2006");
-  const { fileMgmtContract, setFileMgmtContract } = FileContractObj();
+const HospitalPaymentHistory = (props) => {
+  const { paymentMgmtContract, setPaymentMgmtContract } = PaymentContractObj();
   const { metaAccount, setMetaAccount } = MetaAccountObj();
   const { patient, setPatient } = PatientDataObj();
-  const [prescriptions, setPrescriptions] = useState([{}]);
-  const [healthReports, setHealthReports] = useState([{}]);
+  const [recievePayment, setRecievePayment] = useState([{}]);
 
   const columns = [
     {
-      title: 'Associated Hospital/Lab',
-      dataIndex: 'hospitalName',
-      key: 'hospitalName',
+      title: 'Sender',
+      dataIndex: 'sender',
+      key: 'sender',
     },
     {
-      title: 'Associated Doctor',
-      dataIndex: 'doctorName',
-      key: 'doctorName',
+      title: 'Reciever',
+      dataIndex: 'reciever',
+      key: 'reciever',
     },
     {
       title: 'Date',
@@ -33,37 +30,25 @@ const PreviousRecords = (props) => {
       key: 'date',
     },
     {
-      title: 'File',
-      dataIndex: 'url',
-      key: 'url',
-      render: (text, record) => <a href={text} style={{color:'blue'}} target="_blank" rel="noopener noreferrer">Click to View</a>
+      title: 'Amount',
+      dataIndex: 'amount',
+      key: 'amount',
     },
     {
-      title: 'Record Type',
-      dataIndex: 'recordType',
-      key: 'recordType',
-    },
-    {
-      title: 'Diagnosis',
-      dataIndex: 'description',
-      key: 'description',
-    },
+      title: 'Transaction ID',
+      dataIndex: 'txHash',
+      key: 'txHash',
+    }
   ];
 
-  // const healthReports = [
-  //   // Add more health reports here
-  // ];
-  const [ recordType, setRecordType] = useState("DiagonsticsReport");
-  const handleSelectChange = value => {
-    setRecordType(value);
-    console.log('Selected type:', value);
-  };
-  const [ searchText, setSearchText] = useState('');
-  const filteredReports = healthReports.filter((report) => {
+  const [searchText, setSearchText] = useState('');
+
+  const filteredPayments = recievePayment.filter((report) => {
     return Object.values(report).some((value) =>
       value.toString().toLowerCase().includes(searchText.toLowerCase())
     );
   });
+  
 
   const handleSearch = (e) => {
     setSearchText(e.target.value);
@@ -78,22 +63,35 @@ const PreviousRecords = (props) => {
     let day = date.getDate();
     let month = date.getMonth() + 1;
     let year = date.getFullYear();
-    return `${day}/${month}/${year}`;
+    let hours = date.getHours();
+    let minutes = date.getMinutes();
+    let seconds = date.getSeconds();
+    return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
   };
 
   useEffect(() => {
-    const getLabreports = async () => {
-      const acc = await fileMgmtContract.displayFilesPatient(metaAccount, recordType);
-      console.log(acc);
-      const jsonArray = acc.map(jsonString => JSON.parse(jsonString));
-      setHealthReports(jsonArray);
-      console.log(jsonArray);
+
+    const getRecievePaymentJ = async () => {
+      const data = await paymentMgmtContract.getRecievePayment();
+      
+      const pays = data.map(item => {
+        return {
+          sender: item[0],
+          reciever: item[1],
+          amount: ethers.utils.formatEther(item[2]),
+          txHash: item[3]
+        };
+      });
+      console.log(pays);
+
+      setRecievePayment(pays);
     };
 
-    // console.log(userMgmtContract);
-    getLabreports();
-  }, [recordType]);
+    getRecievePaymentJ();
+    
+  }, []);
 
+  
   return (
     <div className="col-span-10" style={{ overflow: 'auto' }}>
       <div className=" px-12">
@@ -134,20 +132,11 @@ const PreviousRecords = (props) => {
 
             <div className="flex justify-between m-8 pt-3">
               <div className="font-bold text-xl -ml-8">
-                <h1>Patient Diagonstics Report</h1>
+                <h1>Hospital Payment History</h1>
               </div>
             </div>
+
             <div className="text-lg">
-              <Select 
-                value={recordType}
-                style={{ width: 200 }}
-                onChange={handleSelectChange}
-              >
-                <Option value="DiagonsticsReport">Diagnostics Report</Option>
-                <Option value="DischargeReport">Discharge Report</Option>
-                <Option value="PrescriptionReports">Prescription Report</Option>
-                <Option value="LabReport">Lab Report</Option>
-              </Select>
               <Input
                 className="ml-4 pl-4 w-52 bg-blue-100 lg:h-8  rounded h-8"
                 placeholder="Search..."
@@ -156,16 +145,17 @@ const PreviousRecords = (props) => {
                 style={{ marginBottom: 16 }}
               />
             </div>
-            <div style={{ border: '1px solid #d9d9d9', padding: '8px' }}>
+            <div style={{ border: '1px solid #d9d9d9', padding: '8px', overflow: 'auto'}}>
               <Table
                 columns={columns}
-                dataSource={filteredReports}
+                dataSource={filteredPayments}
                 rowKey="id"
                 bordered
                 rowClassName={rowClassName}
                 pagination={true} // Optional: If you want to disable pagination
               />
             </div>
+           
           </div>
         </div>
       </div>
@@ -173,4 +163,4 @@ const PreviousRecords = (props) => {
   );
 };
 
-export default PreviousRecords;
+export default HospitalPaymentHistory;

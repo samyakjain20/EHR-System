@@ -1,6 +1,4 @@
-import doctor_profile from "../assets/img/dashboard/doctor2.png";
 import admin_profile from "../assets/img/dashboard/admin_profile.png";
-import reports from "../assets/img/dashboard/report2_pbl.png";
 import search from "../assets/img/dashboard/search2.png";
 import lab_logo from "../assets/img/dashboard/lab.svg";
 import Footer from "../components/landingPage/Footer";
@@ -20,9 +18,6 @@ const AdminDashboard = (props) => {
     const [Loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const [dob, setDob] = useState("");
-    const [patient, setPatient] = useState({});
-    const [prescriptions, setPrescriptions] = useState([{}]);
-    const [fileList, setFileList] = useState([]);
     const [totalCounts, setTotalCounts] = useState([]);
     
     const convertDatetoString = (dateString) => {

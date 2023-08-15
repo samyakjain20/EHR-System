@@ -1,16 +1,16 @@
 import logo from "../../assets/img/landingPage/logo1.jpeg";
-import add_doctor from "../../assets/img/dashboard/add_doctor.png";
-import patient_list from "../../assets/img/dashboard/patient_list.png";
-import doctor_list from "../../assets/img/dashboard/doctor_list.png";
+import dashboard from "../../assets/img/dashboard/home.png";
+import reports from "../../assets/img/dashboard/report2_pbl.png";
+import patient_history from "../../assets/img/dashboard/patient_history.jpeg";
+import consent_manager from "../../assets/img/dashboard/i-icon.jpg";
+import patient_profile from "../../assets/img/dashboard/patient2_pbl.png";
 import logoutimg from "../../assets/img/dashboard/logout.png";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import dashboard from "../../assets/img/dashboard/home.png";
 import payment from "../../assets/img/dashboard/payment.png";
 import payment_history from "../../assets/img/dashboard/history.png";
-import hospitalImg from "../../assets/img/dashboard/doctor-profile-hospital.png";
 
-const HospitalSideBar = (props) => {
+const InsurerProfileSideBar = (props) => {
   const navigate = useNavigate();
   const logout = async () => {
     const res = await fetch("/logout");
@@ -21,13 +21,12 @@ const HospitalSideBar = (props) => {
     props.setToastShow(true);
     navigate("/");
   };
-
   const [Toggle, setToggle] = useState("Dashboard");
 
   return (
     <div className="h-screen overflow-y-hidden w-screen grid grid-cols-12">
       <div className="side_bar bg-white shadow col-span-2">
-        <div className="flex m-2 mt-4  ">
+        <div className="flex m-2 mt-1  ">
           <div className="logo m-2  ">
             <Link to="/">
               <img src={logo} className="w-32" alt="logo"></img>
@@ -37,13 +36,13 @@ const HospitalSideBar = (props) => {
         </div>
         <nav>
           <Link
-            to="/hospital/dashboard"
+            to="/insurer/dashboard"
             onClick={() => setToggle("Dashboard")}
             className={
               Toggle === "Dashboard" ? "text-gray-900" : "text-gray-400"
             }
           >
-            <div className="flex m-2 mt-8 ml-2">
+            <div className="flex m-2 mt-8 ">
               <div className="w-6 ml-4  ">
                 <img src={dashboard} alt="dashboard"></img>
               </div>
@@ -53,69 +52,50 @@ const HospitalSideBar = (props) => {
             </div>
           </Link>
 
-          <Link
-                to="/hospital/doctorslist"
-                onClick={() => setToggle("Doctor_profile")}
+            <Link
+                to="/insurer/viewRequests"
+                onClick={() => setToggle("Patient_Diagnostics")}
                 className={
-                  Toggle === "Doctor_profile"
-                    ? "text-gray-900"
+                  Toggle === "Patient_Diagnostics"
+                    ? "text-gray-900 "
                     : "text-gray-400"
                 }
               >
-                <div className="flex m-2 mt-5 ">
+                <div className="flex m-2 mt-6  ">
                   <div className="w-6 ml-4  ">
-                    <img src={doctor_list} alt="doctor-list"></img>
+                    <img src={patient_history} alt="reports"></img>
                   </div>
                   <div className="text-lg font-bold ml-4">
-                    <h1>Doctor List</h1>
+                    <h1>View Claim Requests</h1>
                   </div>
                 </div>
-              </Link>
-              
-              <Link
-                to="/hospital/lablist"
-                onClick={() => setToggle("Lab_profile")}
-                className={
-                  Toggle === "Lab_profile"
-                    ? "text-gray-900"
-                    : "text-gray-400"
-                }
-              >
-                <div className="flex m-2 mt-5 ">
-                  <div className="w-6 ml-4  ">
-                    <img src={doctor_list} alt="doctor-list"></img>
-                  </div>
-                  <div className="text-lg font-bold ml-4">
-                    <h1>Lab List</h1>
-                  </div>
-                </div>
-              </Link>
+            </Link>
 
-              <Link
-                to="/hospital/profile"
-                onClick={() => setToggle("hosp_profile")}
+            <Link
+                to="/insurer/profile"
+                onClick={() => setToggle("profile")}
                 className={
-                  Toggle === "hosp_profile"
-                    ? "text-gray-900"
+                  Toggle === "profile"
+                    ? "text-gray-900 "
                     : "text-gray-400"
                 }
               >
-                <div className="flex m-2 mt-5 ">
+                <div className="flex m-2 mt-6  ">
                   <div className="w-6 ml-4  ">
-                    <img src={hospitalImg} alt="doctor-list"></img>
+                    <img src={patient_profile} alt="reports"></img>
                   </div>
                   <div className="text-lg font-bold ml-4">
-                    <h1>Hospital Profile</h1>
+                    <h1>Our Profile</h1>
                   </div>
                 </div>
-              </Link>
+            </Link>
 
-              <div className="p-4">
+            <div className="p-4">
                 <h1 className=" font-bold text-xl mt-1 ml-4">Payment Menu</h1>
                   <div className="grid grid-rows-2 gap-4 font-bold  mt-4">
                   
                   <Link
-                    to="/hospital/paymenthistory"
+                    to="/insurer/paymenthistory"
                     onClick={() => setToggle("paymenthistory")}
                     className={Toggle === "paymenthistory" ? "text-gray-900" : "text-gray-400"}
                   >
@@ -131,18 +111,17 @@ const HospitalSideBar = (props) => {
 
                 </div>
               </div>
-              <div className=" mx-auto mt-50 py-1  border border-blue-500 hover:text-blue-500 text-white  bg-blue-500  rounded font-semibold  shadow-sm hover:bg-white w-2/5  ">
-                <button className="font-bold  flex items-center" onClick={logout}>
-                  <img src={logoutimg} className="h-4 px-2 " alt="logout"></img>Logout
-                </button>
-              </div>
         </nav>
 
-        
+        <div className=" mx-auto py-1  mt-60 p-2 bg-blue-500  rounded font-semibold  shadow-sm hover:bg-blue-100 w-2/5  ">
+          <button className="text-white border border-blue-500 shadow-sm hover:text-blue-500  shadow-sm hover:bg-white font-bold  flex items-center" onClick={logout}>
+            <img src={logoutimg} className="h-4 px-2 " alt="logout"></img>Logout
+          </button>
+        </div>
       </div>
       <Outlet />
     </div>
   );
 };
 
-export default HospitalSideBar;
+export default InsurerProfileSideBar;

@@ -556,7 +556,7 @@ export default function RegisterDoctor(props) {
                   width={"5%"}
                 />
               ) : (
-                <button className="bg-blue-500 rounded p-2 px-8 font-semibold text-xl hover:bg-blue-100 mb-4 ">
+                <button className="text-lg mt-3 text-white border border-blue-500  bg-blue-500 py-1 px-3 rounded font-semibold  shadow-sm hover:text-blue-500  shadow-sm hover:bg-white">
                   Submit
                 </button>
               )}

@@ -45,7 +45,7 @@ const PatientDashboard = (props) => {
           <div className="">
             <div className="flex  h-12 m-2 bg-bgprimary rounded mt-4  ">
               <div>
-                <h1 className="text-2xl  font-bold p-2 ">
+                <h1 className="text-3xl text-primary font-bold p-2 ">
                   My Dashboard
                 </h1>
               </div>
@@ -61,13 +61,13 @@ const PatientDashboard = (props) => {
               </div>
 
               <Link to="/patient/profile">
-                <button className="flex bg-white rounded shadow  px-4  ml-80 h-14 ">
+                <button className="flex bg-white rounded shadow  px-4  ml-60 h-14 ">
                   <img
                     src={patient_profile}
-                    className="h-14 p-1 rounded-2xl"
+                    className="mt-1 mr-1 h-12 p-1 rounded-2xl"
                     alt="profile"
                   ></img>
-                  <div className="mt-4 ml-4  font-bold ">
+                  <div className="mt-4 ml-2  font-bold ">
                     <h1>{`${patient.name.firstName}  ${patient.name.lastName}`}</h1>
                   </div>
                 </button>

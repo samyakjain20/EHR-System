@@ -1,5 +1,5 @@
 import logo from "../../assets/img/landingPage/logo1.jpeg";
-import dashboard from "../../assets/img/dashboard/dashboard.jpeg";
+import dashboard from "../../assets/img/dashboard/home.png";
 import reports from "../../assets/img/dashboard/report2_pbl.png";
 import logoutimg from "../../assets/img/dashboard/logout.png";
 import { Link, Outlet, useNavigate } from "react-router-dom";
@@ -42,7 +42,7 @@ const AdminDashboardSidebar = (props) => {
                 <img src={dashboard} alt="dashbord"></img>
               </div>
               <div className=" font-bold ml-4">
-                <h1>Dashboard</h1>
+                <h1>Home</h1>
               </div>
             </div>
           </Link>

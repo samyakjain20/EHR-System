@@ -204,6 +204,7 @@ const DoctorDashboard = (props) => {
       props.setToastShow(true);
     }
   };
+  
   const [typeOfFile, setTypeOfFile] = useState("");
   const [reqAccessDetails, setReqAccessDetails] = useState({
     doctor: metaAccount,
@@ -221,12 +222,12 @@ const DoctorDashboard = (props) => {
           <div className="">
             <div className="flex  h-12 m-2 bg-bgprimary rounded mt-4 ">
               <div>
-                <h1 className="text-2xl  font-bold p-2 ">
+                <h1 className="text-3xl text-primary font-bold p-2 ">
                   My Dashboard
                 </h1>
               </div>
 
-              <div className="flex ml-20  h-10   ">
+              <div className="flex ml-20 mt-2 h-10   ">
                 <input
                   placeholder="Search"
                   className="w-96 rounded ml-4 text-xl   pl-4 border focus:outline-none "
@@ -244,7 +245,7 @@ const DoctorDashboard = (props) => {
                     alt="profile"
                   ></img>
                   <div className="grid grid-rows-2 ml-4 gap-2  mb-4">
-                    <div className="font-bold  text-base">
+                    <div className="font-bold mt-4 text-base">
                       <h1 className="">
                         {`Dr. ${doctor.name.firstName} ${doctor.name.lastName}`}
                       </h1>
@@ -258,7 +259,7 @@ const DoctorDashboard = (props) => {
 
           <form
             onSubmit={searchPatient}
-            className="grid grid-cols-9 bg-white rounded p-4 ml-12 mr-8 mt-4 shadow"
+            className="grid grid-cols-9 bg-white rounded p-4 ml-10 mr-14 mt-8 shadow"
           >
             <div className="grid col-start-1 col-span-3">
               <h1 className="text-xl  font-bold p-2 ">
@@ -268,7 +269,7 @@ const DoctorDashboard = (props) => {
             <div className=" grid col-span-3">
               <input
                 placeholder="Health ID"
-                className="bg-blue-100 rounded border-2 text-xl   pl-4  focus:outline-none"
+                className="bg-blue-100 rounded border-2 text-md   pl-4  focus:outline-none"
                 type="number"
                 value={abhaID}
                 onChange={(e) => {
@@ -286,19 +287,19 @@ const DoctorDashboard = (props) => {
                 />
               </div>
             ) : (
-              <div className=" grid col-start-8  h-10 ml-4  bg-blue-500  rounded font-semibold  shadow-sm hover:bg-blue-100  ">
+              <div className=" grid col-start-8 border border-blue-500  h-10 ml-4 hover:text-blue-500  bg-blue-500  rounded font-semibold  shadow-sm hover:bg-white  ">
                 <div className="flex py-2 px-4 items-center ">
                   <img src={search} className=" h-4  " alt="search"></img>
-                  <button className="ml-2 flex  rounded font-semibold  shadow-sm hover:bg-blue-100   ">
+                  <button className="ml-2 flex text-white hover:text-blue-500  rounded font-semibold  shadow-sm    ">
                     Search
                   </button>
                 </div>
               </div>
             )}
-            <div className="grid col-start-9  h-10 ml-4  bg-blue-500  rounded font-semibold  shadow-sm hover:bg-blue-100  ">
+            <div className="grid col-start-9 border border-blue-500 h-10 ml-4 hover:text-blue-500 bg-blue-500 hover:bg-white rounded font-semibold  shadow-sm">
               <div className="flex py-2 px-4 items-center ">
                 <div
-                  className="ml-2 flex cursor-pointer rounded font-semibold  shadow-sm hover:bg-blue-100 "
+                  className="ml-2 flex cursor-pointer rounded font-semibold text-white hover:text-blue-500 shadow-sm "
                   onClick={() => {
                     setAbhaID("");
                   }}
@@ -311,22 +312,6 @@ const DoctorDashboard = (props) => {
 
 
           <div className=" m-4  ">
-            <div className="flex justify-between m-8">
-              <div className="font-bold text-xl ml-4">
-                <h1>Patient Dashboard</h1>
-              </div>
-              <Link to="/doctor/addDiagno">
-                <div className=" flex  bg-blue-500 pl-0 pr-3 py-1 items-center justify-items-center  rounded font-semibold  shadow-sm hover:bg-blue-100   ">
-                  <img
-                    src={add_pre_logo}
-                    className="h-3 mx-3"
-                    alt="adddiagno"
-                  ></img>
-
-                  <button className="font-semibold">Add New Diagnosis</button>
-                </div>
-              </Link>
-            </div>
             <div>
               <Table
                 columns={columns}

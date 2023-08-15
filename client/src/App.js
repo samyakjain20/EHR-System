@@ -1,5 +1,4 @@
 import "./App.css";
-import Contact from "./components/landingPage/Contact";
 import RegisterPatient from "./components/landingPage/RegisterPatient";
 import LandingPage from "./pages/LandingPage";
 import About from "./components/landingPage/About";
@@ -15,12 +14,10 @@ import DoctorProfile from "./components/doctorDashboard/DoctorProfile";
 import PatientReports from "./components/patientDashboard/PatientReports";
 import AddNewDiagnosis from "./components/doctorDashboard/AddNewDiagnosis";
 import { Routes, Route } from "react-router-dom";
-import PatientList from "./components/hospitalDashboard/PatientList";
 import DoctorList from "./components/hospitalDashboard/DoctorList";
 import PatientProfileSideBar from "./components/patientDashboard/PatientProfileSideBar";
 import PreviousRecords from "./components/patientDashboard/PreviousRecords";
 import DoctorDashboardSidebar from "./components/doctorDashboard/DashboardSidebar";
-import PreviewPrescription from "./components/patientDashboard/PreviewPrescription";
 import PatientReportsDoctorView from "./components/doctorDashboard/PatientReportsDoctorView";
 import PatientHistoryDoctorView from "./components/doctorDashboard/PatientHistoryDoctorView";
 import PreviewPrescriptionDoctorView from "./components/doctorDashboard/PreviewPrescriptionDoctorView";
@@ -29,12 +26,19 @@ import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Page404 from "./pages/Page_404";
-import Manage from "./components/hospitalDashboard/Manage";
 import LabList from "./components/hospitalDashboard/LabList";
 import { GlobalProvider } from "./GlobalData/GlobalContext";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminDashboardSidebar from "./components/adminDashboard/adminDashboardSidebar";
 import HospitalProfile from "./components/hospitalDashboard/HospitalProfile";
+import PatientPayment from "./components/patientDashboard/PatientPayment";
+import PatientPaymentHistory from "./components/patientDashboard/PatientPaymentHistory";
+import InsurerProfileSideBar from "./components/InsurerDashboard/insurerDashboardSidebar";
+import InsurerDashboard from "./pages/InsurerDashboard";
+import PatientClaims from "./components/patientDashboard/PatientClaims";
+import HospitalPaymentHistory from "./components/hospitalDashboard/HospitalPaymentHistory";
+import InsurerPaymentHistory from "./components/InsurerDashboard/InsurerPaymentHistory";
+import InsurerProfile from "./components/InsurerDashboard/InsurerProfile";
 import PdfFormat from "./components/doctorDashboard/pdfFormat";
 
 function App() {
@@ -104,15 +108,7 @@ function App() {
             }
           />
           <Route path="about" element={<About />} />
-          <Route
-            path="contact"
-            element={
-              <Contact
-                settoastCondition={settoastCondition}
-                setToastShow={setToastShow}
-              />
-            }
-          />
+          
           <Route
             path="Register"
             element={
@@ -181,11 +177,32 @@ function App() {
                 />
               }
             />
+            
             <Route
-              path="prescription"
+              path="payment"
               element={
-                <PreviewPrescription
+                <PatientPayment
                   prescriptionID={prescriptionID}
+                  settoastCondition={settoastCondition}
+                  setToastShow={setToastShow}
+                />
+              }
+            />
+            <Route
+              path="paymenthistory"
+              element={
+                <PatientPaymentHistory
+                  prescriptionID={prescriptionID}
+                  settoastCondition={settoastCondition}
+                  setToastShow={setToastShow}
+                />
+              }
+            />
+            <Route
+              path="claim"
+              element={
+                <PatientClaims
+                  setPrescriptionID={setPrescriptionID}
                   settoastCondition={settoastCondition}
                   setToastShow={setToastShow}
                 />
@@ -304,6 +321,53 @@ function App() {
             />
           </Route>
 
+          <Route
+            path="insurer"
+            element={
+              <InsurerProfileSideBar
+                setToastShow={setToastShow}
+                settoastCondition={settoastCondition}
+              />
+            }
+          >
+            <Route
+              path="dashboard"
+              element={
+                <InsurerDashboard
+                  healthID={healthID}
+                  setHealthID={setHealthID}
+                  setPrescriptionID={setPrescriptionID}
+                  setToastShow={setToastShow}
+                  settoastCondition={settoastCondition}
+                />
+              }
+            />
+            <Route
+              path="profile"
+              element={
+                <InsurerProfile
+                  healthID={healthID}
+                  setHealthID={setHealthID}
+                  setPrescriptionID={setPrescriptionID}
+                  setToastShow={setToastShow}
+                  settoastCondition={settoastCondition}
+                />
+              }
+            />
+            <Route
+              path="paymenthistory"
+              element={
+                <InsurerPaymentHistory
+                  healthID={healthID}
+                  setHealthID={setHealthID}
+                  setPrescriptionID={setPrescriptionID}
+                  setToastShow={setToastShow}
+                  settoastCondition={settoastCondition}
+                />
+              }
+            />
+          </Route>
+
 
           <Route
             path="hospital"
@@ -353,18 +417,9 @@ function App() {
               }
             />
             <Route
-              path="patientslist"
+              path="paymenthistory"
               element={
-                <PatientList
-                  settoastCondition={settoastCondition}
-                  setToastShow={setToastShow}
-                />
-              }
-            />
-            <Route
-              path="manage"
-              element={
-                <Manage
+                <HospitalPaymentHistory
                   settoastCondition={settoastCondition}
                   setToastShow={setToastShow}
                 />
