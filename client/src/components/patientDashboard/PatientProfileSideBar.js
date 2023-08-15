@@ -160,7 +160,7 @@ const PatientProfileSideBar = (props) => {
             </Link>
 
             <Link
-              to="/patient/paymenthistory"
+              to="/patient/claim"
               onClick={() => setToggle("claim")}
               className={Toggle === "claim" ? "text-gray-900" : "text-gray-400"}
             >

@@ -26,7 +26,6 @@ import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Page404 from "./pages/Page_404";
-import Manage from "./components/hospitalDashboard/Manage";
 import LabList from "./components/hospitalDashboard/LabList";
 import { GlobalProvider } from "./GlobalData/GlobalContext";
 import AdminDashboard from "./pages/AdminDashboard";
@@ -36,6 +35,10 @@ import PatientPayment from "./components/patientDashboard/PatientPayment";
 import PatientPaymentHistory from "./components/patientDashboard/PatientPaymentHistory";
 import InsurerProfileSideBar from "./components/InsurerDashboard/insurerDashboardSidebar";
 import InsurerDashboard from "./pages/InsurerDashboard";
+import PatientClaims from "./components/patientDashboard/PatientClaims";
+import HospitalPaymentHistory from "./components/hospitalDashboard/HospitalPaymentHistory";
+import InsurerPaymentHistory from "./components/InsurerDashboard/InsurerPaymentHistory";
+import InsurerProfile from "./components/InsurerDashboard/InsurerProfile";
 
 function App() {
   const [healthID, setHealthID] = useState("");
@@ -188,6 +191,16 @@ function App() {
                 />
               }
             />
+            <Route
+              path="claim"
+              element={
+                <PatientClaims
+                  setPrescriptionID={setPrescriptionID}
+                  settoastCondition={settoastCondition}
+                  setToastShow={setToastShow}
+                />
+              }
+            />
           </Route>
 
           <Route
@@ -325,7 +338,19 @@ function App() {
             <Route
               path="profile"
               element={
-                <LabProfile
+                <InsurerProfile
+                  healthID={healthID}
+                  setHealthID={setHealthID}
+                  setPrescriptionID={setPrescriptionID}
+                  setToastShow={setToastShow}
+                  settoastCondition={settoastCondition}
+                />
+              }
+            />
+            <Route
+              path="paymenthistory"
+              element={
+                <InsurerPaymentHistory
                   healthID={healthID}
                   setHealthID={setHealthID}
                   setPrescriptionID={setPrescriptionID}
@@ -385,9 +410,9 @@ function App() {
               }
             />
             <Route
-              path="manage"
+              path="paymenthistory"
               element={
-                <Manage
+                <HospitalPaymentHistory
                   settoastCondition={settoastCondition}
                   setToastShow={setToastShow}
                 />

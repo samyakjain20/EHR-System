@@ -204,6 +204,7 @@ const DoctorDashboard = (props) => {
       props.setToastShow(true);
     }
   };
+  
   const [typeOfFile, setTypeOfFile] = useState("");
   const [reqAccessDetails, setReqAccessDetails] = useState({
     doctor: metaAccount,

@@ -1,11 +1,9 @@
 import admin_profile from "../assets/img/dashboard/admin_profile.png";
 import search from "../assets/img/dashboard/search2.png";
-import lab_logo from "../assets/img/dashboard/lab.svg";
-import Footer from "../components/landingPage/Footer";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import ReactLoading from "react-loading";
-import { Button, message, Upload } from 'antd';
+import { Button, message, Upload, Table } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { UserContractObj, FileContractObj, MetaAccountObj } from "../GlobalData/GlobalContext";
 import axios from "axios";
@@ -17,8 +15,73 @@ const InsurerDashboard = (props) => {
     const {metaAccount, setMetaAccount} = MetaAccountObj();
     const [Loading, setLoading] = useState(false);
     const navigate = useNavigate();
-    const [dob, setDob] = useState("");
-    const [totalCounts, setTotalCounts] = useState([]);
+    const [patient, setPatient] = useState({});
+    const [patientAddress, setPatientAddress] = useState("");
+    const [recordTypes, setRecordTypes] = useState([]);
+    const [recordVisible, setRecordVisible] = useState([]);
+    const [abhaID, setAbhaID] = useState('');
+
+    const columns = [
+        {
+          title: 'Record Type',
+          dataIndex: 'recordType',
+          key: 'recordType',
+        },
+        {
+          title: 'Req Access',
+          dataIndex: 'status',
+          key: 'status',
+          render: (text, record, rowIndex) => (
+            <span>
+              {text === "GRANTED" ? (
+                <Button type="bg-blue-500 hover:bg-white border border-blue-500" onClick={() => handleRecordsView(recordTypes[rowIndex])}>View Records</Button>
+              ) : text === "REQUESTED" ? (
+                <Button type="bg-blue-500 hover:bg-white border border-blue-500" >Requested</Button>
+              ) : text === "NOACCESS"? (
+                <Button type="bg-green-500 hover:bg-white border border-green-500" onClick={() => handleRecordAccessReq(recordTypes[rowIndex])}>Request Access</Button>
+              )  : (
+                <Button type="bg-red-500 hover:bg-white border border-red-500" disabled>No Records</Button>
+              )}
+          </span>
+    
+            // <Button className="bg-blue-500 hover:bg-white border border-blue-500" onClick={() => handleRecordAccessReq(recordTypes[rowIndex])}>Request Consent</Button>
+          ),
+        },
+      ];
+
+    const columns2 = [
+        {
+          title: 'Associated Hospital/Lab',
+          dataIndex: 'hospitalName',
+          key: 'hospitalName',
+        },
+        {
+          title: 'Associated Doctor',
+          dataIndex: 'doctorName',
+          key: 'doctorName',
+        },
+        {
+          title: 'Date',
+          dataIndex: 'date',
+          key: 'date',
+        },
+        {
+          title: 'File',
+          dataIndex: 'url',
+          key: 'url',
+          render: (text, record) => <a href={text} style={{color:'blue'}} target="_blank" rel="noopener noreferrer">Click to View</a>
+        },
+        {
+          title: 'Record Type',
+          dataIndex: 'recordType',
+          key: 'recordType',
+        },
+        {
+          title: 'Diagnosis',
+          dataIndex: 'description',
+          key: 'description',
+        },
+      ];
     
     const convertDatetoString = (dateString) => {
         let date = new Date(dateString);
@@ -28,34 +91,114 @@ const InsurerDashboard = (props) => {
         return `${day}/${month}/${year}`;
     };
 
+    const [insurer, setInsurer] = useState({
+        org: "",
+        orgEmail: "",
+        orgAddress: {
+          building: "",
+          city: "",
+          taluka: "",
+          district: "",
+          state: "",
+          pincode: "",
+        },
+        orgContactNumber: "",
+        password: "",
+        username: ""
+    })
+
     useEffect(() => {
+        async function getInsurer() {
+            const data = await userMgmtContract.getInsurerInfo(metaAccount);
+            console.log(data);
+            var InsurerObj = JSON.parse(data);
+            setInsurer(InsurerObj);
+        }
+        
+        getInsurer();
+    }, []);
 
-        async function getTotalCounts(){
-            //const counts = [2,4,5,6];
-            const counts = await userMgmtContract.allLen();
-            const integerArray = counts.map(bn => bn.toNumber());
-            console.log(integerArray);
-            setTotalCounts(integerArray);
-        };
+    const searchPatient = async (e) => {
+        e.preventDefault();
+        if (abhaID.length <= 8) {
+        setLoading(true);
+        
+        const acc = await userMgmtContract.getPatientAddress(abhaID);
+        console.log(acc);
+        setPatientAddress(acc);
+        const patientProfile = await userMgmtContract.getPatientInfo(acc);
+        console.log("patient Profile", patientProfile);
+        setPatient(patientProfile);
+        const recordTypesData = await fileMgmtContract.displayFilesDoctor(acc);      
+        const tempRecordTypes = [];
+        for(let i = 0; i < 4; i++){
+            tempRecordTypes.push({recordType: recordTypesData[0][i], status: recordTypesData[1][i] });
+        }
+        setRecordTypes(tempRecordTypes);
+        console.log("recordTypes: ", recordTypes);
 
-        getTotalCounts();
+        if (acc.error) {
+            setLoading(false);
+            props.settoastCondition({
+            status: "error",
+            message: "Could not search, check after some time",
+            });
+            props.setToastShow(true);
+            navigate("/doctor/dashboard");
+        } 
+        else if (recordTypes.error) {
+            setLoading(false);
+            props.settoastCondition({
+            status: "error",
+            message: "Could not fetch records, check after some time",
+            });
+            props.setToastShow(true);
+            navigate("/doctor/dashboard");
+        } 
+        else{
+            setLoading(false);
+            setAbhaID("");
+        }
+        } else {
+        props.settoastCondition({
+            status: "warning",
+            message: "Please Enter 12 Digit AbhaID !!!",
+        });
+        props.setToastShow(true);
+        }
+    };
 
-    }, [dob]);
+    const handleRecordAccessReq = async (recordType) =>{
+        console.log(recordType["recordType"]);
+        const today = convertDatetoString(new Date());
+        const response = await fileMgmtContract.reqRecord(patientAddress, recordType["recordType"], today, insurer.org, "-");
+      }
+    
+    const handleRecordsView = async (recordType) => {
+        const response = await fileMgmtContract.displayRecordsToDoctor(patientAddress, recordType["recordType"]);
+        const tempRecordVisible = [];
+        for(let i = 0; i < response.length; i++){
+            tempRecordVisible.push(JSON.parse(response[i]));
+            console.log(JSON.parse(response[i]))
+        }
+        setRecordVisible(tempRecordVisible);
+        console.log(recordVisible);
+    };
 
     return (
-        <div className="full-body col-span-10 h-screen">
+        <div className="full-body col-span-10 h-screen overflow-x-auto">
             <div className="body-without-footer   bg-bgprimary ">
                 <div className="main    m-2  ">
                     {/* dashboard today start */}
                     <div className="">
                         <div className="flex  h-12 m-2 bg-bgprimary rounded mt-4 ">
                             <div>
-                                <h1 className="text-2xl  font-bold p-2 ">
-                                    Admin Dashboard
+                                <h1 className="text-3xl text-primary font-bold p-2 ">
+                                    Insurer Dashboard
                                 </h1>
                             </div>
 
-                            <div className="flex ml-20  h-10   ">
+                            <div className="flex ml-20  h-10 mt-2  ">
                                 <input
                                     placeholder="Search"
                                     className="w-96 rounded ml-4 text-xl   pl-4 border focus:outline-none "
@@ -68,14 +211,12 @@ const InsurerDashboard = (props) => {
                             <div className="flex bg-white rounded shadow  px-4  ml-60 h-14 ">
                                 <img
                                     src={admin_profile}
-                                    className="w-12 p-1 rounded-2xl"
+                                    className="w-12 p-2 rounded-2xl"
                                     alt="profile"
                                 ></img>
-                                <div className="grid grid-rows-2 ml-4 gap-2  mb-4">
+                                <div className="grid grid-rows-2 ml-4 gap-2 mt-4 mb-4">
                                     <div className="font-bold  text-base">
-                                        <h1 className="">
-                                            Admin
-                                        </h1>
+                                        <h1>{`${insurer.org}`}</h1>
                                     </div>
                                     <div className="">
                                         
@@ -85,140 +226,80 @@ const InsurerDashboard = (props) => {
                         </div>
                     </div>
                     {/* dashboard today end */}
-                    <div className=" px-8">
-                <div className="m-r">
-                    <div className="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4 mt-10">
+                    <form onSubmit={searchPatient} className="grid grid-cols-9 bg-white rounded p-4 ml-10 mr-14 mt-8 shadow">
+                        <div className="grid col-start-1 col-span-3">
+                        <h1 className="text-xl  font-bold p-2 ">
+                            Search Patient By Health Id :
+                        </h1>
+                        </div>
+                        <div className=" grid col-span-3">
+                        <input
+                            placeholder="Health ID"
+                            className="bg-blue-100 rounded border-2 text-md   pl-4  focus:outline-none"
+                            type="number"
+                            value={abhaID}
+                            onChange={(e) => {
+                            setAbhaID(e.target.value);
+                            }}
+                        ></input>
+                        </div>
+                        {Loading ? (
+                        <div className="grid col-start-8  h-10 ml-4">
+                            <ReactLoading
+                            type={"bubbles"}
+                            color={""}
+                            height={"45%"}
+                            width={"45%"}
+                            />
+                        </div>
+                        ) : (
+                        <div className=" grid col-start-8 border border-blue-500  h-10 ml-4 hover:text-blue-500  bg-blue-500  rounded font-semibold  shadow-sm hover:bg-white  ">
+                            <div className="flex py-2 px-4 items-center ">
+                            <img src={search} className=" h-4  " alt="search"></img>
+                            <button className="ml-2 flex text-white hover:text-blue-500  rounded font-semibold  shadow-sm    ">
+                                Search
+                            </button>
+                            </div>
+                        </div>
+                        )}
+                        <div className="grid col-start-9 border border-blue-500 h-10 ml-4 hover:text-blue-500 bg-blue-500 hover:bg-white rounded font-semibold  shadow-sm">
+                        <div className="flex py-2 px-4 items-center ">
+                            <div
+                            className="ml-2 flex cursor-pointer rounded font-semibold text-white hover:text-blue-500 shadow-sm "
+                            onClick={() => {
+                                setAbhaID("");
+                            }}
+                            >
+                            Remove
+                            </div>
+                        </div>
+                        </div>
+                    </form>
 
-                        <div className="min-w-0 rounded-lg shadow overflow-hidden bg-white bg" >
-                        <div className="p-4 flex items-center">
-                            <div className="p-3 rounded-full bg-rose-500 text-white mr-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
-                            </svg>
-                            </div>
-                            <div>
-                            <p className="font-bold text-rose-500"> Total Patients </p>
-                            <p className="text-lg font-semibold "> {totalCounts[0]} </p>
-                            </div>
-                        </div>
-                        </div>
-                        
-                        <div className="min-w-0 rounded-lg shadow overflow-hidden bg-white bg" >
-                        <div className="p-4 flex items-center">
-                            <div className="p-3 rounded-full bg-teal-500 text-white mr-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                            </svg>
 
-                            </div>
-                            <div>
-                            <p className="font-bold text-teal-500"> Total Doctors </p>
-                            <p className="text-lg font-semibold "> {totalCounts[1]} </p>
-                            </div>
+                    <div className=" m-4  ">
+                        <div>
+                            <Table
+                                columns={columns}
+                                dataSource={recordTypes}
+                                rowKey="id"
+                                bordered
+                                pagination={true} // Optional: If you want to disable pagination
+                            />
                         </div>
+                        <div style={{ border: '1px solid #d9d9d9', padding: '8px' }}>
+                            <Table
+                                columns={columns2}
+                                dataSource={recordVisible}
+                                rowKey="id"
+                                bordered
+                                pagination={true} // Optional: If you want to disable pagination
+                            />
                         </div>
-                        
-                        <div className="min-w-0 rounded-lg shadow overflow-hidden bg-white bg" >
-                        <div className="p-4 flex items-center">
-                            <div className="p-3 rounded-full bg-yellow-400 text-white mr-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
-                            </svg>
-                            </div>
-                            <div>
-                            <p className="font-bold text-yellow-400"> Total Hospitals </p>
-                            <p className="text-lg font-semibold"> {totalCounts[2]} </p>
-                            </div>
-                        </div>
-                        </div>
-                        
-                        <div className="min-w-0 rounded-lg shadow overflow-hidden bg-white bg" >
-                        <div className="p-4 flex items-center">
-                            <div className="p-3 rounded-full bg-sky-500 text-white mr-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23-.693L5 14.5m14.8.8l1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0112 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5" />
-                            </svg>
-
-                            </div>
-                            <div>
-                            <p className="font-bold text-sky-500"> Total Labs </p>
-                            <p className="text-lg font-semibold"> {totalCounts[3]} </p>
-                            </div>
-                        </div>
-                        </div>
-
-                    </div>
-                </div>
-
-                <div className="m-r">
-                    <div className="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4 mt-10">
-
-                        <div className="min-w-0 rounded-lg shadow overflow-hidden bg-white bg" >
-                        <div className="p-4 flex items-center">
-                            <div className="p-3 rounded-full bg-rose-500 text-white mr-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
-                            </svg>
-                            </div>
-                            <div>
-                            <p className="font-bold text-rose-500"> Total Patients </p>
-                            <p className="text-lg font-semibold "> {totalCounts[0]} </p>
-                            </div>
-                        </div>
-                        </div>
-                        
-                        <div className="min-w-0 rounded-lg shadow overflow-hidden bg-white bg" >
-                        <div className="p-4 flex items-center">
-                            <div className="p-3 rounded-full bg-teal-500 text-white mr-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                            </svg>
-
-                            </div>
-                            <div>
-                            <p className="font-bold text-teal-500"> Total Doctors </p>
-                            <p className="text-lg font-semibold "> {totalCounts[1]} </p>
-                            </div>
-                        </div>
-                        </div>
-                        
-                        <div className="min-w-0 rounded-lg shadow overflow-hidden bg-white bg" >
-                        <div className="p-4 flex items-center">
-                            <div className="p-3 rounded-full bg-yellow-400 text-white mr-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
-                            </svg>
-                            </div>
-                            <div>
-                            <p className="font-bold text-yellow-400"> Total Hospitals </p>
-                            <p className="text-lg font-semibold"> {totalCounts[2]} </p>
-                            </div>
-                        </div>
-                        </div>
-                        
-                        <div className="min-w-0 rounded-lg shadow overflow-hidden bg-white bg" >
-                        <div className="p-4 flex items-center">
-                            <div className="p-3 rounded-full bg-sky-500 text-white mr-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23-.693L5 14.5m14.8.8l1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0112 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5" />
-                            </svg>
-
-                            </div>
-                            <div>
-                            <p className="font-bold text-sky-500"> Total Labs </p>
-                            <p className="text-lg font-semibold"> {totalCounts[3]} </p>
-                            </div>
-                        </div>
-                        </div>
-
-                    </div>
-                </div>
+                 
           </div>
 
                 </div>
-            </div>
-            <div className="mt-96 mb-0">
-                <Footer></Footer>
             </div>
         </div>
     );

@@ -115,7 +115,7 @@ const HospitalSideBar = (props) => {
                   <div className="grid grid-rows-2 gap-4 font-bold  mt-4">
                   
                   <Link
-                    to="/patient/paymenthistory"
+                    to="/hospital/paymenthistory"
                     onClick={() => setToggle("paymenthistory")}
                     className={Toggle === "paymenthistory" ? "text-gray-900" : "text-gray-400"}
                   >

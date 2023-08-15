@@ -52,23 +52,8 @@ const InsurerProfileSideBar = (props) => {
             </div>
           </Link>
 
-          <Link
-            to="/patient/reports"
-            onClick={() => setToggle("Reports")}
-            className={Toggle === "Reports" ? "text-gray-900" : "text-gray-400"}
-          >
-            <div className="flex m-2 mt-6  ">
-              <div className="w-6 ml-4  ">
-                <img src={reports} alt="reports"></img>
-              </div>
-              <div className="text-lg font-bold ml-4">
-                <h1>View Report</h1>
-              </div>
-            </div>
-          </Link>
-
-          <Link
-                to="/patient/viewRequests"
+            <Link
+                to="/insurer/viewRequests"
                 onClick={() => setToggle("Patient_Diagnostics")}
                 className={
                   Toggle === "Patient_Diagnostics"
@@ -85,6 +70,47 @@ const InsurerProfileSideBar = (props) => {
                   </div>
                 </div>
             </Link>
+
+            <Link
+                to="/insurer/profile"
+                onClick={() => setToggle("profile")}
+                className={
+                  Toggle === "profile"
+                    ? "text-gray-900 "
+                    : "text-gray-400"
+                }
+              >
+                <div className="flex m-2 mt-6  ">
+                  <div className="w-6 ml-4  ">
+                    <img src={patient_profile} alt="reports"></img>
+                  </div>
+                  <div className="text-lg font-bold ml-4">
+                    <h1>Our Profile</h1>
+                  </div>
+                </div>
+            </Link>
+
+            <div className="p-4">
+                <h1 className=" font-bold text-xl mt-1 ml-4">Payment Menu</h1>
+                  <div className="grid grid-rows-2 gap-4 font-bold  mt-4">
+                  
+                  <Link
+                    to="/insurer/paymenthistory"
+                    onClick={() => setToggle("paymenthistory")}
+                    className={Toggle === "paymenthistory" ? "text-gray-900" : "text-gray-400"}
+                  >
+                    <div className="flex ml-1 mt-3">
+                      <div className="w-6 ml-2  ">
+                        <img src={payment_history} alt="paymenthistory"></img>
+                      </div>
+                      <div className="text-lg font-bold ml-4">
+                        <h1>Transaction History</h1>
+                      </div>
+                    </div>
+                  </Link>
+
+                </div>
+              </div>
         </nav>
 
         <div className=" mx-auto py-1  mt-60 p-2 bg-blue-500  rounded font-semibold  shadow-sm hover:bg-blue-100 w-2/5  ">

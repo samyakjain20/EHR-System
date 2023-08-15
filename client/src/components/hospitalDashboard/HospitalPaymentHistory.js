@@ -2,21 +2,15 @@ import Footer from "../landingPage/Footer";
 import patient_profile from "../../assets/img/dashboard/patient2_pbl.png";
 import { useEffect, useState } from "react";
 import search from "../../assets/img/dashboard/search2.png";
-import { Link, useNavigate } from "react-router-dom";
-import { UserContractObj, FileContractObj, MetaAccountObj, PatientDataObj, PaymentContractObj } from "../../GlobalData/GlobalContext";
-import { Table, Input, Select } from 'antd';
+import { Link } from "react-router-dom";
+import { UserContractObj, MetaAccountObj, PatientDataObj, PaymentContractObj } from "../../GlobalData/GlobalContext";
+import { Table, Input } from 'antd';
 import { ethers } from "ethers";
 
-const { Option } = Select;
-const PatientPaymentHistory = (props) => {
-  const navigate = useNavigate();
-  const [dob, setDob] = useState("01/01/2006");
+const HospitalPaymentHistory = (props) => {
   const { paymentMgmtContract, setPaymentMgmtContract } = PaymentContractObj();
   const { metaAccount, setMetaAccount } = MetaAccountObj();
   const { patient, setPatient } = PatientDataObj();
-  const [healthReports, setHealthReports] = useState([{}]);
-  const [ recordType, setRecordType] = useState("");
-  const [sendPayment, setSendPayment] = useState([{}]);
   const [recievePayment, setRecievePayment] = useState([{}]);
 
   const columns = [
@@ -47,15 +41,10 @@ const PatientPaymentHistory = (props) => {
     }
   ];
 
-  const handleSelectChange = value => {
-    setRecordType(value);
-    console.log('Selected type:', value);
-  };
-
   const [searchText, setSearchText] = useState('');
 
-  const filteredPayments = sendPayment.filter((payment) => {
-    return Object.values(payment).some((value) =>
+  const filteredPayments = recievePayment.filter((report) => {
+    return Object.values(report).some((value) =>
       value.toString().toLowerCase().includes(searchText.toLowerCase())
     );
   });
@@ -82,23 +71,6 @@ const PatientPaymentHistory = (props) => {
 
   useEffect(() => {
 
-    const getSendPaymentJ = async () => {
-      const data = await paymentMgmtContract.getSendPayment();
-
-      const pays = data.map(item => {
-        return {
-          sender: item[0],
-          reciever: item[1],
-          amount: ethers.utils.formatEther(item[2]),
-          txHash: item[3],
-          date: convertDatetoString(new Date())
-        };
-      });
-      console.log(pays);
-
-      setSendPayment(pays);
-    };
-
     const getRecievePaymentJ = async () => {
       const data = await paymentMgmtContract.getRecievePayment();
       
@@ -112,17 +84,12 @@ const PatientPaymentHistory = (props) => {
       });
       console.log(pays);
 
-      setSendPayment(pays);
+      setRecievePayment(pays);
     };
 
-    if(recordType === "sent"){
-      getSendPaymentJ();
-    }
-    else{
-      getRecievePaymentJ();
-    }
+    getRecievePaymentJ();
     
-  }, [recordType]);
+  }, []);
 
   
   return (
@@ -165,20 +132,11 @@ const PatientPaymentHistory = (props) => {
 
             <div className="flex justify-between m-8 pt-3">
               <div className="font-bold text-xl -ml-8">
-                <h1>Patient Payment History</h1>
+                <h1>Hospital Payment History</h1>
               </div>
             </div>
 
             <div className="text-lg">
-              <Select 
-                value={recordType}
-                style={{ width: 200 }}
-                onChange={handleSelectChange}
-              >
-                <Option value="sent">Sent</Option>
-                <Option value="recieved">Recieved</Option>
-                
-              </Select>
               <Input
                 className="ml-4 pl-4 w-52 bg-blue-100 lg:h-8  rounded h-8"
                 placeholder="Search..."
@@ -205,4 +163,4 @@ const PatientPaymentHistory = (props) => {
   );
 };
 
-export default PatientPaymentHistory;
+export default HospitalPaymentHistory;

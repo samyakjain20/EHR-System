@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-import DoctorListCompo from "./DoctorListCompo";
-import delete_btn from "../../assets/img/dashboard/delete.png";
 import { UserContractObj, FileContractObj, MetaAccountObj } from "../../GlobalData/GlobalContext";
 import { Table, Input, Button, Select } from 'antd';
 import search from "../../assets/img/dashboard/search2.png";
