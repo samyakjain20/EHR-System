@@ -23,7 +23,8 @@ const PatientPayment = (props) => {
     "senderAddress": "",
     "receiverAddress": "",
     "amount": "",
-    "transactionHash": ""
+    "transactionHash": "",
+    "date": ""
   });
 
   const [uploading, setUploading] = useState(false);
@@ -73,7 +74,7 @@ const PatientPayment = (props) => {
         setPayment(payment);
         
 
-        const data = await paymentMgmtContract.storePayment(receiverAddress, amountToSend, tx.hash);
+        const data = await paymentMgmtContract.storePayment(receiverAddress, amountToSend, tx.hash, convertDatetoString(new Date()));
         console.log(data);
 
       if (tx.errors) {

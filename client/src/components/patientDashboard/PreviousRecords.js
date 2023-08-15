@@ -58,7 +58,9 @@ const PreviousRecords = (props) => {
     setRecordType(value);
     console.log('Selected type:', value);
   };
+
   const [ searchText, setSearchText] = useState('');
+
   const filteredReports = healthReports.filter((report) => {
     return Object.values(report).some((value) =>
       value.toString().toLowerCase().includes(searchText.toLowerCase())
@@ -143,7 +145,7 @@ const PreviousRecords = (props) => {
                 style={{ width: 200 }}
                 onChange={handleSelectChange}
               >
-                <Option value="DiagonsticsReport">Diagnostics Report</Option>
+                <Option value="DiagonsticsReports">Diagnostics Report</Option>
                 <Option value="DischargeReport">Discharge Report</Option>
                 <Option value="PrescriptionReports">Prescription Report</Option>
                 <Option value="LabReport">Lab Report</Option>
