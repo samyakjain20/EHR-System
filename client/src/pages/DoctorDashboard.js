@@ -65,9 +65,9 @@ const DoctorDashboard = (props) => {
           ) : text === "REQUESTED" ? (
             <Button type="bg-blue-500 hover:bg-white border border-blue-500" >Requested</Button>
           ) : text === "NOACCESS"? (
-            <Button type="bg-green-500 hover:bg-white border border-green-500" onClick={() => handleRecordAccessReq(recordTypes[rowIndex])}>Request Access</Button>
-          )  : (
-            <Button type="bg-red-500 hover:bg-white border border-red-500" disabled>No Records</Button>
+            <Button type="bg-green-400 hover:bg-white border border-green-400" onClick={() => handleRecordAccessReq(recordTypes[rowIndex])}>Request Access</Button>
+          ) : (
+            <Button type="bg-red-300 hover:bg-white border border-red-300" disabled>No Records</Button>
           )}
       </span>
 
@@ -152,7 +152,7 @@ const DoctorDashboard = (props) => {
       setDoctor(doctortObj);
     }
     getdoctor();
-  }, [dob]);
+  }, []);
 
   const [abhaID, setAbhaID] = useState('');
   const searchPatient = async (e) => {

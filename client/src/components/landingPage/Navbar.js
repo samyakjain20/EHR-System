@@ -11,13 +11,13 @@ export default function Navbar() {
         <img
           src={logo}
           alt="logo"
-          className="lg:h-20 lg:pr-3 h-10 pr-4 pl-2 w-45"
+          className="lg:h-16 lg:pr-3 h-10 pr-4 pl-2 w-45"
         />
         </Link>
-      <h1 className=" font-bold text-sm lg:text-2xl mt-2 mb-2 ml-20 justify-items-center">
+      <h1 className=" font-bold text-sm lg:text-2xl my-6 ml-20 justify-items-center">
         Healthcare Management System
       </h1>
-      <ul className="flex ml-auto lg:w-60 justify-evenly  font-semibold w-64 text-lg ">
+      <ul className="flex ml-auto lg:w-60 justify-evenly  font-semibold w-64 text-lg my-1">
         <li>
           <Link to="/">Home</Link>
         </li>
@@ -27,7 +27,7 @@ export default function Navbar() {
         
       </ul>
 
-      <button className="bg-blue-500 lg:px-3 text-white rounded font-semibold border border-blue-500 hover:text-blue-500  shadow-sm hover:bg-white py-1 px-2 mr-2 text-lg">
+      <button className="bg-blue-500 lg:px-3 text-white rounded font-semibold border border-blue-500 hover:text-blue-500  shadow-sm hover:bg-white py-1 px-2 mr-2 my-1 text-lg">
         {location.pathname === "/register" ? (
           <Link to="/">Login</Link>
         ) : (

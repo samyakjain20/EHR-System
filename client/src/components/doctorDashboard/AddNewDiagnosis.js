@@ -1,14 +1,19 @@
 import Footer from "../landingPage/Footer";
+import logo from "../../assets/img/landingPage/logo1.png";
 import plus_logo from "../../assets/img/dashboard/add2_pbl.png";
 import minus_logo from "../../assets/img/dashboard/minus2_pbl.png";
-import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import React, { useDebugValue, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import ReactLoading from "react-loading";
 // uploading report
 import { UploadOutlined } from '@ant-design/icons';
-import { Button, message, Upload } from 'antd';
+import { Button, Select, Upload } from 'antd';
 import { UserContractObj, FileContractObj, MetaAccountObj } from "../../GlobalData/GlobalContext";
 import axios from "axios";
+import PdfFormat from "./pdfFormat";
+import ReactDOMServer from 'react-dom/server';
+import html2pdf from 'html2pdf.js/dist/html2pdf.min';
+const { Option } = Select;
 
 const AddNewDiagnosis = (props) => {
   const navigate = useNavigate();
@@ -16,23 +21,23 @@ const AddNewDiagnosis = (props) => {
   const [doctor, setDoctor] = useState({});
   const [MedicineList, setMedicineList] = useState([
     {
-      medicineName: "",
+      medicineName: "Paracetamol 500mg",
       type: "",
       dosage: {
-        morning: { quantity: "", remark: "" },
-        afternoon: { quantity: "", remark: "" },
-        evening: { quantity: "", remark: "" },
+        morning: { quantity: "1", remark: "After meal" },
+        afternoon: { quantity: "0", remark: "If required" },
+        evening: { quantity: "1", remark: "After meal" },
       },
-      duration: "",
-      total: "",
+      duration: "3",
+      total: "6",
     },
   ]);
   const [chiefComplaints, setChiefComplaints] = useState([
-    { complaint: "", duration: "", finding: "" },
+    { complaint: "Fever", duration: "3hrs", finding: "Viral" },
   ]);
   // const [clinicalFindings, setClinicalFindings] = useState([{ finding: "" }]);
   const [investigations, setInvestigations] = useState([{ investigation: "" }]);
-  const [advices, setAdvices] = useState([{ advice: "" }]);
+  const [advices, setAdvices] = useState([{ advice: "Take rest" }]);
   const handleAddMedicine = () => {
     const tempmedicinelist = [...MedicineList];
     tempmedicinelist.push({
@@ -53,64 +58,45 @@ const AddNewDiagnosis = (props) => {
     tempChiefComplaint.push({ complaint: "", duration: "", finding: "" });
     setChiefComplaints(tempChiefComplaint);
   };
-  // const handleAddClinicalFindings = () => {
-  //   const tempClinicalFinding = [...clinicalFindings];
-  //   tempClinicalFinding.push({ finding: "" });
-  //   setClinicalFindings(tempClinicalFinding);
-  // };
-
   const handleAddInvestigation = () => {
     const tempInvestigations = [...investigations];
     tempInvestigations.push({ investigation: "" });
     setInvestigations(tempInvestigations);
   };
-
   const handleAddAdvices = () => {
     const tempAdvices = [...advices];
     tempAdvices.push({ advice: "" });
     setAdvices(tempAdvices);
   };
-
   const [prescription, setPrescription] = useState({
-    doctor: "",
-    doctormobile: "",
-    hospital: {
-      name: "",
-      address: "",
-      mobile: "",
-    },
+    doctor: {},
     chiefComplaints: chiefComplaints,
-    abhaID: { abhaID: ""},
-    notes: { note: "" },
-    diagnosis: { diagno: "" },
-    procedureConducted: { procedure: "" },
+    abhaID: "12342345",
+    notes: "Was outside when raining",
+    diagnosis:  "Viral Fever" ,
+    procedureConducted: "Medicines written for 3 days" ,
     medicines: MedicineList,
     investigations: investigations,
     advices: advices,
   });
 
   useEffect(() => {
-    async function getDoctor() {
-      const res = await fetch("/getdoctor");
-      const data = await res.json();
-      if (data.AuthError) {
-        props.settoastCondition({
-          status: "info",
-          message: "Please Login to proceed!!!",
-        });
-        props.setToastShow(true);
-      }
-      setDoctor(data.doctor);
-      const tempprescription = { ...prescription };
-      tempprescription.doctor = `${doctor.name.firstName} ${doctor.name.middleName} ${doctor.name.surName}`;
-      tempprescription.hospital.name = doctor.org;
-      tempprescription.hospital.address = `${doctor.orgAddress.building}, ${doctor.orgAddress.city}, ${doctor.orgAddress.taluka}, ${doctor.orgAddress.district}, ${doctor.orgAddress.state}- ${doctor.orgAddress.pincode}`;
-      tempprescription.doctormobile = doctor.mobile;
-      tempprescription.hospital.mobile = doctor.orgNumber;
+    async function getdoctor() {
+      setTimeout(3);
+      console.log("useEffect called");
+      const data = await userMgmtContract.getDoctorInfo(metaAccount);
+      var doctortObj = JSON.parse(data);
+      setDoctor(doctortObj);
+      console.log("doc: ", doctortObj);
+    }
+    async function enterDetails(){
+      const tempprescription = { ...prescription};
+      tempprescription.doctor = doctor;
       setPrescription(tempprescription);
     }
-    getDoctor();
-  }, [doctor]);
+    getdoctor();
+    enterDetails();
+  }, []);
 
   const handleAddPrescription = async (e) => {
     e.preventDefault();
@@ -147,34 +133,37 @@ const AddNewDiagnosis = (props) => {
     navigate("/doctor/dashboard");
   };
 
-  // const doctorName = "Dr. " + doctor.name.firstName + " " + doctor.name.lastName;
-  const doctorName = "{Dr Uday Shetty"
-  const [patientAbhaID, setPatientAbhaID] = useState("");
-  const [report, setReport] = useState({
-    hospitalName: doctor.org,
-    doctorName: doctorName,
-    recordType: "DiagnosticReport",
-    date: "",
-    url : "",
-    description: ""
-  });
   const {userMgmtContract, setUserMgmtContract} = UserContractObj();  
   const {fileMgmtContract, setFileMgmtContract} = FileContractObj();
   const {metaAccount, setMetaAccount} = MetaAccountObj();
   
-  // uploading diagonstic report directtly 
+  // uploading diagonstic report directtly
+  const [patientAbhaID, setPatientAbhaID] = useState("");
+  const [report, setReport] = useState({
+    hospitalName: doctor.org,
+    doctorName: "",
+    recordType: "DiagonsticsReport",
+    date: "",
+    url : "",
+    description: ""
+  });
+  const handleSelectChange = value => {
+    let tempreport = { ...report };
+    tempreport.recordType = value;
+    setReport(tempreport);
+    console.log('Selected type:', value);
+  };
+  
   const [fileList, setFileList] = useState([]);
   const [uploading, setUploading] = useState(false);
   const handleUpload = async (e) => {
     e.preventDefault();
     setUploading(true);
-
     const pinataApiKey = "e3763b7d1d1a2919759b"
     const pinataSecretApiKey = "2175b03254e561d1c8b5d6efb80d06ffaf5408abbeb9e0493788c68e176d66e7"
     try {
       const formData = new FormData();
       formData.append("file", fileList[0]);
-
       const resFile = await axios({
           method: "post",
           url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
@@ -185,19 +174,22 @@ const AddNewDiagnosis = (props) => {
               "Content-Type": "multipart/form-data"
           },
       });
-
       const fileUrl = `https://gateway.pinata.cloud/ipfs/${resFile.data.IpfsHash}`;
-      
       const reportData = report;
+      reportData.doctorName = "Dr. " + doctor.name.firstName + " " + doctor.name.lastName;
+      reportData.hospitalName = doctor.hospitalSelected;
       reportData.url = fileUrl;
+      console.log("reportdata: ", reportData);
       // get patientAddress from abha id entered by doc
-      const patientAddress = "0xd36058a1F3376126D6b9D8453d6EA3D4830BE0cD"
+      const patientAddress = await userMgmtContract.getPatientAddress(patientAbhaID)
+      console.log(patientAddress);
       let fileDetails = JSON.stringify(reportData);
       const data = await fileMgmtContract.addFile(patientAddress, report.recordType, fileDetails);
+      console.log(data);
       
-      // const retrieveFiles = await fileMgmtContract.displayFiles(metaAccount, report.recordType);
-      // console.log("retrieve files: ", retrieveFiles.toString());
-
+      const retrieveFiles = await fileMgmtContract.displayFilesPatient(patientAddress, report.recordType);
+      console.log("retrieve files: ", retrieveFiles);
+      // const data = {};
       if (data.errors) {
         setUploading(false);
         props.settoastCondition({
@@ -225,7 +217,46 @@ const AddNewDiagnosis = (props) => {
       });
       props.setToastShow(true);
   }
+  };  
+
+  const generatePDF = async (e) => {
+    e.preventDefault();
+    const patientAddress = await userMgmtContract.getPatientAddress(prescription.abhaID);
+    const patient = await userMgmtContract.getPatientInfo(patientAddress);
+    let tempprescription = { ...prescription };
+    const patientJson = JSON.parse(patient);
+    tempprescription.patient = patientJson;
+    setPrescription(tempprescription);
+
+		// const doc = new jsPDF({
+		// 	format: 'a4',
+    //   type: 'pdf',
+		// 	unit: 'px',
+		// });
+
+		// doc.html(reportTemplateRef.current, {
+		// 	async callback(doc) {
+		// 		await doc.save('report.pdf');
+		// 	},
+		// });
+    const element = ReactDOMServer.renderToString(PdfFormat(prescription));
+    const opt = {
+      margin: 0,
+      filename: 'prescription-report.pdf',
+      image: { type: 'pdf', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+    try{
+      html2pdf().from(element).set(opt).save();
+      console.log("successsssssssssssssssssssss");
+    }
+    catch(error){
+      console.log(error);
+      console.log("erorrrrrrrrrrrrrrrrrrrrrrrrr");
+    }
   };
+
   const propsFile = {
     onRemove: (file) => {
       const index = fileList.indexOf(file);
@@ -272,15 +303,24 @@ const AddNewDiagnosis = (props) => {
 
                 <input required
                   placeholder="Enter Abha ID"
-                  className=" bg-blue-100 rounded mx-2 px-2 py-1.5 outline-none col-span-1.5"
-                  // value={prescription.notes}
+                  className=" bg-blue-100 rounded mx-2 px-2 lg:h-10 h-8 outline-none col-span-1.5"
                   value={patientAbhaID}
                   onChange={(e) => { setPatientAbhaID(e.target.value);
                   }}
                 ></input>
+                
+                <Select
+                  className="mr-2"
+                  value={report.recordType}
+                  style={{ width: "180", height: "80" }}
+                  onChange = {(e)=>{handleSelectChange(e)}}
+                >
+                  <Option value="DiagonsticsReport">Diagnostics Report</Option>
+                  <Option value="PrescriptionReports">Prescription Report</Option>
+                </Select>
                 <input required
                   placeholder="Enter Diagnostics"
-                  className=" bg-blue-100 rounded mr-2 px-2 py-1.5 outline-none col-span-1.5"
+                  className=" bg-blue-100 rounded mr-2 px-2 lg:h-10 h-8 outline-none col-span-1.5"
                   // value={prescription.notes}
                   value={report.description}
                   onChange={(e) => {
@@ -292,17 +332,18 @@ const AddNewDiagnosis = (props) => {
 
                 <div>
                   <Upload {...propsFile}>
-                    <Button icon={<UploadOutlined />} className="px-16 lg:h-10 h-8">Select File</Button>
+                    <Button icon={<UploadOutlined />} className="px-16">Select File</Button>
                   </Upload>
                 </div>
-                <Button
-                  className="bg-blue-500 hover:bg-blue-100 lg:h-10 h-8"
-                  onClick={handleUpload}
-                  disabled={fileList.length === 0}
-                  loading={uploading}
-                >
-                  {uploading ? 'Uploading' : 'Start Upload'}
-                </Button>
+                <button type="submit">
+                  <Button
+                    className="bg-blue-500 hover:bg-white px-20 lg:h-10 h-8 text-white "
+                    disabled={fileList.length === 0}
+                    loading={uploading}
+                  >
+                    {uploading ? 'Uploading' : 'Start Upload'}
+                  </Button>
+                </button>
               </div>
             </form>
           </div>
@@ -310,17 +351,17 @@ const AddNewDiagnosis = (props) => {
           <div className="bg-white shadow p-6 m-2 ml-2 mt-8 lg:font-bold">
             <h1 className="text-2xl text-green-600">Enter Diagnosis Details</h1>
 
-            <form onSubmit={handleAddPrescription} >
+            <form>
               <div className="grid grid-cols-6 mt-3  ">
                 <h1 className="">Patient Abha ID:</h1>
                 <input
                   placeholder="Abha ID"
                   className=" bg-blue-100 rounded mx-2 px-2 py-1.5 outline-none col-span-2"
                   // value={prescription.notes}
-                  value={prescription.notes.note}
+                  value={prescription.abhaID}
                   onChange={(e) => {
                     let tempprescription = { ...prescription };
-                    tempprescription.abhaID.abhaID = e.target.value;
+                    tempprescription.abhaID = e.target.value;
                     setPrescription(tempprescription);
                   }}
                 ></input>
@@ -413,10 +454,10 @@ const AddNewDiagnosis = (props) => {
                   placeholder=" Note "
                   className=" bg-blue-100 rounded mx-2 px-2 py-1.5 outline-none col-span-2"
                   // value={prescription.notes}
-                  value={prescription.notes.note}
+                  value={prescription.notes}
                   onChange={(e) => {
                     let tempprescription = { ...prescription };
-                    tempprescription.notes.note = e.target.value;
+                    tempprescription.notes = e.target.value;
                     setPrescription(tempprescription);
                   }}
                 ></input>
@@ -428,10 +469,10 @@ const AddNewDiagnosis = (props) => {
                   placeholder="Diagnosis"
                   required
                   className=" bg-blue-100 rounded mx-2 px-2 py-1.5 outline-none col-span-2"
-                  value={prescription.diagnosis.diagno}
+                  value={prescription.diagnosis}
                   onChange={(e) => {
                     let tempprescription = { ...prescription };
-                    tempprescription.diagnosis.diagno = e.target.value;
+                    tempprescription.diagnosis = e.target.value;
                     setPrescription(tempprescription);
                   }}
                 ></input>
@@ -442,10 +483,10 @@ const AddNewDiagnosis = (props) => {
                 <input
                   placeholder="Procedure"
                   className=" bg-blue-100 rounded mx-2 px-2 py-1.5 outline-none col-span-2"
-                  value={prescription.procedureConducted.procedure}
+                  value={prescription.procedureConducted}
                   onChange={(e) => {
                     let tempprescription = { ...prescription };
-                    tempprescription.procedureConducted.procedure =
+                    tempprescription.procedureConducted =
                       e.target.value;
                     setPrescription(tempprescription);
                   }}
@@ -800,8 +841,8 @@ const AddNewDiagnosis = (props) => {
                     width={"5%"}
                   />
                 ) : (
-                  <button className="bg-blue-500 rounded p-2 px-8 font-bold text-xl hover:bg-blue-100 mb-4 ">
-                    Submit
+                  <button className="bg-blue-500 rounded p-2 px-8 font-bold text-xl hover:bg-blue-100 mb-4 " onClick={generatePDF}>
+                    Generate PDF
                   </button>
                 )}
               </div>
