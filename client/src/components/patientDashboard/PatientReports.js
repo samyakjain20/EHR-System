@@ -75,8 +75,8 @@ const PatientReports = (props) => {
     e.preventDefault();
     setUploading(true);
 
-    const pinataApiKey = "e3763b7d1d1a2919759b"
-    const pinataSecretApiKey = "2175b03254e561d1c8b5d6efb80d06ffaf5408abbeb9e0493788c68e176d66e7"
+    const pinataApiKey = require(process.env.REACT_APP_PINATA_API_Key);
+    const pinataSecretApiKey = require(process.env.REACT_APP_PINATA_API_Secret_KEY);
     try {
       const formData = new FormData();
       formData.append("file", fileList[0]);

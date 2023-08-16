@@ -234,7 +234,7 @@ export default function Login(props) {
   };
 
   return (
-    <div className="bg-white flex flex-col justify-items-center items-center py-1 px-4 rounded shadow-md lg:w-3/4 w-full my-7 ml-auto ">
+    <div className="bg-white flex flex-col justify-items-center items-center py-10 px-20 mr-16 rounded-lg shadow-md lg:w-3/4 w-full my-7 ml-auto ">
       <h1 className="text-4xl font-bold text-primary py-1">
         Login
       </h1>
@@ -339,7 +339,7 @@ export default function Login(props) {
         )}
       </div>
 
-      <form className="flex flex-col w-full px-8" onSubmit={handleLogin}>
+      <form className="flex flex-col w-full " onSubmit={handleLogin}>
         <label htmlFor="email" className=" pt-1 pb-1 text-lg font-semibold">
           {Toggle === "Patient" ? "Abha ID" : "Email"}
         </label>

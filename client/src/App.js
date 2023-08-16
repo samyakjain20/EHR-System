@@ -82,12 +82,6 @@ function App() {
               />
             }
           >
-          <Route
-            path="pdf"
-            element={
-              <PdfFormat/>
-            }
-          />
             <Route
             path="dashboard"
             element={

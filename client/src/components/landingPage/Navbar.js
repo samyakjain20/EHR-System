@@ -1,6 +1,5 @@
 import React from "react";
 import logo from "../../assets/img/landingPage/logo1.png";
-
 import { Link, useLocation } from "react-router-dom";
 
 export default function Navbar() {
@@ -15,7 +14,7 @@ export default function Navbar() {
         />
         </Link>
       <h1 className=" font-bold text-sm lg:text-2xl my-6 ml-20 justify-items-center">
-        Healthcare Management System
+        Electronic Health Record System
       </h1>
       <ul className="flex ml-auto lg:w-60 justify-evenly  font-semibold w-64 text-lg my-1">
         <li>

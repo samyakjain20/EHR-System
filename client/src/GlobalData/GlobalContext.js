@@ -85,10 +85,10 @@ export function GlobalProvider({ children }) {
                         console.log(metaAccount);
                         // const fileAbi = require(process.env.REACT_APP_FILE_MGMT_ABI_PATH);
                         // const userAbi = require(process.env.REACT_APP_USER_MGMT_ABI_PATH);
-                        // const paymentAbi = require(process.env.REACT_APP_PAYMENT_MGMT_ABI_PATH);
+                        const paymentAbi = require(process.env.REACT_APP_PAYMENT_MGMT_ABI_PATH);
                         // let userMgmtContractAddress = process.env.REACT_APP_USER_MGMT_CONTRACT_ADDRESS;
                         // let fileMgmtContractAddress = process.env.REACT_APP_FILE_MGMT_CONTRACT_ADDRESS;
-                        // let paymentMgmtContractAddress = process.env.REACT_APP_PAYMENT_MGMT_CONTRACT_ADDRESS;
+                        let paymentMgmtContractAddress = process.env.REACT_APP_PAYMENT_MGMT_CONTRACT_ADDRESS;
                         const fileAbi = require("../components/landingPage/contracts/FileManagement.json");
                         const userAbi = require("../components/landingPage/contracts/UserManagement.json");
                         let userMgmtContractAddress = "0x5A833f8c34eAe8f9A4b24dBf1a7FFe7F3FD2C848";

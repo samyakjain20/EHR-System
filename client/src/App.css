@@ -5,12 +5,12 @@
 }
 
 .landing-page {
-    background-image: url('../src/assets/img/landingPage/videoLanding.gif');
+    background-image: url('../src/assets/img/landingPage/landing.png');
     background-size: cover; /* Adjust as needed */
     background-repeat: no-repeat;
     background-attachment: fixed; /* Keep the background fixed while scrolling */
     /* Other styles for positioning, padding, etc. */
-    width: 100%;
+    /* width: 100%; */
     height: 100vh;
     display: flex;
     justify-content: center;
