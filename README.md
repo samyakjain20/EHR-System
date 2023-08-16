@@ -34,11 +34,11 @@
 
 ### Insights of UI
 1. Landing Page
-    ![Landing Page](image.png)
+    ![Landing Page](./readmeAssets/image.png)
 2. Login
-    ![Login](image-1.png)
+    ![Login](./readmeAssets/image-1.png)
 3. Register Page
-    
+
 
 <!-- ### Terminal1
 - - -
