@@ -185,14 +185,14 @@ export default function Login(props) {
           const signer = provider.getSigner();
           const address = await signer.getAddress();
 
-          // const fileAbi = require(process.env.REACT_APP_FILE_MGMT_ABI_PATH);
-          // const userAbi = require(process.env.REACT_APP_USER_MGMT_ABI_PATH);
-          // let userMgmtContractAddress = process.env.REACT_APP_USER_MGMT_CONTRACT_ADDRESS;
-          // let fileMgmtContractAddress = process.env.REACT_APP_FILE_MGMT_CONTRACT_ADDRESS;
-          const fileAbi = require("../../components/landingPage/contracts/FileManagement.json");
-          const userAbi = require("../../components/landingPage/contracts/UserManagement.json");
-          let userMgmtContractAddress = "0x5A833f8c34eAe8f9A4b24dBf1a7FFe7F3FD2C848";
-          let fileMgmtContractAddress = "0x06C8F8d9D8d4F0c6D5C910C3AbeDaC48FF4ad51B";
+          const fileAbi = require(process.env.REACT_APP_FILE_MGMT_ABI_PATH);
+          const userAbi = require(process.env.REACT_APP_USER_MGMT_ABI_PATH);
+          let userMgmtContractAddress = process.env.REACT_APP_USER_MGMT_CONTRACT_ADDRESS;
+          let fileMgmtContractAddress = process.env.REACT_APP_FILE_MGMT_CONTRACT_ADDRESS;
+          // const fileAbi = require("../../components/landingPage/contracts/FileManagement.json");
+          // const userAbi = require("../../components/landingPage/contracts/UserManagement.json");
+          // let userMgmtContractAddress = "0x5A833f8c34eAe8f9A4b24dBf1a7FFe7F3FD2C848";
+          // let fileMgmtContractAddress = "0x06C8F8d9D8d4F0c6D5C910C3AbeDaC48FF4ad51B";
 
           const userMgmtContract = new ethers.Contract(
             userMgmtContractAddress,
