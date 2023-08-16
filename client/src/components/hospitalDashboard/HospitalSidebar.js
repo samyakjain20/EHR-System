@@ -1,4 +1,4 @@
-import logo from "../../assets/img/landingPage/logo1.jpeg";
+import logo from "../../assets/img/landingPage/logo1.png";
 import add_doctor from "../../assets/img/dashboard/add_doctor.png";
 import patient_list from "../../assets/img/dashboard/patient_list.png";
 import doctor_list from "../../assets/img/dashboard/doctor_list.png";
@@ -28,10 +28,11 @@ const HospitalSideBar = (props) => {
     <div className="h-screen overflow-y-hidden w-screen grid grid-cols-12">
       <div className="side_bar bg-white shadow col-span-2">
         <div className="flex m-2 mt-4  ">
-          <div className="logo m-2  ">
+                    <div className="logo m-auto">
             <Link to="/">
-              <img src={logo} className="w-32" alt="logo"></img>
+              <img src={logo} className="w-60 h-16" alt="logo"></img>
             </Link>
+
             
           </div>
         </div>

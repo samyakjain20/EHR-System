@@ -39,7 +39,6 @@ import PatientClaims from "./components/patientDashboard/PatientClaims";
 import HospitalPaymentHistory from "./components/hospitalDashboard/HospitalPaymentHistory";
 import InsurerPaymentHistory from "./components/InsurerDashboard/InsurerPaymentHistory";
 import InsurerProfile from "./components/InsurerDashboard/InsurerProfile";
-import PdfFormat from "./components/doctorDashboard/pdfFormat";
 
 function App() {
   const [healthID, setHealthID] = useState("");
@@ -81,12 +80,6 @@ function App() {
               />
             }
           >
-          <Route
-            path="pdf"
-            element={
-              <PdfFormat/>
-            }
-          />
             <Route
             path="dashboard"
             element={
