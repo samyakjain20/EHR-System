@@ -19,17 +19,22 @@ const PatientClaims = (props) => {
   const { metaAccount, setMetaAccount } = MetaAccountObj();
   const { patient, setPatient } = PatientDataObj();
 
-  const [payment, setPayment] = useState({
+  const [claim, setClaim] = useState({
     "senderAddress": "",
     "receiverAddress": "",
     "amount": "",
-    "transactionHash": ""
+    "txHash": "-",
+    "id":"",
+    "status": "open",
+    "date": ""
   });
 
   const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
+
     
+
   }, []);
 
   const convertDatetoString = (dateString) => {
@@ -43,54 +48,50 @@ const PatientClaims = (props) => {
     return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
   };
 
-  const handlePayment = async (e) => {
+  const generateRandomId = () => {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let id = '';
+  
+    for (let i = 0; i < 8; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      id += characters.charAt(randomIndex);
+    }
+  
+    return id;
+  }
+
+  const handleClaim = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        await provider.send("eth_requestAccounts", []);
-        const signer = provider.getSigner();
-        const senderAddress = await signer.getAddress();
-    
-        const receiverAddress = payment.receiverAddress;
-        const amountToSend = ethers.utils.parseEther(payment.amount); // Amount in Ether
-    
-        const nonce = await provider.getTransactionCount(senderAddress);
-        const gasPrice = await provider.getGasPrice();
-    
-        const transaction = {
-            nonce: nonce,
-            gasLimit: ethers.utils.hexlify(21000), // Gas limit for a simple Ether transfer
-            gasPrice: gasPrice.toHexString(),
-            to: receiverAddress,
-            value: amountToSend.toHexString(),
-        };
-        
-        const tx = await signer.sendTransaction(transaction);
-        await tx.wait();
-        payment.transactionHash = tx.hash;
-        setPayment(payment);
-        
+  
+      let temppay = { ...claim };
+      temppay.id = generateRandomId();
+      temppay.senderAddress = metaAccount;
+      temppay.txHash = "-";
+      temppay.status = "open";
+      setClaim(temppay);
+      console.log(claim);
+      
+      const res = await paymentMgmtContract.storeClaim(claim.id, claim.receiverAddress, ethers.utils.parseEther(claim.amount), claim.status, claim.txHash, claim.date);
+      console.log(res);
 
-        const data = await paymentMgmtContract.storePayment(receiverAddress, amountToSend, tx.hash);
-        console.log(data);
-
-      if (tx.errors) {
+      if (res.errors) {
         setLoading(false);
-        console.log(tx.errors);
+        console.log(res.errors);
         props.settoastCondition({
           status: "error",
-          message: "Payment failed, check network!",
+          message: "Claim failed, check network!",
         });
-        console.log(tx.errors)
+        console.log(res.errors)
         props.setToastShow(true);
       }
       else {
         setLoading(false);
         props.settoastCondition({
           status: "success",
-          message: "Payment is successful!",
+          message: "Claim is successfully raised!",
         });
         props.setToastShow(true);
         navigate("/patient/dashboard");
@@ -100,12 +101,11 @@ const PatientClaims = (props) => {
       setLoading(false);
       props.settoastCondition({
         status: "error",
-        message: "Payment failed, check network!",
+        message: "Claim failed, check network!",
       });
       props.setToastShow(true);
     }
   };
-
 
   return (
     <div className="col-span-10" style={{ overflow: 'auto' }}>
@@ -152,7 +152,7 @@ const PatientClaims = (props) => {
                 </div>
               </div>
 
-              <form onSubmit={handlePayment}>
+              <form onSubmit={handleClaim}>
                     <div className="lg:grid grid-cols-5 gap-2 mt-4 mr-4">
                         <label className="font-semibold lg:text-lg px-4 mt-1">
                         Select Address:
@@ -161,11 +161,13 @@ const PatientClaims = (props) => {
                             type="text"
                             placeholder="Address"
                             required
-                            value={payment.receiverAddress}
+                            value={claim.receiverAddress}
                             onChange={(e) => {
-                            let temppay = { ...payment };
-                            temppay.receiverAddress = e.target.value;
-                            setPayment(temppay);
+                              let temppay = { ...claim };
+                              temppay.receiverAddress = e.target.value;
+                              temppay.id = generateRandomId();
+                              temppay.date = convertDatetoString(new Date());
+                              setClaim(temppay);
                             }}
                             className="pl-4 bg-blue-100 lg:h-10  rounded h-8"
                         ></input>
@@ -180,11 +182,11 @@ const PatientClaims = (props) => {
                         type="diagnosis"
                         placeholder="Amount"
                         required
-                        value={payment.amount}
+                        value={claim.amount}
                         onChange={(e) => {
-                            let temppay = { ...payment };
+                            let temppay = { ...claim };
                             temppay.amount = e.target.value;
-                            setPayment(temppay);
+                            setClaim(temppay);
                         }}
                         className="pl-4 bg-blue-100 lg:h-10  rounded h-8"
                         ></input>
@@ -196,7 +198,7 @@ const PatientClaims = (props) => {
                         className="bg-blue-500 text-white rounded p-2 pb-4 h-12 px-8 font-semibold text-xl hover:bg-blue-100"
                         loading={Loading}
                         >
-                            {Loading ? 'Paying' : 'Pay'}
+                            {Loading ? 'Generating' : 'Generate Request'}
                         </Button>
                     </button>
                 </div>

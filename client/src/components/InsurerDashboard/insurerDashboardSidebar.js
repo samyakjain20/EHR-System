@@ -54,7 +54,7 @@ const InsurerProfileSideBar = (props) => {
           </Link>
 
             <Link
-                to="/insurer/viewRequests"
+                to="/insurer/claims"
                 onClick={() => setToggle("Patient_Diagnostics")}
                 className={
                   Toggle === "Patient_Diagnostics"

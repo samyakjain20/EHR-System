@@ -42,9 +42,7 @@ const InsurerDashboard = (props) => {
               )  : (
                 <Button type="bg-red-500 hover:bg-white border border-red-500" disabled>No Records</Button>
               )}
-          </span>
-    
-            // <Button className="bg-blue-500 hover:bg-white border border-blue-500" onClick={() => handleRecordAccessReq(recordTypes[rowIndex])}>Request Consent</Button>
+          </span>    
           ),
         },
       ];

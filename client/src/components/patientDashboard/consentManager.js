@@ -8,6 +8,9 @@ import add_pre_logo from "../../assets/img/dashboard/add_prescription_logo.png";
 import { Table, Button} from 'antd';
 
 const ConsentManager = (props) => {
+  const { fileMgmtContract, setFileMgmtContract } = FileContractObj();
+  const {userMgmtContract, setUserMgmtContract} = UserContractObj();
+  const { metaAccount, setMetaAccount } = MetaAccountObj();
   const navigate = useNavigate();
   const [allConsents, setAllConsents] = useState([{}]);
   const [patient, setPatient] = useState({
@@ -143,10 +146,6 @@ const ConsentManager = (props) => {
     let year = date.getFullYear();
     return `${day}/${month}/${year}`;
   };
-
-  const { fileMgmtContract, setFileMgmtContract } = FileContractObj();
-  const {userMgmtContract, setUserMgmtContract} = UserContractObj();
-  const { metaAccount, setMetaAccount } = MetaAccountObj();
   
   useEffect(() => {
     async function getPendingRequests() {
@@ -191,10 +190,11 @@ const ConsentManager = (props) => {
 
     getPendingRequests();
     getAcceptedRequests();
+
   }, []);
 
   return (
-    <div className="col-span-10">
+    <div className="col-span-10 overflow-x-auto">
       <div className=" px-12">
         <div className="h-screen">
           <div className="main">
@@ -231,51 +231,6 @@ const ConsentManager = (props) => {
               </div>
             </div>
 
-            {/* <div className="flex justify-between m-8">
-              <div className="font-bold text-xl ml-4">
-                <h1>Consent Requests</h1>
-              </div>
-            </div>
-            <div className="bg-white m-4 rounded-lg ">
-              <div className="grid grid-rows-2 p-6 gap-2 shadow">
-                <div className="grid grid-cols-6 font-bold ">
-                  <div>
-                    <h1>Date</h1>
-                  </div>
-                  <div>
-                    <h1>Report Type</h1>
-                  </div>
-                  <div>
-                    <h1>Doctor Name</h1>
-                  </div>
-                  <div>
-                    <h1>Hospital/Lab</h1>
-                  </div>
-                  <div>
-                    <h1>Grant Access</h1>
-                  </div>
-                  <hr></hr>
-                  <hr></hr>
-                  <hr></hr>
-                  <hr></hr>
-                </div>
-                {allConsents.length > 0 ? (
-                  allConsents.map((allConsent) => {
-                    return (
-                      <ConsentManagerComp
-                        consentRequest={allConsent}
-                        consentRequestID={props.consentRequestID}
-                      />
-                    );
-                  })
-                ) : (
-                  <div className="font-bold mt-3 mx-auto">
-                    No Record Found...
-                  </div>
-                )}
-              </div>
-            </div> */}
-
             <div className="mt-3 pt-2">
               <div className=" m-4 mt-8 ">
                 <div className="flex justify-between m-8">
@@ -307,14 +262,8 @@ const ConsentManager = (props) => {
                 </div>
               </div>
             </div>
-            
-
           </div>
         </div>
-      </div>
-
-      <div className="-mt-20 mb-0">
-        <Footer></Footer>
       </div>
     </div>
   );

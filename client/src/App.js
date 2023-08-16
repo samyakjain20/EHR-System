@@ -39,6 +39,8 @@ import PatientClaims from "./components/patientDashboard/PatientClaims";
 import HospitalPaymentHistory from "./components/hospitalDashboard/HospitalPaymentHistory";
 import InsurerPaymentHistory from "./components/InsurerDashboard/InsurerPaymentHistory";
 import InsurerProfile from "./components/InsurerDashboard/InsurerProfile";
+import PdfFormat from "./components/doctorDashboard/pdfFormat";
+import InsurerClaim from "./components/InsurerDashboard/InsurerClaims";
 
 function App() {
   const [healthID, setHealthID] = useState("");
@@ -351,6 +353,18 @@ function App() {
               path="paymenthistory"
               element={
                 <InsurerPaymentHistory
+                  healthID={healthID}
+                  setHealthID={setHealthID}
+                  setPrescriptionID={setPrescriptionID}
+                  setToastShow={setToastShow}
+                  settoastCondition={settoastCondition}
+                />
+              }
+            />
+            <Route
+              path="claims"
+              element={
+                <InsurerClaim
                   healthID={healthID}
                   setHealthID={setHealthID}
                   setPrescriptionID={setPrescriptionID}

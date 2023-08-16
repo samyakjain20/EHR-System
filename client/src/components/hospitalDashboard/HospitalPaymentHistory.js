@@ -79,7 +79,8 @@ const HospitalPaymentHistory = (props) => {
           sender: item[0],
           reciever: item[1],
           amount: ethers.utils.formatEther(item[2]),
-          txHash: item[3]
+          txHash: item[3],
+          date: item[4]
         };
       });
       console.log(pays);

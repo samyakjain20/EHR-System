@@ -84,6 +84,7 @@ const PatientPaymentHistory = (props) => {
 
     const getSendPaymentJ = async () => {
       const data = await paymentMgmtContract.getSendPayment();
+      console.log(data);
 
       const pays = data.map(item => {
         return {
@@ -91,7 +92,7 @@ const PatientPaymentHistory = (props) => {
           reciever: item[1],
           amount: ethers.utils.formatEther(item[2]),
           txHash: item[3],
-          date: convertDatetoString(new Date())
+          date: item[4]
         };
       });
       console.log(pays);
@@ -107,7 +108,8 @@ const PatientPaymentHistory = (props) => {
           sender: item[0],
           reciever: item[1],
           amount: ethers.utils.formatEther(item[2]),
-          txHash: item[3]
+          txHash: item[3],
+          date: item[4]
         };
       });
       console.log(pays);
