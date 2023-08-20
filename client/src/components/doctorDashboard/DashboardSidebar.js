@@ -89,9 +89,11 @@ const DashboardSidebar = (props) => {
           </div>
         </nav>
 
-        <div className=" mx-auto mt-56 py-1    bg-blue-500  rounded font-semibold  shadow-sm hover:bg-blue-100 w-2/5  ">
-          <button className="text-white border border-blue-500 shadow-sm hover:text-blue-500  shadow-sm hover:bg-white font-bold  flex items-center" onClick={logout}>
-            <img src={logoutimg} className="h-4 px-2 " alt="logout"></img>Logout
+        <div 
+          // className=" w-2/5  "
+        >
+          <button className="mx-auto mt-56 py-1 px-2 text-white bg-blue-500  rounded font-semibold shadow-sm hover:text-blue-500 border border-blue-500  hover:bg-white font-bold  flex items-center" onClick={logout}>
+            <img src={logoutimg} className="h-4 px-2" alt="logout"></img>Logout
           </button>
         </div>
       </div>

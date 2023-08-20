@@ -12,6 +12,7 @@ const ethers = require("ethers")
 const PatientDashboard = (props) => {
   const navigate = useNavigate();
 
+  const [totalCounts, setTotalCounts] = useState([]);
   const {userMgmtContract, setUserMgmtContract} = UserContractObj();
   const {fileMgmtContract, setFileMgmtContract} = FileContractObj();
   const {metaAccount, setMetaAccount} = MetaAccountObj();
@@ -34,7 +35,15 @@ const PatientDashboard = (props) => {
       var patientObj = JSON.parse(data);
       setPatient(patientObj);
     }
+
+    async function getAnalytics() {
+      const data = await fileMgmtContract.getAnalyticsForPatient(metaAccount);
+      const integerArray = data.map(bn => bn.toNumber());
+      setTotalCounts(integerArray);
+    }
+
     getpatient();
+    getAnalytics();
   }, []);
 
 
@@ -128,7 +137,7 @@ const PatientDashboard = (props) => {
                     </div>
                     <div>
                       <p className="font-bold text-rose-500"> Prescription Reports </p>
-                      <p className="text-lg font-semibold "> 70 </p>
+                      <p className="text-lg font-semibold "> {totalCounts[0]} </p>
                     </div>
                   </div>
                 </div>
@@ -143,7 +152,7 @@ const PatientDashboard = (props) => {
                     </div>
                     <div>
                       <p className="font-bold text-teal-500"> Diagnostics Reports </p>
-                      <p className="text-lg font-semibold "> 14 </p>
+                      <p className="text-lg font-semibold "> {totalCounts[3]} </p>
                     </div>
                   </div>
                 </div>
@@ -157,7 +166,7 @@ const PatientDashboard = (props) => {
                     </div>
                     <div>
                       <p className="font-bold text-yellow-400"> Discharge Reports </p>
-                      <p className="text-lg font-semibold"> 8 </p>
+                      <p className="text-lg font-semibold"> {totalCounts[1]} </p>
                     </div>
                   </div>
                 </div>
@@ -172,7 +181,7 @@ const PatientDashboard = (props) => {
                     </div>
                     <div>
                       <p className="font-bold text-sky-500"> Laboratory Reports </p>
-                      <p className="text-lg font-semibold"> 57 </p>
+                      <p className="text-lg font-semibold"> {totalCounts[2]} </p>
                     </div>
                   </div>
                 </div>

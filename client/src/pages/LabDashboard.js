@@ -38,7 +38,7 @@ const LabDashboard = (props) => {
         specialization: {}
     })
 
-    // uploading diagonstic report directtly 
+    // uploading Diagnostic report directtly 
     const [report, setReport] = useState({
         hospitalName: "",
         doctorName: "",

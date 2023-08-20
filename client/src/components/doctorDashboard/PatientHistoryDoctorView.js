@@ -13,7 +13,7 @@ const PatientHistoryDoctorView = (props) => {
     name: {
       firstName: "",
       middleName: "",
-      surName: "",
+      lastName: "",
     },
     org: "",
     orgAddress: {
@@ -110,7 +110,7 @@ const PatientHistoryDoctorView = (props) => {
                     <div className="font-bold  text-base flex my-2">
                       <h1>Dr.</h1>
                       <h1 className="ml-2">
-                        {`${doctor.name.firstName} ${doctor.name.surName}`}
+                        {`${doctor.name.firstName} ${doctor.name.lastName}`}
                       </h1>
                     </div>
                     <div className="">

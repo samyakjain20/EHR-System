@@ -37,14 +37,14 @@ export default function RegisterDoctor(props) {
 
   const [doctor, setDoctor] = useState({
     name: {
-      firstName: "Hargun",
-      middleName: "Jaspal",
-      lastName: "Arneja",
+      firstName: "Siddhant",
+      middleName: "Kumar",
+      lastName: "Gupta",
     },
     emergencyno: "9876564521",
     dob: "",
     mobile: "9876564521",
-    email: "hargun@doctor.com",
+    email: "siddhant@doctor.com",
     adharCard: "213454324567",
     bloodGroup: "O+",
     education: EducationList,

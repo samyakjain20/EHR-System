@@ -35,7 +35,7 @@ const HospitalDashboard = (props) => {
     username: ""
   });
 
-  // uploading diagonstic report directtly 
+  // uploading Diagnostic report directtly 
   const [report, setReport] = useState({
     hospitalName: "",
     doctorName: "",
@@ -52,8 +52,8 @@ const HospitalDashboard = (props) => {
     e.preventDefault();
     setUploading(true);
 
-    const pinataApiKey = require(process.env.REACT_APP_PINATA_API_Key);
-    const pinataSecretApiKey = require(process.env.REACT_APP_PINATA_API_Secret_KEY);
+    const pinataApiKey = process.env.REACT_APP_PINATA_API_Key;
+    const pinataSecretApiKey = process.env.REACT_APP_PINATA_API_Secret_KEY;
     try {
         const userAddress = await userMgmtContract.getPatientAddress(patientAbhaID);
         console.log(userAddress);

@@ -46,8 +46,8 @@ const InsurerClaim = (props) => {
       key: 'consent',
       render: (text, record, rowIndex) => (
         <div>
-          <Button className="bg-red-400 mx-1 hover:bg-white border border-red-400" onClick={() => handleRejectAcessReq(filteredClaims[rowIndex])}>Decline</Button>
-          <Button className="bg-blue-500 mx-1 hover:bg-white border border-blue-500" onClick={() => handleAcceptAccessReq(filteredClaims[rowIndex])}>Accept</Button>
+          <Button className="bg-red-400 mx-1 hover:bg-white text-white border border-red-400" onClick={() => handleRejectAcessReq(filteredClaims[rowIndex])}>Decline</Button>
+          <Button className="bg-blue-500 mx-1 hover:bg-white text-white border border-blue-500" onClick={() => handleAcceptAccessReq(filteredClaims[rowIndex])}>Accept</Button>
         </div>
       ),
     }

@@ -21,10 +21,10 @@ const PatientReports = (props) => {
   
   const [report, setReport] = useState({
     doctorName: "",
+    hospitalName: "",
     date: "",
     url : "",
     recordType: "",
-    file: null
   });
   
   const [patient, setPatient] = useState({
@@ -75,8 +75,10 @@ const PatientReports = (props) => {
     e.preventDefault();
     setUploading(true);
 
-    const pinataApiKey = require(process.env.REACT_APP_PINATA_API_Key);
-    const pinataSecretApiKey = require(process.env.REACT_APP_PINATA_API_Secret_KEY);
+    const pinataApiKey = process.env.REACT_APP_PINATA_API_Key;
+    const pinataSecretApiKey = process.env.REACT_APP_PINATA_API_Secret_KEY;
+
+    console.log(pinataApiKey);
     try {
       const formData = new FormData();
       formData.append("file", fileList[0]);
@@ -120,7 +122,17 @@ const PatientReports = (props) => {
           message: "Report uploaded Successfully!",
         });
         props.setToastShow(true);
-        navigate("/patient/dashboard");
+        navigate("/patient/reports");
+        var tempReport = {
+          hospitalName: "",
+          doctorName: "",
+          date: "",
+          url : "",
+          recordType: "",
+          description: ""
+        };
+        setReport(tempReport);
+        setFileList([]);
       }
 
     } catch (error) {
@@ -239,7 +251,7 @@ const PatientReports = (props) => {
                   required>
                     <option value="">Choose Type</option>
                     <option value="LabReport">Lab Report</option>
-                    <option value="DiagonsticsReport">Diagonstics Report</option>
+                    <option value="DiagnosticsReport">Diagnostics Report</option>
                     <option value="DischargeReport">Discharge Report</option>
                     <option value="PrescriptionReport">Prescription Report</option>
                   </select>
@@ -262,7 +274,25 @@ const PatientReports = (props) => {
                     }}
                     className="pl-4 bg-blue-100 lg:h-10  rounded h-8"
                   ></input>
-                </div>
+              </div>
+
+              <div className="lg:grid grid-cols-5 gap-2 mt-4 mr-4">
+                <label className="font-semibold lg:text-lg px-4 mt-1">
+                  Select Hospital:
+                </label>
+                <input
+                    type="text"
+                    placeholder="Hospital"
+                    required
+                    value={report.hospitalName}
+                    onChange={(e) => {
+                      let tempreport = { ...report };
+                      tempreport.hospitalName = e.target.value;
+                      setReport(tempreport);
+                    }}
+                    className="pl-4 bg-blue-100 lg:h-10  rounded h-8"
+                  ></input>
+              </div>
 
                 <div className="lg:grid grid-cols-5 gap-2 mt-4 mr-4">
                   <label className="font-semibold lg:text-lg px-4 mt-1">

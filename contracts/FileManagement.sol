@@ -32,7 +32,7 @@ contract FileManagement {
     }
     
     mapping(address=>string[]) LabList; // owner => files
-    mapping(address=>string[]) DiagonsticsList; // owner => files
+    mapping(address=>string[]) DiagnosticsList; // owner => files
     mapping(address=>string[]) DischargeList; // owner => files
     mapping(address=>string[]) PrescriptionList; // owner => files
     mapping(address=>mapping (string=>uint)) noOfReports;
@@ -57,7 +57,7 @@ contract FileManagement {
         else if(keccak256(abi.encodePacked(_recordType)) == keccak256(abi.encodePacked("DiagnosticsReport"))){
             diagnosticsReportsCnt++;
             noOfReports[_user]["DiagnosticsReport"]++;
-            DiagonsticsList[_user].push(_fileDetails);
+            DiagnosticsList[_user].push(_fileDetails);
         }
         else if(keccak256(abi.encodePacked(_recordType)) == keccak256(abi.encodePacked("DischargeReport"))){
             dischargeReportsCnt++;
@@ -149,7 +149,7 @@ contract FileManagement {
                 return LabList[_patient];
             }
             else if(keccak256(abi.encodePacked(_recordType)) == keccak256(abi.encodePacked("DiagnosticsReport"))){
-                return DiagonsticsList[_patient];
+                return DiagnosticsList[_patient];
             }
             else if(keccak256(abi.encodePacked(_recordType)) == keccak256(abi.encodePacked("DischargeReport"))){
                 return DischargeList[_patient];
@@ -222,7 +222,7 @@ contract FileManagement {
                 accessStatus[2] = "NOACCESS";
             }
         }
-        if(DiagonsticsList[_patient].length > 0){
+        if(DiagnosticsList[_patient].length > 0){
             if(requestStatus[_patient][_doctor]["DiagnosticsReport"] == 2){
                 accessStatus[3] = "GRANTED";
             }
@@ -240,7 +240,7 @@ contract FileManagement {
         noOfReportsCnt[0] = PrescriptionList[_patient].length;
         noOfReportsCnt[1] = DischargeList[_patient].length;
         noOfReportsCnt[2] = LabList[_patient].length;
-        noOfReportsCnt[3] = DiagonsticsList[_patient].length;
+        noOfReportsCnt[3] = DiagnosticsList[_patient].length;
         return noOfReportsCnt;
     }
     function getAnalyticsForAdmin() public view returns (uint[] memory){
@@ -256,8 +256,8 @@ contract FileManagement {
         if(keccak256(abi.encodePacked(_recordType)) == keccak256(abi.encodePacked("LabReport"))){
             return LabList[_user];
         }
-        else if(keccak256(abi.encodePacked(_recordType)) == keccak256(abi.encodePacked("DiagonsticsReport"))){
-            return DiagonsticsList[_user];
+        else if(keccak256(abi.encodePacked(_recordType)) == keccak256(abi.encodePacked("DiagnosticsReport"))){
+            return DiagnosticsList[_user];
         }
         else if(keccak256(abi.encodePacked(_recordType)) == keccak256(abi.encodePacked("DischargeReport"))){
             return DischargeList[_user];

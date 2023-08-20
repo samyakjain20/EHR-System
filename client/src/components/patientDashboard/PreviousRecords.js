@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import search from "../../assets/img/dashboard/search2.png";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContractObj, FileContractObj, MetaAccountObj, PatientDataObj } from "../../GlobalData/GlobalContext";
-import { Table, Input, Select } from 'antd';
+import { Table, Input, Select, Button } from 'antd';
 
 const { Option } = Select;
 const PreviousRecords = (props) => {
@@ -53,13 +53,14 @@ const PreviousRecords = (props) => {
   // const healthReports = [
   //   // Add more health reports here
   // ];
-  const [ recordType, setRecordType] = useState("DiagonsticsReport");
+  const [ recordType, setRecordType] = useState("DiagnosticsReport");
   const handleSelectChange = value => {
     setRecordType(value);
     console.log('Selected type:', value);
   };
 
   const [ searchText, setSearchText] = useState('');
+  const [ filteredData, setFilteredData] = useState('');
 
   const filteredReports = healthReports.filter((report) => {
     return Object.values(report).some((value) =>
@@ -67,9 +68,24 @@ const PreviousRecords = (props) => {
     );
   });
 
-  const handleSearch = (e) => {
-    setSearchText(e.target.value);
+  // const handleSearch = (e) => {
+  //   setSearchText(e.target.value);
+  // };
+
+  const handleSearch = value => {
+    const filtered = healthReports.filter(item => {
+      return Object.values(item).some(field => 
+        field.toString().toLowerCase().includes(value.toLowerCase())
+      );
+    });
+    setFilteredData(filtered);
+    setSearchText(value);
   };
+
+  const handleReset = () => {
+    setFilteredData(healthReports);
+    setSearchText('');
+  }
 
   const rowClassName = (record, index) => {
     return index % 2 === 0 ? 'even-row' : 'odd-row';
@@ -85,6 +101,7 @@ const PreviousRecords = (props) => {
 
   useEffect(() => {
     const getLabreports = async () => {
+      console.log(recordType , "  In function");
       const acc = await fileMgmtContract.displayFilesPatient(metaAccount, recordType);
       console.log(acc);
       const jsonArray = acc.map(jsonString => JSON.parse(jsonString));
@@ -136,7 +153,7 @@ const PreviousRecords = (props) => {
 
             <div className="flex justify-between m-8 pt-3">
               <div className="font-bold text-xl -ml-8">
-                <h1>Patient Diagonstics Report</h1>
+                <h1>Patient Diagnostics Report</h1>
               </div>
             </div>
             <div className="text-lg">
@@ -145,16 +162,16 @@ const PreviousRecords = (props) => {
                 style={{ width: 200 }}
                 onChange={handleSelectChange}
               >
-                <Option value="DiagonsticsReports">Diagnostics Report</Option>
+                <Option value="DiagnosticsReport">Diagnostics Report</Option>
                 <Option value="DischargeReport">Discharge Report</Option>
-                <Option value="PrescriptionReports">Prescription Report</Option>
+                <Option value="PrescriptionReport">Prescription Report</Option>
                 <Option value="LabReport">Lab Report</Option>
               </Select>
               <Input
                 className="ml-4 pl-4 w-52 bg-blue-100 lg:h-8  rounded h-8"
                 placeholder="Search..."
                 value={searchText}
-                onChange={handleSearch}
+                onChange={e => handleSearch(e.target.value)}
                 style={{ marginBottom: 16 }}
               />
             </div>

@@ -132,11 +132,12 @@ const HospitalSideBar = (props) => {
 
                 </div>
               </div>
-              <div className=" mx-auto mt-50 py-1  border border-blue-500 hover:text-blue-500 text-white  bg-blue-500  rounded font-semibold  shadow-sm hover:bg-white w-2/5  ">
-                <button className="font-bold  flex items-center" onClick={logout}>
-                  <img src={logoutimg} className="h-4 px-2 " alt="logout"></img>Logout
-                </button>
-              </div>
+
+          <div className=" ">
+            <button className="mx-auto py-1 px-2 mt-40 text-white bg-blue-500  rounded font-semibold shadow-sm hover:text-blue-500 border border-blue-500  hover:bg-white font-bold  flex items-center" onClick={logout}>
+              <img src={logoutimg} className="h-4 px-2 " alt="logout"></img>Logout
+            </button>
+          </div>
         </nav>
 
         

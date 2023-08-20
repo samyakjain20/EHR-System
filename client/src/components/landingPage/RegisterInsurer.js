@@ -19,8 +19,8 @@ export default function RegisterInsurer(props) {
   const [errors, setErrors] = useState({});
 
   const [insurer, setInsurer] = useState({
-    org: "Bharti AXA",
-    orgEmail: "bharti@insurer.com",
+    org: "Jain Insurance",
+    orgEmail: "samyak@insurer.com",
     orgAddress: {
       building: "21",
       city: "Hyderabad",

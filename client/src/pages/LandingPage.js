@@ -110,8 +110,8 @@ export default function LandingPage(props) {
           className="lg:w-1/2 h-full lg:my-auto lg:mx-auto mt-10 pt-5"
         /> */}
         
-        <div className="lg:w-1/2 h-1/5 lg:mt-auto lg:mr-auto  lg:ml-40">
-          <button className="bg-blue-500 lg:px-16 mx-4 text-white rounded-full font-semibold border border-blue-500 hover:text-blue-500  shadow-sm hover:bg-white py-2 px-2 mr-2 my-1 text-lg text-semibold"
+        <div className="lg:w-1/2 h-1/5 lg:mt-auto lg:mr-auto  lg:ml-32">
+          <button className="bg-blue-500 lg:px-16 mx-4 mt-12 text-white rounded-full font-semibold border border-blue-500 hover:text-blue-500  shadow-sm hover:bg-white py-2 px-2 mr-2 my-1 text-lg text-semibold"
             onClick={() => {setLoginToggle(true)}}
           >
             Sign In

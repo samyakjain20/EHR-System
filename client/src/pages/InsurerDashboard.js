@@ -33,15 +33,15 @@ const InsurerDashboard = (props) => {
           key: 'status',
           render: (text, record, rowIndex) => (
             <span>
-              {text === "GRANTED" ? (
-                <Button type="bg-blue-500 hover:bg-white border border-blue-500" onClick={() => handleRecordsView(recordTypes[rowIndex])}>View Records</Button>
-              ) : text === "REQUESTED" ? (
-                <Button type="bg-blue-500 hover:bg-white border border-blue-500" >Requested</Button>
-              ) : text === "NOACCESS"? (
-                <Button type="bg-green-500 hover:bg-white border border-green-500" onClick={() => handleRecordAccessReq(recordTypes[rowIndex])}>Request Access</Button>
-              )  : (
-                <Button type="bg-red-500 hover:bg-white border border-red-500" disabled>No Records</Button>
-              )}
+            {text === "GRANTED" ? (
+              <Button type="bg-blue-500 hover:bg-white border border-blue-500" onClick={() => handleRecordsView(recordTypes[rowIndex])}>View Records</Button>
+            ) : text === "REQUESTED" ? (
+              <Button type="bg-blue-500 hover:bg-white border border-blue-500" >Requested</Button>
+            ) : text === "NOACCESS"? (
+              <Button type="bg-green-400 hover:bg-white border border-green-400" onClick={() => handleRecordAccessReq(recordTypes[rowIndex])}>Request Access</Button>
+            ) : (
+              <Button type="bg-red-300 hover:bg-white border border-red-300" disabled>No Records</Button>
+            )}
           </span>    
           ),
         },
@@ -227,12 +227,12 @@ const InsurerDashboard = (props) => {
                     <form onSubmit={searchPatient} className="grid grid-cols-9 bg-white rounded p-4 ml-10 mr-14 mt-8 shadow">
                         <div className="grid col-start-1 col-span-3">
                         <h1 className="text-xl  font-bold p-2 ">
-                            Search Patient By Health Id :
+                            Search Patient By Abha ID :
                         </h1>
                         </div>
                         <div className=" grid col-span-3">
                         <input
-                            placeholder="Health ID"
+                            placeholder="Abha ID"
                             className="bg-blue-100 rounded border-2 text-md   pl-4  focus:outline-none"
                             type="number"
                             value={abhaID}

@@ -71,7 +71,7 @@ const AddNewDiagnosis = (props) => {
   const [prescription, setPrescription] = useState({
     doctor: {},
     chiefComplaints: chiefComplaints,
-    abhaID: "12342345",
+    abhaID: "",
     notes: "Was outside when raining",
     diagnosis:  "Viral Fever" ,
     procedureConducted: "Medicines written for 3 days" ,
@@ -89,13 +89,8 @@ const AddNewDiagnosis = (props) => {
       setDoctor(doctortObj);
       console.log("doc: ", doctortObj);
     }
-    async function enterDetails(){
-      const tempprescription = { ...prescription};
-      tempprescription.doctor = doctor;
-      setPrescription(tempprescription);
-    }
+    
     getdoctor();
-    enterDetails();
   }, []);
 
   const handleAddPrescription = async (e) => {
@@ -137,95 +132,102 @@ const AddNewDiagnosis = (props) => {
   const {fileMgmtContract, setFileMgmtContract} = FileContractObj();
   const {metaAccount, setMetaAccount} = MetaAccountObj();
   
-  // uploading diagonstic report directtly
-  const [patientAbhaID, setPatientAbhaID] = useState("");
-  const [report, setReport] = useState({
-    hospitalName: doctor.org,
-    doctorName: "",
-    recordType: "DiagonsticsReport",
-    date: "",
-    url : "",
-    description: ""
-  });
-  const handleSelectChange = value => {
-    let tempreport = { ...report };
-    tempreport.recordType = value;
-    setReport(tempreport);
-    console.log('Selected type:', value);
-  };
   
+  // uploading Diagnostic report directtly 
+  const [report, setReport] = useState({
+      hospitalName: "",
+      doctorName: "",
+      date: "",
+      url: "",
+      recordType: "LabReport",
+      description: ""
+  });
   const [fileList, setFileList] = useState([]);
   const [uploading, setUploading] = useState(false);
+  const [patientAbhaID, setPatientAbhaID] = useState("");
   const handleUpload = async (e) => {
-    e.preventDefault();
-    setUploading(true);
-    const pinataApiKey = require(process.env.REACT_APP_PINATA_API_Key);
-    const pinataSecretApiKey = require(process.env.REACT_APP_PINATA_API_Secret_KEY);
-    try {
-      const formData = new FormData();
-      formData.append("file", fileList[0]);
-      const resFile = await axios({
-          method: "post",
-          url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
-          data: formData,
-          headers: {
-              'pinata_api_key': `${pinataApiKey}`,
-              'pinata_secret_api_key': `${pinataSecretApiKey}`,
-              "Content-Type": "multipart/form-data"
-          },
-      });
-      const fileUrl = `https://gateway.pinata.cloud/ipfs/${resFile.data.IpfsHash}`;
-      const reportData = report;
-      reportData.doctorName = "Dr. " + doctor.name.firstName + " " + doctor.name.lastName;
-      reportData.hospitalName = doctor.hospitalSelected;
-      reportData.url = fileUrl;
-      console.log("reportdata: ", reportData);
-      // get patientAddress from abha id entered by doc
-      const patientAddress = await userMgmtContract.getPatientAddress(patientAbhaID)
-      console.log(patientAddress);
-      let fileDetails = JSON.stringify(reportData);
-      const data = await fileMgmtContract.addFile(patientAddress, report.recordType, fileDetails);
-      console.log(data);
-      
-      const retrieveFiles = await fileMgmtContract.displayFilesPatient(patientAddress, report.recordType);
-      console.log("retrieve files: ", retrieveFiles);
-      // const data = {};
-      if (data.errors) {
-        setUploading(false);
-        props.settoastCondition({
-          status: "error",
-          message: "Report Upload failed, check network!",
-        });
-        console.log(data.errors)
-        props.setToastShow(true);
-      } 
-      else {
-        setUploading(false);
-        props.settoastCondition({
-          status: "success",
-          message: "Report uploaded Successfully!",
-        });
-        props.setToastShow(true);
-        navigate("/doctor/dashboard");
-      }
+      e.preventDefault();
+      setUploading(true);
 
-    } catch (error) {
-      setUploading(false);
-      props.settoastCondition({
-        status: "error",
-        message: "Report Upload failed, check network!",
-      });
-      props.setToastShow(true);
-  }
-  };  
+      const pinataApiKey = "e3763b7d1d1a2919759b"
+      const pinataSecretApiKey = "2175b03254e561d1c8b5d6efb80d06ffaf5408abbeb9e0493788c68e176d66e7"
+      try {
+          const userAddress = await userMgmtContract.getPatientAddress(patientAbhaID);
+          console.log(userAddress);
+          if(userAddress === "0x0000000000000000000000000000000000000000") {
+              throw new Error("Invalid User Address!!");
+          }
+          const formData = new FormData();
+          formData.append("file", fileList[0]);
+          const resFile = await axios({
+              method: "post",
+              url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
+              data: formData,
+              headers: {
+                  'pinata_api_key': `${pinataApiKey}`,
+                  'pinata_secret_api_key': `${pinataSecretApiKey}`,
+                  "Content-Type": "multipart/form-data"
+              },
+          });
+
+          const fileUrl = `https://gateway.pinata.cloud/ipfs/${resFile.data.IpfsHash}`;
+
+          // console.log(lab.);
+          report.doctorName = `${doctor.name.firstName} ${doctor.name.middleName} ${doctor.name.lastName}`;
+          report.hospitalName = doctor.hospitalSelected;
+          report.url = fileUrl;
+          const reportData = report;
+          console.log(reportData);
+          // get patientAddress from abha id entered by doc
+          const patientAddress = userAddress;
+          let fileDetails = JSON.stringify(reportData);
+          console.log(fileDetails);
+
+          const data = await fileMgmtContract.addFile(patientAddress, report.recordType, fileDetails);
+
+          // const retrieveFiles = await fileMgmtContract.displayFiles(metaAccount, report.recordType);
+          // console.log("retrieve files: ", retrieveFiles.toString());
+
+          if (data.errors) {
+              setUploading(false);
+              props.settoastCondition({
+                  status: "error",
+                  message: "Report Upload failed, check network!",
+              });
+              console.log(data.errors)
+              props.setToastShow(true);
+          }
+          else {
+              setUploading(false);
+              props.settoastCondition({
+                  status: "success",
+                  message: "Report uploaded Successfully!",
+              });
+              props.setToastShow(true);
+              navigate("/doctor/addDiagno");
+          }
+
+      } catch (error) {
+          setUploading(false);
+          props.settoastCondition({
+              status: "error",
+              message: "Report Upload failed, Enter Correct Abha ID!",
+          });
+          props.setToastShow(true);
+      }
+  };
 
   const generatePDF = async (e) => {
     e.preventDefault();
     const patientAddress = await userMgmtContract.getPatientAddress(prescription.abhaID);
     const patient = await userMgmtContract.getPatientInfo(patientAddress);
+    const doc = await userMgmtContract.getDoctorInfo(metaAccount);
     let tempprescription = { ...prescription };
     const patientJson = JSON.parse(patient);
+    const docjson = JSON.parse(doc);
     tempprescription.patient = patientJson;
+    tempprescription.doctor = docjson;
+
     setPrescription(tempprescription);
 
 		// const doc = new jsPDF({
@@ -239,7 +241,10 @@ const AddNewDiagnosis = (props) => {
 		// 		await doc.save('report.pdf');
 		// 	},
 		// });
-    const element = ReactDOMServer.renderToString(PdfFormat(prescription));
+    console.log(tempprescription.doctor);
+    console.log("hellp");
+    console.log(tempprescription);
+    const element = ReactDOMServer.renderToString(PdfFormat(tempprescription));
     const opt = {
       margin: 0,
       filename: 'prescription-report.pdf',
@@ -283,73 +288,115 @@ const AddNewDiagnosis = (props) => {
       <div className=" lg:min-h-screen lg:grid grid-cols-6  ">
         <div className=" col-start-1 col-span-6 ml-8">
           <h1 className="font-bold lg:text-2xl my-6 ml-6  ">
-            Add a new diagnosis
+            Add a new Prescription
           </h1>
 
           <div className="bg-white shadow p-6 m-2 ml-2 mt-8 lg:font-bold">
             <h1>Upload Diagnostics Report</h1>
 
-            <form onSubmit={handleUpload}>
-              <div className="grid grid-cols-6 mt-2">
-                <input required
-                  type="date"
-                  className=" bg-blue-100 lg:h-10 rounded px-3 ml-2 h-8"
-                  onChange={(e) => {
-                    let tempreport = { ...report };
-                    tempreport.date = convertDatetoString(e.target.value);
-                    setReport(tempreport);
-                  }}
-                ></input>
+            <form onSubmit={handleUpload} >
+                            <div className="lg:grid grid-cols-5 gap-2 mt-4 mr-4">
+                                <label className="font-semibold lg:text-lg px-4 mt-1">
+                                    Patient Abha ID:
+                                </label>
+                                <input required
+                                    type="abhaID"
+                                    placeholder="Abha ID"
+                                    onChange={(e) => { setPatientAbhaID(e.target.value) }}
+                                    className="pl-4 bg-blue-100 lg:h-10  rounded h-8"
+                                ></input>
+                            </div>
+                            {/* <div className="lg:grid grid-cols-5 gap-2 mt-4 mr-4">
+                                <label className="font-semibold lg:text-lg px-4 mt-1">
+                                    Doctor:
+                                </label>
+                                <input required
+                                    type="desc"
+                                    placeholder="Lab Doctor"
+                                    className="pl-4 bg-blue-100 lg:h-10  rounded h-8"
+                                    onChange={(e) => {
+                                        let tempreport = { ...report };
+                                        tempreport.doctorName = e.target.value;
+                                        setReport(tempreport);
+                                    }}
+                                ></input>
+                            </div> */}
+                            <div className="lg:grid grid-cols-5 gap-2 mt-4 mr-4">
+                              <label className="font-semibold lg:text-lg px-4 mt-1">
+                                Record Type:
+                              </label>
 
-                <input required
-                  placeholder="Enter Abha ID"
-                  className=" bg-blue-100 rounded mx-2 px-2 lg:h-10 h-8 outline-none col-span-1.5"
-                  value={patientAbhaID}
-                  onChange={(e) => { setPatientAbhaID(e.target.value);
-                  }}
-                ></input>
-                
-                <Select
-                  className="mr-2"
-                  value={report.recordType}
-                  style={{ width: "180", height: "80" }}
-                  onChange = {(e)=>{handleSelectChange(e)}}
-                >
-                  <Option value="DiagonsticsReport">Diagnostics Report</Option>
-                  <Option value="PrescriptionReports">Prescription Report</Option>
-                </Select>
-                <input required
-                  placeholder="Enter Diagnostics"
-                  className=" bg-blue-100 rounded mr-2 px-2 lg:h-10 h-8 outline-none col-span-1.5"
-                  // value={prescription.notes}
-                  value={report.description}
-                  onChange={(e) => {
-                    let tempreport = { ...report };
-                    tempreport.description = e.target.value;
-                    setReport(tempreport);
-                  }}
-                ></input>
+                              <select  value={report.recordType} 
+                                onChange={(e) => {
+                                  let tempreport = { ...report };
+                                  tempreport.recordType = e.target.value;
+                                  setReport(tempreport);
+                                }
+                              }  id="recordtype" 
+                              className="pl-4 bg-blue-100 lg:h-10  rounded h-8"                
+                              // className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                              required>
+                                <option value="">Choose Type</option>
+                                <option value="DiagnosticsReport">Diagnostics Report</option>
+                                <option value="PrescriptionReport">Prescription Report</option>
+                              </select>
+                            </div>
+                            <div className="lg:grid grid-cols-5 gap-2 mt-4 mr-4">
+                                <label className="font-semibold lg:text-lg px-4 mt-1">
+                                    Description:
+                                </label>
+                                <input required
+                                    type="desc"
+                                    placeholder="Eg: Blood Test"
+                                    className="pl-4 bg-blue-100 lg:h-10 rounded h-8"
+                                    onChange={(e) => {
+                                        let tempreport = { ...report };
+                                        tempreport.description = e.target.value;
+                                        setReport(tempreport);
+                                    }}
+                                ></input>
+                            </div>
 
-                <div>
-                  <Upload {...propsFile}>
-                    <Button icon={<UploadOutlined />} className="px-16">Select File</Button>
-                  </Upload>
-                </div>
-                <button type="submit">
-                  <Button
-                    className="bg-blue-500 hover:bg-white px-20 lg:h-10 h-8 text-white "
-                    disabled={fileList.length === 0}
-                    loading={uploading}
-                  >
-                    {uploading ? 'Uploading' : 'Start Upload'}
-                  </Button>
-                </button>
-              </div>
-            </form>
+                            <div className="lg:grid grid-cols-5 gap-2 mt-4 mr-4">
+                                <label className="font-semibold lg:text-lg px-4 mt-1">
+                                    Date:
+                                </label>
+                                <input
+                                    type="date"
+                                    className="pl-4 bg-blue-100 lg:h-10  rounded h-8 pr-3 "
+                                    required
+                                    onChange={(e) => {
+                                        let tempreport = { ...report };
+                                        tempreport.date = convertDatetoString(e.target.value);
+                                        setReport(tempreport);
+                                    }}
+                                ></input>
+                            </div>
+                            <br />
+
+                            <div className="lg:grid grid-cols-5 gap-2 mr-4">
+                                <label className="font-semibold lg:text-lg px-4 mt-1">Upload Report:</label>
+                                    <Upload {...propsFile} maxCount={1}>
+                                        <Button className="lg:h-10 rounded pl-4 h-8 pr-3" icon={<UploadOutlined />}>Select File</Button>
+                                    </Upload>
+                            </div>
+
+                            <div className="flex justify-center mb-4 mt-8">
+                                <button type="submit">
+                                    <Button 
+                                    className="bg-blue-500 text-white rounded p-2 pb-4 h-12 px-8 font-semibold text-xl hover:bg-blue-100"
+                                    disabled={fileList.length === 0}
+                                    loading={uploading}
+                                    >
+                                        {uploading ? 'Uploading' : 'Start Upload'}
+                                    </Button>
+                                </button>
+                            </div>
+                        </form>
           </div>
 
           <div className="bg-white shadow p-6 m-2 ml-2 mt-8 lg:font-bold">
-            <h1 className="text-2xl text-green-600">Enter Diagnosis Details</h1>
+            <h1 className="text-2xl text-green-600">Enter Prescription Details</h1>
 
             <form>
               <div className="grid grid-cols-6 mt-3  ">

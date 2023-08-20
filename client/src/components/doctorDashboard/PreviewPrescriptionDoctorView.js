@@ -49,7 +49,7 @@ const PreviewPrescriptionDoctorView = (props) => {
     name: {
       firstName: "",
       middleName: "",
-      surName: "",
+      lastName: "",
     },
     address: {
       building: "",
@@ -145,7 +145,7 @@ const PreviewPrescriptionDoctorView = (props) => {
         <div className="grid grid-cols-3 mt-4">
           <div className="col-span-2">
             <div className="flex">
-              <h1 className="font-bold">Health ID : </h1>
+              <h1 className="font-bold">Abha ID : </h1>
               <h4 className="ml-2">{props.healthID}</h4>
             </div>
             <div className="flex">
@@ -153,7 +153,7 @@ const PreviewPrescriptionDoctorView = (props) => {
               <div className="flex">
                 <h2 className="pl-1">{patient.name.firstName}</h2>
                 <h2 className="pl-1">{patient.name.middleName}</h2>
-                <h2 className="pl-1">{patient.name.surName}</h2>
+                <h2 className="pl-1">{patient.name.lastName}</h2>
               </div>
             </div>
             <div className="flex">

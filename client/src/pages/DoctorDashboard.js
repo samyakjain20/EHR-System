@@ -215,7 +215,7 @@ const DoctorDashboard = (props) => {
   });
 
   return (
-    <div className="full-body col-span-10 h-screen">
+    <div className="full-body col-span-10 h-screen overflow-y-scroll">
       <div className="body-without-footer   bg-bgprimary ">
         <div className="main    m-2  ">
           {/* dashboard today start */}
@@ -263,12 +263,12 @@ const DoctorDashboard = (props) => {
           >
             <div className="grid col-start-1 col-span-3">
               <h1 className="text-xl  font-bold p-2 ">
-                Search Patient By Health Id :
+                Search Patient By Abha ID :
               </h1>
             </div>
             <div className=" grid col-span-3">
               <input
-                placeholder="Health ID"
+                placeholder="Abha ID"
                 className="bg-blue-100 rounded border-2 text-md   pl-4  focus:outline-none"
                 type="number"
                 value={abhaID}

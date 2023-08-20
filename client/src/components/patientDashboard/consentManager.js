@@ -82,8 +82,8 @@ const ConsentManager = (props) => {
       key: 'consent',
       render: (text, record, rowIndex) => (
         <div>
-          <Button className="bg-red-400 mx-1 hover:bg-white border border-red-400" onClick={() => handleRejectAcessReq(recordAcessRequests[rowIndex])}>Decline</Button>
-          <Button className="bg-blue-500 mx-1 hover:bg-white border border-blue-500" onClick={() => handleAcceptAccessReq(recordAcessRequests[rowIndex])}>Accept</Button>
+          <Button className="bg-red-400 mx-1 hover:bg-white border border-red-400 text-white" onClick={() => handleRejectAcessReq(recordAcessRequests[rowIndex])}>Decline</Button>
+          <Button className="bg-blue-500 mx-1 hover:bg-white border border-blue-500 text-white" onClick={() => handleAcceptAccessReq(recordAcessRequests[rowIndex])}>Accept</Button>
         </div>
       ),
     },
@@ -115,7 +115,7 @@ const ConsentManager = (props) => {
       key: 'consent',
       render: (text, record, rowIndex) => (
         <div>
-          <Button className="bg-red-400 mx-1 hover:bg-white border border-red-400" onClick={() => handleRevokeAccess(acceptedRequests[rowIndex])}>Revoke</Button>
+          <Button className="bg-red-400 mx-1 hover:bg-white hover:text-red-400 border border-red-400 text-white " onClick={() => handleRevokeAccess(acceptedRequests[rowIndex])}>Revoke</Button>
         </div>
       ),
     },
