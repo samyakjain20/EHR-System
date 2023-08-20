@@ -56,7 +56,7 @@ const PreviousRecords = (props) => {
   const [ recordType, setRecordType] = useState("DiagnosticsReport");
   const handleSelectChange = value => {
     setRecordType(value);
-    console.log('Selected type:', value);
+    // console.log('Selected type:', value);
   };
 
   const [ searchText, setSearchText] = useState('');
@@ -101,15 +101,15 @@ const PreviousRecords = (props) => {
 
   useEffect(() => {
     const getLabreports = async () => {
-      console.log(recordType , "  In function");
+      // console.log(recordType , "  In function");
       const acc = await fileMgmtContract.displayFilesPatient(metaAccount, recordType);
-      console.log(acc);
+      // console.log(acc);
       const jsonArray = acc.map(jsonString => JSON.parse(jsonString));
       setHealthReports(jsonArray);
-      console.log(jsonArray);
+      // console.log(jsonArray);
     };
 
-    // console.log(userMgmtContract);
+    // // console.log(userMgmtContract);
     getLabreports();
   }, [recordType]);
 

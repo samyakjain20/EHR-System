@@ -56,7 +56,7 @@ const HospitalDashboard = (props) => {
     const pinataSecretApiKey = process.env.REACT_APP_PINATA_API_Secret_KEY;
     try {
         const userAddress = await userMgmtContract.getPatientAddress(patientAbhaID);
-        console.log(userAddress);
+        // console.log(userAddress);
         if(userAddress === "0x0000000000000000000000000000000000000000") {
             throw new Error("Invalid User Address!!");
         }
@@ -75,20 +75,20 @@ const HospitalDashboard = (props) => {
 
         const fileUrl = `https://gateway.pinata.cloud/ipfs/${resFile.data.IpfsHash}`;
 
-        // console.log(lab.);
+        // // console.log(lab.);
         report.hospitalName = hospital.org;
         report.url = fileUrl;
         const reportData = report;
-        console.log(reportData);
+        // console.log(reportData);
         // get patientAddress from abha id entered by doc
         const patientAddress = userAddress;
         let fileDetails = JSON.stringify(reportData);
-        console.log(fileDetails);
+        // console.log(fileDetails);
 
         const data = await fileMgmtContract.addFile(patientAddress, report.recordType, fileDetails);
 
         // const retrieveFiles = await fileMgmtContract.displayFiles(metaAccount, report.recordType);
-        // console.log("retrieve files: ", retrieveFiles.toString());
+        // // console.log("retrieve files: ", retrieveFiles.toString());
 
         if (data.errors) {
             setUploading(false);
@@ -96,7 +96,7 @@ const HospitalDashboard = (props) => {
                 status: "error",
                 message: "Report Upload failed, check network!",
             });
-            console.log(data.errors)
+            // console.log(data.errors)
             props.setToastShow(true);
         }
         else {
@@ -144,7 +144,7 @@ const propsFile = {
   useEffect(() => {
     async function getHospital() {
       const data = await userMgmtContract.getHospitalInfo(metaAccount);
-      console.log(data);
+      // console.log(data);
       var hospitalObj = JSON.parse(data);
       setHospital(hospitalObj);
     }

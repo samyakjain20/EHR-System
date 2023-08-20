@@ -72,19 +72,19 @@ const PatientClaims = (props) => {
       temppay.txHash = "-";
       temppay.status = "open";
       setClaim(temppay);
-      console.log(claim);
+      // console.log(claim);
       
       const res = await paymentMgmtContract.storeClaim(claim.id, claim.receiverAddress, ethers.utils.parseEther(claim.amount), claim.status, claim.txHash, claim.date);
-      console.log(res);
+      // console.log(res);
 
       if (res.errors) {
         setLoading(false);
-        console.log(res.errors);
+        // console.log(res.errors);
         props.settoastCondition({
           status: "error",
           message: "Claim failed, check network!",
         });
-        console.log(res.errors)
+        // console.log(res.errors)
         props.setToastShow(true);
       }
       else {

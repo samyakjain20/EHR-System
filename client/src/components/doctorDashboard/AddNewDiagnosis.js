@@ -83,11 +83,11 @@ const AddNewDiagnosis = (props) => {
   useEffect(() => {
     async function getdoctor() {
       setTimeout(3);
-      console.log("useEffect called");
+      // console.log("useEffect called");
       const data = await userMgmtContract.getDoctorInfo(metaAccount);
       var doctortObj = JSON.parse(data);
       setDoctor(doctortObj);
-      console.log("doc: ", doctortObj);
+      // console.log("doc: ", doctortObj);
     }
     
     getdoctor();
@@ -153,7 +153,7 @@ const AddNewDiagnosis = (props) => {
       const pinataSecretApiKey = "2175b03254e561d1c8b5d6efb80d06ffaf5408abbeb9e0493788c68e176d66e7"
       try {
           const userAddress = await userMgmtContract.getPatientAddress(patientAbhaID);
-          console.log(userAddress);
+          // console.log(userAddress);
           if(userAddress === "0x0000000000000000000000000000000000000000") {
               throw new Error("Invalid User Address!!");
           }
@@ -172,21 +172,21 @@ const AddNewDiagnosis = (props) => {
 
           const fileUrl = `https://gateway.pinata.cloud/ipfs/${resFile.data.IpfsHash}`;
 
-          // console.log(lab.);
+          // // console.log(lab.);
           report.doctorName = `${doctor.name.firstName} ${doctor.name.middleName} ${doctor.name.lastName}`;
           report.hospitalName = doctor.hospitalSelected;
           report.url = fileUrl;
           const reportData = report;
-          console.log(reportData);
+          // console.log(reportData);
           // get patientAddress from abha id entered by doc
           const patientAddress = userAddress;
           let fileDetails = JSON.stringify(reportData);
-          console.log(fileDetails);
+          // console.log(fileDetails);
 
           const data = await fileMgmtContract.addFile(patientAddress, report.recordType, fileDetails);
 
           // const retrieveFiles = await fileMgmtContract.displayFiles(metaAccount, report.recordType);
-          // console.log("retrieve files: ", retrieveFiles.toString());
+          // // console.log("retrieve files: ", retrieveFiles.toString());
 
           if (data.errors) {
               setUploading(false);
@@ -194,7 +194,7 @@ const AddNewDiagnosis = (props) => {
                   status: "error",
                   message: "Report Upload failed, check network!",
               });
-              console.log(data.errors)
+              // console.log(data.errors)
               props.setToastShow(true);
           }
           else {
@@ -241,9 +241,9 @@ const AddNewDiagnosis = (props) => {
 		// 		await doc.save('report.pdf');
 		// 	},
 		// });
-    console.log(tempprescription.doctor);
-    console.log("hellp");
-    console.log(tempprescription);
+    // console.log(tempprescription.doctor);
+    // console.log("hellp");
+    // console.log(tempprescription);
     const element = ReactDOMServer.renderToString(PdfFormat(tempprescription));
     const opt = {
       margin: 0,
@@ -254,11 +254,11 @@ const AddNewDiagnosis = (props) => {
     };
     try{
       html2pdf().from(element).set(opt).save();
-      console.log("successsssssssssssssssssssss");
+      // console.log("successsssssssssssssssssssss");
     }
     catch(error){
-      console.log(error);
-      console.log("erorrrrrrrrrrrrrrrrrrrrrrrrr");
+      // console.log(error);
+      // console.log("erorrrrrrrrrrrrrrrrrrrrrrrrr");
     }
   };
 

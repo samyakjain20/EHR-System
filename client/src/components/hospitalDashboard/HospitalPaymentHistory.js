@@ -83,7 +83,7 @@ const HospitalPaymentHistory = (props) => {
           date: item[4]
         };
       });
-      console.log(pays);
+      // console.log(pays);
 
       setRecievePayment(pays);
     };

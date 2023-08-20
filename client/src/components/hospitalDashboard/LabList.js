@@ -66,11 +66,11 @@ const LabList = (props) => {
   useEffect(() => {
     async function fetchLabList() {
       const labData = await userMgmtContract.getLabObjs();
-      console.log(labData);
+      // console.log(labData);
       let hospitalData = await userMgmtContract.getHospitalInfo(metaAccount);
       hospitalData = JSON.parse(hospitalData);
       setHospital(hospitalData);
-      console.log(hospitalData);
+      // console.log(hospitalData);
       const newResultArray = []
 
       labData.forEach(item => {
@@ -82,13 +82,13 @@ const LabList = (props) => {
           mobile: ""
         };
         const data = JSON.parse(item[3]);
-        console.log(data);
+        // console.log(data);
         if (data.hospitalSelected === hospitalData.orgEmail) {
           result.name = data.name;
           result.specialization = data.specialization[0].special;
           result.mobile = data.mobile;
           result.email = data.email;
-          console.log(result);
+          // console.log(result);
           newResultArray.push(result);
         }
       });

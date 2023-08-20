@@ -84,7 +84,7 @@ export default function Register(props) {
       setMetaAccount(acc);
     };
 
-    console.log(userMgmtContract);
+    // console.log(userMgmtContract);
     auth();
   }, []);
 
@@ -97,11 +97,11 @@ export default function Register(props) {
         e.preventDefault();
         
         patient.passwordHash = ethers.utils.formatBytes32String(patient.passwordHash);
-        console.log(patient.passwordHash);
+        // console.log(patient.passwordHash);
         let userStr = JSON.stringify(patient);
         patient.username = patient.abhaId;
         const data = await userMgmtContract.registerPatient(patient.abhaId, patient.passwordHash, userStr);
-        console.log(data);
+        // console.log(data);
 
         if (data.errors) {
           setLoading(false);
@@ -130,8 +130,8 @@ export default function Register(props) {
     
     catch (error) {
       setLoading(false);
-      console.log(error);
-      console.log(error.data.data.reason);
+      // console.log(error);
+      // console.log(error.data.data.reason);
       window.alert(error.data.data.reason);
         if (
           error.response &&

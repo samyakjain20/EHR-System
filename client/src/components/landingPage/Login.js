@@ -36,16 +36,16 @@ export default function Login(props) {
 
   const handlePatientLogin = async (abhaID, password, metaAccount) => {
     setLoading(true);
-    console.log("Pressed Login")
+    // console.log("Pressed Login")
     try {
       data.userID = abhaID;
       data.password = ethers.utils.formatBytes32String(password);
       data.metaAccount = metaAccount;
       data.role = "Patient";
-      console.log(data);
+      // console.log(data);
 
       const res = await userMgmtContract.loginPatient(data.password);
-      console.log(res);
+      // console.log(res);
 
       if (res.errors) {
         setLoading(false);
@@ -67,7 +67,7 @@ export default function Login(props) {
 
 		} catch (error) {
         setLoading(false);
-        console.log(error.data.data.reason);
+        // console.log(error.data.data.reason);
         window.alert(error.data.data.reason);
 			if (
 				error.response &&
@@ -81,13 +81,13 @@ export default function Login(props) {
 
   const handleDoctorLabHospitalLogin = async (email, password, metaAccount, path, role) => {
     setLoading(true);
-    console.log("Pressed Login")
+    // console.log("Pressed Login")
     try {
       data.userID = email;
       data.password = ethers.utils.formatBytes32String(password);
       data.metaAccount = metaAccount;
       data.role = role;
-      console.log(data);
+      // console.log(data);
       
       var res = null;
       switch (role) {
@@ -105,7 +105,7 @@ export default function Login(props) {
           break;
       }
 
-      console.log(res);
+      // console.log(res);
 
       if (res.errors) {
         setLoading(false);
@@ -127,7 +127,7 @@ export default function Login(props) {
 
 		} catch (error) {
         setLoading(false);
-        console.log(error.data.data.reason);
+        // console.log(error.data.data.reason);
         window.alert(error.data.data.reason);
 			if (
 				error.response &&
@@ -169,7 +169,7 @@ export default function Login(props) {
       try {
         if(metaAccount != ''){
           setMetaAccount('');
-          console.log("Meta Mask Account Removed", metaAccount);
+          // console.log("Meta Mask Account Removed", metaAccount);
         }
         else{
           
@@ -211,9 +211,9 @@ export default function Login(props) {
           setProvider(provider);
           const res = await userMgmtContract.retrive();
           setMetaAccount(res);
-          console.log(address);
-          console.log(userMgmtContract);
-          console.log(fileMgmtContract);
+          // console.log(address);
+          // console.log(userMgmtContract);
+          // console.log(fileMgmtContract);
 
           
         }
@@ -222,7 +222,7 @@ export default function Login(props) {
         if (err.code === 5001) {
           // EIP-1193 userRejectedRequest error
           // If this happens, the user rejected the connection request.
-          console.log('Please connect to MetaMask.');
+          // console.log('Please connect to MetaMask.');
         } else {
           console.error(err);
         }

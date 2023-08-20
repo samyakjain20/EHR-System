@@ -20,7 +20,7 @@ export default function LandingPage(props) {
       try {
         if(metaAccount != ''){
           setMetaAccount('');
-          console.log("Meta Mask Account Removed", metaAccount);
+          // console.log("Meta Mask Account Removed", metaAccount);
         }
         else{
           
@@ -62,9 +62,9 @@ export default function LandingPage(props) {
           setProvider(provider);
           const res = await userMgmtContract.retrive();
           setMetaAccount(res);
-          console.log(address);
-          console.log(userMgmtContract);
-          console.log(fileMgmtContract);
+          // console.log(address);
+          // console.log(userMgmtContract);
+          // console.log(fileMgmtContract);
 
           
         }
@@ -73,7 +73,7 @@ export default function LandingPage(props) {
         if (err.code === 5001) {
           // EIP-1193 userRejectedRequest error
           // If this happens, the user rejected the connection request.
-          console.log('Please connect to MetaMask.');
+          // console.log('Please connect to MetaMask.');
         } else {
           console.error(err);
         }

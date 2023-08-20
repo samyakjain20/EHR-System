@@ -78,11 +78,11 @@ const DoctorList = (props) => {
   useEffect(() => {
     async function getDoctors() {
       const doctorData = await userMgmtContract.getDoctorObjs();
-      console.log(doctorData);
+      // console.log(doctorData);
       let hospitalData = await userMgmtContract.getHospitalInfo(metaAccount);
       hospitalData = JSON.parse(hospitalData);
       setHospital(hospitalData);
-      console.log(hospitalData);
+      // console.log(hospitalData);
       const newResultArray = [];
       doctorData.forEach(item => {
         // let doctorVals = JSON.parse(item);
@@ -102,11 +102,11 @@ const DoctorList = (props) => {
           result.specialization = data.specialization[0].special;
           result.mobile = data.emergencyno;
           result.email = data.email;
-          console.log(result);
+          // console.log(result);
           newResultArray.push(result);
         }
       });
-      console.log(newResultArray);
+      // console.log(newResultArray);
       setDoctorList(newResultArray);
     }
     getDoctors();

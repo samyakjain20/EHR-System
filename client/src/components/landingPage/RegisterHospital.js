@@ -54,7 +54,7 @@ export default function RegisterHospital(props) {
         let hospitalStr = JSON.stringify(hospital);
         hospital.username = hospital.orgEmail;
         const data = await userMgmtContract.registerHospital(hospital.username, passwordHash, hospitalStr);
-        console.log(data);
+        // console.log(data);
 
         if (data.errors) {
           setLoading(false);
@@ -80,7 +80,7 @@ export default function RegisterHospital(props) {
 
     catch (error) {
       setLoading(false);
-      console.log(error.data.data.reason);
+      // console.log(error.data.data.reason);
       window.alert(error.data.data.reason);
     }
   };

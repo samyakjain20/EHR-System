@@ -108,7 +108,7 @@ const InsurerDashboard = (props) => {
     useEffect(() => {
         async function getInsurer() {
             const data = await userMgmtContract.getInsurerInfo(metaAccount);
-            console.log(data);
+            // console.log(data);
             var InsurerObj = JSON.parse(data);
             setInsurer(InsurerObj);
         }
@@ -122,10 +122,10 @@ const InsurerDashboard = (props) => {
         setLoading(true);
         
         const acc = await userMgmtContract.getPatientAddress(abhaID);
-        console.log(acc);
+        // console.log(acc);
         setPatientAddress(acc);
         const patientProfile = await userMgmtContract.getPatientInfo(acc);
-        console.log("patient Profile", patientProfile);
+        // console.log("patient Profile", patientProfile);
         setPatient(patientProfile);
         const recordTypesData = await fileMgmtContract.displayFilesDoctor(acc);      
         const tempRecordTypes = [];
@@ -133,7 +133,7 @@ const InsurerDashboard = (props) => {
             tempRecordTypes.push({recordType: recordTypesData[0][i], status: recordTypesData[1][i] });
         }
         setRecordTypes(tempRecordTypes);
-        console.log("recordTypes: ", recordTypes);
+        // console.log("recordTypes: ", recordTypes);
 
         if (acc.error) {
             setLoading(false);
@@ -167,7 +167,7 @@ const InsurerDashboard = (props) => {
     };
 
     const handleRecordAccessReq = async (recordType) =>{
-        console.log(recordType["recordType"]);
+        // console.log(recordType["recordType"]);
         const today = convertDatetoString(new Date());
         const response = await fileMgmtContract.reqRecord(patientAddress, recordType["recordType"], today, insurer.org, "-");
       }
@@ -177,10 +177,10 @@ const InsurerDashboard = (props) => {
         const tempRecordVisible = [];
         for(let i = 0; i < response.length; i++){
             tempRecordVisible.push(JSON.parse(response[i]));
-            console.log(JSON.parse(response[i]))
+            // console.log(JSON.parse(response[i]))
         }
         setRecordVisible(tempRecordVisible);
-        console.log(recordVisible);
+        // console.log(recordVisible);
     };
 
     return (

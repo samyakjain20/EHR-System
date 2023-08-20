@@ -49,7 +49,7 @@ const PatientPaymentHistory = (props) => {
 
   const handleSelectChange = value => {
     setRecordType(value);
-    console.log('Selected type:', value);
+    // console.log('Selected type:', value);
   };
 
   const [searchText, setSearchText] = useState('');
@@ -84,7 +84,7 @@ const PatientPaymentHistory = (props) => {
 
     const getSendPaymentJ = async () => {
       const data = await paymentMgmtContract.getSendPayment();
-      console.log(data);
+      // console.log(data);
 
       const pays = data.map(item => {
         return {
@@ -95,7 +95,7 @@ const PatientPaymentHistory = (props) => {
           date: item[4]
         };
       });
-      console.log(pays);
+      // console.log(pays);
 
       setSendPayment(pays);
     };
@@ -112,7 +112,7 @@ const PatientPaymentHistory = (props) => {
           date: item[4]
         };
       });
-      console.log(pays);
+      // console.log(pays);
 
       setSendPayment(pays);
     };

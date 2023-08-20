@@ -101,14 +101,14 @@ const InsurerClaim = (props) => {
 
     async function getInsurer() {
       const data = await userMgmtContract.getInsurerInfo(metaAccount);
-      console.log(data);
+      // console.log(data);
       var InsurerObj = JSON.parse(data);
       setInsurer(InsurerObj);
     }
 
     async function getRecieveClaim() {
       const data = await paymentMgmtContract.getClaimsByStatusRecieve("open");
-      console.log(data);
+      // console.log(data);
       const pays = data.map(item => {
         return {
           sender: item[1],
@@ -118,7 +118,7 @@ const InsurerClaim = (props) => {
           date: item[6]
         };
       });
-      console.log(pays);
+      // console.log(pays);
 
       setRecieveClaim(pays);
     }
@@ -129,7 +129,7 @@ const InsurerClaim = (props) => {
   }, []);
 
   const handleAcceptAccessReq = async (data) => {
-    console.log(data);
+    // console.log(data);
 
     try {
         const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -155,18 +155,18 @@ const InsurerClaim = (props) => {
         await tx.wait();
 
         const res1 = await paymentMgmtContract.storePayment(receiverAddress, amountToSend, tx.hash, convertDatetoString(new Date()));
-        console.log(res1);
+        // console.log(res1);
 
         const res2 = await paymentMgmtContract.updateClaimStatusById(data.id, "accepted", data.sender);
-        console.log(res2);
+        // console.log(res2);
 
       if (tx.errors) {
-        console.log(tx.errors);
+        // console.log(tx.errors);
         props.settoastCondition({
           status: "error",
           message: "Payment failed, check network!",
         });
-        console.log(tx.errors)
+        // console.log(tx.errors)
         props.setToastShow(true);
       }
       else {
@@ -188,9 +188,9 @@ const InsurerClaim = (props) => {
   };
   
   const handleRejectAcessReq = async (data) => {
-    console.log(data.id);
+    // console.log(data.id);
     const res = await paymentMgmtContract.updateClaimStatusById(data.id, "rejected", data.sender);
-    console.log(res);
+    // console.log(res);
   }
 
   

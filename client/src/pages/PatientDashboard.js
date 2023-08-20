@@ -31,7 +31,7 @@ const PatientDashboard = (props) => {
   useEffect(() => {
     async function getpatient() {
       const data = await userMgmtContract.getPatientInfo(metaAccount);
-      console.log(data);
+      // console.log(data);
       var patientObj = JSON.parse(data);
       setPatient(patientObj);
     }

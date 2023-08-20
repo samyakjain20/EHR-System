@@ -60,7 +60,7 @@ export default function RegisterLab(props) {
 
     const getHospitalList = async () => {
       const data = await userMgmtContract.getHospitalIds();
-      console.log(data);
+      // console.log(data);
       setHospitalList(data);
     };
 
@@ -80,7 +80,7 @@ export default function RegisterLab(props) {
         let labStr = JSON.stringify(lab);
         lab.username = lab.email;
         const data = await userMgmtContract.registerLab(lab.username, passwordHash, labStr);
-        console.log(data);
+        // console.log(data);
 
         if (data.errors) {
           setLoading(false);
@@ -106,7 +106,7 @@ export default function RegisterLab(props) {
 
     catch (error) {
       setLoading(false);
-      console.log(error.data.data.reason);
+      // console.log(error.data.data.reason);
       window.alert(error.data.data.reason);
     }
   };

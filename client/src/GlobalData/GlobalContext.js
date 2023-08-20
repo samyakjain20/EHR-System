@@ -65,7 +65,7 @@ export function GlobalProvider({ children }) {
                 try {
                     if (metaAccount != '') {
                         setMetaAccount('');
-                        console.log("Meta Mask Account Removed", metaAccount);
+                        // console.log("Meta Mask Account Removed", metaAccount);
                     }
                     else {
 
@@ -82,7 +82,7 @@ export function GlobalProvider({ children }) {
                         const signer = provider.getSigner();
                         const address = await signer.getAddress();
                         setMetaAccount(address);
-                        console.log(metaAccount);
+                        // console.log(metaAccount);
                         const fileAbi = require(process.env.REACT_APP_FILE_MGMT_ABI_PATH);
                         const userAbi = require(process.env.REACT_APP_USER_MGMT_ABI_PATH);
                         const paymentAbi = require(process.env.REACT_APP_PAYMENT_MGMT_ABI_PATH);
@@ -118,7 +118,7 @@ export function GlobalProvider({ children }) {
                     if (err.code === 4001) {
                         // EIP-1193 userRejectedRequest error
                         // If this happens, the user rejected the connection request.
-                        console.log('Please connect to MetaMask.');
+                        // console.log('Please connect to MetaMask.');
                     } else {
                         console.error(err);
                     }

@@ -114,7 +114,7 @@ const DoctorDashboard = (props) => {
   const [recordTypes, setRecordTypes] = useState([]);
   const [recordVisible, setRecordVisible] = useState([]);
   const handleRecordAccessReq = async (recordType) =>{
-    console.log(recordType["recordType"]);
+    // console.log(recordType["recordType"]);
     const today = convertDatetoString(new Date());
     const response = await fileMgmtContract.reqRecord(patientAddress, recordType["recordType"], today, doctor.hospitalSelected, "Dr. " + doctor.name.firstName + " " + doctor.name.lastName);
   }
@@ -124,15 +124,15 @@ const DoctorDashboard = (props) => {
     const tempRecordVisible = [];
     for(let i = 0; i < response.length; i++){
       tempRecordVisible.push(JSON.parse(response[i]));
-      console.log(JSON.parse(response[i]))
+      // console.log(JSON.parse(response[i]))
     }
     setRecordVisible(tempRecordVisible);
-    console.log(recordVisible);
+    // console.log(recordVisible);
   };
 
   const handleStatusChange = (key, value) => {
     // Do something with the selected status value
-    console.log(`Status changed to ${value} for row with key: ${key}`);
+    // console.log(`Status changed to ${value} for row with key: ${key}`);
   };
 
   const convertDatetoString = (dateString) => {
@@ -147,7 +147,7 @@ const DoctorDashboard = (props) => {
 
     async function getdoctor() {
       const data = await userMgmtContract.getDoctorInfo(metaAccount);
-      console.log(data);
+      // console.log(data);
       var doctortObj = JSON.parse(data);
       setDoctor(doctortObj);
     }
@@ -161,10 +161,10 @@ const DoctorDashboard = (props) => {
       setLoading(true);
       
       const acc = await userMgmtContract.getPatientAddress(abhaID);
-      console.log(acc);
+      // console.log(acc);
       setPatientAddress(acc);
       const patientProfile = await userMgmtContract.getPatientInfo(acc);
-      console.log("patient Profile", patientProfile);
+      // console.log("patient Profile", patientProfile);
       setPatient(patientProfile);
       const recordTypesData = await fileMgmtContract.displayFilesDoctor(acc);      
       const tempRecordTypes = [];
@@ -172,7 +172,7 @@ const DoctorDashboard = (props) => {
         tempRecordTypes.push({recordType: recordTypesData[0][i], status: recordTypesData[1][i] });
       }
       setRecordTypes(tempRecordTypes);
-      console.log("recordTypes: ", recordTypes);
+      // console.log("recordTypes: ", recordTypes);
 
       if (acc.error) {
         setLoading(false);

@@ -54,7 +54,7 @@ export default function RegisterInsurer(props) {
         let hospitalStr = JSON.stringify(insurer);
         insurer.username = insurer.orgEmail;
         const data = await userMgmtContract.registerInsurer(insurer.username, passwordHash, hospitalStr);
-        console.log(data);
+        // console.log(data);
 
         if (data.errors) {
           setLoading(false);
@@ -80,7 +80,7 @@ export default function RegisterInsurer(props) {
 
     catch (error) {
       setLoading(false);
-      console.log(error.data.data.reason);
+      // console.log(error.data.data.reason);
       window.alert(error.data.data.reason);
     }
   };

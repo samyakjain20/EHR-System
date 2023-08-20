@@ -52,7 +52,7 @@ const HospitalProfile = (props) => {
   useEffect(() => {
     async function getHospital() {
       const data = await userMgmtContract.getHospitalInfo(metaAccount);
-      console.log(data);
+      // console.log(data);
       var hospitalObj = JSON.parse(data);
       setHospital(hospitalObj);
     }

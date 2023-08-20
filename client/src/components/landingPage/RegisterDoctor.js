@@ -70,7 +70,7 @@ export default function RegisterDoctor(props) {
 
     const getHospitalList = async () => {
       const data = await userMgmtContract.getHospitalIds();
-      console.log(data);
+      // console.log(data);
       setHospitalList(data);
     };
 
@@ -90,7 +90,7 @@ export default function RegisterDoctor(props) {
         let docStr = JSON.stringify(doctor);
         doctor.username = doctor.email;
         const data = await userMgmtContract.registerDoctor(doctor.username, passwordHash, docStr);
-        console.log(data);
+        // console.log(data);
 
         if (data.errors) {
           setLoading(false);
@@ -116,7 +116,7 @@ export default function RegisterDoctor(props) {
     
     catch (error) {
       setLoading(false);
-      console.log(error.data.data.reason);
+      // console.log(error.data.data.reason);
       window.alert(error.data.data.reason);
     }
   };

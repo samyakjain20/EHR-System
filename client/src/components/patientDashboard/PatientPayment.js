@@ -75,16 +75,16 @@ const PatientPayment = (props) => {
         
 
         const data = await paymentMgmtContract.storePayment(receiverAddress, amountToSend, tx.hash, convertDatetoString(new Date()));
-        console.log(data);
+        // console.log(data);
 
       if (tx.errors) {
         setLoading(false);
-        console.log(tx.errors);
+        // console.log(tx.errors);
         props.settoastCondition({
           status: "error",
           message: "Payment failed, check network!",
         });
-        console.log(tx.errors)
+        // console.log(tx.errors)
         props.setToastShow(true);
       }
       else {

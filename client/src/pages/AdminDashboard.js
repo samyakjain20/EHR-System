@@ -34,7 +34,7 @@ const AdminDashboard = (props) => {
             //const counts = [2,4,5,6];
             const counts = await userMgmtContract.allLen();
             const integerArray = counts.map(bn => bn.toNumber());
-            console.log(integerArray);
+            // console.log(integerArray);
             setTotalCounts(integerArray);
         };
 

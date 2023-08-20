@@ -26,7 +26,7 @@ const PdfFormat = (props) => {
         }      
         return age;
     }
-    console.log("props:", props)
+    // console.log("props:", props)
     const data = props;
     const today = convertDatetoString(new Date());
     return (

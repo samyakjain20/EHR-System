@@ -100,14 +100,14 @@ const InsurerPaymentHistory = (props) => {
           date: item[4]
         };
       });
-      console.log(pays);
+      // console.log(pays);
 
       setSendPayment(pays);
     };
 
     async function getInsurer() {
         const data = await userMgmtContract.getInsurerInfo(metaAccount);
-        console.log(data);
+        // console.log(data);
         var InsurerObj = JSON.parse(data);
         setInsurer(InsurerObj);
     }

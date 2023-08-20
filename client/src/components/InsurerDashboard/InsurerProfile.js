@@ -32,7 +32,7 @@ const InsurerProfile = (props) => {
   useEffect(() => {
     async function getInsurer() {
       const data = await userMgmtContract.getInsurerInfo(metaAccount);
-      console.log(data);
+      // console.log(data);
       var InsurerObj = JSON.parse(data);
       setInsurer(InsurerObj);
     }

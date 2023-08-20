@@ -58,7 +58,7 @@ const LabDashboard = (props) => {
         const pinataSecretApiKey = "2175b03254e561d1c8b5d6efb80d06ffaf5408abbeb9e0493788c68e176d66e7"
         try {
             const userAddress = await userMgmtContract.getPatientAddress(patientAbhaID);
-            console.log(userAddress);
+            // console.log(userAddress);
             if(userAddress === "0x0000000000000000000000000000000000000000") {
                 throw new Error("Invalid User Address!!");
             }
@@ -77,20 +77,20 @@ const LabDashboard = (props) => {
 
             const fileUrl = `https://gateway.pinata.cloud/ipfs/${resFile.data.IpfsHash}`;
 
-            // console.log(lab.);
+            // // console.log(lab.);
             report.hospitalName = lab.org;
             report.url = fileUrl;
             const reportData = report;
-            console.log(reportData);
+            // console.log(reportData);
             // get patientAddress from abha id entered by doc
             const patientAddress = userAddress;
             let fileDetails = JSON.stringify(reportData);
-            console.log(fileDetails);
+            // console.log(fileDetails);
 
             const data = await fileMgmtContract.addFile(patientAddress, report.recordType, fileDetails);
 
             // const retrieveFiles = await fileMgmtContract.displayFiles(metaAccount, report.recordType);
-            // console.log("retrieve files: ", retrieveFiles.toString());
+            // // console.log("retrieve files: ", retrieveFiles.toString());
 
             if (data.errors) {
                 setUploading(false);
@@ -98,7 +98,7 @@ const LabDashboard = (props) => {
                     status: "error",
                     message: "Report Upload failed, check network!",
                 });
-                console.log(data.errors)
+                // console.log(data.errors)
                 props.setToastShow(true);
             }
             else {
@@ -139,7 +139,7 @@ const LabDashboard = (props) => {
 
         async function getLab() {
             const data = await userMgmtContract.getLabInfo(metaAccount);
-            console.log(data);
+            // console.log(data);
             var labObj = JSON.parse(data);
             const updatedJSON = { ...lab };
 

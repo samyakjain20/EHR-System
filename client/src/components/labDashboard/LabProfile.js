@@ -85,7 +85,7 @@ const LabProfile = (props) => {
 
     async function getLab() {
         const data = await userMgmtContract.getLabInfo();
-        console.log(data);
+        // console.log(data);
         var labObj = JSON.parse(data);
         getLab(labObj);
     }

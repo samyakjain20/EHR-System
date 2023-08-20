@@ -79,13 +79,13 @@ const LabReports = (props) => {
   useEffect(() => {
     const getLabreports = async () => {
       const acc = await fileMgmtContract.displayFiles(metaAccount, "LabReport");
-      console.log(acc);
+      // console.log(acc);
       const jsonArray = acc.map(jsonString => JSON.parse(jsonString));
       setHealthReports(jsonArray);
-      console.log(jsonArray);
+      // console.log(jsonArray);
     };
 
-    // console.log(userMgmtContract);
+    // // console.log(userMgmtContract);
     getLabreports();
   }, []);
   return (

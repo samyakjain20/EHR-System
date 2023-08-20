@@ -122,21 +122,21 @@ const ConsentManager = (props) => {
   ];
 
   const handleAcceptAccessReq = async (data) => {
-    console.log(data.doctorAddress, data.recordType);
+    // console.log(data.doctorAddress, data.recordType);
     const response = await fileMgmtContract.acceptReq(data.doctorAddress, data.recordType);
-    console.log(response);
+    // console.log(response);
   }
   
   const handleRejectAcessReq = async (data) => {
-    console.log(data.doctorAddress, data.recordType);
+    // console.log(data.doctorAddress, data.recordType);
     const response = await fileMgmtContract.rejectReq(data.doctorAddress, data.recordType);
-    console.log(response);
+    // console.log(response);
   }
 
   const handleRevokeAccess = async (data) => {
-    console.log(data.doctorAddress, data.recordType);
+    // console.log(data.doctorAddress, data.recordType);
     const response = await fileMgmtContract.revokeReq(data.doctorAddress, data.recordType);
-    console.log(response);
+    // console.log(response);
   }
 
   const convertDatetoString = (dateString) => {
@@ -160,7 +160,7 @@ const ConsentManager = (props) => {
           recordType: pendingRequests[i][1]
         });
       }
-      console.log(tempRecordAcessRequests);
+      // console.log(tempRecordAcessRequests);
       setRecordAcessRequests(tempRecordAcessRequests);
     }
 
@@ -178,14 +178,14 @@ const ConsentManager = (props) => {
       }
       async function getpatient() {
           const data = await userMgmtContract.getPatientInfo(metaAccount);
-          console.log(data);
+          // console.log(data);
           var patientObj = JSON.parse(data);
           setPatient(patientObj);
         }
 
         getpatient();
         setAcceptedRequests(tempAcceptedRequests);
-        console.log("accepted: ", tempAcceptedRequests);
+        // console.log("accepted: ", tempAcceptedRequests);
       }
 
     getPendingRequests();
