@@ -15,7 +15,7 @@
 - - -
 1. Install Metamask extension in your broswer(Preferred is Google Chrome.)
 
-2. Install Ganache to your machine. It will be used to run local(private) our Ethereum Network.
+2. Install Ganache on your machine. It will run a local(private) Ethereum Test Network.
 
 3. You can import atleast 5 accounts for each role(Patient, Doctor, Hospital, Laboratory, Insurer) from Ganache to your Metamask wallet by doing as the following.
     ![]()
